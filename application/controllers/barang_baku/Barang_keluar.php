@@ -1,0 +1,52 @@
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+
+class Barang_keluar extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->library('form_validation');
+        $this->load->model('Model_barang_baku');
+        if (!$this->session->userdata('nama_pengguna')) {
+            redirect('auth');
+        }
+    }
+
+    public function index()
+    {
+        $data['title'] = 'Transaksi Barang Keluar';
+        $data['barang_keluar'] = $this->Model_barang_baku->getbarang_keluar();
+        if ($this->session->userdata('upk_bagian') == 'admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('barang_baku/view_barang_keluar', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar');
+            $this->load->view('templates/pengguna/sidebar_baku');
+            $this->load->view('barang_baku/view_barang_keluar', $data);
+            $this->load->view('templates/pengguna/footer_baku');
+        }
+    }
+
+    public function update_status_keluar()
+    {
+        $id_keluar_baku = $this->input->post('id_keluar_baku');
+
+        // Lakukan pembaruan status_keluar ke 1 di database
+        $data = ['status_keluar' => 1];
+        $this->db->where('id_keluar_baku', $id_keluar_baku);
+        $result = $this->db->update('keluar_baku', $data);
+
+        if ($result) {
+            $response['success'] = true;
+        } else {
+            $response['success'] = false;
+        }
+
+        echo json_encode($response);
+    }
+}
