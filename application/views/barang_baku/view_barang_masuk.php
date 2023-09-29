@@ -43,7 +43,7 @@
                                         <tr>
                                             <td><?= $no++ ?></td>
                                             <td><?= $row->tanggal_masuk; ?></td>
-                                            <td><?= $row->kode_barang; ?></td>
+                                            <td><?= $row->kode_barang_masuk; ?></td>
                                             <td><?= $row->nama_barang_baku; ?></td>
                                             <td><?= $row->jumlah_masuk; ?></td>
                                             <td><?= $row->created_by; ?></td>

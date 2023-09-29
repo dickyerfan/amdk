@@ -53,9 +53,26 @@ class Stok_barang_baku extends CI_Controller
             $this->load->view('barang_baku/tambah_barang_baku', $data);
             $this->load->view('templates/pengguna/footer');
         } else {
+            $nama_barang = $this->input->post('nama_barang_baku', true);
+            $nama_barang = preg_replace("/[^a-zA-Z0-9\s]/", '', $nama_barang); // Hapus karakter non-huruf, non-angka, dan non-spasi
+            $nama_barang = explode(' ', $nama_barang); // Pisahkan kata-kata dalam nama barang
+            $kode_barang = '';
+
+            foreach ($nama_barang as $kata) {
+                if (is_numeric($kata)) {
+                    $kode_barang .= $kata;
+                } else {
+                    $kode_barang .= substr($kata, 0, 3); // Ambil tiga huruf pertama dari setiap kata
+                }
+            }
+
+            $kode_barang = strtolower($kode_barang); // Ubah kode barang menjadi huruf kecil
+
+
             $data['nama_barang_baku'] = $this->input->post('nama_barang_baku', true);
             $data['id_satuan'] = $this->input->post('id_satuan', true);
             $data['id_jenis_barang'] = $this->input->post('id_jenis_barang', true);
+            $data['kode_barang'] = $kode_barang;
             $data['stok_awal'] = $this->input->post('stok_awal', true);
             $data['tgl_stok_awal'] = $this->input->post('tgl_stok_awal', true);
             $data['input_barang_baku'] = $this->session->userdata('nama_lengkap');
