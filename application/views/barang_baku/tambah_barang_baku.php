@@ -22,9 +22,9 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="stok_awal">Stok Awal :</label>
-                                    <input type="text" class="form-control" id="stok_awal" name="stok_awal" value="<?= set_value('stok_awal'); ?>">
-                                    <small class="form-text text-danger pl-3"><?= form_error('stok_awal'); ?></small>
+                                    <label for="kode_barang">Kode Barang :</label>
+                                    <input type="text" class="form-control" id="kode_barang" name="kode_barang" value="<?= set_value('kode_barang'); ?>">
+                                    <small class="form-text text-danger pl-3"><?= form_error('kode_barang'); ?></small>
                                 </div>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row justify-content-center mb-3">
+                        <!-- <div class="row justify-content-center mb-3">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="tgl_stok_awal">Tanggal Stok Awal :</label>
@@ -62,7 +62,7 @@
                                     <small class="form-text text-danger pl-3"><?= form_error('tgl_stok_awal'); ?></small>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="row justify-content-center">
                             <div class="col-md-12 text-center">
                                 <button class="neumorphic-button mt-2" name="tambah" type="submit"><i class="fas fa-save"></i> Simpan</button>

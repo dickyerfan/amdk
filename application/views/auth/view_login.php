@@ -41,11 +41,25 @@
                 display: none !important;
             }
         }
+
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container-fluid {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
     </style>
 </head>
 
 <body style="background-color:#E8FBFC ;">
-    <div class="container py-5">
+    <div class="container-fluid h-100 px-5">
         <div class="row bg-white justify-content-center p-5 shadow rounded">
             <div class="col-lg-6">
                 <h2 class="display-1 fs-2 text-primary text-center title">IJEN WATER</h2>

@@ -1,6 +1,6 @@
 <div id="layoutSidenav_content" class="latar">
     <main>
-        <div class="container-fluid px-2 mt-2">$id_satuan
+        <div class="container-fluid px-2 mt-2">
             <div class="card">
                 <div class="card-header shadow">
                     <a class="fw-bold text-dark" style="text-decoration:none ;"><?= strtoupper($title) ?></a>

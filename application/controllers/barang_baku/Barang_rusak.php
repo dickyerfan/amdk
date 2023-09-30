@@ -15,7 +15,7 @@ class Barang_rusak extends CI_Controller
 
     public function index()
     {
-        $data['title'] = 'Transaksi Barang Rusak';
+        $data['title'] = 'Berita Acara Barang Rusak';
         $data['barang_rusak'] = $this->Model_barang_baku->getbarang_rusak();
         if ($this->session->userdata('upk_bagian') == 'admin') {
             $this->load->view('templates/header', $data);

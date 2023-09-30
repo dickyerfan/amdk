@@ -72,12 +72,12 @@
                                         <!-- <input type="text" name="id_barang_baku" id="id_barang_baku" placeholder="Nama Barang" class="form-control"> -->
                                     </td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td>Kode Barang</td>
                                     <td class="text-center"> :</td>
                                     <td class="text-center"></td>
                                     <td><input type="text" name="kode_barang" id="kode_barang" placeholder="Kode Barang" class="form-control"></td>
-                                </tr>
+                                </tr> -->
                                 <tr>
                                     <td>Jumlah Barang</td>
                                     <td class="text-center"> :</td>

@@ -30,8 +30,8 @@
                                         <th class="text-center">No</th>
                                         <th class="text-center">Nama Barang</th>
                                         <th class="text-center">Satuan</th>
-                                        <th class="text-center">Tanggal Stok Awal</th>
                                         <th class="text-center">Kode Barang</th>
+                                        <th class="text-center">Tanggal Stok Awal</th>
                                         <th class="text-center">Stok Awal</th>
                                         <th class="text-center">Barang Masuk</th>
                                         <th class="text-center">Barang Keluar</th>
@@ -48,13 +48,13 @@
                                             <td class="text-center"><?= $no++ ?></td>
                                             <td><?= $row->nama_barang_baku; ?></td>
                                             <td><?= $row->satuan; ?></td>
-                                            <td class="text-center"><?= $row->tgl_stok_awal; ?></td>
                                             <td><?= $row->kode_barang; ?></td>
-                                            <td class="text-end"><?= $row->stok_awal; ?></td>
+                                            <td class="text-center"><?= $row->tanggal_stok_awal_baku; ?></td>
+                                            <td class="text-end"><?= $row->jumlah_stok_awal; ?></td>
                                             <td class="text-end"><?= $row->jumlah_masuk; ?></td>
                                             <td class="text-end"><?= $row->jumlah_keluar; ?></td>
                                             <td class="text-end"><?= $row->jumlah_rusak; ?></td>
-                                            <td class="text-end"><?= $row->stok_awal + $row->jumlah_masuk - $row->jumlah_keluar - $row->jumlah_rusak; ?></td>
+                                            <td class="text-end"><?= $row->jumlah_stok_awal + $row->jumlah_masuk - $row->jumlah_keluar - $row->jumlah_rusak; ?></td>
                                             <td class="text-center"><span class="btn btn-primary btn-sm">Detail</span></td>
                                         </tr>
                                     <?php endforeach; ?>

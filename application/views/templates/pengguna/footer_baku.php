@@ -123,7 +123,7 @@
                         '<td>' + data[i].kode_barang + '</td>' +
                         '<td>' + data[i].nama_barang_baku + '</td>' +
                         '<td>' + data[i].jumlah_keluar + '</td>' +
-                        '<td>' + data[i].keluar_input + '</td>' +
+                        '<td>' + data[i].input_status_keluar + '</td>' +
                         '<td class="text-center">' + (data[i].status_keluar == 0 ? '<span class="btn btn-primary btn-sm">Menunggu</span>' : '<span class="btn btn-success btn-sm">selesai</span>') + '</td>';
 
                     if (data[i].status_keluar == 0) {

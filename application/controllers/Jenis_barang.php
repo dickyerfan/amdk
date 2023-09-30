@@ -46,7 +46,7 @@ class Jenis_barang extends CI_Controller
         } else {
 
             $data['jenis_barang'] = $this->input->post('jenis_barang', true);
-            $data['created_by'] = $this->session->userdata('nama_lengkap');
+            $data['input_jenis_barang'] = $this->session->userdata('nama_lengkap');
 
             $this->Model_barang->upload('jenis_barang', $data);
             $this->session->set_flashdata(

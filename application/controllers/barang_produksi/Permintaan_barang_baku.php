@@ -43,15 +43,13 @@ class Permintaan_barang_baku extends CI_Controller
     public function upload()
     {
         $id_barang_baku = $this->input->post('id_barang_baku', true);
-        $kode_barang = $this->input->post('kode_barang', true);
+        // $kode_barang = $this->input->post('kode_barang', true);
         $jumlah_keluar = $this->input->post('jumlah_keluar', true);
         $tanggal_keluar = $this->input->post('tanggal_keluar', true);
-        $created_by = $this->session->userdata('nama_lengkap');
+        $input_status_keluar = $this->session->userdata('nama_lengkap');
 
         if ($id_barang_baku == '') {
             $result['pesan'] = "Nama Barang harus di pilih";
-        } elseif ($kode_barang == '') {
-            $result['pesan'] = "Kode Barang harus di isi";
         } elseif ($jumlah_keluar == '') {
             $result['pesan'] = "Jumlah Barang harus  ";
         } elseif ($tanggal_keluar == '') {
@@ -61,10 +59,10 @@ class Permintaan_barang_baku extends CI_Controller
 
             $data = [
                 'id_barang_baku' => $id_barang_baku,
-                'kode_barang' => $kode_barang,
+                // 'kode_barang' => $kode_barang,
                 'jumlah_keluar' => $jumlah_keluar,
                 'tanggal_keluar' => $tanggal_keluar,
-                'created_by' => $created_by
+                'input_status_keluar' => $input_status_keluar
             ];
 
             $this->Model_barang_produksi->tambahData($data);

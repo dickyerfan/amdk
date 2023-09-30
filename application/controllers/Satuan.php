@@ -46,7 +46,7 @@ class Satuan extends CI_Controller
         } else {
 
             $data['satuan'] = $this->input->post('satuan', true);
-            $data['created_by'] = $this->session->userdata('nama_lengkap');
+            $data['input_satuan'] = $this->session->userdata('nama_lengkap');
 
             $this->Model_barang->upload('satuan', $data);
             $this->session->set_flashdata(

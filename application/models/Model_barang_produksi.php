@@ -35,7 +35,7 @@ class Model_barang_produksi extends CI_Model
 
     public function getbarang_keluar()
     {
-        $this->db->select('*, keluar_baku.created_by AS keluar_input');
+        $this->db->select('*');
         $this->db->from('keluar_baku');
         $this->db->join('barang_baku', 'keluar_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
         // $this->db->where('keluar_baku.status_keluar', 0);

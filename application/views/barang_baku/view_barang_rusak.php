@@ -31,7 +31,7 @@
                                         <th class="text-center">Tanggal Rusak</th>
                                         <th class="text-center">Nama Barang</th>
                                         <th class="text-center">Jumlah</th>
-                                        <th class="text-center">Deskripsi</th>
+                                        <th class="text-center">Keterangan</th>
                                         <th class="text-center">Input Oleh</th>
                                         <th class="text-center">Action</th>
                                     </tr>

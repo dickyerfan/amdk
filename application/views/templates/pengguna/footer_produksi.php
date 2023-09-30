@@ -122,7 +122,7 @@
                         '<td>' + data[i].kode_barang + '</td>' +
                         '<td>' + data[i].nama_barang_baku + '</td>' +
                         '<td>' + data[i].jumlah_keluar + '</td>' +
-                        '<td>' + data[i].keluar_input + '</td>';
+                        '<td>' + data[i].input_status_keluar + '</td>';
                     // '<td>' + data[i].status_keluar + '</td>' +
                     if (data[i].status_keluar == 0) {
                         textHtml += '<td class="text-center">' +
@@ -152,14 +152,14 @@
         var input = "<?= $this->session->userdata('nama_lengkap'); ?>";
 
         let id_barang_baku = $("[name='id_barang_baku']").val();
-        let kode_barang = $("[name='kode_barang']").val();
+        // let kode_barang = kode_barang_baku;
         let jumlah_keluar = $("[name='jumlah_keluar']").val();
         let tanggal_keluar = $("[name='tanggal_keluar']").val();
-        let created_by = input;
+        let input_status_keluar = input;
 
         $.ajax({
             type: 'POST',
-            data: 'id_barang_baku=' + id_barang_baku + '&kode_barang=' + kode_barang + '&jumlah_keluar=' + jumlah_keluar + '&tanggal_keluar=' + tanggal_keluar + '&created_by=' + input,
+            data: 'id_barang_baku=' + id_barang_baku + '&jumlah_keluar=' + jumlah_keluar + '&tanggal_keluar=' + tanggal_keluar + '&input_status_keluar=' + input,
             url: '<?= base_url('barang_produksi/Permintaan_barang_baku/upload') ?>',
             dataType: 'json',
             success: function(hasil) {
@@ -195,7 +195,7 @@
                     //     text: 'Data berhasil diupload.'
                     // });
                     $("[name='id_barang_baku']").val('');
-                    $("[name='kode_barang']").val('');
+                    // $("[name='kode_barang']").val('');
                     $("[name='jumlah_keluar']").val('');
                     $("[name='tanggal_keluar']").val('');
                 }
@@ -208,7 +208,7 @@
             success: function(hasil) {
                 $("#pesan").html("");
                 $("[name='id_barang_baku']").val('');
-                $("[name='kode_barang']").val('');
+                // $("[name='kode_barang']").val('');
                 $("[name='jumlah_keluar']").val('');
                 $("[name='tanggal_keluar']").val('');
             }

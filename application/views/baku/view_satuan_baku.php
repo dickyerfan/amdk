@@ -41,8 +41,8 @@
                                         <tr>
                                             <td><?= $no++ ?></td>
                                             <td><?= $row->satuan; ?></td>
-                                            <td><?= $row->created_by; ?></td>
-                                            <td><?= $row->created_date; ?></td>
+                                            <td><?= $row->input_satuan; ?></td>
+                                            <td><?= $row->tgl_input_satuan; ?></td>
                                             <td class="text-center">
                                                 <a href="<?= base_url('satuan/edit/') ?><?= $row->id_satuan ?>"><span class="btn btn-success btn-sm">Edit <i class="fas fa-edit"></i></span></a>
                                                 <a href="<?= base_url('satuan/hapus/') ?><?= $row->id_satuan ?>" class="tombolHapus"><span class="btn btn-danger btn-sm">Hapus <i class="fas fa-trash"></i></span></a>
