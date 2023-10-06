@@ -56,7 +56,7 @@
                     </div>
                     <div class="modal-body">
                         <p id="pesan" style="color: red;"></p>
-                        <form action="" method="POST">
+                        <form action="" method="POST" enctype="multipart/form-data" id="form-upload">
                             <table class="table table-borderless">
                                 <tr>
                                     <td>Nama Barang</td>
@@ -69,15 +69,8 @@
                                                 <option value="<?= $row->id_barang_baku ?>"><?= $row->nama_barang_baku ?></option>
                                             <?php endforeach; ?>
                                         </select>
-                                        <!-- <input type="text" name="id_barang_baku" id="id_barang_baku" placeholder="Nama Barang" class="form-control"> -->
                                     </td>
                                 </tr>
-                                <!-- <tr>
-                                    <td>Kode Barang</td>
-                                    <td class="text-center"> :</td>
-                                    <td class="text-center"></td>
-                                    <td><input type="text" name="kode_barang" id="kode_barang" placeholder="Kode Barang" class="form-control"></td>
-                                </tr> -->
                                 <tr>
                                     <td>Jumlah Barang</td>
                                     <td class="text-center"> :</td>
@@ -89,6 +82,12 @@
                                     <td class="text-center"> :</td>
                                     <td class="text-center"></td>
                                     <td><input type="date" name="tanggal_keluar" id="tanggal_keluar" placeholder="Tanggal Input" class="form-control"></td>
+                                </tr>
+                                <tr>
+                                    <td>Bukti Penerimaan</td>
+                                    <td class="text-center"> :</td>
+                                    <td class="text-center"></td>
+                                    <td><input type="file" name="bukti_keluar_gd" id="bukti_keluar_gd" placeholder="Bukti Penerimaan Gudang" class="form-control"></td>
                                 </tr>
                                 <tr class="text-center">
                                     <td colspan="4">
@@ -102,6 +101,59 @@
                 </div>
             </div>
         </div>
+        <!-- <div class="modal fade" id="tambahData" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning">
+                        <h5 class="modal-title">Form Permintaan Barang</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p id="pesan" style="color: red;"></p>
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td>Nama Barang</td>
+                                    <td class="text-center"> :</td>
+                                    <td class="text-center"></td>
+                                    <td>
+                                        <select name="id_barang_baku" id="id_barang_baku" class="form-select select2">
+                                            <option value="">Pilih Barang</option>
+                                            <?php foreach ($nama_barang as $row) : ?>
+                                                <option value="<?= $row->id_barang_baku ?>"><?= $row->nama_barang_baku ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Jumlah Barang</td>
+                                    <td class="text-center"> :</td>
+                                    <td class="text-center"></td>
+                                    <td><input type="text" name="jumlah_keluar" id="jumlah_keluar" placeholder="Jumlah Barang" class="form-control"></td>
+                                </tr>
+                                <tr>
+                                    <td>Tanggal Input</td>
+                                    <td class="text-center"> :</td>
+                                    <td class="text-center"></td>
+                                    <td><input type="date" name="tanggal_keluar" id="tanggal_keluar" placeholder="Tanggal Input" class="form-control"></td>
+                                </tr>
+                                <tr>
+                                    <td>Bukti Penerimaan</td>
+                                    <td class="text-center"> :</td>
+                                    <td class="text-center"></td>
+                                    <td><input type="file" name="bukti_keluar_gd" id="bukti_keluar_gd" placeholder="Bukti Penerimaan Gudang" class="form-control"></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td colspan="4">
+                                        <button type="button" id="btn-tambah" class="btn btn-primary" onclick="tambahData()">Tambah Data</button>
+                                        <button type="button" data-bs-dismiss="modal" class="btn btn-secondary" onclick="batalData()">Batal</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> -->
         <!-- akhir modal tambah barang -->
 
         <!-- awal modal update barang -->

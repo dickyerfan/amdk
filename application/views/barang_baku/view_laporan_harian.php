@@ -4,11 +4,17 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <!-- <div class="navbar-nav">
-                            <a href="<?= base_url('rkap/usulan_inves/export_pdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
+                        <form action="<?= base_url('barang_baku/laporan_harian'); ?>" method="post">
+                            <div style="display: flex; align-items: center;">
+                                <input type="date" name="tanggal" class="form-control">
+                                <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
+                            </div>
+                        </form>
+                        <!-- <div class="navbar-nav ms-2">
+                            <a class="nav-link fw-bold" href="<?= base_url('barang_baku/laporan_harian/stok_awal_harian') ?>" style="font-size: 0.8rem; color:black;"><button class=" neumorphic-button"><i class="fas fa-plus-circle"></i> Input Saldo Awal Harian</button></a>
                         </div> -->
                         <div class="navbar-nav ms-auto">
-                            <a href="<?= base_url('barang_baku/stok_barang_baku/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Tambah Barang</button></a>
+                            <a class="nav-link fw-bold" href="#" style="font-size: 0.8rem; color:black;"><button class=" neumorphic-button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div>
                     </nav>
                 </div>
@@ -20,6 +26,12 @@
                     <div class="row justify-content-center mb-2">
                         <div class="col-lg-6 text-center">
                             <h5><?= strtoupper($title); ?></h5>
+                            <?php if (empty($tanggal_hari_ini)) {
+                                // Jika kosong atau null, atur nilainya menjadi tanggal hari ini
+                                $tanggal_hari_ini = date("Y-m-d"); // Format tanggal "YYYY-MM-DD"
+                            } ?>
+                            <h5><?= $tanggal_hari_ini; ?></h5>
+                            <!-- <?php echo date('Y-m-d'); ?> -->
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -30,35 +42,29 @@
                                         <th class="text-center">No</th>
                                         <th class="text-center">Nama Barang</th>
                                         <th class="text-center">Satuan</th>
-                                        <th class="text-center">Kode Barang</th>
-                                        <th class="text-center">Tanggal Stok Awal</th>
                                         <th class="text-center">Stok Awal</th>
                                         <th class="text-center">Barang Masuk</th>
                                         <th class="text-center">Barang Keluar</th>
                                         <th class="text-center">Barang Rusak</th>
                                         <th class="text-center">Stok Akhir</th>
-                                        <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $no = 1;
-                                    foreach ($stok_barang as $row) :
-                                        $stok_akhir = $row->jumlah_stok_awal + $row->jumlah_masuk - $row->jumlah_keluar - $row->jumlah_rusak;
-                                    ?>
+                                    foreach ($lap_harian as $row) :
+                                        $stok_awal = $row->jumlah_stok_awal + $row->jumlah_masuk_kemaren - $row->jumlah_keluar_kemaren - $row->jumlah_rusak_kemaren;
 
+                                    ?>
                                         <tr>
                                             <td class="text-center"><?= $no++ ?></td>
                                             <td><?= ucwords($row->nama_barang_baku); ?></td>
                                             <td><?= $row->satuan; ?></td>
-                                            <td><?= $row->kode_barang; ?></td>
-                                            <td class="text-center"><?= $row->tanggal_stok_awal_baku; ?></td>
-                                            <td class="text-end"><?= number_format($row->jumlah_stok_awal, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($row->jumlah_masuk, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($row->jumlah_rusak, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($stok_akhir, 0, ',', '.'); ?></td>
-                                            <td class="text-center"><span class="btn btn-primary btn-sm">Detail</span></td>
+                                            <td class="text-end"><?= $stok_awal; ?></td>
+                                            <td class="text-end"><?= $row->jumlah_masuk_sekarang; ?></td>
+                                            <td class="text-end"><?= $row->jumlah_keluar_sekarang; ?></td>
+                                            <td class="text-end"><?= $row->jumlah_rusak_sekarang; ?></td>
+                                            <td class="text-end"><?= $row->jumlah_stok_awal + $row->jumlah_masuk - $row->jumlah_keluar - $row->jumlah_rusak; ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>

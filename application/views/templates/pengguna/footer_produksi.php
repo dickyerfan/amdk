@@ -116,12 +116,14 @@
                 let textHtml = '';
                 let no = 1;
                 for (i = 0; i < data.length; i++) {
+                    var jumlahKeluar = data[i].jumlah_keluar;
+                    var jumlahKeluarDiformat = jumlahKeluar.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
                     textHtml += '<tr>' +
                         '<td class="text-center">' + no++ + '</td>' +
-                        '<td>' + data[i].tanggal_keluar + '</td>' +
+                        '<td class="text-center">' + data[i].tanggal_keluar + '</td>' +
                         '<td>' + data[i].kode_barang + '</td>' +
                         '<td>' + data[i].nama_barang_baku + '</td>' +
-                        '<td>' + data[i].jumlah_keluar + '</td>' +
+                        '<td class="text-end">' + jumlahKeluarDiformat + '</td>' +
                         '<td>' + data[i].input_status_keluar + '</td>';
                     // '<td>' + data[i].status_keluar + '</td>' +
                     if (data[i].status_keluar == 0) {
@@ -147,19 +149,75 @@
         });
     }
 
+    // function tambahData() {
+
+    //     var input = "<?= $this->session->userdata('nama_lengkap'); ?>";
+
+    //     let id_barang_baku = $("[name='id_barang_baku']").val();
+    //     // let kode_barang = kode_barang_baku;
+    //     let jumlah_keluar = $("[name='jumlah_keluar']").val();
+    //     let tanggal_keluar = $("[name='tanggal_keluar']").val();
+    //     let bukti_keluar_gd = $("[name='bukti_keluar_gd']").val();
+    //     let input_status_keluar = input;
+
+    //     $.ajax({
+    //         type: 'POST',
+    //         data: 'id_barang_baku=' + id_barang_baku + '&jumlah_keluar=' + jumlah_keluar + '&tanggal_keluar=' + tanggal_keluar + '&bukti_keluar_gd=' + bukti_keluar_gd + '&input_status_keluar=' + input,
+    //         url: '<?= base_url('barang_produksi/Permintaan_barang_baku/upload') ?>',
+    //         dataType: 'json',
+    //         success: function(hasil) {
+    //             $("#pesan").html(hasil.pesan);
+    //             if (hasil.pesan == '') {
+    //                 $("#tambahData").modal('hide');
+    //                 $('#example').dataTable().fnDestroy(); // menghancurkan datatable
+    //                 tampil_data_barang()
+    //                 $('#example').dataTable({ // inisialisasi datatable kembali
+    //                     "lengthMenu": [10, 25, 50, 75, 100], // menentukan jumlah data yang ingin ditampilkan
+    //                     "pageLength": 10, // menentukan jumlah data yang ditampilkan secara default
+    //                 });
+
+    //                 $("#pesan2").html(
+    //                     `<div class="alert alert-primary alert-dismissible fade show" role="alert" id="alert">
+    //                 	        <strong>Sukses</strong> Data Berhasil ditambah.
+    //                 	        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    //                 	        </div>`
+    //                 );
+
+    //                 window.setTimeout(function() {
+    //                     $(".alert").animate({
+    //                         left: "0",
+    //                         width: "80%"
+    //                     }, 5000, function() {}).fadeTo(1000, 0).slideUp(1000, function() {
+    //                         $(this).remove();
+    //                     });
+    //                 }, 1000);
+
+    //                 // Swal.fire({
+    //                 //     icon: 'success',
+    //                 //     title: 'Sukses',
+    //                 //     text: 'Data berhasil diupload.'
+    //                 // });
+    //                 $("[name='id_barang_baku']").val('');
+    //                 // $("[name='kode_barang']").val('');
+    //                 $("[name='jumlah_keluar']").val('');
+    //                 $("[name='tanggal_keluar']").val('');
+    //                 $("[name='bukti_keluar_gd']").val('');
+    //             }
+    //         }
+    //     });
+    // }
+
     function tambahData() {
-
-        var input = "<?= $this->session->userdata('nama_lengkap'); ?>";
-
-        let id_barang_baku = $("[name='id_barang_baku']").val();
-        // let kode_barang = kode_barang_baku;
-        let jumlah_keluar = $("[name='jumlah_keluar']").val();
-        let tanggal_keluar = $("[name='tanggal_keluar']").val();
-        let input_status_keluar = input;
+        var id_barang_baku = $("[name='id_barang_baku']").val();
+        var jumlah_keluar = $("[name='jumlah_keluar']").val();
+        var tanggal_keluar = $("[name='tanggal_keluar']").val();
+        var formData = new FormData($('#form-upload')[0]);
 
         $.ajax({
             type: 'POST',
-            data: 'id_barang_baku=' + id_barang_baku + '&jumlah_keluar=' + jumlah_keluar + '&tanggal_keluar=' + tanggal_keluar + '&input_status_keluar=' + input,
+            data: formData,
+            processData: false, // Memproses data FormData tanpa mengubahnya
+            contentType: false, // Tidak mengatur jenis konten
             url: '<?= base_url('barang_produksi/Permintaan_barang_baku/upload') ?>',
             dataType: 'json',
             success: function(hasil) {
@@ -167,7 +225,7 @@
                 if (hasil.pesan == '') {
                     $("#tambahData").modal('hide');
                     $('#example').dataTable().fnDestroy(); // menghancurkan datatable
-                    tampil_data_barang()
+                    tampil_data_barang();
                     $('#example').dataTable({ // inisialisasi datatable kembali
                         "lengthMenu": [10, 25, 50, 75, 100], // menentukan jumlah data yang ingin ditampilkan
                         "pageLength": 10, // menentukan jumlah data yang ditampilkan secara default
@@ -175,9 +233,9 @@
 
                     $("#pesan2").html(
                         `<div class="alert alert-primary alert-dismissible fade show" role="alert" id="alert">
-                    	        <strong>Sukses</strong> Data Berhasil ditambah.
-                    	        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    	        </div>`
+                    	<strong>Sukses</strong> Data Berhasil ditambah.
+                    	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    	</div>`
                     );
 
                     window.setTimeout(function() {
@@ -189,19 +247,15 @@
                         });
                     }, 1000);
 
-                    // Swal.fire({
-                    //     icon: 'success',
-                    //     title: 'Sukses',
-                    //     text: 'Data berhasil diupload.'
-                    // });
                     $("[name='id_barang_baku']").val('');
-                    // $("[name='kode_barang']").val('');
                     $("[name='jumlah_keluar']").val('');
                     $("[name='tanggal_keluar']").val('');
+                    $("[name='bukti_keluar_gd']").val('');
                 }
             }
         });
     }
+
 
     function batalData() {
         $.ajax({
@@ -211,6 +265,7 @@
                 // $("[name='kode_barang']").val('');
                 $("[name='jumlah_keluar']").val('');
                 $("[name='tanggal_keluar']").val('');
+                $("[name='bukti_keluar_gd']").val('');
             }
         })
     }

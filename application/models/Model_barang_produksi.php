@@ -40,6 +40,7 @@ class Model_barang_produksi extends CI_Model
         $this->db->join('barang_baku', 'keluar_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
         // $this->db->where('keluar_baku.status_keluar', 0);
         $this->db->group_by('keluar_baku.id_keluar_baku');
+        $this->db->order_by('keluar_baku.id_keluar_baku', 'DESC');
         return $this->db->get()->result();
     }
 

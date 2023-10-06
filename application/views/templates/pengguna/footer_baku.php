@@ -117,26 +117,28 @@
                 let textHtml = '';
                 let no = 1;
                 for (i = 0; i < data.length; i++) {
+                    var jumlahKeluar = data[i].jumlah_keluar;
+                    var jumlahKeluarDiformat = jumlahKeluar.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
                     textHtml += '<tr>' +
                         '<td class="text-center">' + no++ + '</td>' +
-                        '<td>' + data[i].tanggal_keluar + '</td>' +
+                        '<td class="text-center">' + data[i].tanggal_keluar + '</td>' +
                         '<td>' + data[i].kode_barang + '</td>' +
                         '<td>' + data[i].nama_barang_baku + '</td>' +
-                        '<td>' + data[i].jumlah_keluar + '</td>' +
+                        '<td class="text-end">' + jumlahKeluarDiformat + '</td>' +
                         '<td>' + data[i].input_status_keluar + '</td>' +
-                        '<td class="text-center">' + (data[i].status_keluar == 0 ? '<span class="btn btn-primary btn-sm">Menunggu</span>' : '<span class="btn btn-success btn-sm">selesai</span>') + '</td>';
+                        '<td class="text-center">' + (data[i].status_keluar == 0 ? '<span class="btn btn-primary btn-sm">Menunggu</span>' : '<span class="btn btn-success btn-sm">Stok Produksi</span>') + '</td>';
 
                     if (data[i].status_keluar == 0) {
                         textHtml += '<td class="text-center">' +
-                            '<a href="#" style="color:green; text-decoration:none;" onclick="editData(' + data[i].id_keluar_baku + ')"><span class="btn btn-success btn-sm">Terima</span></a>' + ' ' +
-                            '<a href="#" style="color:red; text-decoration:none;" onclick="hapusData(' + data[i].id_keluar_baku + ')"><span class="btn btn-danger btn-sm">Tolak</span></a>' +
+                            '<a href="#" style="color:blue; text-decoration:none;" onclick="editData(' + data[i].id_keluar_baku + ')"><span class="neumorphic-button btn-sm">Terima</span></a>' + ' ' +
+                            '<a href="#" style="color:red; text-decoration:none;" onclick="hapusData(' + data[i].id_keluar_baku + ')"><span class="neumorphic-button btn-sm">Tolak</span></a>' +
                             '</td>';
                     } else {
-                        textHtml += '<td class="text-center">' +
-                            '<span class="btn btn-success btn-sm">Stok Produksi</span>' +
-                            '</td>';
+                        textHtml += '<td class="text-center">';
+                        var detailUrl = '<?= base_url('barang_baku/barang_keluar/detail_status_keluar/') ?>' + data[i].id_keluar_baku;
+                        textHtml += '<a href="' + detailUrl + '" style="color:green; text-decoration:none;" ><span class="neumorphic-button btn-sm">Detail</span></a>';
+                        textHtml += '</td>';
                     }
-
                     textHtml += '</tr>';
 
                 }
@@ -259,6 +261,53 @@
                     }
                 });
             }
+        });
+    }
+
+    function detailData(id_keluar_baku) {
+
+        $.ajax({
+            type: 'POST',
+            url: '<?= base_url('barang_baku/barang_keluar/detail_status_keluar') ?>',
+            data: {
+                id_keluar_baku: id_keluar_baku
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    $("#pesan2").html(
+                        `<div class="alert alert-success alert-dismissible fade show" role="alert" id="alert">
+                        <strong>Sukses,</strong> Status Berhasil diupdate.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>`
+                    );
+                    setTimeout(function() {
+                        $("#alert").animate({
+                            left: "0",
+                            width: "80%"
+                        }, 3000, function() {}).fadeTo(1000, 0).slideUp(1000, function() {
+                            $(this).remove();
+                        });
+                    }, 1000);
+
+                } else {
+                    $("#pesan2").html(
+                        `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert">
+                        <strong>Maaf,</strong> Status Gagal diupdate.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>`
+                    );
+                    setTimeout(function() {
+                        $("#alert").animate({
+                            left: "0",
+                            width: "80%"
+                        }, 3000, function() {}).fadeTo(1000, 0).slideUp(1000, function() {
+                            $(this).remove();
+                        });
+                    }, 1000);
+                }
+            },
+            error: function(xhr, status, error) {}
         });
     }
 </script>

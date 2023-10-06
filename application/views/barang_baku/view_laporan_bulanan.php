@@ -4,12 +4,12 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <!-- <div class="navbar-nav">
-                            <a href="<?= base_url('rkap/usulan_inves/export_pdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
-                        </div> -->
-                        <div class="navbar-nav ms-auto">
-                            <a href="<?= base_url('barang_baku/stok_barang_baku/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Tambah Barang</button></a>
+                        <div class="navbar-nav">
+                            <a href="<?= base_url('barang_baku/laporan_bulanan/export_pdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div>
+                        <!-- <div class="navbar-nav ms-auto">
+                            <a href="<?= base_url('barang_baku/stok_barang_baku/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Tambah Barang</button></a>
+                        </div> -->
                     </nav>
                 </div>
                 <div class="p-2">
@@ -30,35 +30,26 @@
                                         <th class="text-center">No</th>
                                         <th class="text-center">Nama Barang</th>
                                         <th class="text-center">Satuan</th>
-                                        <th class="text-center">Kode Barang</th>
-                                        <th class="text-center">Tanggal Stok Awal</th>
                                         <th class="text-center">Stok Awal</th>
                                         <th class="text-center">Barang Masuk</th>
                                         <th class="text-center">Barang Keluar</th>
                                         <th class="text-center">Barang Rusak</th>
                                         <th class="text-center">Stok Akhir</th>
-                                        <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $no = 1;
-                                    foreach ($stok_barang as $row) :
-                                        $stok_akhir = $row->jumlah_stok_awal + $row->jumlah_masuk - $row->jumlah_keluar - $row->jumlah_rusak;
-                                    ?>
-
+                                    foreach ($lap_bulanan as $row) : ?>
                                         <tr>
                                             <td class="text-center"><?= $no++ ?></td>
-                                            <td><?= ucwords($row->nama_barang_baku); ?></td>
+                                            <td><?= $row->nama_barang_baku; ?></td>
                                             <td><?= $row->satuan; ?></td>
-                                            <td><?= $row->kode_barang; ?></td>
-                                            <td class="text-center"><?= $row->tanggal_stok_awal_baku; ?></td>
-                                            <td class="text-end"><?= number_format($row->jumlah_stok_awal, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($row->jumlah_masuk, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($row->jumlah_rusak, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($stok_akhir, 0, ',', '.'); ?></td>
-                                            <td class="text-center"><span class="btn btn-primary btn-sm">Detail</span></td>
+                                            <td class="text-end"><?= $row->jumlah_stok_awal; ?></td>
+                                            <td class="text-end"><?= $row->jumlah_masuk; ?></td>
+                                            <td class="text-end"><?= $row->jumlah_keluar; ?></td>
+                                            <td class="text-end"><?= $row->jumlah_rusak; ?></td>
+                                            <td class="text-end"><?= $row->jumlah_stok_awal + $row->jumlah_masuk - $row->jumlah_keluar - $row->jumlah_rusak; ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>

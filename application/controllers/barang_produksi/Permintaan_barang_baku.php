@@ -40,35 +40,111 @@ class Permintaan_barang_baku extends CI_Controller
         echo json_encode($data);
     }
 
+    // public function upload()
+    // {
+    //     $id_barang_baku = $this->input->post('id_barang_baku', true);
+    //     $jumlah_keluar = $this->input->post('jumlah_keluar', true);
+    //     $tanggal_keluar = $this->input->post('tanggal_keluar', true);
+    //     $bukti_keluar_gd = $this->input->post('bukti_keluar_gd', true);
+    //     $input_status_keluar = $this->session->userdata('nama_lengkap');
+
+    //     if ($id_barang_baku == '') {
+    //         $result['pesan'] = "Nama Barang harus di pilih";
+    //     } elseif ($jumlah_keluar == '') {
+    //         $result['pesan'] = "Jumlah Barang harus  ";
+    //     } elseif ($tanggal_keluar == '') {
+    //         $result['pesan'] = "tanggal harus di isi";
+    //     } elseif ($bukti_keluar_gd == '') {
+    //         $result['pesan'] = "foto harus di isi";
+    //     } else {
+    //         $result['pesan'] = "";
+
+    //         if (!empty($_FILES['bukti_keluar_gd']['name'])) {
+    //             // Lakukan proses upload file
+    //             $config['upload_path']   = './uploads/keluar/';
+    //             $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+    //             $config['max_size']      = 1000;
+    //             $this->load->library('upload', $config);
+    //             if ($this->upload->do_upload('bukti_keluar_gd')) {
+    //                 $data_upload = $this->upload->data();
+    //                 $data['bukti_keluar_gd'] = $data_upload['file_name'];
+    //             } else {
+    //                 // Jika proses upload gagal
+    //                 $error_msg = $this->upload->display_errors();
+    //                 $this->session->set_flashdata('info', $error_msg);
+    //                 redirect('barang_baku/barang_masuk');
+    //             }
+    //         }
+
+    //         $data = [
+    //             'id_barang_baku' => $id_barang_baku,
+    //             // 'kode_barang' => $kode_barang,
+    //             'jumlah_keluar' => $jumlah_keluar,
+    //             'tanggal_keluar' => $tanggal_keluar,
+    //             // 'bukti_keluar_gd' => $bukti_keluar_gd,
+    //             'input_status_keluar' => $input_status_keluar
+    //         ];
+
+    //         $this->Model_barang_produksi->tambahData($data);
+    //     }
+    //     echo json_encode($result);
+    // }
+
     public function upload()
     {
         $id_barang_baku = $this->input->post('id_barang_baku', true);
-        // $kode_barang = $this->input->post('kode_barang', true);
         $jumlah_keluar = $this->input->post('jumlah_keluar', true);
         $tanggal_keluar = $this->input->post('tanggal_keluar', true);
         $input_status_keluar = $this->session->userdata('nama_lengkap');
 
+        // Validasi data input
         if ($id_barang_baku == '') {
             $result['pesan'] = "Nama Barang harus di pilih";
         } elseif ($jumlah_keluar == '') {
-            $result['pesan'] = "Jumlah Barang harus  ";
+            $result['pesan'] = "Jumlah Barang harus diisi";
         } elseif ($tanggal_keluar == '') {
-            $result['pesan'] = "tanggal harus di isi";
+            $result['pesan'] = "Tanggal harus di isi";
         } else {
-            $result['pesan'] = "";
+            $file_name = date('Y-m-d', strtotime($tanggal_keluar)) . '.jpg';
+            // Konfigurasi upload
+            $config['upload_path'] = './uploads/baku/keluar/';
+            $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+            $config['max_size'] = 1000;
+            $config['file_name']     = $file_name;
+            $config['overwrite']     = true; // Mengizinkan penggantian file yang ada dengan nama yang sama
 
-            $data = [
-                'id_barang_baku' => $id_barang_baku,
-                // 'kode_barang' => $kode_barang,
-                'jumlah_keluar' => $jumlah_keluar,
-                'tanggal_keluar' => $tanggal_keluar,
-                'input_status_keluar' => $input_status_keluar
-            ];
+            $this->load->library('upload', $config);
 
-            $this->Model_barang_produksi->tambahData($data);
+            // Cek apakah pengunggahan file berhasil
+            if (!$this->upload->do_upload('bukti_keluar_gd')) {
+                $error_msg = $this->upload->display_errors();
+                $result['pesan'] = $error_msg;
+            } else {
+                // Jika pengunggahan file berhasil, simpan data ke dalam database
+                $data_upload = $this->upload->data();
+                $bukti_keluar_gd = $file_name;
+
+                $data = [
+                    'id_barang_baku' => $id_barang_baku,
+                    'jumlah_keluar' => $jumlah_keluar,
+                    'tanggal_keluar' => $tanggal_keluar,
+                    'bukti_keluar_gd' => $bukti_keluar_gd,
+                    'input_status_keluar' => $input_status_keluar
+                ];
+
+                $inserted = $this->Model_barang_produksi->tambahData($data);
+
+                if ($inserted) {
+                    $result['pesan'] = '';
+                } else {
+                    $result['pesan'] = 'Gagal menyimpan data ke database.';
+                }
+            }
         }
+
         echo json_encode($result);
     }
+
 
     public function ambil_id_barang()
     {

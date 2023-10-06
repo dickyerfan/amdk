@@ -45,11 +45,11 @@
                     </a>
                     <div class="collapse" id="laporan" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="#" style="font-size: 0.8rem;">Lapoan Harian</a>
-                            <a class="nav-link" href="#" style="font-size: 0.8rem;">Laporan Bulanan</a>
-                            <a class="nav-link" href="#" style="font-size: 0.8rem;">Barang Masuk</a>
+                            <a class="nav-link" href="<?= base_url('barang_baku/laporan_harian') ?>" style="font-size: 0.8rem;">Laporan Harian</a>
+                            <a class="nav-link" href="<?= base_url('barang_baku/laporan_bulanan') ?>" style="font-size: 0.8rem;">Laporan Bulanan</a>
+                            <!-- <a class="nav-link" href="#" style="font-size: 0.8rem;">Barang Masuk</a>
                             <a class="nav-link" href="#" style="font-size: 0.8rem;">Barang Keluar</a>
-                            <a class="nav-link" href="#" style="font-size: 0.8rem;">Barang Rusak</a>
+                            <a class="nav-link" href="#" style="font-size: 0.8rem;">Barang Rusak</a> -->
                         </nav>
                     </div>
 

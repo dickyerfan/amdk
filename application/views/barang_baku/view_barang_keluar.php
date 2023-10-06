@@ -27,7 +27,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>
-                                        <th class="text-center">Tanggal Masuk</th>
+                                        <th class="text-center">Tanggal Transaksi</th>
                                         <th class="text-center">Kode Barang</th>
                                         <th class="text-center">Nama Barang</th>
                                         <th class="text-center">Jumlah</th>

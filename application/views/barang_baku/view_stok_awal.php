@@ -8,7 +8,7 @@
                             <a href="<?= base_url('rkap/usulan_inves/export_pdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div> -->
                         <div class="navbar-nav ms-auto">
-                            <a href="<?= base_url('barang_baku/barang_rusak/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Tambah Barang</button></a>
+                            <a href="<?= base_url('barang_baku/stok_awal/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Tambah Stok Awal</button></a>
                         </div>
                     </nav>
                 </div>
@@ -28,28 +28,28 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>
-                                        <th class="text-center">Tanggal Rusak</th>
+                                        <th class="text-center">Tanggal Stok Awal</th>
                                         <th class="text-center">Nama Barang</th>
-                                        <th class="text-center">Jumlah</th>
-                                        <th class="text-center">Keterangan</th>
-                                        <th class="text-center">Input Oleh</th>
-                                        <th class="text-center">Action</th>
+                                        <th class="text-center">Jumlah Stok</th>
+                                        <th class="text-center">Petugas Input</th>
+                                        <!-- <th class="text-center">Action</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $no = 1;
-                                    foreach ($barang_rusak as $row) : ?>
+                                    foreach ($stok_barang as $row) : ?>
                                         <tr class="text-center">
                                             <td><?= $no++ ?></td>
-                                            <td><?= $row->tanggal_rusak_baku; ?></td>
+                                            <td><?= $row->tanggal_stok_awal_baku; ?></td>
                                             <td class="text-start"><?= $row->nama_barang_baku; ?></td>
-                                            <td><?= number_format($row->jumlah_rusak_baku, 0, ',', '.'); ?></td>
-                                            <td><?= $row->keterangan; ?></td>
-                                            <td><?= $row->input_status_rusak_baku; ?></td>
-                                            <td>
-                                                <a href="<?= base_url('barang_baku/barang_rusak/detail_rusak/') ?><?= $row->id_rusak_baku ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Detail</span></a>
-                                            </td>
+                                            <td><?= $row->jumlah_stok_awal_baku; ?></td>
+                                            <td><?= $row->input_status_stok_awal_baku; ?></td>
+                                            <!-- <td>
+                                                <a href="<?= $row->status_masuk == 0 ? base_url('barang_baku/barang_masuk/edit_masuk/') : "javascript:void(0)" ?><?= $row->id_masuk_baku; ?>"><i class="fas fa-edit text-success"></i></a>
+                                                <a href="<?= base_url('barang_baku/barang_masuk/detail_masuk/') ?><?= $row->id_masuk_baku ?>"><i class="fa-solid fa-circle-info text-primary"></i></a>
+                                                <a href="<?= base_url('barang_baku/barang_masuk/hapus/') ?><?= $row->id_masuk_baku ?>" class="hapus-link"><i class="fas fa-trash text-danger"></i></a>
+                                            </td> -->
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>

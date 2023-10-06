@@ -50,7 +50,7 @@ class Stok_barang_baku extends CI_Controller
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar');
             $this->load->view('templates/pengguna/sidebar_baku');
-            $this->load->view('barang_baku/tambah_barang_baku', $data);
+            $this->load->view('barang_baku/view_tambah_barang_baku', $data);
             $this->load->view('templates/pengguna/footer');
         } else {
             // $nama_barang = $this->input->post('nama_barang_baku', true);

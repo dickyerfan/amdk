@@ -8,7 +8,7 @@
                             <a href="<?= base_url('rkap/usulan_inves/export_pdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div> -->
                         <div class="navbar-nav ms-auto">
-                            <a href="<?= base_url('barang_baku/barang_masuk/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Tambah Barang</button></a>
+                            <a href="<?= base_url('barang_baku/barang_masuk/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Tambah Barang Masuk</button></a>
                         </div>
                     </nav>
                 </div>
@@ -29,10 +29,11 @@
                                     <tr>
                                         <th class="text-center">No</th>
                                         <th class="text-center">Tanggal Transaksi</th>
-                                        <th class="text-center">Kode Transaksi</th>
+                                        <!-- <th class="text-center">Kode Transaksi</th> -->
                                         <th class="text-center">Nama Barang</th>
                                         <th class="text-center">Jumlah</th>
                                         <th class="text-center">Petugas Penerima</th>
+                                        <th class="text-center">Status</th>
                                         <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
@@ -40,14 +41,19 @@
                                     <?php
                                     $no = 1;
                                     foreach ($barang_masuk as $row) : ?>
-                                        <tr>
+                                        <tr class="text-center">
                                             <td><?= $no++ ?></td>
                                             <td><?= $row->tanggal_masuk; ?></td>
-                                            <td><?= $row->kode_barang_masuk; ?></td>
-                                            <td><?= $row->nama_barang_baku; ?></td>
-                                            <td><?= $row->jumlah_masuk; ?></td>
-                                            <td><?= $row->created_by; ?></td>
-                                            <td>Edit</td>
+                                            <!-- <td><?= $row->kode_barang_masuk; ?></td> -->
+                                            <td class="text-start"><?= $row->nama_barang_baku; ?></td>
+                                            <td class="text-end"><?= number_format($row->jumlah_masuk, 0, ',', '.'); ?></td>
+                                            <td><?= $row->input_status_masuk; ?></td>
+                                            <td><?= $row->status_masuk == 1 ? '<span class="btn btn-primary btn-sm">Selesai</span>' : '<span class="btn btn-danger btn-sm">Belum</span>'; ?></td>
+                                            <td>
+                                                <a href="<?= $row->status_masuk == 0 ? base_url('barang_baku/barang_masuk/edit_masuk/') : "javascript:void(0)" ?><?= $row->id_masuk_baku; ?>"><span class="neumorphic-button text-success btn-sm"><i class="fas fa-edit text-success"></i> Proses</span></a>
+                                                <a href="<?= base_url('barang_baku/barang_masuk/detail_masuk/') ?><?= $row->id_masuk_baku ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Detail</span></a>
+                                                <!-- <a href="<?= base_url('barang_baku/barang_masuk/hapus/') ?><?= $row->id_masuk_baku ?>" class="hapus-link"><i class="fas fa-trash text-danger"></i></a> -->
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>

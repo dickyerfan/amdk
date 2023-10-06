@@ -49,4 +49,15 @@ class Barang_keluar extends CI_Controller
 
         echo json_encode($response);
     }
+
+    public function detail_status_keluar($id_keluar_baku)
+    {
+        $data['detail_barang_keluar'] = $this->Model_barang_baku->get_detail_barang_keluar($id_keluar_baku);
+        $data['title'] = 'Detail Barang Baku';
+        $this->load->view('templates/pengguna/header', $data);
+        $this->load->view('templates/pengguna/navbar');
+        $this->load->view('templates/pengguna/sidebar_baku');
+        $this->load->view('barang_baku/view_detail_keluar_barang_baku', $data);
+        $this->load->view('templates/pengguna/footer');
+    }
 }
