@@ -100,10 +100,11 @@
 
 <script>
     tampil_data_barang(); //pemanggilan fungsi tampil barang pertama kali.
+
     //melakukan pembaruan data dengan AJAX setiap 5 detik
-    setInterval(function() {
-        tampil_data_barang(); // Pemanggilan fungsi tampil_data_barang
-    }, 5000); // 5000 milidetik (5 detik)
+    // setInterval(function() {
+    //     tampil_data_barang(); // Pemanggilan fungsi tampil_data_barang
+    // }, 5000); // 5000 milidetik (5 detik)
     $('#example').dataTable();
 
 
@@ -163,6 +164,7 @@
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
+                    tampil_data_barang()
                     $("#pesan2").html(
                         `<div class="alert alert-success alert-dismissible fade show" role="alert" id="alert">
                     	        <strong>Sukses,</strong> Status Berhasil diupdate.
@@ -310,6 +312,31 @@
             error: function(xhr, status, error) {}
         });
     }
+
+    function checkStatus() {
+        $.ajax({
+            type: 'POST',
+            url: '<?= base_url('barang_baku/barang_keluar/cek_status_permintaan_barang') ?>',
+            dataType: 'json',
+            success: function(response) {
+                if (response.success === true) {
+                    // Ada data dengan status 0, ubah warna ikon dan tampilkan pesan
+                    $('#bellIcon').css('color', 'red');
+                    $('#permintaanBarang').show();
+                } else {
+                    // Tidak ada data dengan status 0, kembalikan warna ikon ke semula dan sembunyikan pesan
+                    $('#bellIcon').css('color', '');
+                    $('#permintaanBarang').hide();
+                }
+            }
+        });
+    }
+
+    // Memanggil fungsi checkStatus setiap 5 detik
+
+    setInterval(function() {
+        checkStatus(); // Pemanggilan fungsi tampil_data_barang
+    }, 5000); // 5000 milidetik (5 detik)
 </script>
 
 <script>

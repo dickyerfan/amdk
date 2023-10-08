@@ -12,16 +12,16 @@
         </div>
     </form>
     <!-- Navbar-->
-    <!-- <ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav ml-auto me-4">
         <li class="nav-item dropdown">
             <a class="nav-link" href="#" id="bellDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-bell"></i>
             </a>
             <ul class="dropdown-menu" aria-labelledby="bellDropdown">
-                <li><a href="<?= base_url('barang_baku/barang_keluar') ?>" class="dropdown-item" style="font-size: 0.8rem;">Permintaan Barang Diterima</a></li>
+                <li><a href="<?= base_url('barang_produksi/permintaan_barang_baku') ?>" class="dropdown-item" style="font-size: 0.8rem;">Permintaan Barang Diterima</a></li>
             </ul>
         </li>
-    </ul> -->
+    </ul>
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle fw-bold ustadz" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 0.8rem;"><?= ucfirst($this->session->userdata('nama_lengkap')); ?></a>

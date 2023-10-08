@@ -25,10 +25,10 @@ class Stok_barang_baku extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/pengguna/header', $data);
-            $this->load->view('templates/pengguna/navbar');
+            $this->load->view('templates/pengguna/navbar_baku');
             $this->load->view('templates/pengguna/sidebar_baku');
             $this->load->view('barang_baku/view_stok_barangbaku', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_baku');
         }
     }
 
@@ -48,10 +48,10 @@ class Stok_barang_baku extends CI_Controller
             $data['satuan'] = $this->Model_barang_baku->get_satuan();
             $data['jenis_barang'] = $this->Model_barang_baku->get_jenis_barang();
             $this->load->view('templates/pengguna/header', $data);
-            $this->load->view('templates/pengguna/navbar');
+            $this->load->view('templates/pengguna/navbar_baku');
             $this->load->view('templates/pengguna/sidebar_baku');
             $this->load->view('barang_baku/view_tambah_barang_baku', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_baku');
         } else {
             // $nama_barang = $this->input->post('nama_barang_baku', true);
             // $nama_barang = preg_replace("/[^a-zA-Z0-9\s]/", '', $nama_barang); // Hapus karakter non-huruf, non-angka, dan non-spasi

@@ -25,10 +25,10 @@ class Barang_rusak extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/pengguna/header', $data);
-            $this->load->view('templates/pengguna/navbar');
+            $this->load->view('templates/pengguna/navbar_baku');
             $this->load->view('templates/pengguna/sidebar_baku');
             $this->load->view('barang_baku/view_barang_rusak', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_baku');
         }
     }
 
@@ -44,10 +44,10 @@ class Barang_rusak extends CI_Controller
             $data['title'] = 'Transaksi Rusak Barang Baku';
             $data['nama_barang'] = $this->Model_barang_baku->get_nama_barang();
             $this->load->view('templates/pengguna/header', $data);
-            $this->load->view('templates/pengguna/navbar');
+            $this->load->view('templates/pengguna/navbar_baku');
             $this->load->view('templates/pengguna/sidebar_baku');
             $this->load->view('barang_baku/view_rusak_barang_baku', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_baku');
         } else {
             // Cek apakah ada file yang diupload
             if (!empty($_FILES['bukti_rusak_baku']['name'])) {

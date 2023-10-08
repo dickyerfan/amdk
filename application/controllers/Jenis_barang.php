@@ -24,7 +24,7 @@ class Jenis_barang extends CI_Controller
         $data['title'] = 'Data Jenis Barang';
         $data['jenis_barang'] = $this->Model_barang->get_all_data('jenis_barang');
         $this->load->view('templates/pengguna/header', $data);
-        $this->load->view('templates/pengguna/navbar');
+        $this->load->view('templates/pengguna/navbar_baku');
         $this->load->view('templates/pengguna/sidebar_baku');
         $this->load->view('baku/view_jenis_barang', $data);
         $this->load->view('templates/pengguna/footer');
@@ -39,7 +39,7 @@ class Jenis_barang extends CI_Controller
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Tambah Jenis Barang';
             $this->load->view('templates/pengguna/header', $data);
-            $this->load->view('templates/pengguna/navbar');
+            $this->load->view('templates/pengguna/navbar_baku');
             $this->load->view('templates/pengguna/sidebar_baku');
             $this->load->view('baku/tambah_jenis_barang', $data);
             $this->load->view('templates/pengguna/footer');

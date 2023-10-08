@@ -24,7 +24,7 @@ class Satuan extends CI_Controller
         $data['title'] = 'Data Satuan Barang';
         $data['satuan_baku'] = $this->Model_barang->get_all_data('satuan');
         $this->load->view('templates/pengguna/header', $data);
-        $this->load->view('templates/pengguna/navbar');
+        $this->load->view('templates/pengguna/navbar_baku');
         $this->load->view('templates/pengguna/sidebar_baku');
         $this->load->view('baku/view_satuan_baku', $data);
         $this->load->view('templates/pengguna/footer');
@@ -39,7 +39,7 @@ class Satuan extends CI_Controller
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Tambah Satuan Barang';
             $this->load->view('templates/pengguna/header', $data);
-            $this->load->view('templates/pengguna/navbar');
+            $this->load->view('templates/pengguna/navbar_baku');
             $this->load->view('templates/pengguna/sidebar_baku');
             $this->load->view('baku/tambah_satuan_baku', $data);
             $this->load->view('templates/pengguna/footer');

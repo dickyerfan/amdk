@@ -25,10 +25,10 @@ class Stok_awal extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/pengguna/header', $data);
-            $this->load->view('templates/pengguna/navbar');
+            $this->load->view('templates/pengguna/navbar_baku');
             $this->load->view('templates/pengguna/sidebar_baku');
             $this->load->view('barang_baku/view_stok_awal', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_baku');
         }
     }
 
@@ -44,10 +44,10 @@ class Stok_awal extends CI_Controller
             $data['title'] = 'Tambah Stok Awal';
             $data['nama_barang'] = $this->Model_barang_baku->get_nama_barang();
             $this->load->view('templates/pengguna/header', $data);
-            $this->load->view('templates/pengguna/navbar');
+            $this->load->view('templates/pengguna/navbar_baku');
             $this->load->view('templates/pengguna/sidebar_baku');
             $this->load->view('barang_baku/view_tambah_stok_awal', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_baku');
         } else {
 
             $data['id_barang_baku'] = $this->input->post('id_barang_baku', true);

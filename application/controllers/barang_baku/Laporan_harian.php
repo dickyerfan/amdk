@@ -8,6 +8,7 @@ class Laporan_harian extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Model_laporan');
+        date_default_timezone_set('Asia/Jakarta');
         if (!$this->session->userdata('nama_pengguna')) {
             redirect('auth');
         }
@@ -32,10 +33,10 @@ class Laporan_harian extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/pengguna/header', $data);
-            $this->load->view('templates/pengguna/navbar');
+            $this->load->view('templates/pengguna/navbar_baku');
             $this->load->view('templates/pengguna/sidebar_baku');
             $this->load->view('barang_baku/view_laporan_harian', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_baku');
         }
     }
 

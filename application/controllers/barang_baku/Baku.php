@@ -32,9 +32,9 @@ class Baku extends CI_Controller
 
         $data['title'] = 'Dashboard';
         $this->load->view('templates/pengguna/header', $data);
-        $this->load->view('templates/pengguna/navbar');
+        $this->load->view('templates/pengguna/navbar_baku');
         $this->load->view('templates/pengguna/sidebar_baku');
         $this->load->view('baku/view_dashboard_baku', $data);
-        $this->load->view('templates/pengguna/footer');
+        $this->load->view('templates/pengguna/footer_baku');
     }
 }

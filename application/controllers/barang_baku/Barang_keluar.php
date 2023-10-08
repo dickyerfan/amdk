@@ -25,7 +25,7 @@ class Barang_keluar extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/pengguna/header', $data);
-            $this->load->view('templates/pengguna/navbar');
+            $this->load->view('templates/pengguna/navbar_baku');
             $this->load->view('templates/pengguna/sidebar_baku');
             $this->load->view('barang_baku/view_barang_keluar', $data);
             $this->load->view('templates/pengguna/footer_baku');
@@ -55,9 +55,25 @@ class Barang_keluar extends CI_Controller
         $data['detail_barang_keluar'] = $this->Model_barang_baku->get_detail_barang_keluar($id_keluar_baku);
         $data['title'] = 'Detail Barang Baku';
         $this->load->view('templates/pengguna/header', $data);
-        $this->load->view('templates/pengguna/navbar');
+        $this->load->view('templates/pengguna/navbar_baku');
         $this->load->view('templates/pengguna/sidebar_baku');
         $this->load->view('barang_baku/view_detail_keluar_barang_baku', $data);
         $this->load->view('templates/pengguna/footer');
+    }
+
+    public function cek_status_permintaan_barang()
+    {
+        $this->db->select('*');
+        $this->db->from('keluar_baku');
+        $this->db->where('status_keluar', 0);
+        $result = $this->db->get()->result();
+
+        if ($result) {
+            $response['success'] = true;
+        } else {
+            $response['success'] = false;
+        }
+
+        echo json_encode($response);
     }
 }

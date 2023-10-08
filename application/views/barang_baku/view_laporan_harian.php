@@ -29,7 +29,29 @@
                             <?php if (empty($tanggal_hari_ini)) {
                                 // Jika kosong atau null, atur nilainya menjadi tanggal hari ini
                                 $tanggal_hari_ini = date("Y-m-d"); // Format tanggal "YYYY-MM-DD"
-                            } ?>
+                            }
+                            // Ubah format tanggal ke bahasa Indonesia
+                            setlocale(LC_TIME, 'id_ID');
+                            $tanggal_hari_ini = strftime('%e %B %Y', strtotime($tanggal_hari_ini));
+                            // Ubah nama bulan menjadi bahasa Indonesia
+                            $bulan = [
+                                'January' => 'Januari',
+                                'February' => 'Februari',
+                                'March' => 'Maret',
+                                'April' => 'April',
+                                'May' => 'Mei',
+                                'June' => 'Juni',
+                                'July' => 'Juli',
+                                'August' => 'Agustus',
+                                'September' => 'September',
+                                'October' => 'Oktober',
+                                'November' => 'November',
+                                'December' => 'Desember',
+                            ];
+
+                            $tanggal_hari_ini = strtr($tanggal_hari_ini, $bulan);
+
+                            ?>
                             <h5><?= $tanggal_hari_ini; ?></h5>
                             <!-- <?php echo date('Y-m-d'); ?> -->
                         </div>

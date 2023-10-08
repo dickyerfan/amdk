@@ -7,7 +7,7 @@
                         <div class="sb-nav-link-icon"><i class="fa-fw fas fa-wallet"></i></div>
                         Beranda
                     </a> -->
-                    <a class="nav-link" href="<?= base_url('barang_baku/baku') ?>">
+                    <a class="nav-link" href="<?= base_url('barang_produksi/produksi') ?>">
                         <div class="sb-nav-link-icon"><i class="fa-fw fas fa-tachometer-alt"></i></div>
                         <div style="font-size: 0.8rem;"> Dashboard</div>
                     </a>
