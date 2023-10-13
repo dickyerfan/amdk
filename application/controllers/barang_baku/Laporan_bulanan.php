@@ -22,15 +22,35 @@ class Laporan_bulanan extends CI_Controller
         //     $bulan = date('m');
         //     $tahun = date('Y');
         // }
+
+        // if ($bulan == 01) {
+        //     $bulan = 12;
+        //     // $tahun = date('Y') - 1;
+        // }
+
+
         // $data['bulan_lap'] = $this->input->get('bulan');
         // $data['tahun_lap'] = $this->input->get('tahun');
+        // $data['lap_bulanan'] = $this->Model_laporan->getdata_bulanan($tanggal);
 
-        $tanggal = $this->input->post('tanggal');
+        $tanggal = $this->input->get('tanggal');
 
-        $data['bulan_lap'] = substr($tanggal, 5, 2);
-        $data['tahun_lap'] = substr($tanggal, 0, 4);
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+
+        $this->session->set_userdata('bulan_exportpdf', $tanggal);
+
+        $data['bulan_lap'] = $bulan;
+        $data['tahun_lap'] = $tahun;
+
         $data['title'] = 'Laporan Bulanan Barang Baku';
-        $data['lap_bulanan'] = $this->Model_laporan->getdata_bulanan($tanggal);
+        $data['lap_bulanan'] = $this->Model_laporan->getdata_bulanan($tanggal, $bulan, $tahun);
         if ($this->session->userdata('upk_bagian') == 'admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
@@ -44,5 +64,30 @@ class Laporan_bulanan extends CI_Controller
             $this->load->view('barang_baku/view_laporan_bulanan', $data);
             $this->load->view('templates/pengguna/footer_baku');
         }
+    }
+
+    public function exportpdf()
+    {
+        $tanggal = $this->session->userdata('bulan_exportpdf');
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+
+        $data['title'] = 'Laporan Bulanan Barang Baku';
+        $data['bulan_lap'] = $bulan;
+        $data['tahun_lap'] = $tahun;
+        $data['lap_bulanan'] = $this->Model_laporan->getdata_bulanan($tanggal, $bulan, $tahun);
+
+        // Set paper size and orientation
+        $this->pdf->setPaper('A4', 'portrait');
+
+        // $this->pdf->filename = "Potensi Sr.pdf";
+        $this->pdf->filename = "LapBulanan-{$bulan}-{$tahun}.pdf";
+        $this->pdf->generate('barang_baku/laporan_bulanan_pdf', $data);
     }
 }

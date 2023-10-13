@@ -7,9 +7,9 @@
                         <!-- <div class="navbar-nav">
                             <a href="<?= base_url('rkap/usulan_inves/export_pdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div> -->
-                        <div class="navbar-nav ms-auto">
+                        <!-- <div class="navbar-nav ms-auto">
                             <a href="<?= base_url('barang_baku/stok_barang_baku/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Tambah Barang</button></a>
-                        </div>
+                        </div> -->
                     </nav>
                 </div>
                 <div class="p-2">

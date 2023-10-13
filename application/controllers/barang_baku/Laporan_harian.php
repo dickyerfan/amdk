@@ -16,13 +16,15 @@ class Laporan_harian extends CI_Controller
 
     public function index()
     {
-        $tanggal = $this->input->post('tanggal');
+        $tanggal = $this->input->get('tanggal');
         if (empty($tanggal)) {
             $tanggal = date('Y-m-d');
         }
 
+        $this->session->set_userdata('tanggal_exportpdf', $tanggal);
+
         $data['title'] = 'Laporan Harian Barang Baku';
-        $data['tanggal_hari_ini'] = $this->input->post('tanggal');
+        $data['tanggal_hari_ini'] = $this->input->get('tanggal');
         $data['lap_harian'] = $this->Model_laporan->getdata_harian($tanggal);
 
         if ($this->session->userdata('upk_bagian') == 'admin') {
@@ -38,6 +40,25 @@ class Laporan_harian extends CI_Controller
             $this->load->view('barang_baku/view_laporan_harian', $data);
             $this->load->view('templates/pengguna/footer_baku');
         }
+    }
+
+    public function exportpdf()
+    {
+        $tanggal = $this->session->userdata('tanggal_exportpdf');
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+        }
+
+        $data['title'] = 'Laporan Harian Barang Baku';
+        $data['tanggal_hari_ini'] = $tanggal;
+        $data['lap_harian'] = $this->Model_laporan->getdata_harian($tanggal);
+
+        // Set paper size and orientation
+        $this->pdf->setPaper('A4', 'portrait');
+
+        // $this->pdf->filename = "Potensi Sr.pdf";
+        $this->pdf->filename = "LapHarian-{$tanggal}.pdf";
+        $this->pdf->generate('barang_baku/laporan_harian_pdf', $data);
     }
 
     public function stok_awal_harian()

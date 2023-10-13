@@ -1,6 +1,6 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark logo">
     <!-- Navbar Brand-->
-    <img src="<?= base_url('assets/img/logo_ijen.png') ?>" class="navbar-brand ms-3 me-3" style="width:30px ;">
+    <img src="<?= base_url('assets/img/ijen.png') ?>" class="navbar-brand ms-3 me-3" style="width:35px ;">
     <a class="navbar-brand title mt-2" href="<?= base_url('dashboard') ?>">
         <h6>A M D K <br> Ijen Water</h6>
     </a>

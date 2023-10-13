@@ -3,10 +3,10 @@
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
             <div class="sb-sidenav-menu">
                 <div class="nav ustadz">
-                    <!-- <a class="nav-link" href="<?= base_url('publik') ?>">
-                        <div class="sb-nav-link-icon"><i class="fa-fw fas fa-wallet"></i></div>
-                        Beranda
-                    </a> -->
+                    <a class="nav-link" href="#!">
+                        <!-- <div class="sb-nav-link-icon"><i class="fa-fw fas fa-wallet"></i></div> -->
+                        <div style="font-size: 0.8rem;" class="fw-bold"><?= strtoupper($this->session->userdata('nama_pengguna')); ?></div>
+                    </a>
                     <a class="nav-link" href="<?= base_url('barang_baku/baku') ?>">
                         <div class="sb-nav-link-icon"><i class="fa-fw fas fa-tachometer-alt"></i></div>
                         <div style="font-size: 0.8rem;"> Dashboard</div>

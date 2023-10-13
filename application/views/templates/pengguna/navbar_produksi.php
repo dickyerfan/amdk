@@ -1,6 +1,6 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark logo">
     <!-- Navbar Brand-->
-    <img src="<?= base_url('assets/img/logo_ijen.png') ?>" class="navbar-brand ms-3 me-3" style="width:30px ;">
+    <img src="<?= base_url('assets/img/ijen.png') ?>" class="navbar-brand ms-3 me-3" style="width:30px ;">
     <a class="navbar-brand title mt-2" href="<?= base_url('dashboard') ?>">
         <h6>A M D K <br> Ijen Water</h6>
     </a>
@@ -15,10 +15,10 @@
     <ul class="navbar-nav ml-auto me-4">
         <li class="nav-item dropdown">
             <a class="nav-link" href="#" id="bellDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-bell"></i>
+                <i class="fa fa-bell" id="bellIcon"></i>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="bellDropdown">
-                <li><a href="<?= base_url('barang_produksi/permintaan_barang_baku') ?>" class="dropdown-item" style="font-size: 0.8rem;">Permintaan Barang Diterima</a></li>
+            <ul class="dropdown-menu" aria-labelledby="bellDropdown" id="permintaanProduksi" style="display: none;">
+                <li><a href="<?= base_url('barang_produksi/permintaan_barang_baku/update_status_produksi') ?>" class="dropdown-item" style="font-size: 0.8rem;">ada pesan baru</a></li>
             </ul>
         </li>
     </ul>

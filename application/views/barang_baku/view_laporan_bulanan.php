@@ -4,7 +4,7 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('barang_baku/laporan_bulanan'); ?>" method="post">
+                        <form action="<?= base_url('barang_baku/laporan_bulanan'); ?>" method="get">
                             <!-- <div style="display: flex; align-items: center;">
                                 <?php $bulan = date('m'); ?>
                                 <select name="bulan" class="form-select me-2" required style="width: auto;">
@@ -38,7 +38,7 @@
                             </div>
                         </form>
                         <div class="navbar-nav ms-auto">
-                            <a href="<?= base_url('barang_baku/laporan_bulanan/export_pdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
+                            <a href="<?= base_url('barang_baku/laporan_bulanan/exportpdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div>
                     </nav>
                 </div>
@@ -50,7 +50,8 @@
                     <div class="row justify-content-center mb-2">
                         <div class="col-lg-6 text-center">
                             <h5><?= strtoupper($title); ?></h5>
-                            <?php if (empty($bulan_lap)) {
+                            <?php
+                            if (empty($bulan_lap)) {
                                 $bulan_lap = date('m');
                                 $tahun_lap = date('Y');
                             }
@@ -96,16 +97,17 @@
                                     $no = 1;
                                     foreach ($lap_bulanan as $row) :
                                         $stok_awal = $row->jumlah_stok_awal + $row->jumlah_masuk_kemaren - $row->jumlah_keluar_kemaren - $row->jumlah_rusak_kemaren;
+                                        $stok_akhir = $row->jumlah_stok_awal + $row->jumlah_masuk - $row->jumlah_keluar - $row->jumlah_rusak;
                                     ?>
                                         <tr>
                                             <td class="text-center"><?= $no++ ?></td>
                                             <td><?= $row->nama_barang_baku; ?></td>
                                             <td><?= $row->satuan; ?></td>
-                                            <td class="text-end"><?= $stok_awal; ?></td>
-                                            <td class="text-end"><?= $row->jumlah_masuk_sekarang; ?></td>
-                                            <td class="text-end"><?= $row->jumlah_keluar_sekarang; ?></td>
-                                            <td class="text-end"><?= $row->jumlah_rusak_sekarang; ?></td>
-                                            <td class="text-end"><?= $row->jumlah_stok_awal + $row->jumlah_masuk - $row->jumlah_keluar - $row->jumlah_rusak; ?></td>
+                                            <td class="text-end"><?= number_format($stok_awal, 0, ',', '.'); ?></td>
+                                            <td class="text-end"><?= number_format($row->jumlah_masuk_sekarang, 0, ',', '.'); ?></td>
+                                            <td class="text-end"><?= number_format($row->jumlah_keluar_sekarang, 0, ',', '.'); ?></td>
+                                            <td class="text-end"><?= number_format($row->jumlah_rusak_sekarang, 0, ',', '.'); ?></td>
+                                            <td class="text-end"><?= number_format($stok_akhir, 0, ',', '.'); ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>

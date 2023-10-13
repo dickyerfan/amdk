@@ -29,7 +29,7 @@ class Backup extends CI_Controller
         $tanggal = date('Ymd-His');
         $config = array(
             'format' => 'zip',
-            'filename' => 'bonji_' . $tanggal . '_db.sql',
+            'filename' => 'amdk' . $tanggal . '_db.sql',
             'add_drop' => true,
             'add_insert' => true,
             'newline' => "\n",
@@ -37,7 +37,7 @@ class Backup extends CI_Controller
         );
         $backup = &$this->dbutil->backup($config);
 
-        $nama_file = 'bonji_' . $tanggal . '.zip';
+        $nama_file = 'amdk' . $tanggal . '.zip';
         $this->load->helper('download');
         force_download($nama_file, $backup);
     }

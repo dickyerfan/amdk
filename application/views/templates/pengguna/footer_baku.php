@@ -132,7 +132,7 @@
                     if (data[i].status_keluar == 0) {
                         textHtml += '<td class="text-center">' +
                             '<a href="#" style="color:blue; text-decoration:none;" onclick="editData(' + data[i].id_keluar_baku + ')"><span class="neumorphic-button btn-sm">Terima</span></a>' + ' ' +
-                            '<a href="#" style="color:red; text-decoration:none;" onclick="hapusData(' + data[i].id_keluar_baku + ')"><span class="neumorphic-button btn-sm">Tolak</span></a>' +
+                            '<a href="#" style="color:red; text-decoration:none;" onclick="tolakData(' + data[i].id_keluar_baku + ')"><span class="neumorphic-button btn-sm">Tolak</span></a>' +
                             '</td>';
                     } else {
                         textHtml += '<td class="text-center">';
@@ -201,7 +201,7 @@
         });
     }
 
-    function hapusData(id_keluar_baku) {
+    function tolakData(id_keluar_baku) {
         Swal.fire({
             title: 'Konfirmasi',
             text: 'Anda yakin akan menolak Permintaan.?',
@@ -209,7 +209,7 @@
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, hapus data!',
+            confirmButtonText: 'Ya, tolak permintaan!',
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
@@ -217,11 +217,11 @@
                 $.ajax({
                     type: 'POST',
                     data: 'id_keluar_baku=' + id_keluar_baku,
-                    url: '<?= base_url('barang_produksi/Permintaan_barang_baku/hapus') ?>',
+                    url: '<?= base_url('barang_produksi/Permintaan_barang_baku/tolak_pesanan') ?>',
                     dataType: 'json',
                     success: function(hasil) {
                         $("#pesan").html(hasil.pesan);
-                        if (hasil.pesan == 'Data berhasil dihapus.') {
+                        if (hasil.pesan == 'Data ditolak') {
                             $('#mydata').dataTable().fnDestroy();
                             tampil_data_barang();
                             $('#mydata').dataTable({
@@ -229,8 +229,8 @@
                                 "pageLength": 10
                             });
                             $("#pesan2").html(
-                                `<div class="alert alert-success alert-dismissible fade show" role="alert" id="alert">
-                    	        <strong>Sukses</strong> Data Berhasil dihapus.
+                                `<div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert">
+                    	        <strong>Maaf</strong> Permintaan Barang ditolak.
                     	        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     	        </div>`
                             );
@@ -247,7 +247,7 @@
                         } else {
                             $("#pesan2").html(
                                 `<div class="alert alert-success alert-dismissible fade show" role="alert" id="alert">
-                    	        <strong>Maaf</strong> Data Gagal dihapus.
+                    	        <strong>Sukses</strong> Permintaan Barang diterima.
                     	        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     	        </div>`
                             );

@@ -37,7 +37,10 @@ class Barang_keluar extends CI_Controller
         $id_keluar_baku = $this->input->post('id_keluar_baku');
 
         // Lakukan pembaruan status_keluar ke 1 di database
-        $data = ['status_keluar' => 1];
+        $data = [
+            'status_keluar' => 1,
+            'status_produksi' => 0
+        ];
         $this->db->where('id_keluar_baku', $id_keluar_baku);
         $result = $this->db->update('keluar_baku', $data);
 

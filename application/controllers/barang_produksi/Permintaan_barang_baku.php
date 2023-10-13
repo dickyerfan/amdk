@@ -16,9 +16,9 @@ class Permintaan_barang_baku extends CI_Controller
     public function index()
     {
         $data['title'] = 'Permintaan Barang Baku';
-        $id_keluar_baku = $this->input->post('id_keluar_baku');
+        // $id_keluar_baku = $this->input->post('id_keluar_baku');
         $data['nama_barang'] = $this->Model_barang_produksi->get_nama_barang();
-        $data['id_barang'] = $this->Model_barang_produksi->get_Id_Barang_edit($id_keluar_baku);
+        // $data['id_barang'] = $this->Model_barang_produksi->get_Id_Barang_edit($id_keluar_baku);
         if ($this->session->userdata('upk_bagian') == 'admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
@@ -27,68 +27,18 @@ class Permintaan_barang_baku extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/pengguna/header', $data);
-            $this->load->view('templates/pengguna/navbar_produksi');
+            $this->load->view('templates/pengguna/navbar_produksi', $data);
             $this->load->view('templates/pengguna/sidebar_produksi');
             $this->load->view('barang_produksi/view_permintaan_baku', $data);
             $this->load->view('templates/pengguna/footer_produksi');
         }
     }
 
-    function getDataBarang()
+    function get_permintaan_barang()
     {
-        $data = $this->Model_barang_produksi->getbarang_keluar();
+        $data = $this->Model_barang_produksi->get_permintaan_barang();
         echo json_encode($data);
     }
-
-    // public function upload()
-    // {
-    //     $id_barang_baku = $this->input->post('id_barang_baku', true);
-    //     $jumlah_keluar = $this->input->post('jumlah_keluar', true);
-    //     $tanggal_keluar = $this->input->post('tanggal_keluar', true);
-    //     $bukti_keluar_gd = $this->input->post('bukti_keluar_gd', true);
-    //     $input_status_keluar = $this->session->userdata('nama_lengkap');
-
-    //     if ($id_barang_baku == '') {
-    //         $result['pesan'] = "Nama Barang harus di pilih";
-    //     } elseif ($jumlah_keluar == '') {
-    //         $result['pesan'] = "Jumlah Barang harus  ";
-    //     } elseif ($tanggal_keluar == '') {
-    //         $result['pesan'] = "tanggal harus di isi";
-    //     } elseif ($bukti_keluar_gd == '') {
-    //         $result['pesan'] = "foto harus di isi";
-    //     } else {
-    //         $result['pesan'] = "";
-
-    //         if (!empty($_FILES['bukti_keluar_gd']['name'])) {
-    //             // Lakukan proses upload file
-    //             $config['upload_path']   = './uploads/keluar/';
-    //             $config['allowed_types'] = 'jpg|jpeg|png|pdf';
-    //             $config['max_size']      = 1000;
-    //             $this->load->library('upload', $config);
-    //             if ($this->upload->do_upload('bukti_keluar_gd')) {
-    //                 $data_upload = $this->upload->data();
-    //                 $data['bukti_keluar_gd'] = $data_upload['file_name'];
-    //             } else {
-    //                 // Jika proses upload gagal
-    //                 $error_msg = $this->upload->display_errors();
-    //                 $this->session->set_flashdata('info', $error_msg);
-    //                 redirect('barang_baku/barang_masuk');
-    //             }
-    //         }
-
-    //         $data = [
-    //             'id_barang_baku' => $id_barang_baku,
-    //             // 'kode_barang' => $kode_barang,
-    //             'jumlah_keluar' => $jumlah_keluar,
-    //             'tanggal_keluar' => $tanggal_keluar,
-    //             // 'bukti_keluar_gd' => $bukti_keluar_gd,
-    //             'input_status_keluar' => $input_status_keluar
-    //         ];
-
-    //         $this->Model_barang_produksi->tambahData($data);
-    //     }
-    //     echo json_encode($result);
-    // }
 
     public function upload()
     {
@@ -202,5 +152,49 @@ class Permintaan_barang_baku extends CI_Controller
         }
 
         echo json_encode($response);
+    }
+
+    public function tolak_pesanan()
+    {
+        $id_keluar_baku = $this->input->post('id_keluar_baku');
+        $data = [
+            'status_keluar' => 1,
+            'status_tolak' => 0,
+            'status_produksi' => 0
+        ];
+        $tolak_pesanan = $this->Model_barang_produksi->tolak_pesanan($id_keluar_baku, $data);
+
+        if ($tolak_pesanan) {
+            $response = array('status' => true, 'pesan' => 'Data ditolak');
+        } else {
+            $response = array('status' => false, 'pesan' => 'Data diterima');
+        }
+
+        echo json_encode($response);
+    }
+
+    public function cek_status_produksi()
+    {
+        $this->db->select('*');
+        $this->db->from('keluar_baku');
+        $this->db->where('status_produksi', 0);
+        $result = $this->db->get()->result();
+
+        if ($result) {
+            $response['success'] = true;
+        } else {
+            $response['success'] = false;
+        }
+
+        echo json_encode($response);
+    }
+
+    public function update_status_produksi()
+    {
+        $data = [
+            'status_produksi' => 1
+        ];
+        $this->db->update('keluar_baku', $data);
+        redirect('barang_produksi/permintaan_barang_baku');
     }
 }

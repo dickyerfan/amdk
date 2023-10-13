@@ -11,20 +11,29 @@
                         <div class="sb-nav-link-icon"><i class="fa-fw fas fa-tachometer-alt"></i></div>
                         <div style="font-size: 0.8rem;"> Dashboard</div>
                     </a>
+                    <a class="nav-link" href="<?= base_url('barang_produksi/barang_baku_gudang') ?>">
+                        <div class="sb-nav-link-icon"><i class="fa-fw fas fa-warehouse"></i></div>
+                        <div style="font-size: 0.8rem;"> Stok Barang Baku Gudang</div>
+                    </a>
+                    <a class="nav-link" href="<?= base_url('barang_produksi/barang_baku_produksi') ?>">
+                        <div class="sb-nav-link-icon"><i class="fa-fw fas fa-warehouse"></i></div>
+                        <div style="font-size: 0.8rem;"> Stok Barang Baku Produksi</div>
+                    </a>
 
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#baku" aria-expanded="false" aria-controls="baku">
+                    <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#baku" aria-expanded="false" aria-controls="baku">
                         <div class="sb-nav-link-icon"><i class="fa-fw fa fa-warehouse"></i></div>
                         <div style="font-size: 0.8rem;"> Barang Produksi</div>
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
                     <div class="collapse" id="baku" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="<?= base_url('barang_baku/stok_barang_baku') ?>" style="font-size: 0.8rem;">Stok Barang Baku</a>
-                            <!-- <a class="nav-link" href="<?= base_url('barang_baku/nama_barang') ?>" style="font-size: 0.8rem;">Nama Barang</a> -->
+                            <a class="nav-link" href="<?= base_url('barang_baku/stok_barang_baku') ?>" style="font-size: 0.8rem;">Stok Barang Baku Gudang</a>
+                            <a class="nav-link" href="<?= base_url('barang_baku/nama_barang') ?>" style="font-size: 0.8rem;">Nama Barang</a>
                             <a class="nav-link" href="<?= base_url('jenis_barang') ?>" style="font-size: 0.8rem;">Jenis Barang</a>
                             <a class="nav-link" href="<?= base_url('satuan') ?>" style="font-size: 0.8rem;">Satuan</a>
                         </nav>
-                    </div>
+                    </div> -->
+
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#transaksi" aria-expanded="false" aria-controls="transaksi">
                         <div class="sb-nav-link-icon"><i class="fa-fw fa fa-cart-shopping"></i></div>
                         <div style="font-size: 0.8rem;"> Transaksi</div>
@@ -33,8 +42,8 @@
                     <div class="collapse" id="transaksi" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="<?= base_url('barang_produksi/permintaan_barang_baku') ?>" style="font-size: 0.8rem;">Permintaan Barang Baku</a>
-                            <a class="nav-link" href="<?= base_url('barang_baku/barang_keluar') ?>" style="font-size: 0.8rem;">Barang Jadi</a>
-                            <a class="nav-link" href="<?= base_url('barang_baku/barang_rusak') ?>" style="font-size: 0.8rem;">Barang Rusak</a>
+                            <a class="nav-link" href="<?= base_url('barang_produksi/barang_keluar') ?>" style="font-size: 0.8rem;">Barang Jadi</a>
+                            <a class="nav-link" href="<?= base_url('barang_produksi/barang_rusak') ?>" style="font-size: 0.8rem;">Barang Rusak</a>
                         </nav>
                     </div>
 

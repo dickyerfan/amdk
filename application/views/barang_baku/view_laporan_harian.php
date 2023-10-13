@@ -4,7 +4,7 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('barang_baku/laporan_harian'); ?>" method="post">
+                        <form action="<?= base_url('barang_baku/laporan_harian'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
                                 <input type="date" name="tanggal" class="form-control">
                                 <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
@@ -14,7 +14,7 @@
                             <a class="nav-link fw-bold" href="<?= base_url('barang_baku/laporan_harian/stok_awal_harian') ?>" style="font-size: 0.8rem; color:black;"><button class=" neumorphic-button"><i class="fas fa-plus-circle"></i> Input Saldo Awal Harian</button></a>
                         </div> -->
                         <div class="navbar-nav ms-auto">
-                            <a class="nav-link fw-bold" href="#" style="font-size: 0.8rem; color:black;"><button class=" neumorphic-button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
+                            <a class="nav-link fw-bold" href="<?= base_url('barang_baku/laporan_harian/exportpdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class=" neumorphic-button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div>
                     </nav>
                 </div>
@@ -76,17 +76,17 @@
                                     $no = 1;
                                     foreach ($lap_harian as $row) :
                                         $stok_awal = $row->jumlah_stok_awal + $row->jumlah_masuk_kemaren - $row->jumlah_keluar_kemaren - $row->jumlah_rusak_kemaren;
-
+                                        $stok_akhir = $row->jumlah_stok_awal + $row->jumlah_masuk - $row->jumlah_keluar - $row->jumlah_rusak;
                                     ?>
                                         <tr>
                                             <td class="text-center"><?= $no++ ?></td>
                                             <td><?= ucwords($row->nama_barang_baku); ?></td>
                                             <td><?= $row->satuan; ?></td>
-                                            <td class="text-end"><?= $stok_awal; ?></td>
-                                            <td class="text-end"><?= $row->jumlah_masuk_sekarang; ?></td>
-                                            <td class="text-end"><?= $row->jumlah_keluar_sekarang; ?></td>
-                                            <td class="text-end"><?= $row->jumlah_rusak_sekarang; ?></td>
-                                            <td class="text-end"><?= $row->jumlah_stok_awal + $row->jumlah_masuk - $row->jumlah_keluar - $row->jumlah_rusak; ?></td>
+                                            <td class="text-end"><?= number_format($stok_awal, 0, ',', '.'); ?></td>
+                                            <td class="text-end"><?= number_format($row->jumlah_masuk_sekarang, 0, ',', '.'); ?></td>
+                                            <td class="text-end"><?= number_format($row->jumlah_keluar_sekarang, 0, ',', '.'); ?></td>
+                                            <td class="text-end"><?= number_format($row->jumlah_rusak_sekarang, 0, ',', '.'); ?></td>
+                                            <td class="text-end"><?= number_format($stok_akhir, 0, ',', '.'); ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>

@@ -100,9 +100,9 @@
 
 <script>
     tampil_data_barang(); //pemanggilan fungsi tampil barang.
-    setInterval(function() {
-        tampil_data_barang(); // Pemanggilan fungsi tampil_data_barang
-    }, 5000); // 5000 milidetik (5 detik)
+    // setInterval(function() {
+    //     tampil_data_barang(); // Pemanggilan fungsi tampil_data_barang
+    // }, 5000); // 5000 milidetik (5 detik)
     $('#example').dataTable();
 
 
@@ -110,7 +110,7 @@
     function tampil_data_barang() {
         $.ajax({
             type: 'POST',
-            url: '<?= base_url() ?>barang_produksi/permintaan_barang_baku/getDataBarang',
+            url: '<?= base_url() ?>barang_produksi/permintaan_barang_baku/get_permintaan_barang',
             dataType: 'json',
             success: function(data) {
                 let textHtml = '';
@@ -223,6 +223,7 @@
             success: function(hasil) {
                 $("#pesan").html(hasil.pesan);
                 if (hasil.pesan == '') {
+                    console.log('Tombol Tambah Data diklik');
                     $("#tambahData").modal('hide');
                     $('#example').dataTable().fnDestroy(); // menghancurkan datatable
                     tampil_data_barang();
@@ -433,6 +434,31 @@
             }
         });
     }
+
+    function checkStatus_produksi() {
+        $.ajax({
+            type: 'POST',
+            url: '<?= base_url('barang_produksi/permintaan_barang_baku/cek_status_produksi') ?>',
+            dataType: 'json',
+            success: function(response) {
+                if (response.success === true) {
+                    // Ada data dengan status 1, ubah warna ikon dan tampilkan pesan
+                    $('#bellIcon').css('color', 'red');
+                    $('#permintaanProduksi').show();
+                } else {
+                    // Tidak ada data dengan status 0, kembalikan warna ikon ke semula dan sembunyikan pesan
+                    $('#bellIcon').css('color', '');
+                    $('#permintaanProduksi').hide();
+                }
+            }
+        });
+    }
+
+    // Memanggil fungsi checkStatus setiap 5 detik
+
+    setInterval(function() {
+        checkStatus_produksi(); // Pemanggilan fungsi tampil_data_barang
+    }, 5000); // 5000 milidetik (5 detik)
 </script>
 
 <script>

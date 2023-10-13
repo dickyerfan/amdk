@@ -35,6 +35,6 @@ class Produksi extends CI_Controller
         $this->load->view('templates/pengguna/navbar_produksi');
         $this->load->view('templates/pengguna/sidebar_produksi');
         $this->load->view('barang_produksi/view_dashboard_produksi', $data);
-        $this->load->view('templates/pengguna/footer');
+        $this->load->view('templates/pengguna/footer_produksi');
     }
 }
