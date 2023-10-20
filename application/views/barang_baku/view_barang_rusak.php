@@ -8,7 +8,9 @@
                             <a href="<?= base_url('rkap/usulan_inves/export_pdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div> -->
                         <div class="navbar-nav ms-auto">
-                            <a href="<?= base_url('barang_baku/barang_rusak/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Tambah Barang</button></a>
+                            <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
+                                <a href="<?= base_url('barang_baku/barang_rusak/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Tambah Barang Rusak</button></a>
+                            <?php endif; ?>
                         </div>
                     </nav>
                 </div>

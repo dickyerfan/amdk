@@ -10,6 +10,12 @@
                         <!-- <div class="navbar-nav ms-auto">
                             <a href="<?= base_url('barang_baku/barang_keluar/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Tambah Barang</button></a>
                         </div> -->
+                        <!-- <form action="<?= base_url('barang_baku/barang_keluar'); ?>" method="get">
+                            <div style="display: flex; align-items: center;">
+                                <input type="date" name="tanggal" class="form-control">
+                                <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
+                            </div>
+                        </form> -->
                     </nav>
                 </div>
                 <div class="p-1">

@@ -50,6 +50,8 @@ class Laporan_harian extends CI_Controller
         }
 
         $data['title'] = 'Laporan Harian Barang Baku';
+        $data['manager'] = $this->Model_laporan->get_manager();
+        $data['baku'] = $this->Model_laporan->get_baku();
         $data['tanggal_hari_ini'] = $tanggal;
         $data['lap_harian'] = $this->Model_laporan->getdata_harian($tanggal);
 

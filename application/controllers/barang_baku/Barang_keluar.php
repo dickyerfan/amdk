@@ -22,7 +22,7 @@ class Barang_keluar extends CI_Controller
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');
             $this->load->view('barang_baku/view_barang_keluar', $data);
-            $this->load->view('templates/footer');
+            $this->load->view('templates/pengguna/footer_baku');
         } else {
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_baku');
@@ -30,6 +30,12 @@ class Barang_keluar extends CI_Controller
             $this->load->view('barang_baku/view_barang_keluar', $data);
             $this->load->view('templates/pengguna/footer_baku');
         }
+    }
+
+    function get_permintaan_barang()
+    {
+        $data = $this->Model_barang_baku->get_permintaan_barang();
+        echo json_encode($data);
     }
 
     public function update_status_keluar()

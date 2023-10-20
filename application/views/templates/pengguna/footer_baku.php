@@ -112,7 +112,7 @@
     function tampil_data_barang() {
         $.ajax({
             type: 'POST',
-            url: '<?= base_url() ?>barang_produksi/permintaan_barang_baku/getDataBarang',
+            url: '<?= base_url() ?>barang_baku/barang_keluar/get_permintaan_barang',
             dataType: 'json',
             success: function(data) {
                 let textHtml = '';

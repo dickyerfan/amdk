@@ -14,11 +14,11 @@ class model_user extends CI_Model
         return $this->db->get('user')->result();
     }
 
-    public function getKaryawan()
+    public function get_karyawan()
     {
-        $this->db->select('nama, nik');
+        $this->db->select('*');
         $this->db->from('karyawan');
-        $this->db->where('aktif', 1);
+        $this->db->where('status', 1);
         $query = $this->db->get();
         return $query->result();
     }
@@ -31,6 +31,7 @@ class model_user extends CI_Model
             'upk_bagian' => $this->input->post('upk_bagian', true),
             'password' => password_hash($this->input->post('password', true), PASSWORD_DEFAULT),
             'level' => $this->input->post('level', true),
+            'nik_karyawan' => $this->input->post('nik_karyawan', true)
         ];
         $this->db->insert('user', $data);
     }
@@ -54,6 +55,7 @@ class model_user extends CI_Model
             'nama_lengkap' => $this->input->post('nama_lengkap', true),
             'upk_bagian' => $this->input->post('upk_bagian', true),
             'level' => $this->input->post('level', true),
+            'nik_karyawan' => $this->input->post('nik_karyawan', true)
         ];
         $this->db->where('id', $this->input->post('id'));
         $this->db->update('user', $data);

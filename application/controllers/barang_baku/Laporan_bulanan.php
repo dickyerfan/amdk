@@ -79,6 +79,8 @@ class Laporan_bulanan extends CI_Controller
         }
 
         $data['title'] = 'Laporan Bulanan Barang Baku';
+        $data['manager'] = $this->Model_laporan->get_manager();
+        $data['baku'] = $this->Model_laporan->get_baku();
         $data['bulan_lap'] = $bulan;
         $data['tahun_lap'] = $tahun;
         $data['lap_bulanan'] = $this->Model_laporan->getdata_bulanan($tanggal, $bulan, $tahun);

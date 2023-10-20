@@ -120,6 +120,38 @@ class Model_laporan extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function get_manager()
+    {
+        $this->db->select('nama_karyawan, nik_karyawan');
+        $this->db->from('karyawan');
+        $this->db->where('bagian', 'Manager');
+        return $this->db->get()->row();
+    }
+    public function get_baku()
+    {
+        $this->db->select('nama_karyawan, nik_karyawan');
+        $this->db->from('karyawan');
+        $this->db->where('bagian', 'Barang Baku');
+        $this->db->limit(1);
+        return $this->db->get()->row();
+    }
+    public function get_produksi()
+    {
+        $this->db->select('nama_karyawan, nik_karyawan');
+        $this->db->from('karyawan');
+        $this->db->where('bagian', 'Produksi');
+        $this->db->limit(1);
+        return $this->db->get()->row();
+    }
+    public function get_jadi()
+    {
+        $this->db->select('nama_karyawan, nik_karyawan');
+        $this->db->from('karyawan');
+        $this->db->where('bagian', 'Barang Jadi');
+        $this->db->limit(1);
+        return $this->db->get()->row();
+    }
+
     // public function get_stok_akhir_kemaren()
     // {
     //     $tanggal_kemaren = date('Y-m-d', strtotime('-1 day'));

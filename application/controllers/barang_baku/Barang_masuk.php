@@ -21,7 +21,7 @@ class Barang_masuk extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');
-            $this->load->view('barang_baku/view_stok_barangbaku', $data);
+            $this->load->view('barang_baku/view_barang_masuk', $data);
             $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/pengguna/header', $data);

@@ -24,7 +24,13 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" placeholder="Masukan nama lengkap" value="<?= set_value('nama_lengkap'); ?>">
+                                    <select name="nama_lengkap" id="nama_lengkap" class="form-control select2">
+                                        <option value="">Pilih Nama Karyawan</option>
+                                        <?php foreach ($data_karyawan as $row) : ?>
+                                            <option value="<?= $row->nama_karyawan; ?>"><?= $row->nama_karyawan; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <!-- <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" placeholder="Masukan nama lengkap" value="<?= set_value('nama_lengkap'); ?>"> -->
                                     <small class="form-text text-danger pl-3"><?= form_error('nama_lengkap'); ?></small>
                                 </div>
                             </div>
@@ -45,6 +51,11 @@
                                 <div class="form-group">
                                     <input type="password" class="form-control" id="password" name="password" placeholder="Masukan password" value="<?= set_value('password'); ?>">
                                     <small class="form-text text-danger pl-3"><?= form_error('password'); ?></small>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="nik_karyawan" name="nik_karyawan" placeholder="Masukan NIK Karyawan" value="<?= set_value('nik_karyawan'); ?>">
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">

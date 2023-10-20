@@ -9,7 +9,7 @@
                         </div> -->
                         <div class="navbar-nav ms-auto">
                             <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
-                                <a href="<?= base_url('barang_baku/barang_masuk/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Tambah Barang Masuk</button></a>
+                                <a href="<?= base_url('barang_produksi/barang_rusak/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Tambah Barang Rusak</button></a>
                             <?php endif; ?>
                         </div>
                     </nav>
@@ -30,31 +30,27 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>
-                                        <th class="text-center">Tanggal Transaksi</th>
-                                        <!-- <th class="text-center">Kode Transaksi</th> -->
+                                        <th class="text-center">Tanggal Rusak</th>
                                         <th class="text-center">Nama Barang</th>
                                         <th class="text-center">Jumlah</th>
-                                        <th class="text-center">Petugas Penerima</th>
-                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Keterangan</th>
+                                        <th class="text-center">Input Oleh</th>
                                         <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $no = 1;
-                                    foreach ($barang_masuk as $row) : ?>
+                                    foreach ($barang_rusak as $row) : ?>
                                         <tr class="text-center">
                                             <td><?= $no++ ?></td>
-                                            <td><?= $row->tanggal_masuk; ?></td>
-                                            <!-- <td><?= $row->kode_barang_masuk; ?></td> -->
+                                            <td><?= $row->tanggal_rusak_produksi; ?></td>
                                             <td class="text-start"><?= $row->nama_barang_baku; ?></td>
-                                            <td class="text-end"><?= number_format($row->jumlah_masuk, 0, ',', '.'); ?></td>
-                                            <td><?= $row->input_status_masuk; ?></td>
-                                            <td><?= $row->status_masuk == 1 ? '<span class="btn btn-primary btn-sm">Selesai</span>' : '<span class="btn btn-danger btn-sm">Belum</span>'; ?></td>
+                                            <td><?= number_format($row->jumlah_rusak_produksi, 0, ',', '.'); ?></td>
+                                            <td><?= $row->keterangan; ?></td>
+                                            <td><?= $row->input_status_rusak_produksi; ?></td>
                                             <td>
-                                                <a href="<?= $row->status_masuk == 0 ? base_url('barang_baku/barang_masuk/edit_masuk/') : "javascript:void(0)" ?><?= $row->id_masuk_baku; ?>"><span class="neumorphic-button text-success btn-sm"><i class="fas fa-edit text-success"></i> Proses</span></a>
-                                                <a href="<?= base_url('barang_baku/barang_masuk/detail_masuk/') ?><?= $row->id_masuk_baku ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Detail</span></a>
-                                                <!-- <a href="<?= base_url('barang_baku/barang_masuk/hapus/') ?><?= $row->id_masuk_baku ?>" class="hapus-link"><i class="fas fa-trash text-danger"></i></a> -->
+                                                <a href="<?= base_url('barang_produksi/barang_rusak/detail_rusak/') ?><?= $row->id_rusak_produksi ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Detail</span></a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

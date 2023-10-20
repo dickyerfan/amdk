@@ -134,8 +134,11 @@
         <p style="width: 50%; float: left; text-align:center;">Manager</p>
         <p style="width: 50%; float: right;text-align:center;">Petugas Barang Baku</p>
         <div style="clear: both; margin-bottom:40px;"></div>
-        <p style="width: 50%; float: left; text-align:center;">Suwarna</p>
-        <p style="width: 50%; float: right;text-align:center;">Bekti Dwi</p>
+        <u style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"><?= $manager->nama_karyawan; ?></u>
+        <u style="width: 50%; float: right;text-align:center; margin-bottom: 1px;"><?= $baku->nama_karyawan; ?></u>
+        <div style="clear: both;"></div>
+        <p style="width: 50%; float: left; text-align:center;"><?= $manager->nik_karyawan; ?></p>
+        <p style="width: 50%; float: right;text-align:center;"><?= $baku->nik_karyawan; ?></p>
         <div style="clear: both;"></div>
     </div>
 

@@ -173,4 +173,15 @@ class Model_barang_baku extends CI_Model
         $this->db->group_by('rusak_baku.id_rusak_baku');
         return $this->db->get()->result();
     }
+
+    public function get_permintaan_barang()
+    {
+        $this->db->select('*');
+        $this->db->from('keluar_baku');
+        $this->db->join('barang_baku', 'keluar_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->where('keluar_baku.status_tolak', 1);
+        $this->db->group_by('keluar_baku.id_keluar_baku');
+        $this->db->order_by('keluar_baku.id_keluar_baku', 'DESC');
+        return $this->db->get()->result();
+    }
 }

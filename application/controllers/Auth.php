@@ -32,6 +32,7 @@ class Auth extends CI_Controller
                     if ($cek_upk_bagian->upk_bagian == 'admin' or $cek_upk_bagian->upk_bagian == 'dicky') {
                         $data_session = [
                             'nama_pengguna' => $cek_upk_bagian->nama_pengguna,
+                            'nik_karyawan' => $cek_upk_bagian->nik_karyawan,
                             'nama_lengkap' => $cek_upk_bagian->nama_lengkap,
                             'upk_bagian' => $cek_upk_bagian->upk_bagian,
                             'password' => $cek_upk_bagian->password,
@@ -48,6 +49,7 @@ class Auth extends CI_Controller
                     } elseif ($cek_upk_bagian->upk_bagian == 'baku') {
                         $data_session = [
                             'nama_pengguna' => $cek_upk_bagian->nama_pengguna,
+                            'nik_karyawan' => $cek_upk_bagian->nik_karyawan,
                             'nama_lengkap' => $cek_upk_bagian->nama_lengkap,
                             'upk_bagian' => $cek_upk_bagian->upk_bagian,
                             'password' => $cek_upk_bagian->password,
@@ -64,6 +66,7 @@ class Auth extends CI_Controller
                     } elseif ($cek_upk_bagian->upk_bagian == 'produksi') {
                         $data_session = [
                             'nama_pengguna' => $cek_upk_bagian->nama_pengguna,
+                            'nik_karyawan' => $cek_upk_bagian->nik_karyawan,
                             'nama_lengkap' => $cek_upk_bagian->nama_lengkap,
                             'upk_bagian' => $cek_upk_bagian->upk_bagian,
                             'password' => $cek_upk_bagian->password,
@@ -80,6 +83,7 @@ class Auth extends CI_Controller
                     } elseif ($cek_upk_bagian->upk_bagian == 'jadi') {
                         $data_session = [
                             'nama_pengguna' => $cek_upk_bagian->nama_pengguna,
+                            'nik_karyawan' => $cek_upk_bagian->nik_karyawan,
                             'nama_lengkap' => $cek_upk_bagian->nama_lengkap,
                             'upk_bagian' => $cek_upk_bagian->upk_bagian,
                             'password' => $cek_upk_bagian->password,
@@ -96,6 +100,7 @@ class Auth extends CI_Controller
                     } elseif ($cek_upk_bagian->upk_bagian == 'pasar') {
                         $data_session = [
                             'nama_pengguna' => $cek_upk_bagian->nama_pengguna,
+                            'nik_karyawan' => $cek_upk_bagian->nik_karyawan,
                             'nama_lengkap' => $cek_upk_bagian->nama_lengkap,
                             'upk_bagian' => $cek_upk_bagian->upk_bagian,
                             'password' => $cek_upk_bagian->password,
@@ -112,6 +117,7 @@ class Auth extends CI_Controller
                     } elseif ($cek_upk_bagian->upk_bagian == 'uang') {
                         $data_session = [
                             'nama_pengguna' => $cek_upk_bagian->nama_pengguna,
+                            'nik_karyawan' => $cek_upk_bagian->nik_karyawan,
                             'nama_lengkap' => $cek_upk_bagian->nama_lengkap,
                             'upk_bagian' => $cek_upk_bagian->upk_bagian,
                             'password' => $cek_upk_bagian->password,

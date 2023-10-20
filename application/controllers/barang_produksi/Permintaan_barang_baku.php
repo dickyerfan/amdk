@@ -15,16 +15,22 @@ class Permintaan_barang_baku extends CI_Controller
 
     public function index()
     {
+        $tanggal = $this->input->get('tanggal');
+
+        if (!empty($tanggal)) {
+            $this->session->set_userdata('tanggal', $tanggal); // Simpan tanggal ke session jika diperlukan
+        }
+
         $data['title'] = 'Permintaan Barang Baku';
-        // $id_keluar_baku = $this->input->post('id_keluar_baku');
         $data['nama_barang'] = $this->Model_barang_produksi->get_nama_barang();
-        // $data['id_barang'] = $this->Model_barang_produksi->get_Id_Barang_edit($id_keluar_baku);
+        $id_keluar_baku = $this->input->post('id_keluar_baku');
+        $data['id_barang'] = $this->Model_barang_produksi->get_Id_Barang_edit($id_keluar_baku);
         if ($this->session->userdata('upk_bagian') == 'admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');
             $this->load->view('barang_produksi/view_permintaan_baku', $data);
-            $this->load->view('templates/footer');
+            $this->load->view('templates/pengguna/footer_produksi');
         } else {
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_produksi', $data);
@@ -34,11 +40,23 @@ class Permintaan_barang_baku extends CI_Controller
         }
     }
 
+
     function get_permintaan_barang()
     {
-        $data = $this->Model_barang_produksi->get_permintaan_barang();
+        $tanggal = $this->session->userdata('tanggal');
+
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+        $data = $this->Model_barang_produksi->get_permintaan_barang($bulan, $tahun);
         echo json_encode($data);
     }
+
 
     public function upload()
     {

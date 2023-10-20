@@ -8,7 +8,7 @@
                             <a href="<?= base_url('rkap/usulan_inves/export_pdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div> -->
                         <div class="navbar-nav ms-auto">
-                            <a href="<?= base_url('barang_baku/barang_rusak') ?>"><button class="float-end neumorphic-button"><i class="fas fa-arrow-left"></i> Kembali</button></a>
+                            <a href="<?= base_url('barang_produksi/barang_rusak') ?>"><button class="float-end neumorphic-button"><i class="fas fa-arrow-left"></i> Kembali</button></a>
                         </div>
                     </nav>
                 </div>
@@ -37,17 +37,17 @@
                                                 <tr>
                                                     <td>Tanggal Transaksi</td>
                                                     <td> : </td>
-                                                    <td><?= $row->tanggal_rusak_baku; ?></td>
+                                                    <td><?= $row->tanggal_rusak_produksi; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Jumlah Barang</td>
                                                     <td> : </td>
-                                                    <td><?= $row->jumlah_rusak_baku; ?></td>
+                                                    <td><?= $row->jumlah_rusak_produksi; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Penginput Barang rusak</td>
                                                     <td> : </td>
-                                                    <td><?= $row->input_status_rusak_baku; ?></td>
+                                                    <td><?= $row->input_status_rusak_produksi; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Keterangan</td>
@@ -65,7 +65,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <img src="<?= base_url('uploads/baku/rusak/' . $row->bukti_rusak_baku); ?>" alt="" style="width: 100%;">
+                                                        <img src="<?= base_url('uploads/baku/rusak/' . $row->bukti_rusak_produksi); ?>" alt="" style="width: 100%;">
                                                     </td>
                                                 </tr>
                                             </table>

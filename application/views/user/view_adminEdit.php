@@ -16,6 +16,7 @@
                                     <!-- <input type="text" class="form-control" id="nama_pengguna" name="nama_pengguna" value="<?= $user->nama_pengguna; ?>"> -->
                                     <select name="nama_pengguna" id="nama_pengguna" class="form-control select2">
                                         <option value="">Pilih Nama Pengguna</option>
+                                        <option value="Manager" <?= $user->nama_pengguna == "Manager" ? 'selected' : '' ?>>Manager</option>
                                         <option value="Barang Baku" <?= $user->nama_pengguna == "Barang Baku" ? 'selected' : '' ?>>Barang Baku</option>
                                         <option value="Barang Produksi" <?= $user->nama_pengguna == "Barang Produksi" ? 'selected' : '' ?>>Barang Produksi</option>
                                         <option value="Barang Jadi" <?= $user->nama_pengguna == "Barang Jadi" ? 'selected' : '' ?>>Barang Jadi</option>
@@ -36,12 +37,19 @@
                                     <!-- <input type="text" class="form-control" id="upk_bagian" name="upk_bagian" value="<?= $user->upk_bagian; ?>"> -->
                                     <select name="upk_bagian" id="upk_bagian" class="form-control select2">
                                         <option value="">Pilih Bagian</option>
+                                        <option value="admin" <?= $user->upk_bagian == "admin" ? 'selected' : '' ?>>admin</option>
                                         <option value="baku" <?= $user->upk_bagian == "baku" ? 'selected' : '' ?>>baku</option>
                                         <option value="produksi" <?= $user->upk_bagian == "produksi" ? 'selected' : '' ?>>produksi</option>
                                         <option value="jadi" <?= $user->upk_bagian == "jadi" ? 'selected' : '' ?>>jadi</option>
                                         <option value="pasar" <?= $user->upk_bagian == "pasar" ? 'selected' : '' ?>>pasar</option>
                                         <option value="uang" <?= $user->upk_bagian == "uang" ? 'selected' : '' ?>>uang </option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Nik Karyawan">Nik Karyawan :</label>
+                                    <input type="text" class="form-control" id="nik_karyawan" name="nik_karyawan" value="<?= $user->nik_karyawan; ?>">
                                 </div>
                             </div>
                             <div class="col-md-6">

@@ -7,8 +7,17 @@
                         <!-- <div class="navbar-nav">
                             <a href="<?= base_url('rkap/usulan_inves/export_pdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div> -->
+                        <form action="<?= base_url('barang_produksi/permintaan_barang_baku'); ?>" method="get">
+                            <div style="display: flex; align-items: center;">
+                                <input type="date" name="tanggal" class="form-control">
+                                <!-- <input type="date" name="tanggal" class="form-control" value="<?= !empty($_GET['tanggal']) ? $_GET['tanggal'] : date('Y-m-d') ?>"> -->
+                                <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
+                            </div>
+                        </form>
                         <div class="navbar-nav ms-auto">
-                            <a href="#tambahData" data-bs-toggle="modal"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Permintaan Barang</button></a>
+                            <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
+                                <a href="#tambahData" data-bs-toggle="modal"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Permintaan Barang</button></a>
+                            <?php endif; ?>
                         </div>
                     </nav>
                 </div>
