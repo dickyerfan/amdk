@@ -143,6 +143,7 @@ class Model_laporan extends CI_Model
         $this->db->limit(1);
         return $this->db->get()->row();
     }
+
     public function get_jadi()
     {
         $this->db->select('nama_karyawan, nik_karyawan');
@@ -150,6 +151,46 @@ class Model_laporan extends CI_Model
         $this->db->where('bagian', 'Barang Jadi');
         $this->db->limit(1);
         return $this->db->get()->row();
+    }
+
+    public function getbarang_jadi($tanggal)
+    {
+        $this->db->select('*');
+        $this->db->from('barang_jadi');
+        $this->db->join('jenis_barang', 'barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
+        $this->db->where('barang_jadi.tanggal_barang_jadi', $tanggal);
+        // $this->db->where('YEAR(barang_jadi.tanggal_barang_jadi)', $tahun);
+        $this->db->group_by('barang_jadi.id_barang_jadi');
+        $this->db->order_by('barang_jadi.id_barang_jadi', 'DESC');
+        return $this->db->get()->result();
+    }
+
+    public function get_jenis_barang()
+    {
+        $this->db->select('*');
+        $this->db->from('barang_jadi');
+        $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = barang_jadi.id_jenis_barang');
+        return $this->db->get()->result();
+    }
+
+    // public function get_nama_barang()
+    // {
+    //     $this->db->select('nama_barang_jadi');
+    //     $this->db->from('jenis_barang');
+    //     return $this->db->get()->result_array();
+    // }
+
+    public function get_nama_barang()
+    {
+        $this->db->select('nama_barang_jadi');
+        $this->db->from('jenis_barang');
+        $result = $this->db->get()->result();
+
+        $nama_barang = [];
+        foreach ($result as $row) {
+            $nama_barang[] = $row->nama_barang_jadi;
+        }
+        return $nama_barang;
     }
 
     // public function get_stok_akhir_kemaren()

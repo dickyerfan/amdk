@@ -1,4 +1,7 @@
 <?php
+
+use PhpParser\Node\Expr\Isset_;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Karyawan_produksi extends CI_Controller
@@ -121,22 +124,28 @@ class Karyawan_produksi extends CI_Controller
         $data['absen_karProd'] = $this->Model_karyawan_produksi->get_absen_karprod();
         $data['produksi_barang'] = $this->Model_karyawan_produksi->get_jenis_barang();
 
-        $absen_karProd = $this->Model_karyawan_produksi->get_absen_karprod();
-        $produksi_barang = $this->Model_karyawan_produksi->get_jenis_barang();
 
-        $data_karyawan = [];
-        foreach ($absen_karProd as $row) {
-            $data_karyawan[$row->nama_karyawan_produksi][$row->tanggal] = $row->status_absen;
-        }
-
-        $data_jenis_barang = [];
-        foreach ($produksi_barang as $row) {
-            $data_jenis_barang[$row->nama_barang_jadi][$row->tanggal_barang_jadi] = $row->jumlah_barang_jadi;
+        $absensi_karyawan = array();
+        foreach ($data['absen_karProd'] as $row) {
+            if (!isset($absensi_karyawan[$row->id_karyawan_produksi])) {
+                $absensi_karyawan[$row->id_karyawan_produksi]['nama_karyawan_produksi'] = $row->nama_karyawan_produksi;
+            }
+            $tanggal = $row->tanggal;
+            $absensi_karyawan[$row->id_karyawan_produksi]['absen_karyawan_produksi'][$tanggal] = $row->status_absen;
         }
 
 
-        $data['data_karyawan'] = $data_karyawan;
+        $data_jenis_barang = array();
+        foreach ($data['produksi_barang'] as $row) {
+            if (!isset($data_jenis_barang[$row->id_jenis_barang])) {
+                $data_jenis_barang[$row->id_jenis_barang]['nama_barang_jadi'] = $row->nama_barang_jadi;
+            }
+            $tanggal = $row->tanggal_barang_jadi;
+            $data_jenis_barang[$row->id_jenis_barang]['barang_jadi'][$tanggal] = $row->jumlah_barang_jadi;
+        }
+
         $data['data_jenis_barang'] = $data_jenis_barang;
+        $data['absensi_karyawan'] = $absensi_karyawan;
 
         if ($this->session->userdata('upk_bagian') == 'admin') {
             $this->load->view('templates/header', $data);
@@ -152,6 +161,43 @@ class Karyawan_produksi extends CI_Controller
             $this->load->view('templates/pengguna/footer_produksi');
         }
     }
+    // public function absensi_karyawan()
+    // {
+    //     $data['title'] = "Absensi Karyawan Produksi AMDK Ijen Water";
+    //     $data['absen_karProd'] = $this->Model_karyawan_produksi->get_absen_karprod();
+    //     $data['produksi_barang'] = $this->Model_karyawan_produksi->get_jenis_barang();
+
+    //     $absen_karProd = $this->Model_karyawan_produksi->get_absen_karprod();
+    //     $produksi_barang = $this->Model_karyawan_produksi->get_jenis_barang();
+
+    //     $data_karyawan = [];
+    //     foreach ($absen_karProd as $row) {
+    //         $data_karyawan[$row->nama_karyawan_produksi][$row->tanggal] = $row->status_absen;
+    //     }
+
+    //     $data_jenis_barang = [];
+    //     foreach ($produksi_barang as $row) {
+    //         $data_jenis_barang[$row->nama_barang_jadi][$row->tanggal_barang_jadi] = $row->jumlah_barang_jadi;
+    //     }
+
+
+    //     $data['data_karyawan'] = $data_karyawan;
+    //     $data['data_jenis_barang'] = $data_jenis_barang;
+
+    //     if ($this->session->userdata('upk_bagian') == 'admin') {
+    //         $this->load->view('templates/header', $data);
+    //         $this->load->view('templates/navbar');
+    //         $this->load->view('templates/sidebar');
+    //         $this->load->view('barang_produksi/karyawan_produksi/view_absen_karprod', $data);
+    //         $this->load->view('templates/pengguna/footer_produksi');
+    //     } else {
+    //         $this->load->view('templates/pengguna/header', $data);
+    //         $this->load->view('templates/pengguna/navbar_produksi', $data);
+    //         $this->load->view('templates/pengguna/sidebar_produksi');
+    //         $this->load->view('barang_produksi/karyawan_produksi/view_absen_karprod', $data);
+    //         $this->load->view('templates/pengguna/footer_produksi');
+    //     }
+    // }
 
     public function tambah_absen()
     {

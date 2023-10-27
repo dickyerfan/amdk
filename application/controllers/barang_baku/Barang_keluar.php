@@ -48,6 +48,7 @@ class Barang_keluar extends CI_Controller
             'status_produksi' => 0
         ];
         $this->db->where('id_keluar_baku', $id_keluar_baku);
+        $this->db->update('baku_produksi', $data);
         $result = $this->db->update('keluar_baku', $data);
 
         if ($result) {

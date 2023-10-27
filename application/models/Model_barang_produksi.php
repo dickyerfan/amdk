@@ -35,9 +35,9 @@ class Model_barang_produksi extends CI_Model
     public function get_barangbaku_produksi()
     {
         $this->db->select('*,barang_baku.*, 
-                   (SELECT SUM(jumlah_keluar) FROM keluar_baku WHERE keluar_baku.id_barang_baku = barang_baku.id_barang_baku AND keluar_baku.status_tolak = 1 AND keluar_baku.status_keluar = 1) AS jumlah_keluar', FALSE);
+                   (SELECT SUM(jumlah_keluar) FROM baku_produksi WHERE baku_produksi.id_barang_baku = barang_baku.id_barang_baku AND baku_produksi.status_tolak = 1 AND baku_produksi.status_keluar = 1) AS jumlah_keluar', FALSE);
         $this->db->from('barang_baku');
-        $this->db->join('keluar_baku', 'keluar_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->join('baku_produksi', 'baku_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
         $this->db->join('satuan', 'satuan.id_satuan = barang_baku.id_satuan', 'left');
         $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = barang_baku.id_jenis_barang', 'left');
         $this->db->where('barang_baku.status_barang_baku', 1);
@@ -60,12 +60,14 @@ class Model_barang_produksi extends CI_Model
 
     public function tambahData($data)
     {
-        // $this->db->insert('baku_produksi', $data);
+        $this->db->insert('baku_produksi', $data);
         return $this->db->insert('keluar_baku', $data);
     }
     public function upload_barang_jadi($data)
     {
-        // $this->db->insert('baku_produksi', $data);
+        $jenis_barang_info = $this->getJumlahSatuanLiter($data['id_jenis_barang'], $data['jumlah_barang_jadi']);
+        $data['jumlah_satuan'] = $jenis_barang_info['jumlah_satuan'];
+        $data['jumlah_liter'] = $jenis_barang_info['jumlah_liter'];
         return $this->db->insert('barang_jadi', $data);
     }
 
@@ -107,6 +109,7 @@ class Model_barang_produksi extends CI_Model
     public function tolak_pesanan($id_keluar_baku, $data)
     {
         $this->db->where('id_keluar_baku', $id_keluar_baku);
+        $this->db->update('baku_produksi', $data);
         return $this->db->update('keluar_baku', $data);
     }
 
@@ -135,14 +138,48 @@ class Model_barang_produksi extends CI_Model
         return $this->db->get()->result();
     }
 
-    public function getbarang_jadi()
+    public function getbarang_jadi($bulan, $tahun)
     {
         $this->db->select('*');
         $this->db->from('barang_jadi');
         $this->db->join('jenis_barang', 'barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
-        $this->db->where_not_in('barang_jadi.jumlah_barang_jadi', 0);
+        $this->db->where('MONTH(barang_jadi.tanggal_barang_jadi)', $bulan);
+        $this->db->where('YEAR(barang_jadi.tanggal_barang_jadi)', $tahun);
         $this->db->group_by('barang_jadi.id_barang_jadi');
         $this->db->order_by('barang_jadi.id_barang_jadi', 'DESC');
         return $this->db->get()->result();
+    }
+
+    public function getJumlahSatuanLiter($id_jenis_barang, $jumlah_barang_jadi)
+    {
+        $this->db->select('jenis_barang');
+        $this->db->from('jenis_barang');
+        $this->db->where('id_jenis_barang', $id_jenis_barang);
+        $query = $this->db->get();
+        $jenis_barang = $query->row();
+
+        $jumlah_satuan = 0;
+        $jumlah_liter = 0;
+
+        if ($jenis_barang) {
+            if ($jenis_barang->jenis_barang == 'galon 19l') {
+                $jumlah_satuan = $jumlah_barang_jadi;
+                $jumlah_liter = $jumlah_barang_jadi * 19;
+            } elseif ($jenis_barang->jenis_barang == 'gelas 220ml') {
+                $jumlah_satuan = $jumlah_barang_jadi * 48;
+                $jumlah_liter = ($jumlah_barang_jadi * 220) / 1000;
+            } elseif ($jenis_barang->jenis_barang == 'botol 330ml') {
+                $jumlah_satuan = $jumlah_barang_jadi * 24;
+                $jumlah_liter = ($jumlah_barang_jadi * 24 * 330) / 1000;
+            } elseif ($jenis_barang->jenis_barang == 'botol 500ml') {
+                $jumlah_satuan = $jumlah_barang_jadi * 24;
+                $jumlah_liter = ($jumlah_barang_jadi * 24 * 500) / 1000;
+            } elseif ($jenis_barang->jenis_barang == 'botol 1500ml') {
+                $jumlah_satuan = $jumlah_barang_jadi * 12;
+                $jumlah_liter = ($jumlah_barang_jadi * 12 * 1500) / 1000;
+            }
+        }
+
+        return array('jumlah_satuan' => $jumlah_satuan, 'jumlah_liter' => $jumlah_liter);
     }
 }

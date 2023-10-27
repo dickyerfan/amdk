@@ -11,7 +11,7 @@ class Pdf
      * @var String
      */
     public $filename;
-    public $paper = 'folio';
+    public $paper = 'A4';
     public $orientation = 'portrait';
 
     public function __construct()
@@ -25,7 +25,7 @@ class Pdf
      * @param string $paper
      * @param string $orientation
      */
-    public function setPaper($paper = 'folio', $orientation = 'portrait')
+    public function setPaper($paper = 'A4', $orientation = 'portrait')
     {
         $this->paper = $paper;
         $this->orientation = $orientation;
@@ -43,15 +43,6 @@ class Pdf
         $options = new Options();
         // $options->set('defaultFont', 'courier');
         $options->set('isRemoteEnabled', TRUE);
-        // // Konfigurasi margin
-        // $options->set('isPhpEnabled', true);
-        // $options->set('isHtml5ParserEnabled', true);
-        // $options->set('isFontSubsettingEnabled', true);
-        // $options->set('isCssFloatEnabled', true);
-        // $options->set('margin-top', '100mm');    // Atur margin atas
-        // $options->set('margin-right', '10mm');  // Atur margin kanan
-        // $options->set('margin-bottom', '5mm'); // Atur margin bawah
-        // $options->set('margin-left', '10mm');   // Atur margin kiri
 
         $dompdf = new Dompdf($options);
 

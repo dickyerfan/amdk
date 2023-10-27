@@ -4,17 +4,14 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('barang_produksi/barang_baku_produksi'); ?>" method="get">
-                            <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
-                                <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
-                            </div>
-                        </form>
-                        <div class="navbar-nav ms-auto">
+                        <!-- <div class="navbar-nav">
+                            <a href="<?= base_url('rkap/usulan_inves/export_pdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
+                        </div> -->
+                        <!-- <div class="navbar-nav ms-auto">
                             <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
-                                <a href="#"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Ambil Barang Baku</button></a>
+                                <a href="<?= base_url('barang_baku/stok_barang_baku/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Tambah Barang</button></a>
                             <?php endif; ?>
-                        </div>
+                        </div> -->
                     </nav>
                 </div>
                 <div class="p-2">
@@ -38,23 +35,39 @@
                                         <th class="text-center">Stok Awal</th>
                                         <th class="text-center">Barang Masuk</th>
                                         <th class="text-center">Barang Keluar</th>
+                                        <th class="text-center">Barang Rusak</th>
                                         <th class="text-center">Stok Akhir</th>
+                                        <th class="text-center">Stok / Pak</th>
+                                        <th class="text-center">Minim Stok</th>
+                                        <th class="text-center">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $no = 1;
-                                    foreach ($stok_barangbaku_produksi as $row) :
+                                    foreach ($stok_barang as $row) :
+                                        $stok_akhir = $row->jumlah_stok_awal + $row->jumlah_masuk - $row->jumlah_keluar - $row->jumlah_rusak;
+                                        if ($row->isi_stok_minimum > 0) {
+                                            $sisa_stok = $stok_akhir / $row->isi_stok_minimum;
+                                        } else {
+                                            // Handle jika isi_stok_minimum adalah 0 atau negatif
+                                            $sisa_stok = 0; // Atau atur ke nilai default lainnya
+                                        }
+                                        $stok_minimum = $row->jumlah_stok_minimum;
                                     ?>
 
                                         <tr>
                                             <td class="text-center"><?= $no++ ?></td>
                                             <td><?= ucwords($row->nama_barang_baku); ?></td>
                                             <td><?= $row->satuan; ?></td>
-                                            <td></td>
+                                            <td class="text-end"><?= number_format($row->jumlah_stok_awal, 0, ',', '.'); ?></td>
+                                            <td class="text-end"><?= number_format($row->jumlah_masuk, 0, ',', '.'); ?></td>
                                             <td class="text-end"><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td class="text-end"><?= number_format($row->jumlah_rusak, 0, ',', '.'); ?></td>
+                                            <td class="text-end"><?= number_format($stok_akhir, 0, ',', '.'); ?></td>
+                                            <td class="text-end"><?= round($sisa_stok); ?></td>
+                                            <td class="text-end"><?= $stok_minimum; ?></td>
+                                            <td class="text-center"><?= $stok_minimum < $sisa_stok ? '<span class="btn btn-success btn-sm">Cukup</span>' : '<span class="btn btn-danger btn-sm">Kurang</span>'; ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>

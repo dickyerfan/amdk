@@ -72,7 +72,7 @@
                                     <td class="text-center"> :</td>
                                     <td class="text-center"></td>
                                     <td>
-                                        <select name="id_barang_baku" id="id_barang_baku" class="form-select select2">
+                                        <select name="id_barang_baku" id="id_barang_baku" class="form-select">
                                             <option value="">Pilih Barang</option>
                                             <?php foreach ($nama_barang as $row) : ?>
                                                 <option value="<?= $row->id_barang_baku ?>"><?= $row->nama_barang_baku ?></option>

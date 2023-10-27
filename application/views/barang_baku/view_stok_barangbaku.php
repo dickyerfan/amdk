@@ -49,7 +49,13 @@
                                     $no = 1;
                                     foreach ($stok_barang as $row) :
                                         $stok_akhir = $row->jumlah_stok_awal + $row->jumlah_masuk - $row->jumlah_keluar - $row->jumlah_rusak;
-                                        $sisa_stok = $stok_akhir / $row->isi_stok_minimum;
+                                        // $sisa_stok = $stok_akhir / $row->isi_stok_minimum;
+                                        if ($row->isi_stok_minimum > 0) {
+                                            $sisa_stok = $stok_akhir / $row->isi_stok_minimum;
+                                        } else {
+                                            // Handle jika isi_stok_minimum adalah 0 atau negatif
+                                            $sisa_stok = 0; // Atau atur ke nilai default lainnya
+                                        }
                                         $stok_minimum = $row->jumlah_stok_minimum;
                                     ?>
 

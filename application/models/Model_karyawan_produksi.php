@@ -57,8 +57,8 @@ class model_karyawan_produksi extends CI_Model
     public function get_absen_karprod()
     {
         $this->db->select('*');
-        $this->db->from('karyawan_produksi');
-        $this->db->join('absen_karyawan_produksi', 'karyawan_produksi.id_karyawan_produksi = absen_karyawan_produksi.id_karyawan_produksi', 'left');
+        $this->db->from('absen_karyawan_produksi');
+        $this->db->join('karyawan_produksi', 'karyawan_produksi.id_karyawan_produksi = absen_karyawan_produksi.id_karyawan_produksi');
         return $this->db->get()->result();
     }
 
@@ -70,8 +70,8 @@ class model_karyawan_produksi extends CI_Model
     public function get_jenis_barang()
     {
         $this->db->select('*');
-        $this->db->from('jenis_barang');
-        $this->db->join('barang_jadi', 'jenis_barang.id_jenis_barang = barang_jadi.id_jenis_barang', 'left');
+        $this->db->from('barang_jadi');
+        $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = barang_jadi.id_jenis_barang');
         return $this->db->get()->result();
     }
 }

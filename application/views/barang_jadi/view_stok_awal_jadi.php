@@ -8,7 +8,7 @@
                             <a href="<?= base_url('rkap/usulan_inves/export_pdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div> -->
                         <div class="navbar-nav ms-auto">
-                            <a href="<?= base_url('jenis_barang/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Tambah Jenis Barang</button></a>
+                            <a href="<?= base_url('barang_jadi/stok_awal_jadi/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Tambah Stok Awal</button></a>
                         </div>
                     </nav>
                 </div>
@@ -28,27 +28,28 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>
+                                        <th class="text-center">Tanggal Stok Awal</th>
                                         <th class="text-center">Nama Barang</th>
-                                        <th class="text-center">Jenis Barang</th>
-                                        <th class="text-center">Input Oleh</th>
-                                        <th class="text-center">Tgl Input</th>
-                                        <th class="text-center">Action</th>
+                                        <th class="text-center">Jumlah Stok</th>
+                                        <th class="text-center">Petugas Input</th>
+                                        <!-- <th class="text-center">Action</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $no = 1;
-                                    foreach ($jenis_barang as $row) : ?>
-                                        <tr>
+                                    foreach ($stok_barang as $row) : ?>
+                                        <tr class="text-center">
                                             <td><?= $no++ ?></td>
-                                            <td><?= $row->nama_barang_jadi; ?></td>
-                                            <td><?= $row->jenis_barang; ?></td>
-                                            <td><?= $row->input_jenis_barang; ?></td>
-                                            <td><?= $row->tgl_input_jenis_barang; ?></td>
-                                            <td class="text-center">
-                                                <a href="<?= base_url('jenis_barang/edit/') ?><?= $row->id_jenis_barang ?>"><span class="btn btn-success btn-sm">Edit <i class="fas fa-edit"></i></span></a>
-                                                <a href="<?= base_url('jenis_barang/hapus/') ?><?= $row->id_jenis_barang ?>" class="tombolHapus"><span class="btn btn-danger btn-sm">Hapus <i class="fas fa-trash"></i></span></a>
-                                            </td>
+                                            <td><?= $row->tanggal_stok_awal_jadi; ?></td>
+                                            <td class="text-start"><?= $row->nama_barang_jadi; ?></td>
+                                            <td><?= $row->jumlah_stok_awal_jadi; ?></td>
+                                            <td><?= $row->input_status_stok_awal_jadi; ?></td>
+                                            <!-- <td>
+                                                <a href="<?= $row->status_masuk == 0 ? base_url('barang_baku/barang_masuk/edit_masuk/') : "javascript:void(0)" ?><?= $row->id_masuk_baku; ?>"><i class="fas fa-edit text-success"></i></a>
+                                                <a href="<?= base_url('barang_baku/barang_masuk/detail_masuk/') ?><?= $row->id_masuk_baku ?>"><i class="fa-solid fa-circle-info text-primary"></i></a>
+                                                <a href="<?= base_url('barang_baku/barang_masuk/hapus/') ?><?= $row->id_masuk_baku ?>" class="hapus-link"><i class="fas fa-trash text-danger"></i></a>
+                                            </td> -->
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>

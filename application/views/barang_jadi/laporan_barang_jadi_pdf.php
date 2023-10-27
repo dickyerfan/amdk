@@ -16,7 +16,8 @@
             font-size: 0.8rem;
         }
 
-        .header p {
+        .header p,
+        .judul p {
             margin: 0;
             /* Menghilangkan margin pada teks */
         }
@@ -36,8 +37,8 @@
         .tableUtama th,
         .tableUtama td {
             border: 1px solid black;
-            font-size: 0.8rem;
-            padding: 0 3px;
+            font-size: 0.7rem;
+            padding: 3px 3px;
         }
 
         .judul {
@@ -94,36 +95,84 @@
     </div>
     <table class="table tableUtama">
         <thead>
-            <tr class="text-center">
-                <th class="text-center">No</th>
-                <th class="text-center">Nama Barang</th>
-                <th class="text-center">Satuan</th>
-                <th class="text-center">Stok Awal</th>
-                <th class="text-center">Barang Masuk</th>
-                <th class="text-center">Barang Keluar</th>
-                <th class="text-center">Barang Rusak</th>
-                <th class="text-center">Stok Akhir</th>
+            <tr>
+                <td>No</td>
+                <td class="text-center">Tanggal</td> <!-- Date column -->
+                <?php foreach ($nama_barang as $jenis) : ?>
+                    <td class="text-center"><?= $jenis; ?></td>
+                <?php endforeach; ?>
+                <td class="text-center">Jumlah</td>
             </tr>
         </thead>
         <tbody>
             <?php
             $no = 1;
-            foreach ($lap_bulanan as $row) :
-                $stok_awal = $row->jumlah_stok_awal + $row->jumlah_masuk_kemaren - $row->jumlah_keluar_kemaren - $row->jumlah_rusak_kemaren;
-                $stok_akhir = $row->jumlah_stok_awal + $row->jumlah_masuk - $row->jumlah_keluar - $row->jumlah_rusak;
-            ?>
+            foreach ($dateRange as $tanggal) : ?>
                 <tr>
                     <td class="text-center"><?= $no++ ?></td>
-                    <td><?= $row->nama_barang_baku; ?></td>
-                    <td><?= $row->satuan; ?></td>
-                    <td class="text-end"><?= number_format($stok_awal, 0, ',', '.'); ?></td>
-                    <td class="text-end"><?= number_format($row->jumlah_masuk_sekarang, 0, ',', '.'); ?></td>
-                    <td class="text-end"><?= number_format($row->jumlah_keluar_sekarang, 0, ',', '.'); ?></td>
-                    <td class="text-end"><?= number_format($row->jumlah_rusak_sekarang, 0, ',', '.'); ?></td>
-                    <td class="text-end"><?= number_format($stok_akhir, 0, ',', '.'); ?></td>
+                    <td class="text-center" style="width: 70px;"><?= date('d-m-Y', strtotime($tanggal)) ?></td>
+                    <?php
+                    $total = 0;
+                    foreach ($nama_barang as $jenis) : ?>
+                        <td class="text-center">
+                            <?php
+                            // Cari nama barang yang cocok di $data_jenis_barang
+                            $found = false;
+                            foreach ($data_jenis_barang as $barang) {
+                                if ($barang['nama_barang_jadi'] == $jenis) {
+                                    $found = true;
+                                    if (isset($barang['barang_jadi'][$tanggal])) {
+                                        echo $barang['barang_jadi'][$tanggal];
+                                        $jumlah_barang = $barang['barang_jadi'][$tanggal];
+                                        $total += $jumlah_barang;
+                                    } else {
+                                        echo '0'; // Display 0 if no data for this date and product
+                                    }
+                                    break;
+                                }
+                            }
+                            // Jika tidak ditemukan, munculkan '0'
+                            if (!$found) {
+                                echo '0';
+                            }
+                            ?>
+                        </td>
+                    <?php endforeach; ?>
+                    <td class="text-center"><?= $total ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
+        <tfoot>
+            <tr>
+                <td></td>
+                <td>Jumlah</td>
+                <?php
+                $totalSemua = 0;
+                foreach ($nama_barang as $jenis) : ?>
+                    <td class="text-center">
+                        <?php
+                        $totalPerJenis = 0;
+                        foreach ($dateRange as $tanggal) {
+                            $totalPerJenisTanggal = 0;
+                            foreach ($data_jenis_barang as $barang) {
+                                if ($barang['nama_barang_jadi'] == $jenis) {
+                                    if (isset($barang['barang_jadi'][$tanggal])) {
+                                        $jumlah_barang = $barang['barang_jadi'][$tanggal];
+                                        $totalPerJenisTanggal += $jumlah_barang;
+                                        $totalSemua += $jumlah_barang; // Tambahkan ke total semua di sini
+                                    }
+                                }
+                            }
+                            $totalPerJenis += $totalPerJenisTanggal;
+                        }
+                        echo $totalPerJenis;
+                        ?>
+                    </td>
+                <?php endforeach; ?>
+                <td class='text-center'><?= $totalSemua ?></td>
+            </tr>
+        </tfoot>
+
     </table>
 
     <div style="font-size: 0.8rem;">

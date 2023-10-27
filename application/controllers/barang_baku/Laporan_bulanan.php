@@ -15,24 +15,6 @@ class Laporan_bulanan extends CI_Controller
 
     public function index()
     {
-        // $bulan = $this->input->get('bulan');
-        // $tahun = $this->input->get('tahun');
-
-        // if (empty($bulan) and empty($tahun)) {
-        //     $bulan = date('m');
-        //     $tahun = date('Y');
-        // }
-
-        // if ($bulan == 01) {
-        //     $bulan = 12;
-        //     // $tahun = date('Y') - 1;
-        // }
-
-
-        // $data['bulan_lap'] = $this->input->get('bulan');
-        // $data['tahun_lap'] = $this->input->get('tahun');
-        // $data['lap_bulanan'] = $this->Model_laporan->getdata_bulanan($tanggal);
-
         $tanggal = $this->input->get('tanggal');
 
         $bulan = substr($tanggal, 5, 2);

@@ -25,7 +25,6 @@ class Barang_baku_gudang extends CI_Controller
             $this->load->view('templates/footer');
         } else {
 
-
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_produksi');
             $this->load->view('templates/pengguna/sidebar_produksi');
