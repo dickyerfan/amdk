@@ -45,11 +45,25 @@
 <script src="<?= base_url() ?>assets/select2/select2.min.js"></script>
 <script src="<?= base_url('assets/js/bootstrap-datepicker.js') ?>"></script>
 
+
 <script>
     $(document).ready(function() {
         $('#example').DataTable();
     });
 </script>
+
+<script>
+    $(document).ready(function() {
+        $('#searchInput').on('keyup', function() {
+            var searchText = this.value.toLowerCase();
+            $('#example2 tbody tr').each(function() {
+                var rowData = $(this).text().toLowerCase();
+                $(this).toggle(rowData.indexOf(searchText) > -1);
+            });
+        });
+    });
+</script>
+
 
 <script>
     $('.select2').select2({

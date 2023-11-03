@@ -34,6 +34,7 @@
                                         <option value="Barang Jadi">Barang Jadi</option>
                                         <option value="Pemasaran">Pemasaran</option>
                                         <option value="Keuangan">Keuangan</option>
+                                        <option value="Quality Control">Quality Control</option>
                                     </select>
                                     <small class="form-text text-danger pl-3"><?= form_error('bagian'); ?></small>
                                 </div>
@@ -45,9 +46,19 @@
                                         <option value="Manager">Manager</option>
                                         <option value="Kabag">Kabag</option>
                                         <option value="Staf">Staf</option>
-                                        <option value="Honorer">Honorer</option>
                                     </select>
                                     <small class="form-text text-danger pl-3"><?= form_error('jabatan'); ?></small>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <select name="jenis_kerja" id="jenis_kerja" class="form-control select2">
+                                        <option value="">Pilih Jenis Pekerjaan</option>
+                                        <option value="Manager">Manager</option>
+                                        <option value="Administrasi">Administrasi</option>
+                                        <option value="Driver">Driver</option>
+                                    </select>
+                                    <small class="form-text text-danger pl-3"><?= form_error('jenis_kerja'); ?></small>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">

@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Karyawan extends CI_Controller
+class Mobil extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Model_karyawan');
+        $this->load->model('Model_mobil');
         $this->load->library('form_validation');
         if ($this->session->userdata('level') != 'Admin') {
             redirect('auth');
@@ -15,26 +15,24 @@ class Karyawan extends CI_Controller
 
     public function index()
     {
-        $data['title'] = "Daftar Karyawan AMDK Ijen Water";
-        $data['karyawan'] = $this->Model_karyawan->get_karyawan();
+        $data['title'] = "Daftar Armada Mobil AMDK Ijen Water";
+        $data['mobil'] = $this->Model_mobil->get_mobil();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navbar');
         $this->load->view('templates/sidebar');
-        $this->load->view('manager/view_karyawan', $data);
+        $this->load->view('manager/view_mobil', $data);
         $this->load->view('templates/footer');
     }
 
     public function tambah()
     {
-        $data['title'] = "Tambah Data Karyawan";
-
-        $this->form_validation->set_rules('nama_karyawan', 'Nama Karyawan', 'required|trim');
-        $this->form_validation->set_rules('nik_karyawan', 'NIK Karyawan', 'trim|is_unique[karyawan.nik_karyawan]');
-        $this->form_validation->set_rules('bagian', 'Bagian', 'required|trim');
-        $this->form_validation->set_rules('jabatan', 'Jabatan', 'required|trim');
-        $this->form_validation->set_rules('jenkel', 'Jenis Kelamin', 'required|trim');
-        $this->form_validation->set_rules('jenis_kerja', 'Jenis Pekerjaan', 'required|trim');
+        $data['title'] = "Tambah Data Mobil";
+        $data['p_jawab'] = $this->Model_mobil->get_karyawan();
+        $this->form_validation->set_rules('nama_mobil', 'Nama Mobil', 'required|trim');
+        $this->form_validation->set_rules('plat_nomor', 'Plat Nomor', 'trim|is_unique[mobil.plat_nomor]');
+        $this->form_validation->set_rules('jenis_mobil', 'Jenis Mobil', 'required|trim');
+        $this->form_validation->set_rules('id_karyawan', 'Nama Karyawan', 'required|trim');
 
         $this->form_validation->set_message('required', '%s masih kosong');
         $this->form_validation->set_message('is_unique', '%s Sudah terdaftar, Ganti yang lain');
@@ -44,37 +42,37 @@ class Karyawan extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');
-            $this->load->view('manager/view_tambah_karyawan', $data);
+            $this->load->view('manager/view_tambah_mobil', $data);
             $this->load->view('templates/footer');
         } else {
-            $data['user'] = $this->Model_karyawan->tambahData();
+            $data['user'] = $this->Model_mobil->tambahData();
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-primary alert-dismissible fade show" role="alert">
-                        <strong>Sukses,</strong> Data Karyawan berhasil di tambah
+                        <strong>Sukses,</strong> Data Mobil berhasil di tambah
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                         </button>
                       </div>'
             );
-            redirect('manager/karyawan');
+            redirect('manager/mobil');
         }
     }
 
-    public function edit($id_karyawan)
+    public function edit($id_mobil)
     {
-        $data['title'] = "Form Edit User";
-        $data['edit_karyawan'] = $this->db->get_where('karyawan', ['id_karyawan' => $id_karyawan])->row();
-        // $data['data_karyawan'] = $this->Model_karyawan->get_karyawan();
+        $data['title'] = "Form Edit Mobil";
+        $data['edit_mobil'] = $this->db->get_where('mobil', ['id_mobil' => $id_mobil])->row();
+        $data['p_jawab'] = $this->Model_mobil->get_karyawan();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navbar');
         $this->load->view('templates/sidebar');
-        $this->load->view('manager/view_edit_karyawan', $data);
+        $this->load->view('manager/view_edit_mobil', $data);
         $this->load->view('templates/footer');
     }
 
     public function update()
     {
-        $this->Model_karyawan->updateData();
+        $this->Model_mobil->updateData();
         if ($this->db->affected_rows() <= 0) {
             $this->session->set_flashdata(
                 'info',
@@ -84,31 +82,31 @@ class Karyawan extends CI_Controller
                         </button>
                       </div>'
             );
-            redirect('manager/karyawan');
+            redirect('manager/mobil');
         } else {
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Sukses,</strong> Data Karyawan berhasil di update
+                        <strong>Sukses,</strong> Data Mobil berhasil di update
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                         </button>
                       </div>'
             );
-            redirect('manager/karyawan');
+            redirect('manager/mobil');
         }
     }
 
-    public function hapus($id_karyawan)
+    public function hapus($id_mobil)
     {
-        $this->Model_karyawan->hapusData($id_karyawan);
+        $this->Model_mobil->hapusData($id_mobil);
         $this->session->set_flashdata(
             'info',
             '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Sukses,</strong> Data berhasil di hapus
+                    <strong>Sukses,</strong> Data Mobil berhasil di hapus
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                     </button>
                   </div>'
         );
-        redirect('manager/karyawan');
+        redirect('manager/mobil');
     }
 }

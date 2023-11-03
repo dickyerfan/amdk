@@ -22,6 +22,7 @@
                                         <option value="Barang Jadi" <?= $user->nama_pengguna == "Barang Jadi" ? 'selected' : '' ?>>Barang Jadi</option>
                                         <option value="Pemasaran" <?= $user->nama_pengguna == "Pemasaran" ? 'selected' : '' ?>>Pemasaran</option>
                                         <option value="Keuangan" <?= $user->nama_pengguna == "Keuangan" ? 'selected' : '' ?>>Keuangan </option>
+                                        <option value="Quality Control" <?= $user->nama_pengguna == "Quality Control" ? 'selected' : '' ?>>Quality Control </option>
                                     </select>
                                 </div>
                             </div>
@@ -43,6 +44,7 @@
                                         <option value="jadi" <?= $user->upk_bagian == "jadi" ? 'selected' : '' ?>>jadi</option>
                                         <option value="pasar" <?= $user->upk_bagian == "pasar" ? 'selected' : '' ?>>pasar</option>
                                         <option value="uang" <?= $user->upk_bagian == "uang" ? 'selected' : '' ?>>uang </option>
+                                        <option value="control" <?= $user->upk_bagian == "control" ? 'selected' : '' ?>>control </option>
                                     </select>
                                 </div>
                             </div>

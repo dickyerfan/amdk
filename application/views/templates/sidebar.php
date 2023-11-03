@@ -10,10 +10,19 @@
                         <div class="sb-nav-link-icon"><i class="fa-fw fas fa-tachometer-alt"></i></div>
                         <div style="font-size: 0.8rem;"> Dashboard</div>
                     </a>
-                    <a class="nav-link" href="<?= base_url('manager/karyawan') ?>">
-                        <div class="sb-nav-link-icon"><i class="fa-fw fas fa-users"></i></div>
-                        <div style="font-size: 0.8rem;"> Data Karyawan</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#master_data" aria-expanded="false" aria-controls="master_data">
+                        <div class="sb-nav-link-icon"><i class="fa-fw fa fa-users"></i></div>
+                        <div style="font-size: 0.8rem;"> Master Data</div>
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
+                    <div class="collapse" id="master_data" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="<?= base_url('manager/karyawan') ?>" style="font-size: 0.8rem;">Daftar Karyawan</a>
+                            <a class="nav-link" href="<?= base_url('manager/mobil') ?>" style="font-size: 0.8rem;">Daftar Mobil</a>
+                            <a class="nav-link" href="<?= base_url('manager/harga') ?>" style="font-size: 0.8rem;">Daftar Harga</a>
+                            <a class="nav-link" href="<?= base_url('user/admin') ?>" style="font-size: 0.8rem;">Daftar User</a>
+                        </nav>
+                    </div>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#baku" aria-expanded="false" aria-controls="baku">
                         <div class="sb-nav-link-icon"><i class="fa-fw fa fa-file-invoice"></i></div>
                         <div style="font-size: 0.8rem;"> Barang Baku</div>
@@ -58,22 +67,34 @@
                             <a class="nav-link" href="#" style="font-size: 0.8rem;">Tambah Kardus</a>
                         </nav>
                     </div>
-                    <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#atur" aria-expanded="false" aria-controls="atur">
-                        <div class="sb-nav-link-icon"><i class="fa-fw fa fa-laptop"></i></div>
-                        <div style="font-size: 0.8rem;"> Pengaturan</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pasar" aria-expanded="false" aria-controls="pasar">
+                        <div class="sb-nav-link-icon"><i class="fa-fw fa fa-file-invoice"></i></div>
+                        <div style="font-size: 0.8rem;"> Pemasaran</div>
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a> -->
-                    <!-- <div class="collapse" id="atur" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="<?= base_url('admin/pengaturan') ?>" style="font-size: 0.8rem;">Aktivasi Upload/Update</a>
-                            <a class="nav-link" href="<?= base_url('admin/pengaturan/aktivasiUser') ?>" style="font-size: 0.8rem;">Aktivasi User</a>
-                            <a class="nav-link" href="<?= base_url('admin/pengaturan/kumpul_data') ?>" style="font-size: 0.8rem;">Cek Pengumpulan Data</a>
-                        </nav>
-                    </div> -->
-                    <a class="nav-link" href="<?= base_url('user/admin') ?>">
-                        <div class="sb-nav-link-icon"><i class="fa-fw fas fa-user"></i></div>
-                        <div style="font-size: 0.8rem;"> Data User</div>
                     </a>
+                    <div class="collapse" id="pasar" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="#" style="font-size: 0.8rem;">Stok Gudang Jadi</a>
+                            <a class="nav-link" href="#" style="font-size: 0.8rem;">Transaksi Barang Produksi</a>
+                            <a class="nav-link" href="#" style="font-size: 0.8rem;">Transaksi Pengirimanan</a>
+                            <a class="nav-link" href="#" style="font-size: 0.8rem;">Transaksi Barang Rusak</a>
+                            <a class="nav-link" href="#" style="font-size: 0.8rem;">Tambah Kardus</a>
+                        </nav>
+                    </div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#uang" aria-expanded="false" aria-controls="uang">
+                        <div class="sb-nav-link-icon"><i class="fa-fw fa fa-file-invoice"></i></div>
+                        <div style="font-size: 0.8rem;"> Keuangan</div>
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="uang" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="#" style="font-size: 0.8rem;">Stok Gudang Jadi</a>
+                            <a class="nav-link" href="#" style="font-size: 0.8rem;">Transaksi Barang Produksi</a>
+                            <a class="nav-link" href="#" style="font-size: 0.8rem;">Transaksi Pengirimanan</a>
+                            <a class="nav-link" href="#" style="font-size: 0.8rem;">Transaksi Barang Rusak</a>
+                            <a class="nav-link" href="#" style="font-size: 0.8rem;">Tambah Kardus</a>
+                        </nav>
+                    </div>
                     <a class="nav-link" href="<?= base_url('backup') ?>">
                         <div class="sb-nav-link-icon"><i class="fa-fw fas fa-database"></i></div>
                         <div style="font-size: 0.8rem;"> Back up</div>

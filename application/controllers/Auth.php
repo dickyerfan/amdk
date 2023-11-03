@@ -131,6 +131,23 @@ class Auth extends CI_Controller
                         </button>
                       </div>');
                         redirect('keuangan/uang');
+                    } elseif ($cek_upk_bagian->upk_bagian == 'control') {
+                        $data_session = [
+                            'nama_pengguna' => $cek_upk_bagian->nama_pengguna,
+                            'nik_karyawan' => $cek_upk_bagian->nik_karyawan,
+                            'nama_lengkap' => $cek_upk_bagian->nama_lengkap,
+                            'upk_bagian' => $cek_upk_bagian->upk_bagian,
+                            'password' => $cek_upk_bagian->password,
+                            'level' => $cek_upk_bagian->level,
+                            'tipe' => $cek_upk_bagian->tipe
+                        ];
+                        $this->session->set_userdata($data_session);
+                        $this->session->set_flashdata('info', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Selamat,</strong> Anda Berhasil Login
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        </button>
+                      </div>');
+                        redirect('kontrol/kontrol');
                     }
                 } else { //jika password salah
                     $this->session->set_flashdata('info', '<div class="alert alert-danger" role="alert">Login Gagal, Password Anda Salah.!</div>');

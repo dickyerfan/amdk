@@ -35,6 +35,7 @@
                                         <option value="Barang Jadi" <?= $edit_karyawan->bagian == 'Barang Jadi' ? 'selected' : '' ?>>Barang Jadi</option>
                                         <option value="Pemasaran" <?= $edit_karyawan->bagian == 'Pemasaran' ? 'selected' : '' ?>>Pemasaran</option>
                                         <option value="Keuangan" <?= $edit_karyawan->bagian == 'Keuangan' ? 'selected' : '' ?>>Keuangan</option>
+                                        <option value="Quality Control" <?= $edit_karyawan->bagian == 'Quality Control' ? 'selected' : '' ?>>Quality Control</option>
                                     </select>
                                     <small class="form-text text-danger pl-3"><?= form_error('bagian'); ?></small>
                                 </div>
@@ -46,7 +47,17 @@
                                         <option value="Manager" <?= $edit_karyawan->jabatan == 'Manager' ? 'selected' : '' ?>>Manager</option>
                                         <option value="Kabag" <?= $edit_karyawan->jabatan == 'Kabag' ? 'selected' : '' ?>>Kabag</option>
                                         <option value="Staf" <?= $edit_karyawan->jabatan == 'Staf' ? 'selected' : '' ?>>Staf</option>
-                                        <option value="Honorer" <?= $edit_karyawan->jabatan == 'Honorer' ? 'selected' : '' ?>>Honorer</option>
+                                    </select>
+                                    <small class="form-text text-danger pl-3"><?= form_error('jabatan'); ?></small>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <select name="jenis_kerja" id="jenis_kerja" class="form-control">
+                                        <option value="">Pilih Jenis Pekerjaan</option>
+                                        <option value="Manager" <?= $edit_karyawan->jenis_kerja == 'Manager' ? 'selected' : '' ?>>Manager</option>
+                                        <option value="Administrasi" <?= $edit_karyawan->jenis_kerja == 'Administrasi' ? 'selected' : '' ?>>Administrasi</option>
+                                        <option value="Driver" <?= $edit_karyawan->jenis_kerja == 'Driver' ? 'selected' : '' ?>>Driver</option>
                                     </select>
                                     <small class="form-text text-danger pl-3"><?= form_error('jabatan'); ?></small>
                                 </div>

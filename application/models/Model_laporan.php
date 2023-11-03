@@ -26,6 +26,7 @@ class Model_laporan extends CI_Model
     //     return $this->db->get()->result();
     // }
 
+    // Laporan Bulanan barang baku
     public function getdata_harian($tanggal)
     {
         $this->db->select('*, barang_baku.*, 
@@ -152,6 +153,14 @@ class Model_laporan extends CI_Model
         $this->db->limit(1);
         return $this->db->get()->row();
     }
+    public function get_pasar()
+    {
+        $this->db->select('nama_karyawan, nik_karyawan');
+        $this->db->from('karyawan');
+        $this->db->where('bagian', 'Pemasaran');
+        $this->db->limit(1);
+        return $this->db->get()->row();
+    }
 
     public function getbarang_jadi($tanggal)
     {
@@ -173,12 +182,15 @@ class Model_laporan extends CI_Model
         return $this->db->get()->result();
     }
 
-    // public function get_nama_barang()
-    // {
-    //     $this->db->select('nama_barang_jadi');
-    //     $this->db->from('jenis_barang');
-    //     return $this->db->get()->result_array();
-    // }
+    // laporan pemasaran
+    public function get_penjualan()
+    {
+        $this->db->select('jenis_barang.nama_barang_jadi,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, SUM(pemesanan.jumlah_pesan) as total_pesanan');
+        $this->db->from('pemesanan');
+        $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = pemesanan.id_jenis_barang');
+        $this->db->group_by('jenis_barang.nama_barang_jadi, pemesanan.tanggal_pesan'); // Mengelompokkan berdasarkan tanggal dan produk
+        return $this->db->get()->result();
+    }
 
     public function get_nama_barang()
     {
@@ -193,49 +205,23 @@ class Model_laporan extends CI_Model
         return $nama_barang;
     }
 
-    // public function get_stok_akhir_kemaren()
-    // {
-    //     $tanggal_kemaren = date('Y-m-d', strtotime('-1 day'));
-
-    //     $this->db->select('*');
-    //     $this->db->where('tanggal_stok_harian', $tanggal_kemaren);
-    //     $query = $this->db->get('stok_awal_harian');
-
-    //     if ($query->num_rows() > 0) {
-    //         return $query->result_array();
-    //     } else {
-    //         return array(); // Kembalikan array kosong jika tidak ada data
-    //     }
-    // }
-
-    // public function upload_stok_awal($data)
-    // {
-    //     // Masukkan data stok awal ke dalam tabel stok_awal_harian
-    //     $this->db->insert('stok_awal_harian', $data);
-    // }
-
-    // public function getdata_bulanan($bulan, $tahun)
-    // {
-    //     $this->db->select('*,barang_baku.*, 
-    //     (SELECT IFNULL(SUM(jumlah_stok_awal_baku), 0) FROM stok_awal_baku WHERE stok_awal_baku.id_barang_baku = barang_baku.id_barang_baku AND MONTH(tanggal_stok_awal_baku) <= ' . $bulan . ' AND YEAR(tanggal_stok_awal_baku) <= ' . $tahun . ') AS jumlah_stok_awal,
-    //     (SELECT IFNULL(SUM(jumlah_masuk), 0) FROM masuk_baku WHERE masuk_baku.id_barang_baku = barang_baku.id_barang_baku AND MONTH(tanggal_masuk) < ' . $bulan . ' AND YEAR(tanggal_masuk) = ' . $tahun . ' AND masuk_baku.status_masuk = 1) AS jumlah_masuk_kemaren,
-    //     (SELECT IFNULL(SUM(jumlah_masuk), 0) FROM masuk_baku WHERE masuk_baku.id_barang_baku = barang_baku.id_barang_baku AND MONTH(tanggal_masuk) = ' . $bulan . ' AND YEAR(tanggal_masuk) = ' . $tahun . ' AND masuk_baku.status_masuk = 1) AS jumlah_masuk_sekarang,
-    //     (SELECT IFNULL(SUM(jumlah_masuk), 0) FROM masuk_baku WHERE masuk_baku.id_barang_baku = barang_baku.id_barang_baku AND MONTH(tanggal_masuk) <= ' . $bulan . ' AND YEAR(tanggal_masuk) <= ' . $tahun . ' AND masuk_baku.status_masuk = 1) AS jumlah_masuk,
-    //     (SELECT IFNULL(SUM(jumlah_keluar), 0) FROM keluar_baku WHERE keluar_baku.id_barang_baku = barang_baku.id_barang_baku AND MONTH(tanggal_keluar) < ' . $bulan . ' AND YEAR(tanggal_keluar) = ' . $tahun . ' AND keluar_baku.status_keluar = 1) AS jumlah_keluar_kemaren,
-    //     (SELECT IFNULL(SUM(jumlah_keluar), 0) FROM keluar_baku WHERE keluar_baku.id_barang_baku = barang_baku.id_barang_baku AND MONTH(tanggal_keluar) = ' . $bulan . ' AND YEAR(tanggal_keluar) = ' . $tahun . ' AND keluar_baku.status_keluar = 1) AS jumlah_keluar_sekarang,
-    //     (SELECT IFNULL(SUM(jumlah_keluar), 0) FROM keluar_baku WHERE keluar_baku.id_barang_baku = barang_baku.id_barang_baku AND MONTH(tanggal_keluar) <= ' . $bulan . ' AND YEAR(tanggal_keluar) <= ' . $tahun . ' AND keluar_baku.status_keluar = 1) AS jumlah_keluar,
-    //     (SELECT IFNULL(SUM(jumlah_rusak_baku), 0) FROM rusak_baku WHERE rusak_baku.id_barang_baku = barang_baku.id_barang_baku AND MONTH(tanggal_rusak_baku) = ' . $bulan . ' AND YEAR(tanggal_rusak_baku) = ' . $tahun . ' AND rusak_baku.status_rusak_baku = 1) AS jumlah_rusak_sekarang,
-    //     (SELECT IFNULL(SUM(jumlah_rusak_baku), 0) FROM rusak_baku WHERE rusak_baku.id_barang_baku = barang_baku.id_barang_baku AND MONTH(tanggal_rusak_baku) < ' . $bulan . ' AND YEAR(tanggal_rusak_baku) = ' . $tahun . ' AND rusak_baku.status_rusak_baku = 1) AS jumlah_rusak_kemaren,
-    //     (SELECT IFNULL(SUM(jumlah_rusak_baku), 0) FROM rusak_baku WHERE rusak_baku.id_barang_baku = barang_baku.id_barang_baku AND MONTH(tanggal_rusak_baku) <= ' . $bulan . ' AND YEAR(tanggal_rusak_baku) <= ' . $tahun . ') AS jumlah_rusak', FALSE);
-    //     $this->db->from('barang_baku');
-    //     $this->db->join('stok_awal_baku', 'stok_awal_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
-    //     $this->db->join('masuk_baku', 'masuk_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
-    //     $this->db->join('keluar_baku', 'keluar_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
-    //     $this->db->join('rusak_baku', 'rusak_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
-    //     $this->db->join('satuan', 'satuan.id_satuan = barang_baku.id_satuan', 'left');
-    //     $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = barang_baku.id_jenis_barang', 'left');
-    //     $this->db->where('barang_baku.status_barang_baku', 1);
-    //     $this->db->group_by('barang_baku.id_barang_baku');
-    //     return $this->db->get()->result();
-    // }
+    // Laporan keuangan
+    public function get_lunas()
+    {
+        $this->db->select('jenis_barang.nama_barang_jadi,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, SUM(pemesanan.total_harga) as total_harga');
+        $this->db->from('pemesanan');
+        $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = pemesanan.id_jenis_barang');
+        $this->db->where('status_bayar', 1);
+        $this->db->group_by('jenis_barang.nama_barang_jadi, pemesanan.tanggal_pesan'); // Mengelompokkan berdasarkan tanggal dan produk
+        return $this->db->get()->result();
+    }
+    public function get_piutang()
+    {
+        $this->db->select('jenis_barang.nama_barang_jadi,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, SUM(pemesanan.total_harga) as total_harga');
+        $this->db->from('pemesanan');
+        $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = pemesanan.id_jenis_barang');
+        $this->db->where('status_bayar', 0);
+        $this->db->group_by('jenis_barang.nama_barang_jadi, pemesanan.tanggal_pesan'); // Mengelompokkan berdasarkan tanggal dan produk
+        return $this->db->get()->result();
+    }
 }

@@ -18,6 +18,7 @@
                                         <option value="Barang Jadi">Barang Jadi</option>
                                         <option value="Pemasaran">Pemasaran</option>
                                         <option value="Keuangan	">Keuangan </option>
+                                        <option value="Quality Control	">Quality Control </option>
                                     </select>
                                     <small class="form-text text-danger pl-3"><?= form_error('nama_pengguna'); ?></small>
                                 </div>
@@ -42,7 +43,8 @@
                                         <option value="produksi">produksi</option>
                                         <option value="jadi">jadi</option>
                                         <option value="pasar">pasar</option>
-                                        <option value="uang	">uang </option>
+                                        <option value="uang">uang</option>
+                                        <option value="contro">control</option>
                                     </select>
                                     <small class="form-text text-danger pl-3"><?= form_error('upk_bagian'); ?></small>
                                 </div>
