@@ -14,7 +14,7 @@
                                     <select name="id_jenis_barang" id="id_jenis_barang" class="form-control select2">
                                         <option value="">Pilih Jenis Barang</option>
                                         <?php foreach ($nama_barang as $row) :  ?>
-                                            <option value="<?= $row->id_jenis_barang ?>"><?= $row->nama_barang_jadi; ?></option>
+                                            <option value="<?= $row->id_produk ?>"><?= $row->nama_produk; ?></option>
                                         <?php endforeach;  ?>
                                     </select>
                                     <small class="form-text text-danger pl-3"><?= form_error('id_jenis_barang'); ?></small>

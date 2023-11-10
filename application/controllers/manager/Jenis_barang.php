@@ -9,11 +9,11 @@ class Jenis_barang extends CI_Controller
         parent::__construct();
         $this->load->model('Model_barang');
         $this->load->library('form_validation');
-        if ($this->session->userdata('level') != 'Pengguna') {
+        if ($this->session->userdata('level') != 'Admin') {
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Maaf,</strong> Anda harus login sebagai Pengguna...
+                        <strong>Maaf,</strong> Anda harus login sebagai Admin...
                       </div>'
             );
             redirect('auth');
@@ -23,28 +23,29 @@ class Jenis_barang extends CI_Controller
     {
         $data['title'] = 'Data Jenis Barang';
         $data['jenis_barang'] = $this->Model_barang->get_all_data('jenis_barang');
-        $this->load->view('templates/pengguna/header', $data);
-        $this->load->view('templates/pengguna/navbar_baku');
-        $this->load->view('templates/pengguna/sidebar_baku');
-        $this->load->view('baku/view_jenis_barang', $data);
-        $this->load->view('templates/pengguna/footer');
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar');
+        $this->load->view('templates/sidebar');
+        $this->load->view('manager/view_jenis_barang', $data);
+        $this->load->view('templates/footer');
     }
 
     public function upload()
     {
 
+        $this->form_validation->set_rules('nama_barang_jadi', 'Nama Barang', 'required|trim');
         $this->form_validation->set_rules('jenis_barang', 'Jenis Barang', 'required|trim');
         $this->form_validation->set_message('required', '%s masih kosong');
 
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Tambah Jenis Barang';
-            $this->load->view('templates/pengguna/header', $data);
-            $this->load->view('templates/pengguna/navbar_baku');
-            $this->load->view('templates/pengguna/sidebar_baku');
-            $this->load->view('baku/tambah_jenis_barang', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('manager/view_tambah_jenis_barang', $data);
+            $this->load->view('templates/footer');
         } else {
-
+            $data['nama_barang_jadi'] = $this->input->post('nama_barang_jadi', true);
             $data['jenis_barang'] = $this->input->post('jenis_barang', true);
             $data['input_jenis_barang'] = $this->session->userdata('nama_lengkap');
 
@@ -52,12 +53,12 @@ class Jenis_barang extends CI_Controller
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-primary alert-dismissible fade show" role="alert">
-                        <strong>Sukses,</strong> Data jenis barang berhasil di simpan
+                        <strong>Sukses,</strong> Jenis barang baru berhasil di simpan
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                         </button>
                     </div>'
             );
-            redirect('jenis_barang');
+            redirect('manager/jenis_barang');
         }
     }
 
@@ -65,28 +66,30 @@ class Jenis_barang extends CI_Controller
     {
         $data['title'] = 'Update Jenis Barang';
         $data['edit_jenis'] = $this->Model_barang->get_id('jenis_barang', 'id_jenis_barang', $id_jenis_barang);
-        $this->load->view('templates/pengguna/header', $data);
-        $this->load->view('templates/pengguna/navbar');
-        $this->load->view('templates/pengguna/sidebar_baku');
-        $this->load->view('baku/edit_jenis_barang', $data);
-        $this->load->view('templates/pengguna/footer');
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar');
+        $this->load->view('templates/sidebar');
+        $this->load->view('manager/view_edit_jenis_barang', $data);
+        $this->load->view('templates/footer');
     }
 
     public function update()
     {
         $data = [
+            'nama_barang_jadi' => $this->input->post('nama_barang_jadi', true),
             'jenis_barang' => $this->input->post('jenis_barang', true),
+            'input_jenis_barang' => $this->session->userdata('nama_lengkap')
         ];
         $this->Model_barang->update('jenis_barang', 'id_jenis_barang', $data);
         $this->session->set_flashdata(
             'info',
             '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>Sukses,</strong> Data satuan barang berhasil di update
+                    <strong>Sukses,</strong> Data barang berhasil di update
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                     </button>
                   </div>'
         );
-        redirect('jenis_barang');
+        redirect('manager/jenis_barang');
     }
 
     public function hapus($id_jenis_barang)
@@ -100,6 +103,6 @@ class Jenis_barang extends CI_Controller
                     </button>
                   </div>'
         );
-        redirect('jenis_barang');
+        redirect('manager/jenis_barang');
     }
 }

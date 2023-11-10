@@ -14,12 +14,12 @@
                                     <div class="form-group">
                                         <input type="hidden" class="form-control" id="id_harga" name="id_harga" value="<?= $edit_harga->id_harga; ?>">
                                         <select name="id_jenis_barang" id="id_jenis_barang" class="form-control select2">
-                                            <option value="">Pilih Jenis Barang</option>
+                                            <option value="">Pilih Produk</option>
                                             <?php foreach ($barang as $row) :  ?>
-                                                <option value="<?= $row->id_jenis_barang ?>" <?= ($row->id_jenis_barang == $edit_harga->id_jenis_barang) ? 'selected' : ''; ?>><?= $row->nama_barang_jadi; ?></option>
+                                                <option value="<?= $row->id_produk ?>" <?= ($row->id_produk == $edit_harga->id_jenis_barang) ? 'selected' : ''; ?>><?= $row->nama_produk; ?></option>
                                             <?php endforeach;  ?>
                                         </select>
-                                        <small class="form-text text-danger pl-3"><?= form_error('id_jenis_barang'); ?></small>
+                                        <small class="form-text text-danger pl-3"><?= form_error('id_produk'); ?></small>
                                     </div>
                                 </div>
                             </div>

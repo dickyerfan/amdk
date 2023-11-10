@@ -161,6 +161,14 @@ class Model_laporan extends CI_Model
         $this->db->limit(1);
         return $this->db->get()->row();
     }
+    public function get_uang()
+    {
+        $this->db->select('nama_karyawan, nik_karyawan');
+        $this->db->from('karyawan');
+        $this->db->where('bagian', 'Keuangan');
+        $this->db->limit(1);
+        return $this->db->get()->row();
+    }
 
     public function getbarang_jadi($tanggal)
     {
@@ -183,45 +191,65 @@ class Model_laporan extends CI_Model
     }
 
     // laporan pemasaran
+    // public function get_penjualan()
+    // {
+    //     $this->db->select('jenis_barang.nama_barang_jadi,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, SUM(pemesanan.jumlah_pesan) as total_pesanan');
+    //     $this->db->from('pemesanan');
+    //     $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = pemesanan.id_jenis_barang');
+    //     $this->db->group_by('jenis_barang.nama_barang_jadi, pemesanan.tanggal_pesan'); // Mengelompokkan berdasarkan tanggal dan produk
+    //     return $this->db->get()->result();
+    // }
     public function get_penjualan()
     {
-        $this->db->select('jenis_barang.nama_barang_jadi,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, SUM(pemesanan.jumlah_pesan) as total_pesanan');
+        $this->db->select('jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, SUM(pemesanan.jumlah_pesan) as total_pesanan');
         $this->db->from('pemesanan');
-        $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = pemesanan.id_jenis_barang');
-        $this->db->group_by('jenis_barang.nama_barang_jadi, pemesanan.tanggal_pesan'); // Mengelompokkan berdasarkan tanggal dan produk
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
+        $this->db->group_by('jenis_produk.nama_produk, pemesanan.tanggal_pesan'); // Mengelompokkan berdasarkan tanggal dan produk
         return $this->db->get()->result();
     }
 
     public function get_nama_barang()
     {
-        $this->db->select('nama_barang_jadi');
-        $this->db->from('jenis_barang');
+        $this->db->select('nama_produk');
+        $this->db->from('jenis_produk');
         $result = $this->db->get()->result();
 
         $nama_barang = [];
         foreach ($result as $row) {
-            $nama_barang[] = $row->nama_barang_jadi;
+            $nama_barang[] = $row->nama_produk;
         }
         return $nama_barang;
     }
+    // public function get_nama_barang()
+    // {
+    //     $this->db->select('nama_barang_jadi');
+    //     $this->db->from('jenis_barang');
+    //     $result = $this->db->get()->result();
+
+    //     $nama_barang = [];
+    //     foreach ($result as $row) {
+    //         $nama_barang[] = $row->nama_barang_jadi;
+    //     }
+    //     return $nama_barang;
+    // }
 
     // Laporan keuangan
     public function get_lunas()
     {
-        $this->db->select('jenis_barang.nama_barang_jadi,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, SUM(pemesanan.total_harga) as total_harga');
+        $this->db->select('jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, SUM(pemesanan.total_harga) as total_harga');
         $this->db->from('pemesanan');
-        $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = pemesanan.id_jenis_barang');
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
         $this->db->where('status_bayar', 1);
-        $this->db->group_by('jenis_barang.nama_barang_jadi, pemesanan.tanggal_pesan'); // Mengelompokkan berdasarkan tanggal dan produk
+        $this->db->group_by('jenis_produk.nama_produk, pemesanan.tanggal_pesan'); // Mengelompokkan berdasarkan tanggal dan produk
         return $this->db->get()->result();
     }
     public function get_piutang()
     {
-        $this->db->select('jenis_barang.nama_barang_jadi,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, SUM(pemesanan.total_harga) as total_harga');
+        $this->db->select('jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, SUM(pemesanan.total_harga) as total_harga');
         $this->db->from('pemesanan');
-        $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = pemesanan.id_jenis_barang');
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
         $this->db->where('status_bayar', 0);
-        $this->db->group_by('jenis_barang.nama_barang_jadi, pemesanan.tanggal_pesan'); // Mengelompokkan berdasarkan tanggal dan produk
+        $this->db->group_by('jenis_produk.nama_produk, pemesanan.tanggal_pesan'); // Mengelompokkan berdasarkan tanggal dan produk
         return $this->db->get()->result();
     }
 }

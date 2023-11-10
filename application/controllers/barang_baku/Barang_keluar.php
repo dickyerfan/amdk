@@ -15,8 +15,22 @@ class Barang_keluar extends CI_Controller
 
     public function index()
     {
+        $tanggal = $this->input->get('tanggal');
+
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+        $this->session->set_userdata('tanggal_keluar', $tanggal);
+        $data['bulan_lap'] = $bulan;
+        $data['tahun_lap'] = $tahun;
+
         $data['title'] = 'Transaksi Barang Keluar';
-        $data['barang_keluar'] = $this->Model_barang_baku->getbarang_keluar();
+        // $data['barang_keluar'] = $this->Model_barang_baku->getbarang_keluar($bulan, $tahun);
         if ($this->session->userdata('upk_bagian') == 'admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
@@ -34,7 +48,17 @@ class Barang_keluar extends CI_Controller
 
     function get_permintaan_barang()
     {
-        $data = $this->Model_barang_baku->get_permintaan_barang();
+        $tanggal = $this->session->userdata('tanggal_keluar');
+
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+        $data = $this->Model_barang_baku->get_permintaan_barang($bulan, $tahun);
         echo json_encode($data);
     }
 

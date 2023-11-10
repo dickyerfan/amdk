@@ -7,16 +7,16 @@ class model_harga extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('harga');
-        $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = harga.id_jenis_barang');
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = harga.id_jenis_barang');
         // $this->db->where('status_mobil', 1);
         $query = $this->db->get();
         return $query->result();
     }
 
-    public function get_jenis_barang()
+    public function get_produk()
     {
-        $this->db->select('id_jenis_barang, nama_barang_jadi');
-        $this->db->from('jenis_barang');
+        $this->db->select('id_produk, nama_produk');
+        $this->db->from('jenis_produk');
         $query = $this->db->get();
         return $query->result();
     }

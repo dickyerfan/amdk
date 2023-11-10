@@ -19,6 +19,8 @@
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="<?= base_url('manager/karyawan') ?>" style="font-size: 0.8rem;">Daftar Karyawan</a>
                             <a class="nav-link" href="<?= base_url('manager/mobil') ?>" style="font-size: 0.8rem;">Daftar Mobil</a>
+                            <a class="nav-link" href="<?= base_url('manager/produk') ?>" style="font-size: 0.8rem;">Daftar Produk</a>
+                            <a class="nav-link" href="<?= base_url('manager/jenis_barang') ?>" style="font-size: 0.8rem;">Daftar Barang</a>
                             <a class="nav-link" href="<?= base_url('manager/harga') ?>" style="font-size: 0.8rem;">Daftar Harga</a>
                             <a class="nav-link" href="<?= base_url('user/admin') ?>" style="font-size: 0.8rem;">Daftar User</a>
                         </nav>

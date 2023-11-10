@@ -25,12 +25,12 @@
                                     <small class="form-text text-danger pl-3"><?= form_error('id_barang_baku'); ?></small>
                                 </div>
                                 <div class="form-group mb-2">
-                                    <label for="jumlah_stok_awal_baku">Jumlah Barang Masuk :</label>
+                                    <label for="jumlah_stok_awal_baku">Jumlah Stok Awal :</label>
                                     <input type="number" step="1" class="form-control" id="jumlah_stok_awal_baku" name="jumlah_stok_awal_baku" value="<?= set_value('jumlah_stok_awal_baku'); ?>">
                                     <small class="form-text text-danger pl-3"><?= form_error('jumlah_stok_awal_baku'); ?></small>
                                 </div>
                                 <div class="form-group mb-2">
-                                    <label for="tanggal_stok_awal_baku">Tanggal Barang Masuk :</label>
+                                    <label for="tanggal_stok_awal_baku">Tanggal Stok Awal :</label>
                                     <input type="date" class="form-control" id="tanggal_stok_awal_baku" name="tanggal_stok_awal_baku" value="<?= set_value('tanggal_stok_awal_baku'); ?>">
                                     <small class="form-text text-danger pl-3"><?= form_error('tanggal_stok_awal_baku'); ?></small>
                                 </div>

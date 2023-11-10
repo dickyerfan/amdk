@@ -24,7 +24,7 @@ class Laporan_penjualan extends CI_Controller
         foreach ($data['penjualan'] as $row) {
             $id_jenis_barang = $row->id_jenis_barang;
             $tanggal = $row->tanggal_pesan;
-            $penjualan[$id_jenis_barang]['nama_barang_jadi'] = $row->nama_barang_jadi;
+            $penjualan[$id_jenis_barang]['nama_produk'] = $row->nama_produk;
             $penjualan[$id_jenis_barang]['pemesanan'][$tanggal] = $row->total_pesanan;
             $tanggal_array[] = $tanggal;
         }
@@ -81,8 +81,8 @@ class Laporan_penjualan extends CI_Controller
         foreach ($data['penjualan'] as $row) {
             $id_jenis_barang = $row->id_jenis_barang;
             $tanggal = $row->tanggal_pesan;
-            $penjualan[$id_jenis_barang]['nama_barang_jadi'] = $row->nama_barang_jadi;
-            $penjualan[$id_jenis_barang]['pemesanan'][$tanggal] = $row->jumlah_pesan;
+            $penjualan[$id_jenis_barang]['nama_produk'] = $row->nama_produk;
+            $penjualan[$id_jenis_barang]['pemesanan'][$tanggal] = $row->total_pesanan;
             $tanggal_array[] = $tanggal;
         }
 

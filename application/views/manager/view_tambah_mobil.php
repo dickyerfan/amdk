@@ -15,7 +15,6 @@
                                         <input type="text" class="form-control" id="nama_mobil" name="nama_mobil" placeholder="Masukan Nama Mobil" value="<?= set_value('nama_mobil'); ?>">
                                         <small class="form-text text-danger pl-3"><?= form_error('nama_mobil'); ?></small>
                                     </div>
-                                    <small class="form-text text-danger pl-3"><?= form_error('nama_mobil'); ?></small>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -26,7 +25,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="plat_nomor" name="plat_nomor" placeholder="Masukan Plat Nomor" value="<?= set_value('plat_nomor'); ?>">
+                                    <input type="text" class="form-control" id="plat_nomor" name="plat_nomor" placeholder="Masukan Plat Nomor contoh : P.6666.AC" value="<?= set_value('plat_nomor'); ?>">
                                     <small class="form-text text-danger pl-3"><?= form_error('plat_nomor'); ?></small>
                                 </div>
                             </div>

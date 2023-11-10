@@ -51,20 +51,23 @@ class Laporan_bulanan extends CI_Controller
     public function exportpdf()
     {
         $tanggal = $this->session->userdata('bulan_exportpdf');
+        $hari = substr($tanggal, 7, 2);
         $bulan = substr($tanggal, 5, 2);
         $tahun = substr($tanggal, 0, 4);
 
         if (empty($tanggal)) {
             $tanggal = date('Y-m-d');
+            $hari = date('d');
             $bulan = date('m');
             $tahun = date('Y');
         }
-
         $data['title'] = 'Laporan Bulanan Barang Baku';
-        $data['manager'] = $this->Model_laporan->get_manager();
-        $data['baku'] = $this->Model_laporan->get_baku();
+        $data['tanggal_lap'] = $tanggal;
+        $data['hari_lap'] = $hari;
         $data['bulan_lap'] = $bulan;
         $data['tahun_lap'] = $tahun;
+        $data['manager'] = $this->Model_laporan->get_manager();
+        $data['baku'] = $this->Model_laporan->get_baku();
         $data['lap_bulanan'] = $this->Model_laporan->getdata_bulanan($tanggal, $bulan, $tahun);
 
         // Set paper size and orientation

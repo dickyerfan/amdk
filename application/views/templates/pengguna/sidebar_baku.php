@@ -21,7 +21,7 @@
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="<?= base_url('barang_baku/stok_barang_baku') ?>" style="font-size: 0.8rem;">Stok Barang Baku</a>
                             <a class="nav-link" href="<?= base_url('barang_baku/stok_awal') ?>" style="font-size: 0.8rem;">Data Stok Awal</a>
-                            <a class="nav-link" href="<?= base_url('jenis_barang') ?>" style="font-size: 0.8rem;">Jenis Barang</a>
+                            <!-- <a class="nav-link" href="<?= base_url('jenis_barang') ?>" style="font-size: 0.8rem;">Jenis Barang</a> -->
                             <a class="nav-link" href="<?= base_url('satuan') ?>" style="font-size: 0.8rem;">Satuan</a>
                         </nav>
                     </div>

@@ -9,7 +9,7 @@ class Model_pemesanan extends CI_Model
         $this->db->select('*');
         $this->db->from('pemesanan');
         $this->db->join('mobil', 'mobil.id_mobil = pemesanan.id_mobil', 'left');
-        $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = pemesanan.id_jenis_barang', 'left');
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang', 'left');
         $this->db->join('pelanggan', 'pelanggan.id_pelanggan = pemesanan.id_pelanggan', 'left');
         $this->db->order_by('pemesanan.id_pemesanan', 'DESC');
         return $this->db->get()->result();
@@ -56,10 +56,10 @@ class Model_pemesanan extends CI_Model
     //     return $this->db->get()->result();
     // }
 
-    public function get_jenis_barang()
+    public function get_produk()
     {
-        $this->db->select('id_jenis_barang, nama_barang_jadi');
-        $this->db->from('jenis_barang');
+        $this->db->select('id_produk, nama_produk');
+        $this->db->from('jenis_produk');
         return $this->db->get()->result();
     }
     public function get_pelanggan()

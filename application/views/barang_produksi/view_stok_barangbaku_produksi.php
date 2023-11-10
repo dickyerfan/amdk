@@ -29,7 +29,7 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <table class="table table-sm table-bordered" id="example" style="font-size: 1rem;">
+                            <table class="table table-sm table-bordered" id="example2" style="font-size: 1rem;">
                                 <thead>
                                     <tr class="text-center">
                                         <th class="text-center">No</th>
@@ -38,6 +38,7 @@
                                         <th class="text-center">Stok Awal</th>
                                         <th class="text-center">Barang Masuk</th>
                                         <th class="text-center">Barang Keluar</th>
+                                        <th class="text-center">Barang Rusak</th>
                                         <th class="text-center">Stok Akhir</th>
                                     </tr>
                                 </thead>
@@ -45,16 +46,19 @@
                                     <?php
                                     $no = 1;
                                     foreach ($stok_barangbaku_produksi as $row) :
+                                        // $stok_awal = 0;
+                                        $stok_akhir = $row->jumlah_stok_awal + $row->jumlah_masuk - $row->jumlah_keluar - $row->jumlah_rusak;
                                     ?>
 
                                         <tr>
                                             <td class="text-center"><?= $no++ ?></td>
                                             <td><?= ucwords($row->nama_barang_baku); ?></td>
                                             <td><?= $row->satuan; ?></td>
-                                            <td></td>
+                                            <td class="text-end"><?= number_format($row->jumlah_stok_awal, 0, ',', '.'); ?></td>
+                                            <td class="text-end"><?= number_format($row->jumlah_masuk, 0, ',', '.'); ?></td>
                                             <td class="text-end"><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td class="text-end"><?= number_format($row->jumlah_rusak, 0, ',', '.'); ?></td>
+                                            <td class="text-end"><?= number_format($stok_akhir, 0, ',', '.'); ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>

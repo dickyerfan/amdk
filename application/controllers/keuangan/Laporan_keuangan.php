@@ -25,7 +25,7 @@ class Laporan_keuangan extends CI_Controller
         foreach ($data['lunas'] as $row) {
             $id_jenis_barang = $row->id_jenis_barang;
             $tanggal = $row->tanggal_pesan;
-            $lunas[$id_jenis_barang]['nama_barang_jadi'] = $row->nama_barang_jadi;
+            $lunas[$id_jenis_barang]['nama_produk'] = $row->nama_produk;
             $lunas[$id_jenis_barang]['pemesanan'][$tanggal] = $row->total_harga;
             $tanggal_array[] = $tanggal;
         }
@@ -37,7 +37,7 @@ class Laporan_keuangan extends CI_Controller
         foreach ($data['piutang'] as $row) {
             $id_jenis_barang = $row->id_jenis_barang;
             $tanggal = $row->tanggal_pesan;
-            $piutang[$id_jenis_barang]['nama_barang_jadi'] = $row->nama_barang_jadi;
+            $piutang[$id_jenis_barang]['nama_produk'] = $row->nama_produk;
             $piutang[$id_jenis_barang]['pemesanan'][$tanggal] = $row->total_harga;
             $tanggal_array[] = $tanggal;
         }
@@ -95,7 +95,7 @@ class Laporan_keuangan extends CI_Controller
         foreach ($data['lunas'] as $row) {
             $id_jenis_barang = $row->id_jenis_barang;
             $tanggal = $row->tanggal_pesan;
-            $lunas[$id_jenis_barang]['nama_barang_jadi'] = $row->nama_barang_jadi;
+            $lunas[$id_jenis_barang]['nama_produk'] = $row->nama_produk;
             $lunas[$id_jenis_barang]['pemesanan'][$tanggal] = $row->total_harga;
             $tanggal_array[] = $tanggal;
         }
@@ -107,7 +107,7 @@ class Laporan_keuangan extends CI_Controller
         foreach ($data['piutang'] as $row) {
             $id_jenis_barang = $row->id_jenis_barang;
             $tanggal = $row->tanggal_pesan;
-            $piutang[$id_jenis_barang]['nama_barang_jadi'] = $row->nama_barang_jadi;
+            $piutang[$id_jenis_barang]['nama_produk'] = $row->nama_produk;
             $piutang[$id_jenis_barang]['pemesanan'][$tanggal] = $row->total_harga;
             $tanggal_array[] = $tanggal;
         }

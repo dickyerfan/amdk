@@ -9,7 +9,7 @@ class Model_penjualan extends CI_Model
         $this->db->select('*');
         $this->db->from('pemesanan');
         $this->db->join('mobil', 'mobil.id_mobil = pemesanan.id_mobil', 'left');
-        $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = pemesanan.id_jenis_barang', 'left');
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang', 'left');
         $this->db->join('pelanggan', 'pelanggan.id_pelanggan = pemesanan.id_pelanggan', 'left');
         $this->db->order_by('pemesanan.id_pemesanan', 'DESC');
         return $this->db->get()->result();

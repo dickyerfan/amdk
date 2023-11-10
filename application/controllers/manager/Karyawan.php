@@ -30,7 +30,7 @@ class Karyawan extends CI_Controller
         $data['title'] = "Tambah Data Karyawan";
 
         $this->form_validation->set_rules('nama_karyawan', 'Nama Karyawan', 'required|trim');
-        $this->form_validation->set_rules('nik_karyawan', 'NIK Karyawan', 'trim|is_unique[karyawan.nik_karyawan]');
+        $this->form_validation->set_rules('nik_karyawan', 'NIK Karyawan', 'trim|numeric|is_unique[karyawan.nik_karyawan]');
         $this->form_validation->set_rules('bagian', 'Bagian', 'required|trim');
         $this->form_validation->set_rules('jabatan', 'Jabatan', 'required|trim');
         $this->form_validation->set_rules('jenkel', 'Jenis Kelamin', 'required|trim');
@@ -38,6 +38,7 @@ class Karyawan extends CI_Controller
 
         $this->form_validation->set_message('required', '%s masih kosong');
         $this->form_validation->set_message('is_unique', '%s Sudah terdaftar, Ganti yang lain');
+        $this->form_validation->set_message('numeric', '%s harus di input angka');
 
 
         if ($this->form_validation->run() == false) {

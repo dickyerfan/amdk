@@ -30,7 +30,7 @@
                                 ?>
                                     <tr>
                                         <td class="text-center"><?= $no++; ?></td>
-                                        <td><?= $row->nama_barang_jadi; ?></td>
+                                        <td><?= $row->nama_produk; ?></td>
                                         <td><?= $row->jenis_harga; ?></td>
                                         <td class="text-end"><?= number_format($row->harga, 0, ',', '.'); ?></td>
                                         <td><?= $row->input_harga; ?></td>

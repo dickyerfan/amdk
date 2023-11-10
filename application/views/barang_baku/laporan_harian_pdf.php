@@ -18,7 +18,12 @@
 
         .header p {
             margin: 0;
+            font-size: 0.7rem;
             /* Menghilangkan margin pada teks */
+        }
+
+        .tandaTangan p {
+            font-size: 0.7rem;
         }
 
         .header img {
@@ -28,6 +33,8 @@
         hr {
             height: 1px;
             background-color: black !important;
+            margin-top: 2px;
+            width: 200px;
         }
 
         .tableUtama,
@@ -40,8 +47,9 @@
             padding: 0 3px;
         }
 
-        .judul {
-            text-align: center;
+        .judul p {
+            margin-bottom: 5px;
+            font-size: 0.7rem;
         }
     </style>
 
@@ -53,7 +61,7 @@
             <tbody class="text_center">
                 <tr>
                     <td width="10%">
-                        <img src="<?= base_url('assets/img/logo_ijen.png'); ?>" alt="Logo" width="40">
+                        <img src="<?= base_url('assets/img/logo_ijen.png'); ?>" alt="Logo" width="30">
                     </td>
                     <td>
                         <p>PDAM Kabupaten Bondowoso</p>
@@ -65,7 +73,7 @@
         <hr>
     </div>
     <div class="judul">
-        <p class="fw-bold"><?= strtoupper($title); ?></p>
+        <p class="my-0 text-center"><?= strtoupper($title); ?></p>
         <?php if (empty($tanggal_hari_ini)) {
             // Jika kosong atau null, atur nilainya menjadi tanggal hari ini
             $tanggal_hari_ini = date("Y-m-d"); // Format tanggal "YYYY-MM-DD"
@@ -91,7 +99,7 @@
         $tanggal_hari_ini = strtr($tanggal_hari_ini, $bulan);
 
         ?>
-        <p><?= $tanggal_hari_ini; ?></p>
+        <p class="mu-0 text-center"><?= $tanggal_hari_ini; ?></p>
     </div>
     <table class="table tableUtama">
         <thead>
@@ -127,11 +135,14 @@
         </tbody>
     </table>
 
-    <div style="font-size: 0.8rem;">
+    <div style="font-size: 0.8rem;" class="tandaTangan">
+        <p style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"></p>
+        <p style="width: 50%; float: right;text-align:center; margin-bottom: 1px;">Bondowoso, <?= $tanggal_hari_ini ?></p>
+        <div style="clear: both;"></div>
         <p style="width: 50%; float: left; text-align:center; margin-bottom: 1px;">Mengetahui</p>
         <p style="width: 50%; float: right;text-align:center; margin-bottom: 1px;">Dibuat Oleh :</p>
         <div style="clear: both;"></div>
-        <p style="width: 50%; float: left; text-align:center;">Manager</p>
+        <p style="width: 50%; float: left; text-align:center;">Manager AMDK</p>
         <p style="width: 50%; float: right;text-align:center;">Petugas Barang Baku</p>
         <div style="clear: both; margin-bottom:40px;"></div>
         <u style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"><?= $manager->nama_karyawan; ?></u>

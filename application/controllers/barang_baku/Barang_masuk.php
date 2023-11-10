@@ -15,8 +15,21 @@ class Barang_masuk extends CI_Controller
 
     public function index()
     {
+        $tanggal = $this->input->get('tanggal');
+
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+        $data['bulan_lap'] = $bulan;
+        $data['tahun_lap'] = $tahun;
+
         $data['title'] = 'Transaksi Barang Masuk';
-        $data['barang_masuk'] = $this->Model_barang_baku->getbarang_masuk();
+        $data['barang_masuk'] = $this->Model_barang_baku->getbarang_masuk($bulan, $tahun);
         if ($this->session->userdata('upk_bagian') == 'admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');

@@ -48,7 +48,6 @@
         }
 
         .judul p {
-
             margin-bottom: 5px;
             font-size: 0.7rem;
         }

@@ -28,7 +28,7 @@ class Harga extends CI_Controller
     public function tambah()
     {
         $data['title'] = "Tambah Daftar Harga";
-        $data['barang'] = $this->Model_harga->get_jenis_barang();
+        $data['barang'] = $this->Model_harga->get_produk();
         $this->form_validation->set_rules('id_jenis_barang', 'Jenis Barang', 'required|trim');
         $this->form_validation->set_rules('jenis_harga', 'Jenis Harga', 'required|trim');
         $this->form_validation->set_rules('harga', 'harga', 'required|trim');
@@ -60,7 +60,7 @@ class Harga extends CI_Controller
     {
         $data['title'] = "Form Edit harga";
         $data['edit_harga'] = $this->db->get_where('harga', ['id_harga' => $id_harga])->row();
-        $data['barang'] = $this->Model_harga->get_jenis_barang();
+        $data['barang'] = $this->Model_harga->get_produk();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navbar');
         $this->load->view('templates/sidebar');

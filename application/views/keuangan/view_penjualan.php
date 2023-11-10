@@ -52,7 +52,7 @@
                                             <td><?= $row->tanggal_pesan; ?></td>
                                             <td class="text-start"><?= ucwords(strtolower($row->nama_pelanggan)); ?></td>
                                             <td class="text-start"><?= ucwords(strtolower($row->alamat_pelanggan)); ?></td>
-                                            <td class="text-start"><?= $row->nama_barang_jadi; ?></td>
+                                            <td class="text-start"><?= $row->nama_produk; ?></td>
                                             <td class="text-end"><?= number_format($row->jumlah_pesan, 0, ',', '.'); ?></td>
                                             <td class="text-end"><?= number_format($row->harga_barang, 0, ',', '.'); ?></td>
                                             <td class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></td>

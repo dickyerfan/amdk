@@ -127,7 +127,7 @@
                             // Cari nama barang yang cocok di $data_jenis_barang
                             $found = false;
                             foreach ($data_jenis_barang as $barang) {
-                                if ($barang['nama_barang_jadi'] == $jenis) {
+                                if ($barang['nama_produk'] == $jenis) {
                                     $found = true;
                                     if (isset($barang['pemesanan'][$tanggal])) {
                                         echo $barang['pemesanan'][$tanggal];
@@ -163,7 +163,7 @@
                         foreach ($dateRange as $tanggal) {
                             $totalPerJenisTanggal = 0;
                             foreach ($data_jenis_barang as $barang) {
-                                if ($barang['nama_barang_jadi'] == $jenis) {
+                                if ($barang['nama_produk'] == $jenis) {
                                     if (isset($barang['pemesanan'][$tanggal])) {
                                         $jumlah_barang = $barang['pemesanan'][$tanggal];
                                         $totalPerJenisTanggal += $jumlah_barang;

@@ -21,23 +21,44 @@ class Model_barang_produksi extends CI_Model
     //     return $this->db->get()->result();
     // }
 
+    // transaksi barang keluar
+    public function getbarang_keluar()
+    {
+        $this->db->select('tanggal_keluar_baku, nama_barang_jadi,input_keluar_baku, jenis_barang.id_jenis_barang, jenis_barang.nama_barang_jadi, SUM(jumlah_keluar_baku) as total_keluar_baku');
+        $this->db->from('keluar_baku_produksi');
+        $this->db->join('barang_baku', 'keluar_baku_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->join('jenis_barang', 'keluar_baku_produksi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
+        $this->db->group_by('keluar_baku_produksi.tanggal_keluar_baku');
+        $this->db->group_by('jenis_barang.nama_barang_jadi');
+        $this->db->order_by('id_keluar_baku_produksi', 'ASC');
+        return $this->db->get()->result();
+    }
 
-    // public function getbarang_masuk()
-    // {
-    //     $this->db->select('*');
-    //     $this->db->from('masuk_baku');
-    //     $this->db->join('barang_baku', 'masuk_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
-    //     $this->db->where('masuk_baku.status_masuk', 1);
-    //     $this->db->group_by('masuk_baku.id_masuk_baku');
-    //     return $this->db->get()->result();
-    // }
+    public function get_detail_barang_keluar($id_jenis_barang, $tanggal)
+    {
+        $this->db->select('*');
+        $this->db->from('keluar_baku_produksi');
+        $this->db->join('jenis_barang', 'keluar_baku_produksi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
+        $this->db->join('barang_baku', 'keluar_baku_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->where('jenis_barang.id_jenis_barang', $id_jenis_barang);
+        $this->db->where('tanggal_keluar_baku', $tanggal);
+        return $this->db->get()->result();
+    }
+
+
 
     public function get_barangbaku_produksi()
     {
         $this->db->select('*,barang_baku.*, 
-                   (SELECT SUM(jumlah_keluar) FROM baku_produksi WHERE baku_produksi.id_barang_baku = barang_baku.id_barang_baku AND baku_produksi.status_tolak = 1 AND baku_produksi.status_keluar = 1) AS jumlah_keluar', FALSE);
+                   (SELECT SUM(jumlah_keluar) FROM baku_produksi WHERE baku_produksi.id_barang_baku = barang_baku.id_barang_baku AND baku_produksi.status_tolak = 1 AND baku_produksi.status_keluar = 1) AS jumlah_masuk,
+                   (SELECT SUM(jumlah_stok_awal_baku) FROM stok_awal_baku_produksi WHERE stok_awal_baku_produksi.id_barang_baku = barang_baku.id_barang_baku) AS jumlah_stok_awal,
+                   (SELECT SUM(jumlah_keluar_baku) FROM keluar_baku_produksi WHERE keluar_baku_produksi.id_barang_baku = barang_baku.id_barang_baku) AS jumlah_keluar,
+                   (SELECT SUM(jumlah_rusak_produksi) FROM rusak_produksi WHERE rusak_produksi.id_barang_baku = barang_baku.id_barang_baku) AS jumlah_rusak', FALSE);
         $this->db->from('barang_baku');
         $this->db->join('baku_produksi', 'baku_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->join('keluar_baku_produksi', 'keluar_baku_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->join('rusak_produksi', 'rusak_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->join('stok_awal_baku_produksi', 'stok_awal_baku_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
         $this->db->join('satuan', 'satuan.id_satuan = barang_baku.id_satuan', 'left');
         $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = barang_baku.id_jenis_barang', 'left');
         $this->db->where('barang_baku.status_barang_baku', 1);
@@ -181,5 +202,23 @@ class Model_barang_produksi extends CI_Model
         }
 
         return array('jumlah_satuan' => $jumlah_satuan, 'jumlah_liter' => $jumlah_liter);
+    }
+
+    public function getBarangBakuInfo($id_jenis_barang)
+    {
+        $this->db->where('id_jenis_barang', $id_jenis_barang);
+        $query = $this->db->get('barang_baku_produksi');
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        } else {
+            return array(); // Mengembalikan array kosong jika tidak ada data yang ditemukan.
+        }
+    }
+
+    public function insert_keluar_baku($data_keluar_baku)
+    {
+        // Gantilah 'keluar_baku_produksi' dengan nama tabel yang sesuai pada database Anda.
+        return $this->db->insert('keluar_baku_produksi', $data_keluar_baku);
     }
 }

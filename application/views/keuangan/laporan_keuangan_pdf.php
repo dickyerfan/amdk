@@ -104,8 +104,8 @@
     <table class="table tableUtama">
         <thead>
             <tr>
-                <td rowspan="2">No</td>
-                <td class="text-center" rowspan="2">Tanggal</td> <!-- Date column -->
+                <td rowspan="2" style="vertical-align: middle;">No</td>
+                <td class="text-center" rowspan="2" style="vertical-align: middle;">Tanggal</td> <!-- Date column -->
                 <?php foreach ($nama_barang as $jenis) : ?>
                     <td class="text-center" colspan="2"><?= $jenis; ?></td>
                 <?php endforeach; ?>
@@ -136,7 +136,7 @@
                             // Cari nama barang yang cocok di $lunas
                             $found = false;
                             foreach ($lunas as $barang) {
-                                if ($barang['nama_barang_jadi'] == $jenis) {
+                                if ($barang['nama_produk'] == $jenis) {
                                     $found = true;
                                     if (isset($barang['pemesanan'][$tanggal])) {
                                         // echo $barang['pemesanan'][$tanggal];
@@ -160,7 +160,7 @@
                             // Cari nama barang yang cocok di $piutang
                             $found = false;
                             foreach ($piutang as $barang) {
-                                if ($barang['nama_barang_jadi'] == $jenis) {
+                                if ($barang['nama_produk'] == $jenis) {
                                     $found = true;
                                     if (isset($barang['pemesanan'][$tanggal])) {
                                         // echo $barang['pemesanan'][$tanggal];
@@ -199,7 +199,7 @@
                         foreach ($dateRange as $tanggal) {
                             $totalPerJenisTanggal = 0;
                             foreach ($lunas as $barang) {
-                                if ($barang['nama_barang_jadi'] == $jenis) {
+                                if ($barang['nama_produk'] == $jenis) {
                                     if (isset($barang['pemesanan'][$tanggal])) {
                                         $jumlah_barang = $barang['pemesanan'][$tanggal];
                                         $totalPerJenisTanggal += $jumlah_barang;
@@ -218,7 +218,7 @@
                         foreach ($dateRange as $tanggal) {
                             $totalPerJenisTanggal = 0;
                             foreach ($piutang as $barang) {
-                                if ($barang['nama_barang_jadi'] == $jenis) {
+                                if ($barang['nama_produk'] == $jenis) {
                                     if (isset($barang['pemesanan'][$tanggal])) {
                                         $jumlah_barang = $barang['pemesanan'][$tanggal];
                                         $totalPerJenisTanggal += $jumlah_barang;

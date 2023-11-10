@@ -45,7 +45,7 @@ class Pemesanan extends CI_Controller
 
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Transaksi Pemesanan Barang';
-            $data['nama_barang'] = $this->Model_pemesanan->get_jenis_barang();
+            $data['nama_barang'] = $this->Model_pemesanan->get_produk();
             $data['pelanggan'] = $this->Model_pemesanan->get_pelanggan();
 
             $this->load->view('templates/pengguna/header', $data);

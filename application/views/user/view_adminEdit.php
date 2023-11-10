@@ -29,7 +29,12 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nama_lengkap">Nama Lengkap :</label>
-                                    <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" value="<?= $user->nama_lengkap; ?>">
+                                    <select class="form-select" name="nama_lengkap" id="nama_lengkap" select2>
+                                        <?php foreach ($data_karyawan as $row) : ?>
+                                            <option value="<?= $row->nama_karyawan ?>" <?= $row->nama_karyawan == $user->nama_lengkap ? 'selected' : ''; ?>><?= $row->nama_karyawan ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <!-- <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" value="<?= $user->nama_lengkap; ?>"> -->
                                 </div>
                             </div>
                             <div class="col-md-6">
