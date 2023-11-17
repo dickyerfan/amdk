@@ -16,10 +16,14 @@
             font-size: 0.8rem;
         }
 
-        .header p,
-        .judul p {
+        .header p {
             margin: 0;
+            font-size: 0.7rem;
             /* Menghilangkan margin pada teks */
+        }
+
+        .tandaTangan p {
+            font-size: 0.7rem;
         }
 
         .header img {
@@ -29,6 +33,8 @@
         hr {
             height: 1px;
             background-color: black !important;
+            margin-top: 2px;
+            width: 200px;
         }
 
         .tableUtama,
@@ -37,12 +43,13 @@
         .tableUtama th,
         .tableUtama td {
             border: 1px solid black;
-            font-size: 0.7rem;
-            padding: 3px 3px;
+            font-size: 0.55rem;
+            padding: 1.5px 3px;
         }
 
-        .judul {
-            text-align: center;
+        .judul p {
+            margin-bottom: 5px;
+            font-size: 0.7rem;
         }
     </style>
 
@@ -54,7 +61,7 @@
             <tbody class="text_center">
                 <tr>
                     <td width="10%">
-                        <img src="<?= base_url('assets/img/logo_ijen.png'); ?>" alt="Logo" width="40">
+                        <img src="<?= base_url('assets/img/logo_ijen.png'); ?>" alt="Logo" width="30">
                     </td>
                     <td>
                         <p>PDAM Kabupaten Bondowoso</p>
@@ -66,14 +73,27 @@
         <hr>
     </div>
     <div class="judul">
-        <p class="fw-bold"><?= strtoupper($title); ?></p>
+        <p class="my-0 text-center fw-bold"><?= strtoupper($title); ?></p>
         <?php
-        if (empty($bulan_lap)) {
-            $bulan_lap = date('m');
-            $tahun_lap = date('Y');
-        }
+        $tanggal = $tanggal_lap;
+        if (empty($tanggal)) {
+            $hari = date('d');
+            $bulan = date('m');
+            $tahun = date('Y');
+            $bulanLap = date('m');
+            $tahunLap = date('Y');
+        } else {
+            $tanggalParts = explode('-', $tanggal);
+            $tahun = (count($tanggalParts) > 0) ? $tanggalParts[0] : date('Y');
+            $bulan = (count($tanggalParts) > 1) ? $tanggalParts[1] : date('m');
+            $hari = (count($tanggalParts) > 2) ? $tanggalParts[2] : date('d');
 
-        $bulan = [
+            $hariLap = (count($tanggalParts) > 2) ? $tanggalParts[2] : date('d');
+            $bulanLap = (count($tanggalParts) > 1) ? $tanggalParts[1] : date('m');
+            $tahunLap = (count($tanggalParts) > 0) ? $tanggalParts[0] : date('Y');
+            $bulan = str_pad($bulan, 2, '0', STR_PAD_LEFT);
+        }
+        $bulanLap = [
             '01' => 'Januari',
             '02' => 'Februari',
             '03' => 'Maret',
@@ -87,21 +107,18 @@
             '11' => 'November',
             '12' => 'Desember',
         ];
-
-        $bulan_lap = strtr($bulan_lap, $bulan);
-
         ?>
-        <p><?= $bulan_lap . ' ' . $tahun_lap; ?></p>
+        <p class="mu-0 text-center">Bulan : <?= $bulanLap[$bulan] . ' ' . $tahunLap ?></p>
     </div>
     <table class="table tableUtama">
         <thead>
             <tr>
-                <td>No</td>
-                <td class="text-center">Tanggal</td> <!-- Date column -->
+                <td style="vertical-align: middle;">No</td>
+                <td class="text-center" style="vertical-align: middle;">Tanggal</td> <!-- Date column -->
                 <?php foreach ($nama_barang as $jenis) : ?>
                     <td class="text-center"><?= $jenis; ?></td>
                 <?php endforeach; ?>
-                <td class="text-center">Jumlah</td>
+                <td class="text-center" style="vertical-align: middle;">Jumlah</td>
             </tr>
         </thead>
         <tbody>
@@ -145,7 +162,7 @@
         <tfoot>
             <tr>
                 <td></td>
-                <td>Jumlah</td>
+                <td class="text-center">Jumlah</td>
                 <?php
                 $totalSemua = 0;
                 foreach ($nama_barang as $jenis) : ?>
@@ -175,18 +192,18 @@
 
     </table>
 
-    <div style="font-size: 0.8rem;">
+    <div style="font-size: 0.7rem;">
         <p style="width: 50%; float: left; text-align:center; margin-bottom: 1px;">Mengetahui</p>
         <p style="width: 50%; float: right;text-align:center; margin-bottom: 1px;">Dibuat Oleh :</p>
         <div style="clear: both;"></div>
         <p style="width: 50%; float: left; text-align:center;">Manager</p>
-        <p style="width: 50%; float: right;text-align:center;">Petugas Barang Baku</p>
+        <p style="width: 50%; float: right;text-align:center;">Petugas Barang Jadi</p>
         <div style="clear: both; margin-bottom:40px;"></div>
         <u style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"><?= $manager->nama_karyawan; ?></u>
-        <u style="width: 50%; float: right;text-align:center; margin-bottom: 1px;"><?= $baku->nama_karyawan; ?></u>
+        <u style="width: 50%; float: right;text-align:center; margin-bottom: 1px;"><?= $jadi->nama_karyawan; ?></u>
         <div style="clear: both;"></div>
         <p style="width: 50%; float: left; text-align:center;"><?= $manager->nik_karyawan; ?></p>
-        <p style="width: 50%; float: right;text-align:center;"><?= $baku->nik_karyawan; ?></p>
+        <p style="width: 50%; float: right;text-align:center;"><?= $jadi->nik_karyawan; ?></p>
         <div style="clear: both;"></div>
         <!-- <?php if ($manager) : ?>
             <p style="width: 50%; float: left; text-align: center;"><?= $manager->nama_karyawan; ?></p>

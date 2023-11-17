@@ -140,11 +140,13 @@ class Model_barang_produksi extends CI_Model
         return $this->db->update('barang_jadi', $data);
     }
 
-    public function getbarang_rusak()
+    public function getbarang_rusak($bulan, $tahun)
     {
         $this->db->select('*');
         $this->db->from('rusak_produksi');
         $this->db->join('barang_baku', 'rusak_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->where('MONTH(rusak_produksi.tanggal_rusak_produksi)', $bulan);
+        $this->db->where('YEAR(rusak_produksi.tanggal_rusak_produksi)', $tahun);
         $this->db->group_by('rusak_produksi.id_rusak_produksi');
         return $this->db->get()->result();
     }

@@ -15,7 +15,7 @@ class Barang_keluar extends CI_Controller
 
     public function index()
     {
-        $data['title'] = 'Transaksi Barang Keluar';
+        $data['title'] = 'Transaksi Barang Baku Keluar';
         $data['barang_keluar'] = $this->Model_barang_produksi->getbarang_keluar();
         if ($this->session->userdata('upk_bagian') == 'admin') {
             $this->load->view('templates/header', $data);

@@ -73,7 +73,7 @@
         <hr>
     </div>
     <div class="judul">
-        <p class="my-0 text-center"><?= strtoupper($title) ?></p>
+        <p class="my-0 text-center fw-bold"><?= strtoupper($title) ?></p>
         <?php
         $tanggal = $tanggal_lap;
         if (empty($tanggal)) {

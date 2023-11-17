@@ -39,13 +39,23 @@
                                         <input type="date" class="form-control" id="tanggal_pesan" name="tanggal_pesan" placeholder="Masukan Tanggal Pesan" value="<?= set_value('tanggal_pesan'); ?>">
                                         <small class="form-text text-danger pl-3"><?= form_error('tanggal_pesan'); ?></small>
                                     </div>
-                                    <small class="form-text text-danger pl-3"><?= form_error('tanggal_pesan'); ?></small>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <input type="number" class="form-control" id="jumlah_pesan" name="jumlah_pesan" placeholder="Masukan Jumlah Pesanan" value="<?= set_value('jumlah_pesan'); ?>">
                                     <small class="form-text text-danger pl-3"><?= form_error('jumlah_pesan'); ?></small>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <select name="jenis_pesanan" id="jenis_pesanan" class="form-control select2">
+                                        <option value="">Pilih Jenis Pesanan</option>
+                                        <option value="Kunjungan Rutin">Kunjungan Rutin</option>
+                                        <option value="Pesanan Langsung ">Pesanan Langsung</option>
+                                    </select>
+                                    <!-- <input type="text" class="form-control" id="jenis_pesanan" name="jenis_pesanan" placeholder="Pilih Jenis Pesanan" value="<?= set_value('jenis_pesanan'); ?>"> -->
+                                    <small class="form-text text-danger pl-3"><?= form_error('jenis_pesanan'); ?></small>
                                 </div>
                             </div>
                         </div>

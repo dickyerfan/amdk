@@ -15,7 +15,7 @@ class Laporan_barang_jadi extends CI_Controller
 
     public function index()
     {
-        $data['nama_barang'] = $this->Model_laporan->get_nama_barang();
+        $data['nama_barang'] = $this->Model_laporan->get_nama_barang_jadi();
         $data['produksi_barang'] = $this->Model_laporan->get_jenis_barang();
         $data['title'] = 'Laporan Tanda Terima Hasil produksi';
 
@@ -122,14 +122,14 @@ class Laporan_barang_jadi extends CI_Controller
             $bulan = date('m');
             $tahun = date('Y');
         }
-
+        $data['tanggal_lap'] = $tanggal;
         $data['bulan_lap'] = $bulan;
         $data['tahun_lap'] = $tahun;
         $data['manager'] = $this->Model_laporan->get_manager();
-        $data['baku'] = $this->Model_laporan->get_baku();
+        $data['jadi'] = $this->Model_laporan->get_jadi();
 
         // Set paper size and orientation
-        $this->pdf->setPaper('A4', 'portrait');
+        $this->pdf->setPaper('A4', 'landscape');
 
         // $this->pdf->filename = "Potensi Sr.pdf";
         $this->pdf->filename = "LapBulanan-{$bulan}-{$tahun}.pdf";

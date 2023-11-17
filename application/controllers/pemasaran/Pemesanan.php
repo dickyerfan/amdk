@@ -38,6 +38,7 @@ class Pemesanan extends CI_Controller
         $this->form_validation->set_rules('id_pelanggan', 'Nama Pelanggan', 'required|trim');
         // $this->form_validation->set_rules('id_mobil', 'Nama Mobil', 'required|trim');
         $this->form_validation->set_rules('tanggal_pesan', 'Tanggal Pesan', 'required|trim');
+        $this->form_validation->set_rules('jenis_pesanan', 'Jenis Pesanan', 'required|trim');
         $this->form_validation->set_rules('jumlah_pesan', 'Jumlah Pesan', 'required|trim|numeric');
         $this->form_validation->set_message('required', '%s masih kosong');
         $this->form_validation->set_message('numeric', '%s harus berupa angka');
@@ -58,6 +59,7 @@ class Pemesanan extends CI_Controller
             $data['id_pelanggan'] = $this->input->post('id_pelanggan');
             $data['id_mobil'] = null;
             $data['tanggal_pesan'] = $this->input->post('tanggal_pesan');
+            $data['jenis_pesanan'] = $this->input->post('jenis_pesanan');
             $data['jumlah_pesan'] = $this->input->post('jumlah_pesan');
             $data['input_pesan'] = $this->session->userdata('nama_lengkap');
 
@@ -99,8 +101,25 @@ class Pemesanan extends CI_Controller
             $this->load->view('pemasaran/view_pilih_mobil', $data);
             $this->load->view('templates/pengguna/footer');
         } else {
+
             $data['id_mobil'] = $this->input->post('id_mobil');
             $this->Model_pemesanan->update('pemesanan', $data, $id_pemesanan);
+
+            // Dapatkan data untuk penyisipan ke tabel keluar_jadi
+            $data_pemesanan = $this->Model_pemesanan->get_id_masuk_baku($id_pemesanan);
+            $data_keluar_jadi = array(
+                'id_jenis_barang' => $data_pemesanan->id_jenis_barang,
+                'jumlah_keluar' => $data_pemesanan->jumlah_pesan,
+                'tanggal_keluar' => $data_pemesanan->tanggal_pesan,
+                'jumlah_akhir' => $data_pemesanan->jumlah_pesan,
+                'jenis_pesanan' => $data_pemesanan->jenis_pesanan,
+                'input_status_keluar' => $this->session->userdata('nama_lengkap')
+            );
+
+            // Sisipkan data ke dalam tabel keluar_jadi
+            $this->Model_pemesanan->tambah_keluar_jadi('keluar_jadi', $data_keluar_jadi);
+
+
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-primary alert-dismissible fade show" role="alert">

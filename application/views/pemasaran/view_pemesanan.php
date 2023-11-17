@@ -60,7 +60,7 @@
                                             <td><?= ucwords(strtolower($row->tarif)); ?></td>
                                             <td><?= $row->status_bayar == 1 ? '<span class="btn btn-primary btn-sm">Lunas</span>' : '<span class="btn btn-danger btn-sm">Belum</span>'; ?></td>
                                             <td>
-                                                <a href="<?= $row->id_mobil == null ? base_url('pemasaran/pemesanan/pilih_mobil/') : "javascript:void(0)" ?><?= $row->id_pemesanan; ?>"><span class="neumorphic-button text-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk pilih Mobil"><i class="fas fa-edit text-success"></i></span></a>
+                                                <a href="<?= $row->id_mobil == null ? base_url('pemasaran/pemesanan/pilih_mobil/') : "javascript:void(0)" ?><?= $row->id_pemesanan; ?>"><span class="neumorphic-button text-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk pilih Mobil"><i class="fas fa-truck text-success"></i></span></a>
                                                 <!-- <a href="<?= base_url('barang_baku/barang_masuk/detail_masuk/') ?><?= $row->id_pemesanan ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Detail</span></a> -->
                                                 <!-- <a href="<?= base_url('barang_baku/barang_masuk/hapus/') ?><?= $row->id_pemesanan ?>" class="hapus-link"><i class="fas fa-trash text-danger"></i></a> -->
                                             </td>

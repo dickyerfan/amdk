@@ -88,15 +88,16 @@ class Model_pemesanan extends CI_Model
         $this->db->update($table, $data);
     }
 
-    // public function getHargaByJenisBarang($id_jenis_barang)
-    // {
-    //     $this->db->select('harga');
-    //     $this->db->from('harga');
-    //     $this->db->join('pelanggan', 'harga.jenis_harga = pelanggan.tarif', 'left');
-    //     $this->db->join('jenis_barang', 'harga.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
-    //     $this->db->where('harga.id_jenis_barang', $id_jenis_barang);
-    //     return $this->db->get()->row();
-    // }
+    public function get_id_masuk_baku($id_pemesanan)
+    {
+        $this->db->where('id_pemesanan', $id_pemesanan);
+        return $this->db->get('pemesanan')->row();
+    }
+
+    public function tambah_keluar_jadi($table, $data)
+    {
+        $this->db->insert($table, $data);
+    }
 
 
     public function getHargaByJenisBarang($id_jenis_barang, $tarif)

@@ -4,7 +4,7 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('barang_jadi/barang_masuk'); ?>" method="get">
+                        <form action="<?= base_url('barang_jadi/barang_keluar'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
                                 <input type="date" name="tanggal" class="form-control">
                                 <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
@@ -36,31 +36,32 @@
                                         <th class="text-center">Tanggal</th>
                                         <th class="text-center">Nama Barang</th>
                                         <th class="text-center">Jenis Barang</th>
-                                        <th class="text-center">Jumlah</th>
+                                        <th class="text-center">Jumlah Keluar</th>
+                                        <th class="text-center">Jumlah Kembali</th>
+                                        <th class="text-center">Jumlah Akhir</th>
                                         <th class="text-center">Input Oleh</th>
-                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Jenis Pesanan</th>
                                         <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $no = 1;
-                                    foreach ($barang_jadi as $row) : ?>
+                                    foreach ($barang_keluar as $row) :
+
+                                    ?>
                                         <tr class="text-center">
                                             <td><?= $no++ ?></td>
-                                            <td><?= $row->tanggal_barang_jadi; ?></td>
-                                            <td class="text-start"><?= $row->nama_barang_jadi; ?></td>
-                                            <td class="text-start"><?= $row->jenis_barang; ?></td>
-                                            <td><?= number_format($row->jumlah_barang_jadi, 0, ',', '.'); ?></td>
-                                            <td><?= $row->input_status_barang_jadi; ?></td>
-                                            <td><?= $row->status_barang_jadi == 0 ? 'Milik Produksi' : 'Milik Barang jadi' ?></td>
+                                            <td><?= $row->tanggal_keluar; ?></td>
+                                            <td class="text-start"><?= $row->nama_produk; ?></td>
+                                            <td class="text-start"><?= $row->jenis_produk; ?></td>
+                                            <td><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
+                                            <td><?= number_format($row->jumlah_kembali, 0, ',', '.'); ?></td>
+                                            <td><?= number_format($row->jumlah_akhir, 0, ',', '.'); ?></td>
+                                            <td><?= $row->input_status_keluar; ?></td>
+                                            <td><?= $row->jenis_pesanan; ?></td>
                                             <td>
-                                                <?php if ($row->status_barang_jadi == 0) : ?>
-                                                    <a href="<?= base_url('barang_produksi/barang_jadi/proses_jadi/') ?><?= $row->id_barang_jadi ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Proses</span></a>
-                                                <?php endif; ?>
-                                                <?php if ($row->status_barang_jadi == 1) : ?>
-                                                    <a href="#"><span class="neumorphic-button text-success btn-sm"><i class="fa-solid fa-circle-info text-success"></i> Selesai</span></a>
-                                                <?php endif; ?>
+                                                <a href="<?= $row->status_kembali == 0 ? base_url('barang_jadi/barang_keluar/barang_kembali/') : "javascript:void(0)" ?><?= $row->id_keluar_jadi; ?>"><span class="neumorphic-button text-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="klik input barang kembali"><i class="fas fa-box text-success"></i></span></a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

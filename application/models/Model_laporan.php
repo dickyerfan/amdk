@@ -187,6 +187,7 @@ class Model_laporan extends CI_Model
         $this->db->select('*');
         $this->db->from('barang_jadi');
         $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = barang_jadi.id_jenis_barang');
+        $this->db->where('barang_jadi.status_barang_jadi', 1);
         return $this->db->get()->result();
     }
 
@@ -220,18 +221,19 @@ class Model_laporan extends CI_Model
         }
         return $nama_barang;
     }
-    // public function get_nama_barang()
-    // {
-    //     $this->db->select('nama_barang_jadi');
-    //     $this->db->from('jenis_barang');
-    //     $result = $this->db->get()->result();
 
-    //     $nama_barang = [];
-    //     foreach ($result as $row) {
-    //         $nama_barang[] = $row->nama_barang_jadi;
-    //     }
-    //     return $nama_barang;
-    // }
+    public function get_nama_barang_jadi()
+    {
+        $this->db->select('nama_barang_jadi');
+        $this->db->from('jenis_barang');
+        $result = $this->db->get()->result();
+
+        $nama_barang = [];
+        foreach ($result as $row) {
+            $nama_barang[] = $row->nama_barang_jadi;
+        }
+        return $nama_barang;
+    }
 
     // Laporan keuangan
     public function get_lunas()
