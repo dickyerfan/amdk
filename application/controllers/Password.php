@@ -27,10 +27,10 @@ class Password extends CI_Controller
 		if ($this->form_validation->run() == false) {
 			if ($this->session->userdata('level') != 'Admin') {
 				$this->load->view('templates/pengguna/header', $data);
-				$this->load->view('templates/pengguna/navbar');
-				$this->load->view('templates/pengguna/sidebar');
+				$this->load->view('templates/pengguna/navbar_baku');
+				$this->load->view('templates/pengguna/sidebar_baku');
 				$this->load->view('view_gantiPassword', $data);
-				$this->load->view('templates/pengguna/footer');
+				$this->load->view('templates/pengguna/footer_baku');
 			} else {
 				$this->load->view('templates/header', $data);
 				$this->load->view('templates/navbar');

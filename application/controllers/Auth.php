@@ -20,146 +20,85 @@ class Auth extends CI_Controller
             $data['title'] = 'Login';
             $this->load->view('auth/view_login', $data);
         } else {
-            // $cek_upk_bagian = $this->db->get_where('user', ['upk_bagian' => $this->input->post('upk_bagian', true)])->row();$this->db->select('status');
+            $upk_bagian = $this->input->post('upk_bagian');
+            $password = $this->input->post('password');
+
             $this->db->from('user');
-            $this->db->where('upk_bagian', $this->input->post('upk_bagian'));
+            $this->db->where('upk_bagian', $upk_bagian);
             $this->db->where('status', 1);
             $query = $this->db->get();
-            $cek_upk_bagian = $query->row();
+            $users = $query->result();
 
-            if ($cek_upk_bagian) { //Jika upk_bagian benar
-                if (password_verify($this->input->post('password', true), $cek_upk_bagian->password)) {
-                    if ($cek_upk_bagian->upk_bagian == 'admin' or $cek_upk_bagian->upk_bagian == 'dicky') {
-                        $data_session = [
-                            'nama_pengguna' => $cek_upk_bagian->nama_pengguna,
-                            'nik_karyawan' => $cek_upk_bagian->nik_karyawan,
-                            'nama_lengkap' => $cek_upk_bagian->nama_lengkap,
-                            'upk_bagian' => $cek_upk_bagian->upk_bagian,
-                            'password' => $cek_upk_bagian->password,
-                            'level' => $cek_upk_bagian->level,
-                            'tipe' => $cek_upk_bagian->tipe
-                        ];
-                        $this->session->set_userdata($data_session);
-                        $this->session->set_flashdata('info',         '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Selamat,</strong> Anda Berhasil Login
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                        </button>
-                      </div>');
-                        redirect('dashboard');
-                    } elseif ($cek_upk_bagian->upk_bagian == 'baku') {
-                        $data_session = [
-                            'nama_pengguna' => $cek_upk_bagian->nama_pengguna,
-                            'nik_karyawan' => $cek_upk_bagian->nik_karyawan,
-                            'nama_lengkap' => $cek_upk_bagian->nama_lengkap,
-                            'upk_bagian' => $cek_upk_bagian->upk_bagian,
-                            'password' => $cek_upk_bagian->password,
-                            'level' => $cek_upk_bagian->level,
-                            'tipe' => $cek_upk_bagian->tipe
-                        ];
-                        $this->session->set_userdata($data_session);
-                        $this->session->set_flashdata('info', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Selamat,</strong> Anda Berhasil Login
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                        </button>
-                      </div>');
-                        redirect('barang_baku/baku');
-                    } elseif ($cek_upk_bagian->upk_bagian == 'produksi') {
-                        $data_session = [
-                            'nama_pengguna' => $cek_upk_bagian->nama_pengguna,
-                            'nik_karyawan' => $cek_upk_bagian->nik_karyawan,
-                            'nama_lengkap' => $cek_upk_bagian->nama_lengkap,
-                            'upk_bagian' => $cek_upk_bagian->upk_bagian,
-                            'password' => $cek_upk_bagian->password,
-                            'level' => $cek_upk_bagian->level,
-                            'tipe' => $cek_upk_bagian->tipe
-                        ];
-                        $this->session->set_userdata($data_session);
-                        $this->session->set_flashdata('info', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Selamat,</strong> Anda Berhasil Login
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                        </button>
-                      </div>');
-                        redirect('barang_produksi/produksi');
-                    } elseif ($cek_upk_bagian->upk_bagian == 'jadi') {
-                        $data_session = [
-                            'nama_pengguna' => $cek_upk_bagian->nama_pengguna,
-                            'nik_karyawan' => $cek_upk_bagian->nik_karyawan,
-                            'nama_lengkap' => $cek_upk_bagian->nama_lengkap,
-                            'upk_bagian' => $cek_upk_bagian->upk_bagian,
-                            'password' => $cek_upk_bagian->password,
-                            'level' => $cek_upk_bagian->level,
-                            'tipe' => $cek_upk_bagian->tipe
-                        ];
-                        $this->session->set_userdata($data_session);
-                        $this->session->set_flashdata('info', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Selamat,</strong> Anda Berhasil Login
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                        </button>
-                      </div>');
-                        redirect('barang_jadi/jadi');
-                    } elseif ($cek_upk_bagian->upk_bagian == 'pasar') {
-                        $data_session = [
-                            'nama_pengguna' => $cek_upk_bagian->nama_pengguna,
-                            'nik_karyawan' => $cek_upk_bagian->nik_karyawan,
-                            'nama_lengkap' => $cek_upk_bagian->nama_lengkap,
-                            'upk_bagian' => $cek_upk_bagian->upk_bagian,
-                            'password' => $cek_upk_bagian->password,
-                            'level' => $cek_upk_bagian->level,
-                            'tipe' => $cek_upk_bagian->tipe
-                        ];
-                        $this->session->set_userdata($data_session);
-                        $this->session->set_flashdata('info', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Selamat,</strong> Anda Berhasil Login
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                        </button>
-                      </div>');
-                        redirect('pemasaran/pasar');
-                    } elseif ($cek_upk_bagian->upk_bagian == 'uang') {
-                        $data_session = [
-                            'nama_pengguna' => $cek_upk_bagian->nama_pengguna,
-                            'nik_karyawan' => $cek_upk_bagian->nik_karyawan,
-                            'nama_lengkap' => $cek_upk_bagian->nama_lengkap,
-                            'upk_bagian' => $cek_upk_bagian->upk_bagian,
-                            'password' => $cek_upk_bagian->password,
-                            'level' => $cek_upk_bagian->level,
-                            'tipe' => $cek_upk_bagian->tipe
-                        ];
-                        $this->session->set_userdata($data_session);
-                        $this->session->set_flashdata('info', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Selamat,</strong> Anda Berhasil Login
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                        </button>
-                      </div>');
-                        redirect('keuangan/uang');
-                    } elseif ($cek_upk_bagian->upk_bagian == 'control') {
-                        $data_session = [
-                            'nama_pengguna' => $cek_upk_bagian->nama_pengguna,
-                            'nik_karyawan' => $cek_upk_bagian->nik_karyawan,
-                            'nama_lengkap' => $cek_upk_bagian->nama_lengkap,
-                            'upk_bagian' => $cek_upk_bagian->upk_bagian,
-                            'password' => $cek_upk_bagian->password,
-                            'level' => $cek_upk_bagian->level,
-                            'tipe' => $cek_upk_bagian->tipe
-                        ];
-                        $this->session->set_userdata($data_session);
-                        $this->session->set_flashdata('info', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Selamat,</strong> Anda Berhasil Login
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                        </button>
-                      </div>');
-                        redirect('kontrol/kontrol');
-                    }
-                } else { //jika password salah
-                    $this->session->set_flashdata('info', '<div class="alert alert-danger" role="alert">Login Gagal, Password Anda Salah.!</div>');
+            $user_found = false;
+
+            foreach ($users as $user) {
+                if (password_verify($password, $user->password)) {
+                    $user_found = true;
+
+                    $data_session = [
+                        'nama_pengguna' => $user->nama_pengguna,
+                        'nik_karyawan' => $user->nik_karyawan,
+                        'nama_lengkap' => $user->nama_lengkap,
+                        'upk_bagian' => $user->upk_bagian,
+                        'password' => $user->password,
+                        'level' => $user->level,
+                        'tipe' => $user->tipe
+                    ];
+
+                    $this->session->set_userdata($data_session);
+                    $this->session->set_flashdata('info', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Selamat,</strong> Anda Berhasil Login
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>');
+
+                    // Redirect to appropriate page based on 'upk_bagian'
+                    $this->redirectBasedOnUpkBagian($user->upk_bagian);
+                } else {
+                    $this->session->set_flashdata('info', '<div class="alert alert-danger" role="alert">Login Gagal, Password Anda tidak valid.!</div>');
                     redirect('auth');
                 }
-            } else { //jika nama_pengguna salah
-                $this->session->set_flashdata('info', '<div class="alert alert-danger" role="alert">Login Gagal, nama pengguna Anda Salah / tidak aktif.!</div>');
+            }
+
+            if (!$user_found) {
+                $this->session->set_flashdata('info', '<div class="alert alert-danger" role="alert">Login Gagal, Nama Bagian tidak valid.!</div>');
                 redirect('auth');
             }
-            redirect('dashboard');
         }
     }
+
+    // Fungsi bantuan untuk melakukan redirect berdasarkan 'upk_bagian'
+    private function redirectBasedOnUpkBagian($upk_bagian)
+    {
+        switch ($upk_bagian) {
+            case 'admin':
+            case 'dicky':
+                redirect('dashboard');
+                break;
+            case 'baku':
+                redirect('barang_baku/baku');
+                break;
+            case 'jadi':
+                redirect('barang_jadi/jadi');
+                break;
+            case 'produksi':
+                redirect('barang_produksi/produksi');
+                break;
+            case 'uang':
+                redirect('keuangan/uang');
+                break;
+            case 'pasar':
+                redirect('pemasaran/pasar');
+                break;
+            case 'kontrol':
+                redirect('Q_control/kontrol');
+                break;
+            default:
+                // Redirect ke halaman default jika 'upk_bagian' tidak cocok dengan kasus apa pun
+                redirect('auth');
+                break;
+        }
+    }
+
 
     public function registrasi()
     {

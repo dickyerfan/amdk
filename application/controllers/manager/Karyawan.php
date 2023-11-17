@@ -9,6 +9,12 @@ class Karyawan extends CI_Controller
         $this->load->model('Model_karyawan');
         $this->load->library('form_validation');
         if ($this->session->userdata('level') != 'Admin') {
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Maaf,</strong> Anda harus login sebagai Manager...
+                      </div>'
+            );
             redirect('auth');
         }
     }

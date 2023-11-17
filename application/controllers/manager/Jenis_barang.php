@@ -13,7 +13,7 @@ class Jenis_barang extends CI_Controller
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Maaf,</strong> Anda harus login sebagai Admin...
+                        <strong>Maaf,</strong> Anda harus login sebagai Manager...
                       </div>'
             );
             redirect('auth');

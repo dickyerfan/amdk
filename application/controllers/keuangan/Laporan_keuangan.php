@@ -8,7 +8,16 @@ class Laporan_keuangan extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Model_laporan');
-        if (!$this->session->userdata('nama_pengguna')) {
+        // if (!$this->session->userdata('nama_pengguna')) {
+        //     redirect('auth');
+        // }
+        if ($this->session->userdata('upk_bagian') != 'uang') {
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Maaf,</strong> Anda harus login sebagai Admin Keuangan...
+                      </div>'
+            );
             redirect('auth');
         }
     }
@@ -149,7 +158,7 @@ class Laporan_keuangan extends CI_Controller
         $data['bulan_lap'] = $bulan;
         $data['tahun_lap'] = $tahun;
         $data['manager'] = $this->Model_laporan->get_manager();
-        $data['pasar'] = $this->Model_laporan->get_pasar();
+        $data['uang'] = $this->Model_laporan->get_uang();
 
         // Set paper size and orientation
         $this->pdf->setPaper('folio', 'landscape');

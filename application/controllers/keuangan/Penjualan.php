@@ -8,7 +8,16 @@ class Penjualan extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Model_penjualan');
-        if (!$this->session->userdata('nama_pengguna')) {
+        // if (!$this->session->userdata('nama_pengguna')) {
+        //     redirect('auth');
+        // }
+        if ($this->session->userdata('upk_bagian') != 'uang') {
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Maaf,</strong> Anda harus login sebagai Admin Keuangan...
+                      </div>'
+            );
             redirect('auth');
         }
     }

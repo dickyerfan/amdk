@@ -8,7 +8,16 @@ class Laporan_bulanan extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Model_laporan');
-        if (!$this->session->userdata('nama_pengguna')) {
+        // if (!$this->session->userdata('nama_pengguna')) {
+        //     redirect('auth');
+        // }
+        if ($this->session->userdata('upk_bagian') != 'baku') {
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Maaf,</strong> Anda harus login sebagai Admin Barang Baku...
+                      </div>'
+            );
             redirect('auth');
         }
     }

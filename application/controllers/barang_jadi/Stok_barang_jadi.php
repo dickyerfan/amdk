@@ -8,7 +8,16 @@ class Stok_barang_jadi extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Model_barang_jadi');
-        if (!$this->session->userdata('nama_pengguna')) {
+        // if (!$this->session->userdata('nama_pengguna')) {
+        //     redirect('auth');
+        // }
+        if ($this->session->userdata('upk_bagian') != 'jadi') {
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Maaf,</strong> Anda harus login sebagai Admin Barang Jadi...
+                      </div>'
+            );
             redirect('auth');
         }
     }
@@ -23,6 +32,7 @@ class Stok_barang_jadi extends CI_Controller
         $this->session->set_userdata('tanggal_exportpdf', $tanggal);
 
         $data['title'] = 'Stock Barang Jadi';
+        $data['tanggal_hari_ini'] = $this->input->get('tanggal');
         $data['stok_barang'] = $this->Model_barang_jadi->getdata($tanggal);
         if ($this->session->userdata('upk_bagian') == 'admin') {
             $this->load->view('templates/header', $data);

@@ -53,140 +53,142 @@
                                 ?>
                                 <p class="mu-0 text-center">Bulan : <?= $bulanLap[$bulan] . ' ' . $tahunLap ?></p>
                             </div>
-                            <table class="table table-sm table-bordered" style="font-size: 0.7rem;">
-                                <thead>
-                                    <tr>
-                                        <td rowspan="2" style="vertical-align: middle;">No</td>
-                                        <td rowspan="2" class="text-center" style="vertical-align: middle;">Tanggal</td> <!-- Date column -->
-                                        <?php foreach ($nama_barang as $jenis) : ?>
-                                            <td colspan="2" class="text-center"><?= $jenis; ?></td>
-                                        <?php endforeach; ?>
-                                        <td colspan="2" class="text-center" style="vertical-align: middle;">Jumlah</td>
-                                    </tr>
-                                    <tr class="text-center">
-                                        <?php foreach ($nama_barang as $jenis) : ?>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered" style="font-size: 0.7rem;">
+                                    <thead>
+                                        <tr>
+                                            <td rowspan="2" style="vertical-align: middle;">No</td>
+                                            <td rowspan="2" class="text-center" style="vertical-align: middle;">Tanggal</td> <!-- Date column -->
+                                            <?php foreach ($nama_barang as $jenis) : ?>
+                                                <td colspan="2" class="text-center"><?= $jenis; ?></td>
+                                            <?php endforeach; ?>
+                                            <td colspan="2" class="text-center" style="vertical-align: middle;">Jumlah</td>
+                                        </tr>
+                                        <tr class="text-center">
+                                            <?php foreach ($nama_barang as $jenis) : ?>
+                                                <td>bh</td>
+                                                <td>ltr</td>
+                                            <?php endforeach; ?>
                                             <td>bh</td>
                                             <td>ltr</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        foreach ($dateRange as $tanggal) : ?>
+                                            <tr>
+                                                <td class="text-center"><?= $no++ ?></td>
+                                                <td class="text-center"><?= date('d-m-Y', strtotime($tanggal)) ?></td>
+                                                <?php
+                                                $totalSatuan = 0;
+                                                $totalLiter = 0;
+                                                foreach ($nama_barang as $jenis) : ?>
+                                                    <td class="text-center">
+                                                        <?php
+                                                        // Cari nama barang yang cocok di $jumlah_satuan
+                                                        $found = false;
+                                                        foreach ($jumlah_satuan as $barang) {
+                                                            if ($barang['nama_barang_jadi'] == $jenis) {
+                                                                $found = true;
+                                                                if (isset($barang['barang_jadi'][$tanggal])) {
+                                                                    echo number_format($barang['barang_jadi'][$tanggal], 0, ',', '.');
+                                                                    $jumlah_barang = $barang['barang_jadi'][$tanggal];
+                                                                    $totalSatuan += $jumlah_barang;
+                                                                } else {
+                                                                    echo '0'; // Display 0 if no data for this date and product
+                                                                }
+                                                                break;
+                                                            }
+                                                        }
+                                                        // Jika tidak ditemukan, munculkan '0'
+                                                        if (!$found) {
+                                                            echo '0';
+                                                        }
+                                                        ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <?php
+                                                        // Cari nama barang yang cocok di $jumlah_liter
+                                                        $found = false;
+                                                        foreach ($jumlah_liter as $barang) {
+                                                            if ($barang['nama_barang_jadi'] == $jenis) {
+                                                                $found = true;
+                                                                if (isset($barang['barang_jadi'][$tanggal])) {
+                                                                    echo number_format($barang['barang_jadi'][$tanggal], 0, ',', '.');
+                                                                    $jumlah_barang = $barang['barang_jadi'][$tanggal];
+                                                                    $totalLiter += $jumlah_barang;
+                                                                } else {
+                                                                    echo '0'; // Display 0 if no data for this date and product
+                                                                }
+                                                                break;
+                                                            }
+                                                        }
+                                                        // Jika tidak ditemukan, munculkan '0'
+                                                        if (!$found) {
+                                                            echo '0';
+                                                        }
+                                                        ?>
+                                                    </td>
+                                                <?php endforeach; ?>
+                                                <td class="text-center"><?= number_format($totalSatuan, 0, ',', '.')  ?></td>
+                                                <td class="text-center"><?= number_format($totalLiter, 0, ',', '.')  ?></td>
+                                            </tr>
                                         <?php endforeach; ?>
-                                        <td>bh</td>
-                                        <td>ltr</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($dateRange as $tanggal) : ?>
+                                    </tbody>
+                                    <tfoot>
                                         <tr>
-                                            <td class="text-center"><?= $no++ ?></td>
-                                            <td class="text-center"><?= date('d-m-Y', strtotime($tanggal)) ?></td>
+                                            <td></td>
+                                            <td>Jumlah Satuan</td>
                                             <?php
                                             $totalSatuan = 0;
                                             $totalLiter = 0;
                                             foreach ($nama_barang as $jenis) : ?>
                                                 <td class="text-center">
                                                     <?php
-                                                    // Cari nama barang yang cocok di $jumlah_satuan
-                                                    $found = false;
-                                                    foreach ($jumlah_satuan as $barang) {
-                                                        if ($barang['nama_barang_jadi'] == $jenis) {
-                                                            $found = true;
-                                                            if (isset($barang['barang_jadi'][$tanggal])) {
-                                                                echo number_format($barang['barang_jadi'][$tanggal], 0, ',', '.');
-                                                                $jumlah_barang = $barang['barang_jadi'][$tanggal];
-                                                                $totalSatuan += $jumlah_barang;
-                                                            } else {
-                                                                echo '0'; // Display 0 if no data for this date and product
+                                                    $totalPerJenis = 0;
+                                                    foreach ($dateRange as $tanggal) {
+                                                        $totalPerJenisTanggal = 0;
+                                                        foreach ($jumlah_satuan as $barang) {
+                                                            if ($barang['nama_barang_jadi'] == $jenis) {
+                                                                if (isset($barang['barang_jadi'][$tanggal])) {
+                                                                    $jumlah_barang = $barang['barang_jadi'][$tanggal];
+                                                                    $totalPerJenisTanggal += $jumlah_barang;
+                                                                    $totalSatuan += $jumlah_barang; // Tambahkan ke total semua di sini
+                                                                }
                                                             }
-                                                            break;
                                                         }
+                                                        $totalPerJenis += $totalPerJenisTanggal;
                                                     }
-                                                    // Jika tidak ditemukan, munculkan '0'
-                                                    if (!$found) {
-                                                        echo '0';
-                                                    }
+                                                    echo number_format($totalPerJenis, 0, ',', '.');
                                                     ?>
                                                 </td>
                                                 <td class="text-center">
                                                     <?php
-                                                    // Cari nama barang yang cocok di $jumlah_liter
-                                                    $found = false;
-                                                    foreach ($jumlah_liter as $barang) {
-                                                        if ($barang['nama_barang_jadi'] == $jenis) {
-                                                            $found = true;
-                                                            if (isset($barang['barang_jadi'][$tanggal])) {
-                                                                echo number_format($barang['barang_jadi'][$tanggal], 0, ',', '.');
-                                                                $jumlah_barang = $barang['barang_jadi'][$tanggal];
-                                                                $totalLiter += $jumlah_barang;
-                                                            } else {
-                                                                echo '0'; // Display 0 if no data for this date and product
+                                                    $totalPerJenis = 0;
+                                                    foreach ($dateRange as $tanggal) {
+                                                        $totalPerJenisTanggal = 0;
+                                                        foreach ($jumlah_liter as $barang) {
+                                                            if ($barang['nama_barang_jadi'] == $jenis) {
+                                                                if (isset($barang['barang_jadi'][$tanggal])) {
+                                                                    $jumlah_barang = $barang['barang_jadi'][$tanggal];
+                                                                    $totalPerJenisTanggal += $jumlah_barang;
+                                                                    $totalLiter += $jumlah_barang; // Tambahkan ke total semua di sini
+                                                                }
                                                             }
-                                                            break;
                                                         }
+                                                        $totalPerJenis += $totalPerJenisTanggal;
                                                     }
-                                                    // Jika tidak ditemukan, munculkan '0'
-                                                    if (!$found) {
-                                                        echo '0';
-                                                    }
+                                                    echo number_format($totalPerJenis, 0, ',', '.');
                                                     ?>
                                                 </td>
                                             <?php endforeach; ?>
-                                            <td class="text-center"><?= number_format($totalSatuan, 0, ',', '.')  ?></td>
-                                            <td class="text-center"><?= number_format($totalLiter, 0, ',', '.')  ?></td>
+                                            <td class='text-center'><?= number_format($totalSatuan, 0, ',', '.')  ?></td>
+                                            <td class='text-center'><?= number_format($totalLiter, 0, ',', '.')  ?></td>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td></td>
-                                        <td>Jumlah Satuan</td>
-                                        <?php
-                                        $totalSatuan = 0;
-                                        $totalLiter = 0;
-                                        foreach ($nama_barang as $jenis) : ?>
-                                            <td class="text-center">
-                                                <?php
-                                                $totalPerJenis = 0;
-                                                foreach ($dateRange as $tanggal) {
-                                                    $totalPerJenisTanggal = 0;
-                                                    foreach ($jumlah_satuan as $barang) {
-                                                        if ($barang['nama_barang_jadi'] == $jenis) {
-                                                            if (isset($barang['barang_jadi'][$tanggal])) {
-                                                                $jumlah_barang = $barang['barang_jadi'][$tanggal];
-                                                                $totalPerJenisTanggal += $jumlah_barang;
-                                                                $totalSatuan += $jumlah_barang; // Tambahkan ke total semua di sini
-                                                            }
-                                                        }
-                                                    }
-                                                    $totalPerJenis += $totalPerJenisTanggal;
-                                                }
-                                                echo number_format($totalPerJenis, 0, ',', '.');
-                                                ?>
-                                            </td>
-                                            <td class="text-center">
-                                                <?php
-                                                $totalPerJenis = 0;
-                                                foreach ($dateRange as $tanggal) {
-                                                    $totalPerJenisTanggal = 0;
-                                                    foreach ($jumlah_liter as $barang) {
-                                                        if ($barang['nama_barang_jadi'] == $jenis) {
-                                                            if (isset($barang['barang_jadi'][$tanggal])) {
-                                                                $jumlah_barang = $barang['barang_jadi'][$tanggal];
-                                                                $totalPerJenisTanggal += $jumlah_barang;
-                                                                $totalLiter += $jumlah_barang; // Tambahkan ke total semua di sini
-                                                            }
-                                                        }
-                                                    }
-                                                    $totalPerJenis += $totalPerJenisTanggal;
-                                                }
-                                                echo number_format($totalPerJenis, 0, ',', '.');
-                                                ?>
-                                            </td>
-                                        <?php endforeach; ?>
-                                        <td class='text-center'><?= number_format($totalSatuan, 0, ',', '.')  ?></td>
-                                        <td class='text-center'><?= number_format($totalLiter, 0, ',', '.')  ?></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -9,7 +9,16 @@ class Laporan_harian extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('Model_laporan');
         date_default_timezone_set('Asia/Jakarta');
-        if (!$this->session->userdata('nama_pengguna')) {
+        // if (!$this->session->userdata('nama_pengguna')) {
+        //     redirect('auth');
+        // }
+        if ($this->session->userdata('upk_bagian') != 'baku') {
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Maaf,</strong> Anda harus login sebagai Admin Barang Baku...
+                      </div>'
+            );
             redirect('auth');
         }
     }
