@@ -8,15 +8,25 @@ class Barang_rusak extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Model_barang_baku');
-        // if (!$this->session->userdata('nama_pengguna')) {
-        //     redirect('auth');
-        // }
-        if ($this->session->userdata('upk_bagian') != 'baku') {
+
+        if (!$this->session->userdata('nama_pengguna')) {
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Maaf,</strong> Anda harus login sebagai Admin Barang Baku...
+                        <strong>Maaf,</strong> Anda harus login untuk akses halaman ini...
                       </div>'
+            );
+            redirect('auth');
+        }
+
+        $level_pengguna = $this->session->userdata('level');
+        $upk_bagian = $this->session->userdata('upk_bagian');
+        if ($level_pengguna != 'Admin' && $upk_bagian != 'baku') {
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Maaf,</strong> Anda tidak memiliki hak akses untuk halaman ini...
+                  </div>'
             );
             redirect('auth');
         }
@@ -38,7 +48,7 @@ class Barang_rusak extends CI_Controller
         $data['tahun_lap'] = $tahun;
         $data['title'] = 'Berita Acara Barang Rusak';
         $data['barang_rusak'] = $this->Model_barang_baku->getbarang_rusak($bulan, $tahun);
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');
@@ -133,10 +143,19 @@ class Barang_rusak extends CI_Controller
     {
         $data['detail_barang_rusak'] = $this->Model_barang_baku->get_detail_barang_rusak($id_rusak_baku);
         $data['title'] = 'Detail Barang Rusak';
-        $this->load->view('templates/pengguna/header', $data);
-        $this->load->view('templates/pengguna/navbar');
-        $this->load->view('templates/pengguna/sidebar_baku');
-        $this->load->view('barang_baku/view_detail_rusak_barang_baku', $data);
-        $this->load->view('templates/pengguna/footer');
+
+        if ($this->session->userdata('level') == 'Admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('barang_baku/view_detail_rusak_barang_baku', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_baku');
+            $this->load->view('templates/pengguna/sidebar_baku');
+            $this->load->view('barang_baku/view_detail_rusak_barang_baku', $data);
+            $this->load->view('templates/pengguna/footer_baku');
+        }
     }
 }

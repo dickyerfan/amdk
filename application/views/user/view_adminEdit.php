@@ -10,9 +10,26 @@
                     <form class="user" action="<?= base_url('user/admin/update') ?>" method="POST">
                         <div class="row">
                             <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nama_lengkap">Nama Lengkap :</label>
+                                    <select class="form-select" name="nama_lengkap" id="nama_lengkap" select2>
+                                        <?php foreach ($data_karyawan as $row) : ?>
+                                            <option value="<?= $row->nama_karyawan ?>" <?= $row->nama_karyawan == $user->nama_lengkap ? 'selected' : ''; ?>><?= $row->nama_karyawan ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <!-- <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" value="<?= $user->nama_lengkap; ?>"> -->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nama_user">Nama User :</label>
+                                    <input type="text" class="form-control" id="nama_user" name="nama_user" value="<?= $user->nama_user; ?>">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <input type="hidden" name="id" id="id" value="<?= $user->id ?>">
                                 <div class="form-group">
-                                    <label for="nama_pengguna">Nama Pengguna :</label>
+                                    <label for="nama_pengguna">Nama Bagian :</label>
                                     <!-- <input type="text" class="form-control" id="nama_pengguna" name="nama_pengguna" value="<?= $user->nama_pengguna; ?>"> -->
                                     <select name="nama_pengguna" id="nama_pengguna" class="form-control select2">
                                         <option value="">Pilih Nama Pengguna</option>
@@ -26,20 +43,10 @@
                                     </select>
                                 </div>
                             </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="nama_lengkap">Nama Lengkap :</label>
-                                    <select class="form-select" name="nama_lengkap" id="nama_lengkap" select2>
-                                        <?php foreach ($data_karyawan as $row) : ?>
-                                            <option value="<?= $row->nama_karyawan ?>" <?= $row->nama_karyawan == $user->nama_lengkap ? 'selected' : ''; ?>><?= $row->nama_karyawan ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <!-- <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" value="<?= $user->nama_lengkap; ?>"> -->
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="upk_bagian">Bagian :</label>
+                                    <label for="upk_bagian">Nama Divisi :</label>
                                     <!-- <input type="text" class="form-control" id="upk_bagian" name="upk_bagian" value="<?= $user->upk_bagian; ?>"> -->
                                     <select name="upk_bagian" id="upk_bagian" class="form-control select2">
                                         <option value="">Pilih Bagian</option>
@@ -55,7 +62,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="Nik Karyawan">Nik Karyawan :</label>
+                                    <label for="nik_karyawan">Nik Karyawan :</label>
                                     <input type="text" class="form-control" id="nik_karyawan" name="nik_karyawan" value="<?= $user->nik_karyawan; ?>">
                                 </div>
                             </div>

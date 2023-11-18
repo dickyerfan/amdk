@@ -25,21 +25,45 @@ class Password extends CI_Controller
 		$this->form_validation->set_message('matches', '%s harus sama dengan password baru');
 
 		if ($this->form_validation->run() == false) {
-			if ($this->session->userdata('level') != 'Admin') {
-				$this->load->view('templates/pengguna/header', $data);
-				$this->load->view('templates/pengguna/navbar_baku');
-				$this->load->view('templates/pengguna/sidebar_baku');
-				$this->load->view('view_gantiPassword', $data);
-				$this->load->view('templates/pengguna/footer_baku');
-			} else {
+			if ($this->session->userdata('level') == 'Admin') {
 				$this->load->view('templates/header', $data);
 				$this->load->view('templates/navbar');
 				$this->load->view('templates/sidebar');
 				$this->load->view('view_gantiPassword', $data);
 				$this->load->view('templates/footer');
+			} else if ($this->session->userdata('upk_bagian') == 'baku') {
+				$this->load->view('templates/pengguna/header', $data);
+				$this->load->view('templates/pengguna/navbar_baku');
+				$this->load->view('templates/pengguna/sidebar_baku');
+				$this->load->view('view_gantiPassword', $data);
+				$this->load->view('templates/pengguna/footer_baku');
+			} else if ($this->session->userdata('upk_bagian') == 'produksi') {
+				$this->load->view('templates/pengguna/header', $data);
+				$this->load->view('templates/pengguna/navbar_produksi');
+				$this->load->view('templates/pengguna/sidebar_produksi');
+				$this->load->view('view_gantiPassword', $data);
+				$this->load->view('templates/pengguna/footer_produksi');
+			} else if ($this->session->userdata('upk_bagian') == 'jadi') {
+				$this->load->view('templates/pengguna/header', $data);
+				$this->load->view('templates/pengguna/navbar_jadi');
+				$this->load->view('templates/pengguna/sidebar_jadi');
+				$this->load->view('view_gantiPassword', $data);
+				$this->load->view('templates/pengguna/footer_jadi');
+			} else if ($this->session->userdata('upk_bagian') == 'pasar') {
+				$this->load->view('templates/pengguna/header', $data);
+				$this->load->view('templates/pengguna/navbar_pasar');
+				$this->load->view('templates/pengguna/sidebar_pasar');
+				$this->load->view('view_gantiPassword', $data);
+				$this->load->view('templates/pengguna/footer');
+			} else if ($this->session->userdata('upk_bagian') == 'uang') {
+				$this->load->view('templates/pengguna/header', $data);
+				$this->load->view('templates/pengguna/navbar_uang');
+				$this->load->view('templates/pengguna/sidebar_uang');
+				$this->load->view('view_gantiPassword', $data);
+				$this->load->view('templates/pengguna/footer');
 			}
 		} else {
-			$cek_pass = $this->db->get_where('user', ['nama_pengguna' => $this->session->userdata('nama_pengguna')])->row();
+			$cek_pass = $this->db->get_where('user', ['nama_user' => $this->session->userdata('nama_user')])->row();
 			$passwordLama = $this->input->post('passLama');
 			$passwordBaru = $this->input->post('passBaru');
 
@@ -67,7 +91,7 @@ class Password extends CI_Controller
 				} else {
 					$passwordHash = password_hash($passwordBaru, PASSWORD_DEFAULT);
 					$this->db->set('password', $passwordHash);
-					$this->db->where('nama_pengguna', $this->session->userdata('nama_pengguna'));
+					$this->db->where('nama_user', $this->session->userdata('nama_user'));
 					$this->db->update('user');
 
 					$this->session->set_flashdata(
@@ -87,18 +111,42 @@ class Password extends CI_Controller
 	public function profil()
 	{
 		$data['title'] = "Profil";
-		if ($this->session->userdata('level') != 'Admin') {
-			$this->load->view('templates/pengguna/header', $data);
-			$this->load->view('templates/pengguna/navbar');
-			$this->load->view('templates/pengguna/sidebar');
-			$this->load->view('view_profil', $data);
-			$this->load->view('templates/pengguna/footer');
-		} else {
+		if ($this->session->userdata('level') == 'Admin') {
 			$this->load->view('templates/header', $data);
 			$this->load->view('templates/navbar');
 			$this->load->view('templates/sidebar');
 			$this->load->view('view_profil', $data);
 			$this->load->view('templates/footer');
+		} else if ($this->session->userdata('upk_bagian') == 'baku') {
+			$this->load->view('templates/pengguna/header', $data);
+			$this->load->view('templates/pengguna/navbar_baku');
+			$this->load->view('templates/pengguna/sidebar_baku');
+			$this->load->view('view_profil', $data);
+			$this->load->view('templates/pengguna/footer_baku');
+		} else if ($this->session->userdata('upk_bagian') == 'produksi') {
+			$this->load->view('templates/pengguna/header', $data);
+			$this->load->view('templates/pengguna/navbar_produksi');
+			$this->load->view('templates/pengguna/sidebar_produksi');
+			$this->load->view('view_profil', $data);
+			$this->load->view('templates/pengguna/footer_produksi');
+		} else if ($this->session->userdata('upk_bagian') == 'jadi') {
+			$this->load->view('templates/pengguna/header', $data);
+			$this->load->view('templates/pengguna/navbar_jadi');
+			$this->load->view('templates/pengguna/sidebar_jadi');
+			$this->load->view('view_profil', $data);
+			$this->load->view('templates/pengguna/footer_jadi');
+		} else if ($this->session->userdata('upk_bagian') == 'pasar') {
+			$this->load->view('templates/pengguna/header', $data);
+			$this->load->view('templates/pengguna/navbar_pasar');
+			$this->load->view('templates/pengguna/sidebar_pasar');
+			$this->load->view('view_profil', $data);
+			$this->load->view('templates/pengguna/footer');
+		} else if ($this->session->userdata('upk_bagian') == 'uang') {
+			$this->load->view('templates/pengguna/header', $data);
+			$this->load->view('templates/pengguna/navbar_uang');
+			$this->load->view('templates/pengguna/sidebar_uang');
+			$this->load->view('view_profil', $data);
+			$this->load->view('templates/pengguna/footer');
 		}
 	}
 }

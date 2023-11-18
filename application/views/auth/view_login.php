@@ -77,9 +77,13 @@
                     <div class="card-footer">
                         <form method="post" action="<?= base_url('auth') ?>">
                             <div class="form-group">
+                                <input type="text" class="form-control" name="nama_user" id="nama_user" placeholder="Masukkan nama User" value="<?= set_value('nama_user'); ?>">
+                                <?= form_error('nama_user', '<span class="text-danger small pl-2">', '</span>'); ?>
+                            </div>
+                            <!-- <div class="form-group">
                                 <input type="text" class="form-control" name="upk_bagian" id="upk_bagian" placeholder="Masukkan nama Bagian" value="<?= set_value('upk_bagian'); ?>">
                                 <?= form_error('upk_bagian', '<span class="text-danger small pl-2">', '</span>'); ?>
-                            </div>
+                            </div> -->
                             <div class="form-group mt-2">
                                 <input type="password" class="form-control" name="password" id="password" placeholder="Masukkan Password">
                                 <?= form_error('password', '<span class="text-danger small pl-2">', '</span>'); ?>
@@ -102,6 +106,7 @@
     <script src="<?= base_url() ?>/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="<?= base_url() ?>/js/scripts.js"></script>
     <script src="<?= base_url() ?>/js/Chart.min.js" crossorigin="anonymous"></script>
+
 </body>
 
 </html>

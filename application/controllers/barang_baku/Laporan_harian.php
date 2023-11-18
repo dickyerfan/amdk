@@ -9,15 +9,25 @@ class Laporan_harian extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('Model_laporan');
         date_default_timezone_set('Asia/Jakarta');
-        // if (!$this->session->userdata('nama_pengguna')) {
-        //     redirect('auth');
-        // }
-        if ($this->session->userdata('upk_bagian') != 'baku') {
+
+        if (!$this->session->userdata('nama_pengguna')) {
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Maaf,</strong> Anda harus login sebagai Admin Barang Baku...
+                        <strong>Maaf,</strong> Anda harus login untuk akses halaman ini...
                       </div>'
+            );
+            redirect('auth');
+        }
+
+        $level_pengguna = $this->session->userdata('level');
+        $upk_bagian = $this->session->userdata('upk_bagian');
+        if ($level_pengguna != 'Admin' && $upk_bagian != 'baku') {
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Maaf,</strong> Anda tidak memiliki hak akses untuk halaman ini...
+                  </div>'
             );
             redirect('auth');
         }
@@ -36,7 +46,7 @@ class Laporan_harian extends CI_Controller
         $data['tanggal_hari_ini'] = $this->input->get('tanggal');
         $data['lap_harian'] = $this->Model_laporan->getdata_harian($tanggal);
 
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');

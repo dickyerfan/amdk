@@ -16,7 +16,8 @@
                             <thead>
                                 <tr class="bg-secondary text-center">
                                     <th>No</th>
-                                    <th>Nama Pengguna</th>
+                                    <!-- <th>Nama Pengguna</th> -->
+                                    <th>Nama User</th>
                                     <th>Nama Lengkap</th>
                                     <th>Bagian</th>
                                     <th>Level</th>
@@ -30,11 +31,12 @@
                                 foreach ($user as $row) :
                                 ?>
                                     <tr>
-                                        <td class="text-center"><?= $no++ ?></td>
-                                        <td><?= $row->nama_pengguna ?></td>
-                                        <td><?= $row->nama_lengkap ?></td>
-                                        <td><?= $row->upk_bagian ?></td>
-                                        <td class="text-center"><?= $row->level ?></td>
+                                        <td class="text-center"><?= $no++; ?></td>
+                                        <td><?= $row->nama_user; ?></td>
+                                        <td><?= $row->nama_lengkap; ?></td>
+                                        <td><?= $row->nama_pengguna; ?></td>
+                                        <!-- <td><?= $row->upk_bagian; ?></td> -->
+                                        <td class="text-center"><?= $row->level; ?></td>
                                         <td class="text-center"><?= $row->status == 1 ? 'Aktif' : 'Non Aktif' ?></td>
                                         <td class="text-center">
                                             <?php if ($row->nama_pengguna !== 'administrator') : ?>

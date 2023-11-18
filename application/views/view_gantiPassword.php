@@ -4,7 +4,23 @@
             <div class="card">
                 <div class="card-header card-outline card-primary shadow mb-2">
                     <a class="fw-bold text-dark" style="text-decoration:none ;"><?= strtoupper($title) ?></a>
-                    <a href="<?=($this->session->userdata('level')=='Pengguna')? base_url('pengguna'): base_url('dashboard') ?>"><button class="btn btn-primary btn-sm float-end"><i class="fas fa-reply"></i> Kembali</button></a>
+                    <a href="<?php
+                                if ($this->session->userdata('level') == 'Admin') {
+                                    echo base_url('dashboard');
+                                } else if ($this->session->userdata('upk_bagian') == 'baku') {
+                                    echo base_url('barang_baku/baku');
+                                } else if ($this->session->userdata('upk_bagian') == 'jadi') {
+                                    echo base_url('barang_jadi/jadi');
+                                } else if ($this->session->userdata('upk_bagian') == 'produksi') {
+                                    echo base_url('barang_produksi/produksi');
+                                } else if ($this->session->userdata('upk_bagian') == 'pasar') {
+                                    echo base_url('pemasaran/pasar');
+                                } else if ($this->session->userdata('upk_bagian') == 'uang') {
+                                    echo base_url('keuangan/uang');
+                                } else if ($this->session->userdata('upk_bagian') == 'kontrol') {
+                                    echo base_url('q_control/kontrol');
+                                }
+                                ?>"><button class="btn btn-primary btn-sm float-end"><i class="fas fa-reply"></i> Kembali</button></a>
                 </div>
                 <?= $this->session->flashdata('info'); ?>
                 <?= $this->session->unset_userdata('info'); ?>

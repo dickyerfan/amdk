@@ -30,9 +30,10 @@ class Admin extends CI_Controller
         $data['title'] = "Tambah User/Admin";
         $data['data_karyawan'] = $this->Model_user->get_karyawan();
 
-        $this->form_validation->set_rules('nama_pengguna', 'Nama Pengguna', 'required|trim');
+        $this->form_validation->set_rules('nama_pengguna', 'Bagian', 'required|trim');
+        $this->form_validation->set_rules('nama_user', 'Nama User', 'required|trim');
         $this->form_validation->set_rules('nama_lengkap', 'Nama Lengkap', 'required|trim|is_unique[user.nama_lengkap]');
-        $this->form_validation->set_rules('upk_bagian', 'Nama Bagian / UPK', 'required|trim');
+        $this->form_validation->set_rules('upk_bagian', 'Divisi', 'required|trim');
         $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[3]');
 
         $this->form_validation->set_message('required', '%s masih kosong');

@@ -10,13 +10,31 @@
                         <div class="card-body">
                             <!-- <img src="..." class="card-img-top"> -->
                             <h5 class="card-title">Nama : <?= $this->session->userdata('nama_lengkap'); ?></h5>
-                            <h5 class="card-title">Email : <?= $this->session->userdata('email'); ?></h5>
+                            <h5 class="card-title">NIK : <?= $this->session->userdata('nik_karyawan'); ?></h5>
+                            <h5 class="card-title">Bagian : <?= $this->session->userdata('nama_pengguna'); ?></h5>
                             <h5 class="card-title">Status : <?= ucfirst($this->session->userdata('level')); ?></h5>
-                            <p class="card-text">Keterangan :</p>
+                            <h5 class="card-text">Keterangan :</h5>
                             <!-- <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus officiis maiores dolorum minima. Aliquam nostrum culpa vel, et architecto soluta, ipsum delectus incidunt a exercitationem ipsam beatae inventore! Provident, aut?</p> -->
                         </div>
                         <div class="card-footer">
-                            <a href="<?=($this->session->userdata('level')=='Pengguna')? base_url('pengguna'): base_url('dashboard') ?>" class="btn btn-primary">Kembali</a>
+                            <a href="<?php
+                                        if ($this->session->userdata('level') == 'Admin') {
+                                            echo base_url('dashboard');
+                                        } else if ($this->session->userdata('upk_bagian') == 'baku') {
+                                            echo base_url('barang_baku/baku');
+                                        } else if ($this->session->userdata('upk_bagian') == 'jadi') {
+                                            echo base_url('barang_jadi/jadi');
+                                        } else if ($this->session->userdata('upk_bagian') == 'produksi') {
+                                            echo base_url('barang_produksi/produksi');
+                                        } else if ($this->session->userdata('upk_bagian') == 'pasar') {
+                                            echo base_url('pemasaran/pasar');
+                                        } else if ($this->session->userdata('upk_bagian') == 'uang') {
+                                            echo base_url('keuangan/uang');
+                                        } else if ($this->session->userdata('upk_bagian') == 'kontrol') {
+                                            echo base_url('q_control/kontrol');
+                                        }
+
+                                        ?>" class="btn btn-primary">Kembali</a>
                         </div>
                     </div>
                 </div>

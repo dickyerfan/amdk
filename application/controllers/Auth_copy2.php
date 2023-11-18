@@ -12,7 +12,7 @@ class Auth extends CI_Controller
 
     public function index()
     {
-        $this->form_validation->set_rules('nama_user', 'Nama User', 'required|trim');
+        $this->form_validation->set_rules('upk_bagian', 'Nama Bagian', 'required|trim');
         $this->form_validation->set_rules('password', 'Password', 'required|trim');
         $this->form_validation->set_message('required', '%s masih kosong');
 
@@ -20,11 +20,11 @@ class Auth extends CI_Controller
             $data['title'] = 'Login';
             $this->load->view('auth/view_login', $data);
         } else {
-            $nama_user = $this->input->post('nama_user');
+            $upk_bagian = $this->input->post('upk_bagian');
             $password = $this->input->post('password');
 
             $this->db->from('user');
-            $this->db->where('nama_user', $nama_user);
+            $this->db->where('upk_bagian', $upk_bagian);
             $this->db->where('status', 1);
             $query = $this->db->get();
             $users = $query->result();
@@ -38,7 +38,6 @@ class Auth extends CI_Controller
                     $data_session = [
                         'nama_pengguna' => $user->nama_pengguna,
                         'nik_karyawan' => $user->nik_karyawan,
-                        'nama_user' => $user->nama_user,
                         'nama_lengkap' => $user->nama_lengkap,
                         'upk_bagian' => $user->upk_bagian,
                         'password' => $user->password,
@@ -61,7 +60,7 @@ class Auth extends CI_Controller
             }
 
             if (!$user_found) {
-                $this->session->set_flashdata('info', '<div class="alert alert-danger" role="alert">Login Gagal, Nama User tidak valid.!</div>');
+                $this->session->set_flashdata('info', '<div class="alert alert-danger" role="alert">Login Gagal, Nama Bagian tidak valid.!</div>');
                 redirect('auth');
             }
         }
@@ -101,44 +100,41 @@ class Auth extends CI_Controller
     }
 
 
-    // public function registrasi()
-    // {
-    //     if ($this->session->userdata('nama_pengguna')) {
-    //         redirect('dashboard');
-    //     }
-    //     $this->form_validation->set_rules('nama_pengguna', 'Nama Pengguna', 'required|trim|min_length[5]|is_unique[user.nama_pengguna]');
-    //     $this->form_validation->set_rules('nama_lengkap', 'Nama Lengkap', 'required|trim');
-    //     $this->form_validation->set_rules('email', 'email', 'required|trim|valid_email');
-    //     $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[5]');
+    public function registrasi()
+    {
+        if ($this->session->userdata('nama_pengguna')) {
+            redirect('dashboard');
+        }
+        $this->form_validation->set_rules('nama_pengguna', 'Nama Pengguna', 'required|trim|min_length[5]|is_unique[user.nama_pengguna]');
+        $this->form_validation->set_rules('nama_lengkap', 'Nama Lengkap', 'required|trim');
+        $this->form_validation->set_rules('email', 'email', 'required|trim|valid_email');
+        $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[5]');
 
-    //     $this->form_validation->set_message('required', '%s masih kosong');
-    //     $this->form_validation->set_message('valid_email', '%s Harus Valid');
-    //     $this->form_validation->set_message('is_unique', '%s Sudah terdaftar, Ganti yang lain');
-    //     $this->form_validation->set_message('min_length', '%s Minimal 5 karakter');
+        $this->form_validation->set_message('required', '%s masih kosong');
+        $this->form_validation->set_message('valid_email', '%s Harus Valid');
+        $this->form_validation->set_message('is_unique', '%s Sudah terdaftar, Ganti yang lain');
+        $this->form_validation->set_message('min_length', '%s Minimal 5 karakter');
 
-    //     if ($this->form_validation->run() == false) {
-    //         $data['title'] = 'Registrasi';
-    //         $this->load->view('auth/view_registrasi', $data);
-    //     } else {
-    //         $this->model_auth->registrasi();
-    //         redirect('auth');
-    //     }
-    // }
+        if ($this->form_validation->run() == false) {
+            $data['title'] = 'Registrasi';
+            $this->load->view('auth/view_registrasi', $data);
+        } else {
+            $this->model_auth->registrasi();
+            redirect('auth');
+        }
+    }
 
     public function logout()
     {
 
         $this->session->unset_userdata('nama_pengguna');
-        $this->session->unset_userdata('nama_user');
         $this->session->unset_userdata('nama_lengkap');
         $this->session->unset_userdata('email');
         $this->session->unset_userdata('password');
         $this->session->unset_userdata('level');
         $this->session->unset_userdata('tipe');
 
-        $this->session->set_flashdata('info', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Selamat,</strong> Anda Berhasil Logout.!
-        </div>');
+        $this->session->set_flashdata('info', '<div class="alert alert-success" role="alert">Selamat, Anda Berhasil Logout!</div>');
         redirect('auth');
     }
 }

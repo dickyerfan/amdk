@@ -27,10 +27,11 @@ class model_user extends CI_Model
     {
         $data = [
             'nama_pengguna' => $this->input->post('nama_pengguna', true),
+            'nama_user' => $this->input->post('nama_user', true),
             'nama_lengkap' => $this->input->post('nama_lengkap', true),
             'upk_bagian' => $this->input->post('upk_bagian', true),
             'password' => password_hash($this->input->post('password', true), PASSWORD_DEFAULT),
-            'level' => $this->input->post('level', true),
+            // 'level' => $this->input->post('level', true),
             'nik_karyawan' => $this->input->post('nik_karyawan', true)
         ];
         $this->db->insert('user', $data);
@@ -52,6 +53,7 @@ class model_user extends CI_Model
 
         $data = [
             'nama_pengguna' => $this->input->post('nama_pengguna', true),
+            'nama_user' => $this->input->post('nama_user', true),
             'nama_lengkap' => $this->input->post('nama_lengkap', true),
             'upk_bagian' => $this->input->post('upk_bagian', true),
             'level' => $this->input->post('level', true),
