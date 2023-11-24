@@ -18,7 +18,7 @@
                 <i class="fa fa-bell" id="bellIcon"></i>
             </a>
             <ul class="dropdown-menu" aria-labelledby="bellDropdown" id="permintaanProduksi" style="display: none;">
-                <li><a href="#" class="dropdown-item" style="font-size: 0.8rem;">ada pesan baru</a></li>
+                <li><a href="<?= base_url('barang_jadi/bon_barang_baku/update_status_produksi') ?>" class="dropdown-item" style="font-size: 0.8rem;">ada pesan baru</a></li>
             </ul>
         </li>
     </ul>

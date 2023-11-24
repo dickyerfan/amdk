@@ -8,15 +8,24 @@ class Pemesanan extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Model_pemesanan');
-        // if (!$this->session->userdata('nama_pengguna')) {
-        //     redirect('auth');
-        // }
-        if ($this->session->userdata('upk_bagian') != 'pasar') {
+        if (!$this->session->userdata('nama_pengguna')) {
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Maaf,</strong> Anda harus login sebagai Admin Pemasaran...
+                        <strong>Maaf,</strong> Anda harus login untuk akses halaman ini...
                       </div>'
+            );
+            redirect('auth');
+        }
+
+        $level_pengguna = $this->session->userdata('level');
+        $upk_bagian = $this->session->userdata('upk_bagian');
+        if ($level_pengguna != 'Admin' && $upk_bagian != 'pasar') {
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Maaf,</strong> Anda tidak memiliki hak akses untuk halaman ini...
+                  </div>'
             );
             redirect('auth');
         }
@@ -141,14 +150,68 @@ class Pemesanan extends CI_Controller
         }
     }
 
-    public function detail_masuk($id_masuk_baku)
+    public function upload_nota($id_pemesanan)
     {
-        $data['detail_barang_masuk'] = $this->Model_barang_baku->get_detail_barang_masuk($id_masuk_baku);
-        $data['title'] = 'Detail Barang Baku';
+        $data['upload_nota'] = $this->Model_pemesanan->get_id_pemesanan($id_pemesanan);
+        $data['title'] = 'Form Upload Nota Pembelian';
         $this->load->view('templates/pengguna/header', $data);
-        $this->load->view('templates/pengguna/navbar');
-        $this->load->view('templates/pengguna/sidebar_baku');
-        $this->load->view('barang_baku/view_detail_masuk_barang_baku', $data);
+        $this->load->view('templates/pengguna/navbar_pasar');
+        $this->load->view('templates/pengguna/sidebar_pasar');
+        $this->load->view('pemasaran/view_tambah_nota', $data);
+        $this->load->view('templates/pengguna/footer');
+    }
+
+
+    public function update_nota()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        if (!empty($_FILES['nota_beli']['name'])) {
+
+            // Lakukan proses upload file
+            $config['upload_path']   = './uploads/pasar/nota/';
+            $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+            $config['max_size']      = 1000;
+            $config['overwrite']     = true; // Mengizinkan penggantian file yang ada dengan nama yang sama
+
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload('nota_beli')) {
+                $data_upload = $this->upload->data();
+                $data['nota_beli'] = $data_upload['file_name'];
+                $data['id_pemesanan'] = $this->input->post('id_pemesanan');
+            } else {
+                // Jika proses upload gagal
+                $error_msg = $this->upload->display_errors();
+                $this->session->set_flashdata('info', $error_msg);
+                redirect('pemasaran/pemesanan');
+            }
+        }
+        // Isi data selain file yang diupload
+        $data['input_status_masuk'] = $this->session->userdata('nama_lengkap');
+        $data['tanggal_update'] = date('Y-m-d H:i:s');
+        $data['status_nota'] = 1;
+
+        // Simpan data ke dalam database
+        $this->Model_pemesanan->update_nota($data);
+        $this->session->set_flashdata(
+            'info',
+            '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    <strong>Sukses,</strong> Nota Pembelian berhasil di upload
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                </div>'
+        );
+        redirect('pemasaran/pemesanan');
+    }
+
+
+    public function detail($id_pemesanan)
+    {
+        $data['detail_pemesanan'] = $this->Model_pemesanan->get_detail_pemesanan($id_pemesanan);
+        $data['title'] = 'Detail Pemesanan Barang';
+        $this->load->view('templates/pengguna/header', $data);
+        $this->load->view('templates/pengguna/navbar_pasar');
+        $this->load->view('templates/pengguna/sidebar_pasar');
+        $this->load->view('pemasaran/view_detail_pemesanan', $data);
         $this->load->view('templates/pengguna/footer');
     }
 }

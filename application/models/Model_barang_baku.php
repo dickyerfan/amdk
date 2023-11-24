@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Model_barang_baku extends CI_Model
 {
 
-    // transaksi stok barang baku
+    // awal stok barang baku
     public function getdata()
     {
         $tahun_sekarang = date('Y');
@@ -35,6 +35,21 @@ class Model_barang_baku extends CI_Model
         $this->db->group_by('barang_baku.id_barang_baku');
         return $this->db->get()->result();
     }
+
+    public function get_jenis_barang()
+    {
+        $this->db->select('*');
+        $this->db->from('jenis_barang');
+        return $this->db->get()->result();
+    }
+
+    public function get_satuan()
+    {
+        $this->db->select('*');
+        $this->db->from('satuan');
+        return $this->db->get()->result();
+    }
+    // akhir stok barang baku
 
     // public function getdata()
     // {
@@ -69,22 +84,7 @@ class Model_barang_baku extends CI_Model
         $this->db->insert($table, $data);
     }
 
-
-    public function get_satuan()
-    {
-        $this->db->select('*');
-        $this->db->from('satuan');
-        return $this->db->get()->result();
-    }
-
-    public function get_jenis_barang()
-    {
-        $this->db->select('*');
-        $this->db->from('jenis_barang');
-        return $this->db->get()->result();
-    }
-
-    // transaksi stok awal
+    // awal stok awal
     public function getstok_awal()
     {
         $this->db->select('barang_baku.id_barang_baku,barang_baku.nama_barang_baku, jumlah_stok_awal_baku, tanggal_stok_awal_baku, input_status_stok_awal_baku');
@@ -94,8 +94,9 @@ class Model_barang_baku extends CI_Model
         $this->db->group_by('stok_awal_baku.id_stok_awal_baku');
         return $this->db->get()->result();
     }
+    // akhir stok awal
 
-    // transaksi barang masuk
+    // awal barang masuk
     public function getbarang_masuk($bulan, $tahun)
     {
         $this->db->select('*');
@@ -140,29 +141,19 @@ class Model_barang_baku extends CI_Model
         return $this->db->get()->result();
     }
 
-    // transaksi barang keluar
-    // public function getbarang_keluar($bulan, $tahun)
-    // {
-    //     $this->db->select('*');
-    //     $this->db->from('keluar_baku');
-    //     $this->db->join('barang_baku', 'keluar_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
-    //     $this->db->where('keluar_baku.status_keluar', 0);
-    //     $this->db->where('MONTH(keluar_baku.tanggal_keluar)', $bulan);
-    //     $this->db->where('YEAR(keluar_baku.tanggal_keluar)', $tahun);
-    //     $this->db->group_by('keluar_baku.id_keluar_baku');
-    //     return $this->db->get()->result();
-    // }
+    // akhir barang masuk
 
+    // awal barang keluar
     public function get_permintaan_barang($bulan, $tahun)
     {
-        $this->db->select('*');
+        $this->db->select('keluar_baku.*, barang_baku.nama_barang_baku');
         $this->db->from('keluar_baku');
         $this->db->join('barang_baku', 'keluar_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
         $this->db->where('keluar_baku.status_tolak', 1);
         $this->db->where('MONTH(keluar_baku.tanggal_keluar)', $bulan);
         $this->db->where('YEAR(keluar_baku.tanggal_keluar)', $tahun);
         $this->db->group_by('keluar_baku.id_keluar_baku');
-        $this->db->order_by('keluar_baku.id_keluar_baku', 'DESC');
+        $this->db->order_by('keluar_baku.tanggal_keluar', 'DESC');
         return $this->db->get()->result();
     }
 
@@ -175,8 +166,9 @@ class Model_barang_baku extends CI_Model
         $this->db->group_by('keluar_baku.id_keluar_baku');
         return $this->db->get()->result();
     }
+    // akhir barang keluar
 
-    // transaksi barang rusak
+    // awal barang rusak
     public function getbarang_rusak($bulan, $tahun)
     {
         $this->db->select('*');
@@ -197,4 +189,5 @@ class Model_barang_baku extends CI_Model
         $this->db->group_by('rusak_baku.id_rusak_baku');
         return $this->db->get()->result();
     }
+    // akhir barang rusak
 }

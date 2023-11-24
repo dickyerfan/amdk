@@ -81,27 +81,128 @@ class Barang_keluar extends CI_Controller
         echo json_encode($data);
     }
 
+    // public function update_status_keluar()
+    // {
+    //     $id_keluar_baku = $this->input->post('id_keluar_baku');
+
+    //     // Lakukan pembaruan status_keluar ke 1 di database
+    //     $data = [
+    //         'status_keluar' => 1,
+    //         'status_produksi' => 0
+    //     ];
+    //     $this->db->where('id_keluar_baku', $id_keluar_baku);
+    //     // $this->db->update('baku_produksi', $data);
+    //     $result = $this->db->update('keluar_baku', $data);
+
+    //     if ($result) {
+    //         $response['success'] = true;
+    //     } else {
+    //         $response['success'] = false;
+    //     }
+
+    //     echo json_encode($response);
+    // }
+
+    // public function update_status_keluar()
+    // {
+    //     $id_keluar_baku = $this->input->post('id_keluar_baku');
+
+    //     // Lakukan pembaruan status_keluar ke 1 di tabel keluar_baku
+    //     $data_keluar = [
+    //         'status_keluar' => 1,
+    //         'status_produksi' => 0
+    //     ];
+    //     $this->db->where('id_keluar_baku', $id_keluar_baku);
+    //     $result_keluar = $this->db->update('keluar_baku', $data_keluar);
+
+    //     // Jika pembaruan tabel keluar_baku berhasil, ambil data yang sesuai
+    //     if ($result_keluar) {
+    //         $this->db->where('id_keluar_baku', $id_keluar_baku);
+    //         // $this->db->where('bagian', 'produksi');
+    //         $query_keluar = $this->db->get('keluar_baku');
+    //         $data_keluar_baku = $query_keluar->row_array();
+
+    //         // Tambahkan data ke tabel baku_produksi
+    //         $data_baku_produksi = [
+    //             // 'id_keluar_baku' => $data_keluar_baku['id_keluar_baku'],
+    //             'id_barang_baku' => $data_keluar_baku['id_barang_baku'],
+    //             'jumlah_keluar' => $data_keluar_baku['jumlah_keluar'],
+    //             'tanggal_keluar' => $data_keluar_baku['tanggal_keluar'],
+    //             'tanggal_keluar' => $data_keluar_baku['tanggal_keluar'],
+    //             'input_status_keluar' => $data_keluar_baku['input_status_keluar'],
+    //             'bukti_keluar_gd' => $data_keluar_baku['bukti_keluar_gd'],
+    //             'bagian' => $data_keluar_baku['bagian']
+
+    //         ];
+    //         $result_baku_produksi = $this->db->insert('baku_produksi', $data_baku_produksi);
+
+    //         if ($result_baku_produksi) {
+    //             $response['success'] = true;
+    //             $response['inserted_data'] = $data_keluar_baku;
+    //         } else {
+    //             $response['success'] = false;
+    //             $response['error'] = 'Gagal menambahkan data ke tabel baku_produksi';
+    //         }
+    //     } else {
+    //         $response['success'] = false;
+    //         $response['error'] = 'Gagal memperbarui status_keluar di tabel keluar_baku';
+    //     }
+
+    //     echo json_encode($response);
+    // }
+
     public function update_status_keluar()
     {
         $id_keluar_baku = $this->input->post('id_keluar_baku');
 
-        // Lakukan pembaruan status_keluar ke 1 di database
-        $data = [
+        // Lakukan pembaruan status_keluar ke 1 di tabel keluar_baku
+        $data_keluar = [
             'status_keluar' => 1,
             'status_produksi' => 0
         ];
         $this->db->where('id_keluar_baku', $id_keluar_baku);
-        $this->db->update('baku_produksi', $data);
-        $result = $this->db->update('keluar_baku', $data);
+        $result_keluar = $this->db->update('keluar_baku', $data_keluar);
 
-        if ($result) {
-            $response['success'] = true;
+        // Jika pembaruan tabel keluar_baku berhasil
+        if ($result_keluar) {
+            // Jika bagian adalah produksi, tambahkan data ke tabel baku_produksi
+            $this->db->where('id_keluar_baku', $id_keluar_baku);
+            $query_keluar = $this->db->get('keluar_baku');
+            $data_keluar_baku = $query_keluar->row_array();
+            if ($data_keluar_baku['bagian'] === 'produksi') {
+
+                $data_baku_produksi = [
+                    'id_keluar_baku' => $data_keluar_baku['id_keluar_baku'],
+                    'id_barang_baku' => $data_keluar_baku['id_barang_baku'],
+                    'jumlah_keluar' => $data_keluar_baku['jumlah_keluar'],
+                    'tanggal_keluar' => $data_keluar_baku['tanggal_keluar'],
+                    'input_status_keluar' => $data_keluar_baku['input_status_keluar'],
+                    'bukti_keluar_gd' => $data_keluar_baku['bukti_keluar_gd'],
+                    'bagian' => $data_keluar_baku['bagian']
+                ];
+
+                $result_baku_produksi = $this->db->insert('baku_produksi', $data_baku_produksi);
+
+                if ($result_baku_produksi) {
+                    $response['success'] = true;
+                    $response['inserted_data'] = $data_keluar_baku;
+                } else {
+                    $response['success'] = false;
+                    $response['error'] = 'Gagal menambahkan data ke tabel baku_produksi';
+                }
+            } else {
+                $response['success'] = true;
+                $response['message'] = 'Data tidak ditambahkan karena bukan bagian produksi';
+            }
         } else {
             $response['success'] = false;
+            $response['error'] = 'Gagal memperbarui status_keluar di tabel keluar_baku';
         }
 
         echo json_encode($response);
     }
+
+
 
     public function detail_status_keluar($id_keluar_baku)
     {

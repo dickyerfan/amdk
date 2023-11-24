@@ -40,9 +40,14 @@
                                                     <td><?= $row->tanggal_rusak_jadi; ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Jumlah Barang</td>
+                                                    <td>Jumlah Barang Rusak</td>
                                                     <td> : </td>
                                                     <td><?= $row->jumlah_rusak_jadi; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Jumlah Perbaikan</td>
+                                                    <td> : </td>
+                                                    <td><?= $row->jumlah_perbaikan; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Penginput Barang rusak</td>

@@ -4,30 +4,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Model_barang_produksi extends CI_Model
 {
 
-    // public function getdata()
-    // {
-    //     $this->db->select('*,barang_baku.*, 
-    //                (SELECT SUM(jumlah_masuk) FROM masuk_baku WHERE masuk_baku.id_barang_baku = barang_baku.id_barang_baku) AS jumlah_masuk, 
-    //                (SELECT SUM(jumlah_rusak) FROM rusak_baku WHERE rusak_baku.id_barang_baku = barang_baku.id_barang_baku) AS jumlah_rusak, 
-    //                (SELECT SUM(jumlah_keluar) FROM keluar_baku WHERE keluar_baku.id_barang_baku = barang_baku.id_barang_baku) AS jumlah_keluar', FALSE);
-    //     $this->db->from('barang_baku');
-    //     $this->db->join('masuk_baku', 'masuk_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
-    //     $this->db->join('keluar_baku', 'keluar_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
-    //     $this->db->join('rusak_baku', 'rusak_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
-    //     $this->db->join('satuan', 'satuan.id_satuan = barang_baku.id_satuan', 'left');
-    //     $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = barang_baku.id_jenis_barang', 'left');
-    //     $this->db->where('barang_baku.status_barang_baku', 1);
-    //     $this->db->group_by('barang_baku.id_barang_baku');
-    //     return $this->db->get()->result();
-    // }
-
-    // transaksi barang keluar
-    public function getbarang_keluar()
+    // awal barang keluar
+    public function getbarang_keluar($bulan, $tahun)
     {
         $this->db->select('tanggal_keluar_baku, nama_barang_jadi,input_keluar_baku, jenis_barang.id_jenis_barang, jenis_barang.nama_barang_jadi, SUM(jumlah_keluar_baku) as total_keluar_baku');
         $this->db->from('keluar_baku_produksi');
         $this->db->join('barang_baku', 'keluar_baku_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
         $this->db->join('jenis_barang', 'keluar_baku_produksi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
+        $this->db->where('MONTH(keluar_baku_produksi.tanggal_keluar_baku)', $bulan);
+        $this->db->where('YEAR(keluar_baku_produksi.tanggal_keluar_baku)', $tahun);
         $this->db->group_by('keluar_baku_produksi.tanggal_keluar_baku');
         $this->db->group_by('jenis_barang.nama_barang_jadi');
         $this->db->order_by('id_keluar_baku_produksi', 'ASC');
@@ -45,12 +30,24 @@ class Model_barang_produksi extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function get_nama_barang()
+    {
+        $this->db->select('*');
+        $this->db->from('barang_baku');
+        return $this->db->get()->result();
+    }
 
+    public function upload_barang_lainnya($data)
+    {
+        return $this->db->insert('keluar_baku_produksi', $data);
+    }
+    // akhir barang keluar
 
+    // awal barang baku produksi
     public function get_barangbaku_produksi()
     {
         $this->db->select('*,barang_baku.*, 
-                   (SELECT SUM(jumlah_keluar) FROM baku_produksi WHERE baku_produksi.id_barang_baku = barang_baku.id_barang_baku AND baku_produksi.status_tolak = 1 AND baku_produksi.status_keluar = 1) AS jumlah_masuk,
+                   (SELECT SUM(jumlah_keluar) FROM baku_produksi WHERE baku_produksi.id_barang_baku = barang_baku.id_barang_baku ) AS jumlah_masuk,
                    (SELECT SUM(jumlah_stok_awal_baku) FROM stok_awal_baku_produksi WHERE stok_awal_baku_produksi.id_barang_baku = barang_baku.id_barang_baku) AS jumlah_stok_awal,
                    (SELECT SUM(jumlah_keluar_baku) FROM keluar_baku_produksi WHERE keluar_baku_produksi.id_barang_baku = barang_baku.id_barang_baku) AS jumlah_keluar,
                    (SELECT SUM(jumlah_rusak_produksi) FROM rusak_produksi WHERE rusak_produksi.id_barang_baku = barang_baku.id_barang_baku) AS jumlah_rusak', FALSE);
@@ -65,81 +62,39 @@ class Model_barang_produksi extends CI_Model
         $this->db->group_by('barang_baku.id_barang_baku');
         return $this->db->get()->result();
     }
+    // akhir barang baku produksi
 
-    public function get_permintaan_barang($bulan, $tahun)
+    // public function tambahData($data)
+    // {
+    //     return $this->db->insert('keluar_baku', $data);
+    // }
+
+    // awal permintaan barang baku
+
+    public function getbarang_baku($bulan, $tahun)
     {
-        $this->db->select('*');
+        $this->db->select('keluar_baku.*, barang_baku.nama_barang_baku');
         $this->db->from('keluar_baku');
         $this->db->join('barang_baku', 'keluar_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
         $this->db->where('keluar_baku.status_tolak', 1);
+        $this->db->where('keluar_baku.bagian', 'produksi');
         $this->db->where('MONTH(keluar_baku.tanggal_keluar)', $bulan);
         $this->db->where('YEAR(keluar_baku.tanggal_keluar)', $tahun);
-        $this->db->group_by('keluar_baku.id_keluar_baku');
+        // $this->db->group_by('keluar_baku.id_keluar_baku');
+        $this->db->order_by('keluar_baku.tanggal_keluar', 'DESC');
         $this->db->order_by('keluar_baku.id_keluar_baku', 'DESC');
         return $this->db->get()->result();
     }
 
-    public function tambahData($data)
-    {
-        $this->db->insert('baku_produksi', $data);
-        return $this->db->insert('keluar_baku', $data);
-    }
-    public function upload_barang_jadi($data)
-    {
-        $jenis_barang_info = $this->getJumlahSatuanLiter($data['id_jenis_barang'], $data['jumlah_barang_jadi']);
-        $data['jumlah_satuan'] = $jenis_barang_info['jumlah_satuan'];
-        $data['jumlah_liter'] = $jenis_barang_info['jumlah_liter'];
-        return $this->db->insert('barang_jadi', $data);
-    }
-
-    public function get_nama_barang()
+    public function get_nama_barang_baku()
     {
         $this->db->select('*');
         $this->db->from('barang_baku');
         return $this->db->get()->result();
     }
-    public function get_jenis_barang()
-    {
-        $this->db->select('*');
-        $this->db->from('jenis_barang');
-        return $this->db->get()->result();
-    }
+    // akhir permintaan barang baku
 
-    public function get_Id_Barang($table, $where)
-    {
-        return $this->db->get_where($table, $where);
-    }
-
-    public function get_Id_Barang_edit($id_keluar_baku)
-    {
-        return $this->db->get_where('keluar_baku', ['id_keluar_baku' => $id_keluar_baku])->row();
-    }
-
-    public function update_Barang($where, $data, $table)
-    {
-        $this->db->where($where);
-        return $this->db->update($table, $data);
-    }
-
-    public function hapusData($id_keluar_baku)
-    {
-        $this->db->where('id_keluar_baku', $id_keluar_baku);
-        return $this->db->delete('keluar_baku');
-    }
-
-    public function tolak_pesanan($id_keluar_baku, $data)
-    {
-        $this->db->where('id_keluar_baku', $id_keluar_baku);
-        $this->db->update('baku_produksi', $data);
-        return $this->db->update('keluar_baku', $data);
-    }
-
-    public function Update_status_barang_jadi($id_barang_jadi, $data)
-    {
-        $this->db->where('id_barang_jadi', $id_barang_jadi);
-        return $this->db->update('barang_jadi', $data);
-    }
-
+    // awal barang rusak
     public function getbarang_rusak($bulan, $tahun)
     {
         $this->db->select('*');
@@ -160,7 +115,9 @@ class Model_barang_produksi extends CI_Model
         $this->db->group_by('rusak_produksi.id_rusak_produksi');
         return $this->db->get()->result();
     }
+    // akhir barang rusak
 
+    // awal barang jadi
     public function getbarang_jadi($bulan, $tahun)
     {
         $this->db->select('*');
@@ -171,6 +128,21 @@ class Model_barang_produksi extends CI_Model
         $this->db->group_by('barang_jadi.id_barang_jadi');
         $this->db->order_by('barang_jadi.id_barang_jadi', 'DESC');
         return $this->db->get()->result();
+    }
+
+    public function get_jenis_barang()
+    {
+        $this->db->select('*');
+        $this->db->from('jenis_barang');
+        return $this->db->get()->result();
+    }
+
+    public function upload_barang_jadi($data)
+    {
+        $jenis_barang_info = $this->getJumlahSatuanLiter($data['id_jenis_barang'], $data['jumlah_barang_jadi']);
+        $data['jumlah_satuan'] = $jenis_barang_info['jumlah_satuan'];
+        $data['jumlah_liter'] = $jenis_barang_info['jumlah_liter'];
+        return $this->db->insert('barang_jadi', $data);
     }
 
     public function getJumlahSatuanLiter($id_jenis_barang, $jumlah_barang_jadi)
@@ -220,7 +192,46 @@ class Model_barang_produksi extends CI_Model
 
     public function insert_keluar_baku($data_keluar_baku)
     {
-        // Gantilah 'keluar_baku_produksi' dengan nama tabel yang sesuai pada database Anda.
         return $this->db->insert('keluar_baku_produksi', $data_keluar_baku);
+    }
+
+    public function Update_status_barang_jadi($id_barang_jadi, $data)
+    {
+        $this->db->where('id_barang_jadi', $id_barang_jadi);
+        return $this->db->update('barang_jadi', $data);
+    }
+    // akhir barang jadi
+
+
+
+
+
+    public function get_Id_Barang($table, $where)
+    {
+        return $this->db->get_where($table, $where);
+    }
+
+    public function get_Id_Barang_edit($id_keluar_baku)
+    {
+        return $this->db->get_where('keluar_baku', ['id_keluar_baku' => $id_keluar_baku])->row();
+    }
+
+    public function update_Barang($where, $data, $table)
+    {
+        $this->db->where($where);
+        return $this->db->update($table, $data);
+    }
+
+    public function hapusData($id_keluar_baku)
+    {
+        $this->db->where('id_keluar_baku', $id_keluar_baku);
+        return $this->db->delete('keluar_baku');
+    }
+
+    public function tolak_pesanan($id_keluar_baku, $data)
+    {
+        $this->db->where('id_keluar_baku', $id_keluar_baku);
+        $this->db->update('baku_produksi', $data);
+        return $this->db->update('keluar_baku', $data);
     }
 }

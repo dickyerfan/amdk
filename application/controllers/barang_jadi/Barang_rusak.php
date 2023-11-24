@@ -8,15 +8,24 @@ class Barang_rusak extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Model_barang_jadi');
-        // if (!$this->session->userdata('nama_pengguna')) {
-        //     redirect('auth');
-        // }
-        if ($this->session->userdata('upk_bagian') != 'jadi') {
+        if (!$this->session->userdata('nama_pengguna')) {
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Maaf,</strong> Anda harus login sebagai Admin Barang Jadi...
+                        <strong>Maaf,</strong> Anda harus login untuk akses halaman ini...
                       </div>'
+            );
+            redirect('auth');
+        }
+
+        $level_pengguna = $this->session->userdata('level');
+        $upk_bagian = $this->session->userdata('upk_bagian');
+        if ($level_pengguna != 'Admin' && $upk_bagian != 'jadi') {
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Maaf,</strong> Anda tidak memiliki hak akses untuk halaman ini...
+                  </div>'
             );
             redirect('auth');
         }
@@ -49,7 +58,7 @@ class Barang_rusak extends CI_Controller
             $this->load->view('templates/pengguna/navbar_jadi');
             $this->load->view('templates/pengguna/sidebar_jadi');
             $this->load->view('barang_jadi/view_barang_rusak', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_jadi');
         }
     }
 
@@ -68,7 +77,7 @@ class Barang_rusak extends CI_Controller
             $this->load->view('templates/pengguna/navbar_jadi');
             $this->load->view('templates/pengguna/sidebar_jadi');
             $this->load->view('barang_jadi/view_rusak_barang_jadi', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_jadi');
         } else {
             // Cek apakah ada file yang diupload
             if (!empty($_FILES['bukti_rusak_jadi']['name'])) {
@@ -90,6 +99,7 @@ class Barang_rusak extends CI_Controller
                     // Isi data selain file yang diupload
                     $data['id_jenis_barang'] = (int) $this->input->post('id_jenis_barang', true);
                     $data['jumlah_rusak_jadi'] = $this->input->post('jumlah_rusak_jadi', true);
+                    $data['jumlah_rusak_akhir'] = $this->input->post('jumlah_rusak_jadi', true);
                     $data['tanggal_rusak_jadi'] = $tanggal_rusak_jadi;
                     $data['input_status_rusak_jadi'] = $this->session->userdata('nama_lengkap');
                     $data['bukti_rusak_jadi'] = $file_name; // Simpan nama file dalam database
@@ -137,6 +147,72 @@ class Barang_rusak extends CI_Controller
         $this->load->view('templates/pengguna/navbar_jadi');
         $this->load->view('templates/pengguna/sidebar_jadi');
         $this->load->view('barang_jadi/view_detail_rusak_barang_jadi', $data);
-        $this->load->view('templates/pengguna/footer');
+        $this->load->view('templates/pengguna/footer_jadi');
+    }
+
+    public function perbaikan($id_rusak_jadi)
+    {
+        $this->form_validation->set_rules('jumlah_perbaikan', 'jumlah perbaikan', 'required|trim|numeric');
+        $this->form_validation->set_message('required', '%s masih kosong');
+        $this->form_validation->set_message('numeric', '%s harus di isi dengan angka');
+
+        $data_barang_rusak = $this->Model_barang_jadi->get_detail_barang_rusak($id_rusak_jadi);
+        $rusak_jadi_detail = $data_barang_rusak[0];
+
+        $nama_barang_jadi = $rusak_jadi_detail->nama_barang_jadi;
+        $jumlah_rusak_jadi = $rusak_jadi_detail->jumlah_rusak_jadi;
+        $tanggal_rusak_jadi = $rusak_jadi_detail->tanggal_rusak_jadi;
+
+        $data = [
+            'nama_barang_jadi' => $nama_barang_jadi,
+            'jumlah_rusak_jadi' => $jumlah_rusak_jadi,
+            'tanggal_rusak_jadi' => $tanggal_rusak_jadi,
+        ];
+
+        if ($this->form_validation->run() == false) {
+            $data['title'] = 'Perbaikan Barang Rusak';
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_jadi');
+            $this->load->view('templates/pengguna/sidebar_jadi');
+            $this->load->view('barang_jadi/view_perbaikan_barang_rusak', $data);
+            $this->load->view('templates/pengguna/footer_jadi');
+        } else {
+            // Ambil elemen pertama dari array result
+            $rusak_jadi_detail = $data_barang_rusak[0];
+            $jumlah_rusak_jadi = $rusak_jadi_detail->jumlah_rusak_jadi;
+
+            $jumlah_perbaikan = $this->input->post('jumlah_perbaikan');
+            $jumlah_rusak_akhir = $jumlah_rusak_jadi - $jumlah_perbaikan;
+
+            if ($jumlah_perbaikan > $jumlah_rusak_jadi) {
+                $this->session->set_flashdata(
+                    'info',
+                    '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+                            <strong>Maaf,</strong> jumlah yang di inputkan terlalu besar dari stok yang ada
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            </button>
+                          </div>'
+                );
+                redirect('barang_jadi/barang_rusak');
+            }
+
+            $data = [
+                'jumlah_perbaikan' => $jumlah_perbaikan,
+                'jumlah_rusak_akhir' => $jumlah_rusak_akhir,
+                'status_perbaikan' => 1
+            ];
+
+
+            $this->Model_barang_jadi->update_barang_perbaikan('rusak_jadi', $data, $id_rusak_jadi);
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+                        <strong>Sukses,</strong> barang perbaikan berhasil ditambahkan
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        </button>
+                      </div>'
+            );
+            redirect('barang_jadi/barang_rusak');
+        }
     }
 }

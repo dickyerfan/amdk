@@ -10,9 +10,9 @@
                                 <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
                             </div>
                         </form>
-                        <div class="navbar-nav ms-auto">
+                        <!-- <div class="navbar-nav ms-auto">
                             <a class="nav-link fw-bold" href="<?= base_url('barang_jadi/stok_barang_jadi/exportpdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class=" neumorphic-button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
-                        </div>
+                        </div> -->
                     </nav>
                 </div>
                 <div class="p-2">

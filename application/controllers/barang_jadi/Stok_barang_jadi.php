@@ -8,15 +8,24 @@ class Stok_barang_jadi extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Model_barang_jadi');
-        // if (!$this->session->userdata('nama_pengguna')) {
-        //     redirect('auth');
-        // }
-        if ($this->session->userdata('upk_bagian') != 'jadi') {
+        if (!$this->session->userdata('nama_pengguna')) {
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Maaf,</strong> Anda harus login sebagai Admin Barang Jadi...
+                        <strong>Maaf,</strong> Anda harus login untuk akses halaman ini...
                       </div>'
+            );
+            redirect('auth');
+        }
+
+        $level_pengguna = $this->session->userdata('level');
+        $upk_bagian = $this->session->userdata('upk_bagian');
+        if ($level_pengguna != 'Admin' && $upk_bagian != 'jadi') {
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Maaf,</strong> Anda tidak memiliki hak akses untuk halaman ini...
+                  </div>'
             );
             redirect('auth');
         }
@@ -45,7 +54,7 @@ class Stok_barang_jadi extends CI_Controller
             $this->load->view('templates/pengguna/navbar_jadi');
             $this->load->view('templates/pengguna/sidebar_jadi');
             $this->load->view('barang_jadi/view_stok_barang_jadi', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_jadi');
         }
     }
 
@@ -66,7 +75,7 @@ class Stok_barang_jadi extends CI_Controller
     //         $this->load->view('templates/pengguna/navbar_baku');
     //         $this->load->view('templates/pengguna/sidebar_baku');
     //         $this->load->view('barang_baku/view_tambah_barang_baku', $data);
-    //         $this->load->view('templates/pengguna/footer_baku');
+    //         $this->load->view('_jadi_baku');
     //     } else {
 
     //         $data['nama_barang_baku'] = $this->input->post('nama_barang_baku', true);

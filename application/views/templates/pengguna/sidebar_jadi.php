@@ -36,6 +36,7 @@
                             <a class="nav-link" href="<?= base_url('barang_jadi/barang_masuk') ?>" style="font-size: 0.8rem;">Barang Masuk</a>
                             <a class="nav-link" href="<?= base_url('barang_jadi/barang_keluar') ?>" style="font-size: 0.8rem;">Barang Keluar</a>
                             <a class="nav-link" href="<?= base_url('barang_jadi/barang_rusak') ?>" style="font-size: 0.8rem;">Barang Rusak</a>
+                            <a class="nav-link" href="<?= base_url('barang_jadi/bon_barang_baku') ?>" style="font-size: 0.8rem;">Bon Barang Baku</a>
                         </nav>
                     </div>
 

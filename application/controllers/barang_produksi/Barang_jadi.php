@@ -8,15 +8,24 @@ class Barang_jadi extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Model_barang_produksi');
-        // if (!$this->session->userdata('nama_pengguna')) {
-        //     redirect('auth');
-        // }
-        if ($this->session->userdata('upk_bagian') != 'produksi') {
+        if (!$this->session->userdata('nama_pengguna')) {
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Maaf,</strong> Anda harus login sebagai Admin Barang Produksi...
+                        <strong>Maaf,</strong> Anda harus login untuk akses halaman ini...
                       </div>'
+            );
+            redirect('auth');
+        }
+
+        $level_pengguna = $this->session->userdata('level');
+        $upk_bagian = $this->session->userdata('upk_bagian');
+        if ($level_pengguna != 'Admin' && $upk_bagian != 'produksi') {
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Maaf,</strong> Anda tidak memiliki hak akses untuk halaman ini...
+                  </div>'
             );
             redirect('auth');
         }
@@ -100,6 +109,7 @@ class Barang_jadi extends CI_Controller
                     'tanggal_barang_jadi' => $tanggal_barang_jadi,
                     'input_status_barang_jadi' => $this->session->userdata('nama_lengkap')
                 );
+                // upload barang jadi ke tabel barang jadi
                 $this->Model_barang_produksi->upload_barang_jadi($data);
 
                 // Mengambil informasi barang baku yang dibutuhkan berdasarkan id_jenis_barang
@@ -161,7 +171,7 @@ class Barang_jadi extends CI_Controller
     public function proses_jadi($id_barang_jadi)
     {
         $data = [
-            'status_barang_produksi' => 0,
+            // 'status_barang_produksi' => 0,
             'status_barang_jadi' => 1
         ];
         $this->Model_barang_produksi->Update_status_barang_jadi($id_barang_jadi, $data);

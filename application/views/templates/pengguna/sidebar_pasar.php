@@ -11,6 +11,10 @@
                         <div class="sb-nav-link-icon"><i class="fa-fw fas fa-tachometer-alt"></i></div>
                         <div style="font-size: 0.8rem;"> Dashboard</div>
                     </a>
+                    <a class="nav-link" href="<?= base_url('pemasaran/stok_barang_jadi') ?>">
+                        <div class="sb-nav-link-icon"><i class="fa-fw fas fa-warehouse"></i></div>
+                        <div style="font-size: 0.8rem;"> Stok Barang Jadi</div>
+                    </a>
 
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#transaksi" aria-expanded="false" aria-controls="transaksi">
                         <div class="sb-nav-link-icon"><i class="fa-fw fa fa-cart-shopping"></i></div>

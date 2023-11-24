@@ -127,7 +127,14 @@
                         '<td>' + data[i].nama_barang_baku + '</td>' +
                         '<td class="text-end">' + jumlahKeluarDiformat + '</td>' +
                         '<td>' + data[i].input_status_keluar + '</td>' +
-                        '<td class="text-center">' + (data[i].status_keluar == 0 ? '<span class="btn btn-primary btn-sm">Menunggu</span>' : '<span class="btn btn-success btn-sm">Stok Produksi</span>') + '</td>';
+                        // '<td class="text-center">' + (data[i].status_keluar == 0 ? '<span class="btn btn-primary btn-sm">Menunggu</span>' : '<span class="btn btn-success btn-sm">Stok Produksi</span>') + '</td>';
+
+                        '<td class="text-center">' +
+                        (data[i].status_keluar == 0 ?
+                            '<span class="btn btn-primary btn-sm">Menunggu</span>' :
+                            (data[i].bagian === 'produksi' ? '<span class="btn btn-success btn-sm">Stok Produksi</span>' : '<span class="btn btn-warning btn-sm">Stok Brg Jadi</span>')
+                        ) +
+                        '</td>';
 
                     if (data[i].status_keluar == 0) {
                         textHtml += '<td class="text-center">' +

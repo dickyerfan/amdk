@@ -9,6 +9,12 @@ class Password extends CI_Controller
 		parent::__construct();
 		$this->load->library('form_validation');
 		if (!$this->session->userdata('nama_pengguna')) {
+			$this->session->set_flashdata(
+				'info',
+				'<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Maaf,</strong> Anda harus login untuk akses halaman ini...
+                      </div>'
+			);
 			redirect('auth');
 		}
 	}

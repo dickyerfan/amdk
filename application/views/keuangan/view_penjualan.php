@@ -38,7 +38,8 @@
                                         <th class="text-center">Harga</th>
                                         <th class="text-center">Total</th>
                                         <th class="text-center">Mobil</th>
-                                        <th class="text-center">Tarif</th>
+                                        <th class="text-center">Nota</th>
+                                        <!-- <th class="text-center">Tarif</th> -->
                                         <th class="text-center">Status</th>
                                         <th class="text-center">Action</th>
                                     </tr>
@@ -57,11 +58,12 @@
                                             <td class="text-end"><?= number_format($row->harga_barang, 0, ',', '.'); ?></td>
                                             <td class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></td>
                                             <td><?= $row->nama_mobil == null ? 'Mandiri' : $row->nama_mobil; ?></td>
-                                            <td><?= ucwords(strtolower($row->tarif)); ?></td>
-                                            <td><?= $row->status_bayar == 1 ? '<span class="btn btn-primary btn-sm">Lunas</span>' : '<span class="btn btn-danger btn-sm">Piutang</span>'; ?></td>
+                                            <!-- <td><?= ucwords(strtolower($row->tarif)); ?></td> -->
+                                            <td><?= $row->status_nota == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Setor</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?></td>
+                                            <td><?= $row->status_bayar == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Lunas</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Piutang</span>'; ?></td>
                                             <td>
-                                                <a href="<?= $row->status_bayar == 0 ? base_url('keuangan/penjualan/pilih_lunas/') : "javascript:void(0)" ?><?= $row->id_pemesanan; ?>"><span class="neumorphic-button text-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk bayar"><i class="fas fa-dollar text-primary"></i></span></a>
-                                                <!-- <a href="<?= base_url('barang_baku/barang_masuk/detail_masuk/') ?><?= $row->id_pemesanan ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Detail</span></a> -->
+                                                <a href="<?= $row->status_bayar == 0 && $row->status_nota == 1 ? base_url('keuangan/penjualan/pilih_lunas/') : "javascript:void(0)" ?><?= $row->id_pemesanan; ?>"><i class="fas fa-dollar text-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk bayar"></i></a>
+                                                <a href="<?= base_url('keuangan/penjualan/detail/') ?><?= $row->id_pemesanan ?>"><i class="fa-solid fa-circle-info text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk melihat detail penjualan"></i></a>
                                                 <!-- <a href="<?= base_url('barang_baku/barang_masuk/hapus/') ?><?= $row->id_pemesanan ?>" class="hapus-link"><i class="fas fa-trash text-danger"></i></a> -->
                                             </td>
                                         </tr>
