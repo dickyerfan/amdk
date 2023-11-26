@@ -156,7 +156,7 @@ class Permintaan_barang_baku extends CI_Controller
                 $this->session->set_flashdata(
                     'info',
                     '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Gagal,</strong> Silakan masukkan file foto barang rusak
+                        <strong>Gagal,</strong> Silakan masukkan file foto pendukung
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                         </button>
                     </div>'

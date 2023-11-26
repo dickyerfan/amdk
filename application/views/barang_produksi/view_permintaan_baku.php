@@ -23,9 +23,8 @@
                     </nav>
                 </div>
                 <div class="p-1">
-                    <!-- <?= $this->session->flashdata('info'); ?>
-                    <?= $this->session->unset_userdata('info'); ?> -->
-                    <p id="pesan2" style="color: red;"></p>
+                    <?= $this->session->flashdata('info'); ?>
+                    <?= $this->session->unset_userdata('info'); ?>
                 </div>
                 <div class="card-body">
                     <div class="row justify-content-center">

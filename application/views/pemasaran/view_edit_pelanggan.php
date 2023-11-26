@@ -21,6 +21,7 @@
                                     <select name="gol_pelanggan" id="gol_pelanggan" class="form-control select2">
                                         <!-- <option value="">Pilih Golongan pelanggan</option> -->
                                         <option value="Perorangan" <?= $edit_pelanggan->gol_pelanggan == 'PERORANGAN' ? 'selected' : '' ?>>Perorangan</option>
+                                        <option value="Karyawan" <?= $edit_pelanggan->gol_pelanggan == 'KARYAWAN' ? 'selected' : '' ?>>Karyawan</option>
                                         <option value="Instansi" <?= $edit_pelanggan->gol_pelanggan == 'INSTANSI' ? 'selected' : '' ?>>Instansi</option>
                                         <option value="Mitra" <?= $edit_pelanggan->gol_pelanggan == 'MITRA' ? 'selected' : '' ?>>Mitra</option>
                                         <option value="Retail" <?= $edit_pelanggan->gol_pelanggan == 'RETAIL' ? 'selected' : '' ?>>Retail</option>

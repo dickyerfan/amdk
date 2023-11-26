@@ -29,44 +29,64 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <table class="table table-sm table-bordered" id="example">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Tanggal</th>
-                                        <th class="text-center">Nama Barang</th>
-                                        <th class="text-center">Jenis Barang</th>
-                                        <th class="text-center">Jumlah Keluar</th>
-                                        <th class="text-center">Jumlah Kembali</th>
-                                        <th class="text-center">Jumlah Akhir</th>
-                                        <th class="text-center">Input Oleh</th>
-                                        <th class="text-center">Jenis Pesanan</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($barang_keluar as $row) :
-
-                                    ?>
-                                        <tr class="text-center">
-                                            <td><?= $no++ ?></td>
-                                            <td><?= $row->tanggal_keluar; ?></td>
-                                            <td class="text-start"><?= $row->nama_produk; ?></td>
-                                            <td class="text-start"><?= $row->jenis_produk; ?></td>
-                                            <td><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
-                                            <td><?= number_format($row->jumlah_kembali, 0, ',', '.'); ?></td>
-                                            <td><?= number_format($row->jumlah_akhir, 0, ',', '.'); ?></td>
-                                            <td><?= $row->input_status_keluar; ?></td>
-                                            <td><?= $row->jenis_pesanan; ?></td>
-                                            <td>
-                                                <a href="<?= $row->status_kembali == 0 ? base_url('barang_jadi/barang_keluar/barang_kembali/') : "javascript:void(0)" ?><?= $row->id_keluar_jadi; ?>"><span class="neumorphic-button text-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="klik input barang kembali"><i class="fas fa-box text-success"></i></span></a>
-                                            </td>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered" id="example" style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Tanggal</th>
+                                            <th class="text-center">Nama Barang</th>
+                                            <!-- <th class="text-center">Jenis Barang</th> -->
+                                            <th class="text-center">Jml Keluar</th>
+                                            <th class="text-center">Jml Kembali</th>
+                                            <th class="text-center">Jml Akhir</th>
+                                            <th class="text-center">Petugas Order</th>
+                                            <th class="text-center">Mobil</th>
+                                            <th class="text-center">Jenis Pesanan</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Action</th>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        foreach ($barang_keluar as $row) :
+                                        ?>
+                                            <tr class="text-center">
+                                                <td><?= $no++ ?></td>
+                                                <td><?= date('d-m-y', strtotime($row->tanggal_keluar)); ?></td>
+                                                <td class="text-start"><?= $row->nama_produk; ?></td>
+                                                <!-- <td class="text-start"><?= $row->jenis_produk; ?></td> -->
+                                                <td><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
+                                                <td><?= number_format($row->jumlah_kembali, 0, ',', '.'); ?></td>
+                                                <td><?= number_format($row->jumlah_akhir, 0, ',', '.'); ?></td>
+                                                <td><?= $row->input_status_keluar; ?></td>
+                                                <td><?= $row->nama_mobil; ?></td>
+                                                <td>
+                                                    <?php
+                                                    if ($row->jenis_pesanan == 1) {
+                                                        echo 'Kunjungan Rutin';
+                                                    } elseif ($row->jenis_pesanan == 2) {
+                                                        echo 'Pesanan Langsung';
+                                                    } elseif ($row->jenis_pesanan == 3) {
+                                                        echo 'Karyawan';
+                                                    } else {
+                                                        echo 'Operasional';
+                                                    } ?>
+                                                </td>
+                                                <td><?= $row->status_keluar == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Keluar</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?>
+                                                </td>
+                                                <td>
+                                                    <a href="<?= $row->status_kembali == 0 ? base_url('barang_jadi/barang_keluar/barang_kembali/') : "javascript:void(0)" ?><?= $row->id_keluar_jadi; ?>"><i class="fas fa-box text-success me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="klik input barang kembali"></i></a>
+                                                    <a href="<?= $row->status_keluar == 0 ? "javascript:void(0)" : "javascript:void(0)" ?>" onclick="<?= $row->status_keluar == 0 ? "tampilkanKonfirmasi(" . $row->id_keluar_jadi . ")" : "" ?>">
+                                                        <i class="fas fa-circle-check" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk terima permintaan barang"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

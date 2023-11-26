@@ -54,37 +54,39 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <table class="table table-sm table-bordered" id="example">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Tanggal</th>
-                                        <th class="text-center">Kode Barang</th>
-                                        <th class="text-center">Nama Barang</th>
-                                        <th class="text-center">Jumlah</th>
-                                        <th class="text-center">Input Oleh</th>
-                                        <th class="text-center">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($barang_baku as $row) :
-                                    ?>
-                                        <tr class="text-center">
-                                            <td><?= $no++ ?></td>
-                                            <td><?= $row->tanggal_keluar; ?></td>
-                                            <td><?= $row->kode_barang; ?></td>
-                                            <td class="text-start"><?= $row->nama_barang_baku; ?></td>
-                                            <td><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
-                                            <td><?= $row->input_status_keluar; ?></td>
-                                            <td>
-                                                <?= $row->status_keluar == 0 ? '<span class="neumorphic-button text-success">Milik Barang Baku</span>' : '<span class="neumorphic-button text-primary">Milik Barang Jadi</span>' ?>
-                                            </td>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered" id="example">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Tanggal</th>
+                                            <th class="text-center">Kode Barang</th>
+                                            <th class="text-center">Nama Barang</th>
+                                            <th class="text-center">Jumlah</th>
+                                            <th class="text-center">Input Oleh</th>
+                                            <th class="text-center">Status</th>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        foreach ($barang_baku as $row) :
+                                        ?>
+                                            <tr class="text-center">
+                                                <td><?= $no++ ?></td>
+                                                <td><?= $row->tanggal_keluar; ?></td>
+                                                <td><?= $row->kode_barang; ?></td>
+                                                <td class="text-start"><?= $row->nama_barang_baku; ?></td>
+                                                <td><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
+                                                <td><?= $row->input_status_keluar; ?></td>
+                                                <td>
+                                                    <?= $row->status_keluar == 0 ? '<span class="neumorphic-button text-success">Milik Barang Baku</span>' : '<span class="neumorphic-button text-primary">Milik Barang Jadi</span>' ?>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

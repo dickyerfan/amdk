@@ -124,6 +124,17 @@ class Barang_masuk extends CI_Controller
                     $this->session->set_flashdata('info', $error_msg);
                     redirect('barang_baku/barang_masuk');
                 }
+            } else {
+                // Tampilkan pesan kesalahan jika tidak ada file yang diunggah
+                $this->session->set_flashdata(
+                    'info',
+                    '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Gagal,</strong> Silakan masukkan bukti transaksi 
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        </button>
+                    </div>'
+                );
+                redirect('barang_baku/barang_masuk');
             }
         }
     }
@@ -214,23 +225,35 @@ class Barang_masuk extends CI_Controller
                 $this->session->set_flashdata('info', $error_msg);
                 redirect('barang_baku/barang_masuk');
             }
-        }
-        // Isi data selain file yang diupload
-        $data['input_status_masuk'] = $this->session->userdata('nama_lengkap');
-        $data['tgl_update_masuk'] = date('Y-m-d H:i:s');
-        $data['status_masuk'] = 1;
 
-        // Simpan data ke dalam database
-        $this->Model_barang_baku->update_masuk($data);
-        $this->session->set_flashdata(
-            'info',
-            '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+            // Isi data selain file yang diupload
+            $data['input_status_masuk'] = $this->session->userdata('nama_lengkap');
+            $data['tgl_update_masuk'] = date('Y-m-d H:i:s');
+            $data['status_masuk'] = 1;
+
+            // Simpan data ke dalam database
+            $this->Model_barang_baku->update_masuk($data);
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-primary alert-dismissible fade show" role="alert">
                     <strong>Sukses,</strong> Transaksi Barang Baku Masuk berhasil di update
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                     </button>
                 </div>'
-        );
-        redirect('barang_baku/barang_masuk');
+            );
+            redirect('barang_baku/barang_masuk');
+        } else {
+            // Tampilkan pesan kesalahan jika tidak ada file yang diunggah
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Gagal,</strong> Silakan masukkan bukti transaksi gudang
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                </div>'
+            );
+            redirect('barang_baku/barang_masuk');
+        }
     }
 
     public function detail_masuk($id_masuk_baku)

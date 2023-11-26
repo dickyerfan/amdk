@@ -54,41 +54,43 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <table class="table table-sm table-bordered" id="example">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Tanggal Rusak</th>
-                                        <th class="text-center">Nama Barang</th>
-                                        <th class="text-center">Jml Rusak</th>
-                                        <th class="text-center">Perbaikan</th>
-                                        <th class="text-center">Jml Akhir</th>
-                                        <th class="text-center">Keterangan</th>
-                                        <th class="text-center">Input Oleh</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($barang_rusak as $row) : ?>
-                                        <tr class="text-center">
-                                            <td><?= $no++ ?></td>
-                                            <td><?= $row->tanggal_rusak_jadi; ?></td>
-                                            <td class="text-start"><?= $row->nama_barang_jadi; ?></td>
-                                            <td><?= number_format($row->jumlah_rusak_jadi, 0, ',', '.'); ?></td>
-                                            <td><?= number_format($row->jumlah_perbaikan, 0, ',', '.'); ?></td>
-                                            <td><?= number_format($row->jumlah_rusak_akhir, 0, ',', '.'); ?></td>
-                                            <td><?= $row->keterangan; ?></td>
-                                            <td><?= $row->input_status_rusak_jadi; ?></td>
-                                            <td>
-                                                <a href="<?= base_url('barang_jadi/barang_rusak/detail_rusak/') ?><?= $row->id_rusak_jadi ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Detail</span></a>
-                                                <a href="<?= $row->status_perbaikan == 0 ? base_url('barang_jadi/barang_rusak/perbaikan/') : "javascript:void(0)" ?><?= $row->id_rusak_jadi ?>"><span class="neumorphic-button text-success btn-sm"><i class="fa-solid fa-screwdriver-wrench text-success"></i> Repair</span></a>
-                                            </td>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered" id="example">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Tanggal Rusak</th>
+                                            <th class="text-center">Nama Barang</th>
+                                            <th class="text-center">Jml Rusak</th>
+                                            <th class="text-center">Perbaikan</th>
+                                            <th class="text-center">Jml Akhir</th>
+                                            <th class="text-center">Keterangan</th>
+                                            <th class="text-center">Input Oleh</th>
+                                            <th class="text-center">Action</th>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        foreach ($barang_rusak as $row) : ?>
+                                            <tr class="text-center">
+                                                <td><?= $no++ ?></td>
+                                                <td><?= $row->tanggal_rusak_jadi; ?></td>
+                                                <td class="text-start"><?= $row->nama_barang_jadi; ?></td>
+                                                <td><?= number_format($row->jumlah_rusak_jadi, 0, ',', '.'); ?></td>
+                                                <td><?= number_format($row->jumlah_perbaikan, 0, ',', '.'); ?></td>
+                                                <td><?= number_format($row->jumlah_rusak_akhir, 0, ',', '.'); ?></td>
+                                                <td><?= $row->keterangan; ?></td>
+                                                <td><?= $row->input_status_rusak_jadi; ?></td>
+                                                <td>
+                                                    <a href="<?= base_url('barang_jadi/barang_rusak/detail_rusak/') ?><?= $row->id_rusak_jadi ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Detail</span></a>
+                                                    <a href="<?= $row->status_perbaikan == 0 ? base_url('barang_jadi/barang_rusak/perbaikan/') : "javascript:void(0)" ?><?= $row->id_rusak_jadi ?>"><span class="neumorphic-button text-success btn-sm"><i class="fa-solid fa-screwdriver-wrench text-success"></i> Repair</span></a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

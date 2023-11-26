@@ -127,6 +127,7 @@ class Pemesanan extends CI_Controller
             $data_pemesanan = $this->Model_pemesanan->get_id_masuk_baku($id_pemesanan);
             $data_keluar_jadi = array(
                 'id_jenis_barang' => $data_pemesanan->id_jenis_barang,
+                'id_mobil' => $data_pemesanan->id_mobil,
                 'jumlah_keluar' => $data_pemesanan->jumlah_pesan,
                 'tanggal_keluar' => $data_pemesanan->tanggal_pesan,
                 'jumlah_akhir' => $data_pemesanan->jumlah_pesan,
@@ -135,7 +136,7 @@ class Pemesanan extends CI_Controller
             );
 
             // Sisipkan data ke dalam tabel keluar_jadi
-            $this->Model_pemesanan->tambah_keluar_jadi('keluar_jadi', $data_keluar_jadi);
+            $this->Model_pemesanan->insert_keluar_jadi('keluar_jadi', $data_keluar_jadi);
 
 
             $this->session->set_flashdata(
@@ -149,6 +150,7 @@ class Pemesanan extends CI_Controller
             redirect('pemasaran/pemesanan');
         }
     }
+
 
     public function upload_nota($id_pemesanan)
     {
@@ -184,23 +186,35 @@ class Pemesanan extends CI_Controller
                 $this->session->set_flashdata('info', $error_msg);
                 redirect('pemasaran/pemesanan');
             }
-        }
-        // Isi data selain file yang diupload
-        $data['input_status_masuk'] = $this->session->userdata('nama_lengkap');
-        $data['tanggal_update'] = date('Y-m-d H:i:s');
-        $data['status_nota'] = 1;
 
-        // Simpan data ke dalam database
-        $this->Model_pemesanan->update_nota($data);
-        $this->session->set_flashdata(
-            'info',
-            '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+            // Isi data selain file yang diupload
+            $data['input_update'] = $this->session->userdata('nama_lengkap');
+            $data['tanggal_update'] = date('Y-m-d H:i:s');
+            $data['status_nota'] = 1;
+
+            // Simpan data ke dalam database
+            $this->Model_pemesanan->update_nota($data);
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-primary alert-dismissible fade show" role="alert">
                     <strong>Sukses,</strong> Nota Pembelian berhasil di upload
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                     </button>
                 </div>'
-        );
-        redirect('pemasaran/pemesanan');
+            );
+            redirect('pemasaran/pemesanan');
+        } else {
+            // Tampilkan pesan kesalahan jika tidak ada file yang diunggah
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Gagal,</strong> Silakan masukkan bukti nota pembayaran
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                </div>'
+            );
+            redirect('pemasaran/pemesanan');
+        }
     }
 
 
@@ -212,6 +226,24 @@ class Pemesanan extends CI_Controller
         $this->load->view('templates/pengguna/navbar_pasar');
         $this->load->view('templates/pengguna/sidebar_pasar');
         $this->load->view('pemasaran/view_detail_pemesanan', $data);
+        $this->load->view('templates/pengguna/footer');
+    }
+
+    public function daftar_kiriman()
+    {
+        $tanggal = $this->input->get('tanggal');
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+        }
+
+        $this->session->set_userdata('tanggal_exportpdf', $tanggal);
+        $data['tanggal_hari_ini'] = $this->input->get('tanggal');
+        $data['daftar_kiriman'] = $this->Model_pemesanan->get_daftar_kiriman($tanggal);
+        $data['title'] = 'Daftar Pengiriman Barang';
+        $this->load->view('templates/pengguna/header', $data);
+        $this->load->view('templates/pengguna/navbar_pasar');
+        $this->load->view('templates/pengguna/sidebar_pasar');
+        $this->load->view('pemasaran/view_daftar_pengiriman', $data);
         $this->load->view('templates/pengguna/footer');
     }
 }

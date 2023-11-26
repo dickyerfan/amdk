@@ -67,9 +67,11 @@ class Penjualan extends CI_Controller
             $this->load->view('templates/pengguna/footer');
         } else {
             $data['status_bayar'] = $this->input->post('status_bayar');
+            $data['input_bayar'] = $this->session->userdata('nama_lengkap');
             $data['tanggal_bayar'] = date('Y-m-d H:i:s');
             $this->Model_penjualan->update('pemesanan', $data, $id_pemesanan);
-            if ($this->db->affected_rows() <= 0) {
+            $cek_lunas = $this->db->get_where('pemesanan', ['id_pemesanan' => $id_pemesanan])->row();
+            if ($cek_lunas->status_bayar == 0) {
                 $this->session->set_flashdata(
                     'info',
                     '<div class="alert alert-danger alert-dismissible fade show" role="alert">

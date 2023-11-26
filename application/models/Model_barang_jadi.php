@@ -13,9 +13,9 @@ class Model_barang_jadi extends CI_Model
             (SELECT IFNULL(SUM(jumlah_keluar), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_keluar) < DATE("' . $tanggal . '")) AS jumlah_keluar_kemaren,
             (SELECT IFNULL(SUM(jumlah_keluar), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_keluar) = DATE("' . $tanggal . '")) AS jumlah_keluar_sekarang,
             (SELECT IFNULL(SUM(jumlah_keluar), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_keluar) <= DATE("' . $tanggal . '")) AS jumlah_keluar,
-            (SELECT IFNULL(SUM(jumlah_akhir), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_keluar) < DATE("' . $tanggal . '")) AS jumlah_akhir_kemaren,
-            (SELECT IFNULL(SUM(jumlah_akhir), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_keluar) = DATE("' . $tanggal . '")) AS jumlah_akhir_sekarang,
-            (SELECT IFNULL(SUM(jumlah_akhir), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_keluar) <= DATE("' . $tanggal . '")) AS jumlah_akhir,
+            (SELECT IFNULL(SUM(jumlah_akhir), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND keluar_jadi.status_keluar = 1 AND DATE(tanggal_keluar) < DATE("' . $tanggal . '")) AS jumlah_akhir_kemaren,
+            (SELECT IFNULL(SUM(jumlah_akhir), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND keluar_jadi.status_keluar = 1 AND DATE(tanggal_keluar) = DATE("' . $tanggal . '")) AS jumlah_akhir_sekarang,
+            (SELECT IFNULL(SUM(jumlah_akhir), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND keluar_jadi.status_keluar = 1 AND DATE(tanggal_keluar) <= DATE("' . $tanggal . '")) AS jumlah_akhir,
             (SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) = DATE("' . $tanggal . '") AND rusak_jadi.status_rusak_jadi = 1) AS jumlah_rusak_sekarang,
             (SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) < DATE("' . $tanggal . '") AND rusak_jadi.status_rusak_jadi = 1) AS jumlah_rusak_kemaren,
             (SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) <= DATE("' . $tanggal . '")) AS jumlah_rusak', FALSE);
@@ -68,6 +68,7 @@ class Model_barang_jadi extends CI_Model
         $this->db->select('*');
         $this->db->from('keluar_jadi');
         $this->db->join('jenis_produk', 'keluar_jadi.id_jenis_barang = jenis_produk.id_produk', 'left');
+        $this->db->join('mobil', 'keluar_jadi.id_mobil = mobil.id_mobil', 'left');
         $this->db->where('MONTH(keluar_jadi.tanggal_keluar)', $bulan);
         $this->db->where('YEAR(keluar_jadi.tanggal_keluar)', $tahun);
         // $this->db->where('keluar_baku.status_keluar', 0);
@@ -153,6 +154,12 @@ class Model_barang_jadi extends CI_Model
         return $this->db->get()->result();
     }
     //akhir barang rusak
+
+    public function terima_barang($data_terima_barang, $id_keluar_jadi)
+    {
+        $this->db->where('id_keluar_jadi', $id_keluar_jadi);
+        $this->db->update('keluar_jadi', $data_terima_barang);
+    }
 
     // public function upload($table, $data)
     // {

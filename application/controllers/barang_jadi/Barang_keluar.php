@@ -121,4 +121,16 @@ class Barang_keluar extends CI_Controller
             redirect('barang_jadi/barang_keluar');
         }
     }
+
+    public function terima_barang($id_keluar_jadi)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $data_terima_barang = [
+            'status_keluar' => 1,
+            'input_pemilik_barang' => $this->session->userdata('nama_lengkap'),
+            'tanggal_barang_keluar' => date('Y-m-d H:i:s')
+        ];
+        $this->Model_barang_jadi->terima_barang($data_terima_barang, $id_keluar_jadi);
+        redirect('barang_jadi/barang_keluar');
+    }
 }

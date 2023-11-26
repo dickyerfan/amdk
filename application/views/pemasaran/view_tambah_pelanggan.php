@@ -20,6 +20,7 @@
                                     <select name="gol_pelanggan" id="gol_pelanggan" class="form-control select2">
                                         <option value="">Pilih Golongan pelanggan</option>
                                         <option value="Perorangan">Perorangan</option>
+                                        <option value="Karyawan">Karyawan</option>
                                         <option value="Instansi">Instansi</option>
                                         <option value="Mitra">Mitra</option>
                                         <option value="Retail">Retail</option>

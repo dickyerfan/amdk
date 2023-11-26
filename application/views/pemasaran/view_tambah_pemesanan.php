@@ -51,8 +51,10 @@
                                 <div class="form-group">
                                     <select name="jenis_pesanan" id="jenis_pesanan" class="form-control select2">
                                         <option value="">Pilih Jenis Pesanan</option>
-                                        <option value="Kunjungan Rutin">Kunjungan Rutin</option>
-                                        <option value="Pesanan Langsung ">Pesanan Langsung</option>
+                                        <option value="1">Kunjungan Rutin</option>
+                                        <option value="2 ">Pesanan Langsung</option>
+                                        <option value="3 ">Karyawan</option>
+                                        <option value="4 ">Operasional</option>
                                     </select>
                                     <!-- <input type="text" class="form-control" id="jenis_pesanan" name="jenis_pesanan" placeholder="Pilih Jenis Pesanan" value="<?= set_value('jenis_pesanan'); ?>"> -->
                                     <small class="form-text text-danger pl-3"><?= form_error('jenis_pesanan'); ?></small>

@@ -134,7 +134,7 @@ class Barang_rusak extends CI_Controller
                         </button>
                     </div>'
                 );
-                redirect('barang_bakyu/barang_rusak');
+                redirect('barang_baku/barang_rusak');
             }
         }
     }

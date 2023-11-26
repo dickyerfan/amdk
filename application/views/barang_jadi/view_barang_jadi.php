@@ -29,43 +29,45 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <table class="table table-sm table-bordered" id="example">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Tanggal</th>
-                                        <th class="text-center">Nama Barang</th>
-                                        <th class="text-center">Jenis Barang</th>
-                                        <th class="text-center">Jumlah</th>
-                                        <th class="text-center">Input Oleh</th>
-                                        <th class="text-center">Status</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($barang_jadi as $row) : ?>
-                                        <tr class="text-center">
-                                            <td><?= $no++ ?></td>
-                                            <td><?= $row->tanggal_barang_jadi; ?></td>
-                                            <td class="text-start"><?= $row->nama_barang_jadi; ?></td>
-                                            <td class="text-start"><?= $row->jenis_barang; ?></td>
-                                            <td><?= number_format($row->jumlah_barang_jadi, 0, ',', '.'); ?></td>
-                                            <td><?= $row->input_status_barang_jadi; ?></td>
-                                            <td><?= $row->status_barang_jadi == 0 ? 'Milik Produksi' : 'Milik Barang jadi' ?></td>
-                                            <td>
-                                                <?php if ($row->status_barang_jadi == 0) : ?>
-                                                    <a href="<?= base_url('barang_produksi/barang_jadi/proses_jadi/') ?><?= $row->id_barang_jadi ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Proses</span></a>
-                                                <?php endif; ?>
-                                                <?php if ($row->status_barang_jadi == 1) : ?>
-                                                    <a href="#"><span class="neumorphic-button text-success btn-sm"><i class="fa-solid fa-circle-info text-success"></i> Selesai</span></a>
-                                                <?php endif; ?>
-                                            </td>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered" id="example">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Tanggal</th>
+                                            <th class="text-center">Nama Barang</th>
+                                            <th class="text-center">Jenis Barang</th>
+                                            <th class="text-center">Jumlah</th>
+                                            <th class="text-center">Input Oleh</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Action</th>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        foreach ($barang_jadi as $row) : ?>
+                                            <tr class="text-center">
+                                                <td><?= $no++ ?></td>
+                                                <td><?= $row->tanggal_barang_jadi; ?></td>
+                                                <td class="text-start"><?= $row->nama_barang_jadi; ?></td>
+                                                <td class="text-start"><?= $row->jenis_barang; ?></td>
+                                                <td><?= number_format($row->jumlah_barang_jadi, 0, ',', '.'); ?></td>
+                                                <td><?= $row->input_status_barang_jadi; ?></td>
+                                                <td><?= $row->status_barang_jadi == 0 ? 'Milik Produksi' : 'Milik Barang jadi' ?></td>
+                                                <td>
+                                                    <?php if ($row->status_barang_jadi == 0) : ?>
+                                                        <a href="<?= base_url('barang_produksi/barang_jadi/proses_jadi/') ?><?= $row->id_barang_jadi ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Proses</span></a>
+                                                    <?php endif; ?>
+                                                    <?php if ($row->status_barang_jadi == 1) : ?>
+                                                        <a href="#"><span class="neumorphic-button text-success btn-sm"><i class="fa-solid fa-circle-info text-success"></i> Selesai</span></a>
+                                                    <?php endif; ?>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

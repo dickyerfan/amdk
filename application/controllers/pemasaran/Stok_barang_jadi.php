@@ -46,7 +46,7 @@ class Stok_barang_jadi extends CI_Controller
         $this->load->view('templates/pengguna/header', $data);
         $this->load->view('templates/pengguna/navbar_pasar');
         $this->load->view('templates/pengguna/sidebar_pasar');
-        $this->load->view('barang_jadi/view_stok_barang_jadi', $data);
+        $this->load->view('pemasaran/view_stok_barang_jadi', $data);
         $this->load->view('templates/pengguna/footer');
     }
 }

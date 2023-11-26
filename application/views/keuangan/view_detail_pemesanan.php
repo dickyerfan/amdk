@@ -30,6 +30,11 @@
                                         <div class="card-body">
                                             <table class="table table-borderless">
                                                 <tr>
+                                                    <td>Status Bayar</td>
+                                                    <td> : </td>
+                                                    <td><?= $row->status_bayar == 0 ? '<span class="btn btn-danger btn-sm">Belum Lunas</span>' : '<span class="btn btn-primary btn-sm">Lunas</span>'; ?></td>
+                                                </tr>
+                                                <tr>
                                                     <td>Nama Pelanggan</td>
                                                     <td> : </td>
                                                     <td><?= $row->nama_pelanggan; ?></td>
@@ -38,6 +43,22 @@
                                                     <td>Alamat Pelanggan</td>
                                                     <td> : </td>
                                                     <td><?= $row->alamat_pelanggan; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Jenis Pesanan</td>
+                                                    <td> : </td>
+                                                    <td>
+                                                        <?php
+                                                        if ($row->jenis_pesanan == 1) {
+                                                            echo 'Kunjungan Rutin';
+                                                        } elseif ($row->jenis_pesanan == 2) {
+                                                            echo 'Pesanan Langsung';
+                                                        } elseif ($row->jenis_pesanan == 3) {
+                                                            echo 'Karyawan';
+                                                        } else {
+                                                            echo 'Operasional';
+                                                        } ?>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Nama Barang</td>
@@ -73,14 +94,28 @@
                                                 <tr>
                                                     <td>Jenis Mobil</td>
                                                     <td> : </td>
-                                                    <td><?= $row->nama_mobil; ?></td>
+                                                    <td><?= $row->nama_mobil == null ? 'Belum Masuk Mobil' : $row->nama_mobil; ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Status Bayar</td>
+                                                    <td>Petugas Bayar</td>
                                                     <td> : </td>
-                                                    <td><?= $row->status_bayar == 0 ? '<span class="btn btn-danger btn-sm">Belum Lunas</span>' : '<span class="btn btn-primary btn-sm">Lunas</span>'; ?></td>
+                                                    <td><?= $row->input_update == null ? '-' : $row->input_update; ?></td>
                                                 </tr>
-
+                                                <tr>
+                                                    <td>Tanggal Setor</td>
+                                                    <td> : </td>
+                                                    <td><?= $row->tanggal_update; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Penerima Uang</td>
+                                                    <td> : </td>
+                                                    <td><?= $row->input_bayar == null ? '-' : $row->input_bayar; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tanggal Bayar</td>
+                                                    <td> : </td>
+                                                    <td><?= $row->tanggal_bayar; ?></td>
+                                                </tr>
                                             </table>
                                         </div>
                                     </div>

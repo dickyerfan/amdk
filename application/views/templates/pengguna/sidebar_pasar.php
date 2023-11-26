@@ -25,6 +25,7 @@
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="<?= base_url('pemasaran/pelanggan') ?>" style="font-size: 0.8rem;">Daftar Pelanggan</a>
                             <a class="nav-link" href="<?= base_url('pemasaran/pemesanan') ?>" style="font-size: 0.8rem;">Pemesanan</a>
+                            <a class="nav-link" href="<?= base_url('pemasaran/pemesanan/daftar_kiriman') ?>" style="font-size: 0.8rem;">Daftar Pengiriman</a>
                         </nav>
                     </div>
 

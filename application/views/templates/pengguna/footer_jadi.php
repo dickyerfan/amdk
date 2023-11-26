@@ -136,6 +136,25 @@
     }, 1000);
 </script>
 
+<script>
+    function tampilkanKonfirmasi(id_keluar_jadi) {
+        Swal.fire({
+            title: 'Konfirmasi',
+            text: 'Apakah Anda setuju untuk menerima barang?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Setuju!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '<?= base_url("barang_jadi/barang_keluar/terima_barang/") ?>' + id_keluar_jadi;
+            }
+        });
+    }
+</script>
+
 </body>
 
 </html>
