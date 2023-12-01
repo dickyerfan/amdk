@@ -16,7 +16,6 @@
                                         <input type="text" class="form-control" id="nama_karyawan" name="nama_karyawan" placeholder="Masukan nama karyawan" value="<?= $edit_karyawan->nama_karyawan; ?>">
                                         <small class="form-text text-danger pl-3"><?= form_error('nama_karyawan'); ?></small>
                                     </div>
-                                    <small class="form-text text-danger pl-3"><?= form_error('nama_karyawan'); ?></small>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">

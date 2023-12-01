@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-header card-outline card-primary shadow">
                     <a class="fw-bold text-dark" style="text-decoration:none ;"><?= strtoupper($title) ?></a>
-                    <a href="<?= base_url('pemasaran/pemesanan'); ?>"><button class=" neumorphic-button float-end"><i class="fas fa-reply"></i> Kembali</button></a>
+                    <a href="<?= base_url('pemasaran/pemesanan/barang_karyawan'); ?>"><button class=" neumorphic-button float-end"><i class="fas fa-reply"></i> Kembali</button></a>
                 </div>
                 <div class="card-body">
                     <form class="user" action="" method="POST">
@@ -24,14 +24,13 @@
                                 <div class="form-group">
                                     <select name="id_pelanggan" id="id_pelanggan" class="form-control select2">
                                         <option value="">Pilih pelanggan</option>
-                                        <?php foreach ($pelanggan as $row) :  ?>
-                                            <!-- <option value="<?= $row->id_pelanggan ?>"><?= $row->nama_pelanggan; ?></option> -->
-                                            <option value="<?= $row->id_pelanggan ?>" data-tarif="<?= $row->tarif ?>"><?= $row->nama_pelanggan; ?></option>
+                                        <?php foreach ($pegawai as $row) :  ?>
+                                            <option value="<?= $row->id ?>" data-tarif="<?= $row->tarif ?>"><?= $row->nama; ?></option>
                                         <?php endforeach;  ?>
                                     </select>
                                     <small class="form-text text-danger pl-3"><?= form_error('id_pelanggan'); ?></small>
                                 </div>
-                                <small class="text-danger">(tambahkan di daftar pelanggan, Jika tidak ditemukan nama pelanggan)</small>
+                                <small class="text-danger">(tambahkan di daftar pegawai, Jika tidak ditemukan nama pelanggan)</small>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
@@ -53,9 +52,10 @@
                                         <option value="">Pilih Jenis Pesanan</option>
                                         <option value="1">Kunjungan Rutin</option>
                                         <option value="2 ">Pesanan Langsung</option>
-                                        <!-- <option value="3 ">Karyawan</option>
-                                        <option value="4 ">Operasional</option> -->
+                                        <option value="3 ">Karyawan</option>
+                                        <option value="4 ">Operasional</option>
                                     </select>
+                                    <!-- <input type="text" class="form-control" id="jenis_pesanan" name="jenis_pesanan" placeholder="Pilih Jenis Pesanan" value="<?= set_value('jenis_pesanan'); ?>"> -->
                                     <small class="form-text text-danger pl-3"><?= form_error('jenis_pesanan'); ?></small>
                                 </div>
                             </div>

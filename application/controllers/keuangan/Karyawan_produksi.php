@@ -233,4 +233,47 @@ class Karyawan_produksi extends CI_Controller
             redirect('keuangan/karyawan_produksi/absensi_karyawan');
         }
     }
+
+    public function honor_karyawan()
+    {
+        $data['title'] = "Uraian Biaya Produksi AMDK Ijen Water";
+        $data['absen_karProd'] = $this->Model_karyawan_produksi->get_absen_karprod();
+        $data['produksi_barang'] = $this->Model_karyawan_produksi->get_jenis_barang();
+
+        $absensi_karyawan = array();
+        foreach ($data['absen_karProd'] as $row) {
+            if (!isset($absensi_karyawan[$row->id_karyawan_produksi])) {
+                $absensi_karyawan[$row->id_karyawan_produksi]['nama_karyawan_produksi'] = $row->nama_karyawan_produksi;
+            }
+            $tanggal = $row->tanggal;
+            $absensi_karyawan[$row->id_karyawan_produksi]['absen_karyawan_produksi'][$tanggal] = $row->status_absen;
+        }
+
+        $data_jenis_barang = array();
+        foreach ($data['produksi_barang'] as $row) {
+            if (!isset($data_jenis_barang[$row->id_jenis_barang])) {
+                $data_jenis_barang[$row->id_jenis_barang]['nama_barang_jadi'] = $row->nama_barang_jadi;
+            }
+            $tanggal = $row->tanggal_barang_jadi;
+            $ongkos = $row->ongkos_per_unit;
+            $data_jenis_barang[$row->id_jenis_barang]['barang_jadi'][$tanggal] = $row->jumlah_barang_jadi * $ongkos;
+        }
+
+        $data['data_jenis_barang'] = $data_jenis_barang;
+        $data['absensi_karyawan'] = $absensi_karyawan;
+
+        if ($this->session->userdata('upk_bagian') == 'admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('keuangan/karyawan_produksi/view_honor_karprod', $data);
+            $this->load->view('templates/pengguna/footer_produksi');
+        } else {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_uang', $data);
+            $this->load->view('templates/pengguna/sidebar_uang');
+            $this->load->view('keuangan/karyawan_produksi/view_honor_karprod', $data);
+            $this->load->view('templates/pengguna/footer');
+        }
+    }
 }

@@ -4,9 +4,12 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <!-- <div class="navbar-nav">
-                            <a href="<?= base_url('rkap/usulan_inves/export_pdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
-                        </div> -->
+                        <form action="<?= base_url('pemasaran/pemesanan'); ?>" method="get">
+                            <div style="display: flex; align-items: center;">
+                                <input type="date" name="tanggal" class="form-control">
+                                <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
+                            </div>
+                        </form>
                         <div class="navbar-nav ms-auto">
                             <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
                                 <a href="<?= base_url('pemasaran/pemesanan/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Input Pemesanan</button></a>
@@ -22,6 +25,31 @@
                     <div class="row justify-content-center mb-2">
                         <div class="col-lg-6 text-center">
                             <h5><?= strtoupper($title); ?></h5>
+                            <?php
+                            if (empty($bulan_lap)) {
+                                $bulan_lap = date('m');
+                                $tahun_lap = date('Y');
+                            }
+
+                            $bulan = [
+                                '01' => 'Januari',
+                                '02' => 'Februari',
+                                '03' => 'Maret',
+                                '04' => 'April',
+                                '05' => 'Mei',
+                                '06' => 'Juni',
+                                '07' => 'Juli',
+                                '08' => 'Agustus',
+                                '09' => 'September',
+                                '10' => 'Oktober',
+                                '11' => 'November',
+                                '12' => 'Desember',
+                            ];
+
+                            $bulan_lap = strtr($bulan_lap, $bulan);
+
+                            ?>
+                            <h5>Bulan : <?= $bulan_lap . ' ' . $tahun_lap; ?></h5>
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -59,16 +87,17 @@
                                                 <td class="text-end"><?= number_format($row->harga_barang, 0, ',', '.'); ?></td>
                                                 <td class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></td>
                                                 <td>
-                                                    <?php
-                                                    if ($row->jenis_pesanan == 1) {
-                                                        echo 'Kunjungan Rutin';
-                                                    } elseif ($row->jenis_pesanan == 2) {
-                                                        echo 'Pesanan Langsung';
-                                                    } elseif ($row->jenis_pesanan == 3) {
-                                                        echo 'Karyawan';
-                                                    } else {
-                                                        echo 'Operasional';
-                                                    } ?>
+                                                    <!-- <?php
+                                                            if ($row->jenis_pesanan == 1) {
+                                                                echo 'Kunjungan Rutin';
+                                                            } elseif ($row->jenis_pesanan == 2) {
+                                                                echo 'Pesanan Langsung';
+                                                            } elseif ($row->jenis_pesanan == 3) {
+                                                                echo 'Karyawan';
+                                                            } else {
+                                                                echo 'Operasional';
+                                                            } ?> -->
+                                                    <?= $row->jenis_pesanan == 1 ? 'Kunjungan Rutin' : 'Pesanan Langsung'; ?>
                                                 </td>
                                                 <td><?= $row->nama_mobil; ?></td>
                                                 <!-- <td></td> -->

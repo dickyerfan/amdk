@@ -4,13 +4,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Model_pemesanan extends CI_Model
 {
 
-    public function get_all()
+    public function get_all($bulan, $tahun)
     {
         $this->db->select('*');
         $this->db->from('pemesanan');
         $this->db->join('mobil', 'mobil.id_mobil = pemesanan.id_mobil', 'left');
         $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang', 'left');
         $this->db->join('pelanggan', 'pelanggan.id_pelanggan = pemesanan.id_pelanggan', 'left');
+        $this->db->where('MONTH(pemesanan.tanggal_pesan)', $bulan);
+        $this->db->where('YEAR(pemesanan.tanggal_pesan)', $tahun);
         $this->db->order_by('pemesanan.id_pemesanan', 'DESC');
         return $this->db->get()->result();
     }
@@ -144,4 +146,75 @@ class Model_pemesanan extends CI_Model
 
         return $query->result();
     }
+
+    public function get_all_pesanan($tanggal)
+    {
+        $this->db->select('SUM(pemesanan.jumlah_pesan) as total_pesanan');
+        $this->db->from('pemesanan');
+        $this->db->where('pemesanan.id_mobil IS NOT NULL');
+        $this->db->where('pemesanan.id_mobil !=', 1);
+        $this->db->where('tanggal_pesan', $tanggal);
+        return $this->db->get()->result();
+    }
+
+    // awal daftar barang karyawan
+    public function get_pegawai()
+    {
+        $this->db->select('id, bagian.id_bagian,bagian.nama_bagian,nama, alamat, tarif');
+        $this->db->from('pegawai');
+        $this->db->join('bagian', 'bagian.id_bagian = pegawai.id_bagian');
+        $this->db->where('aktif', 1);
+        return $this->db->get()->result();
+    }
+
+    public function getTarifByIdPegawai($id)
+    {
+        $this->db->select('tarif');
+        $this->db->from('pegawai');
+        $this->db->where('id', $id);
+        return $this->db->get()->row()->tarif;
+    }
+
+    public function getHargaByJenisBarang_pegawai($id_jenis_barang, $tarif)
+    {
+        $this->db->select('harga');
+        $this->db->from('harga');
+        $this->db->join('pegawai', 'harga.jenis_harga = pegawai.tarif', 'left');
+        $this->db->join('jenis_barang', 'harga.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
+        $this->db->where('harga.id_jenis_barang', $id_jenis_barang);
+        $this->db->where('pegawai.tarif', $tarif);
+        return $this->db->get()->row();
+    }
+
+    public function get_all_pegawai($bulan, $tahun)
+    {
+        $this->db->select('*');
+        $this->db->from('pemesanan_karyawan');
+        $this->db->join('mobil', 'mobil.id_mobil = pemesanan_karyawan.id_mobil', 'left');
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan_karyawan.id_jenis_barang', 'left');
+        $this->db->join('pegawai', 'pegawai.id = pemesanan_karyawan.id_pelanggan', 'left');
+        $this->db->where('MONTH(pemesanan_karyawan.tanggal_pesan)', $bulan);
+        $this->db->where('YEAR(pemesanan_karyawan.tanggal_pesan)', $tahun);
+        $this->db->order_by('pemesanan_karyawan.id_pemesanan', 'DESC');
+        return $this->db->get()->result();
+    }
+
+    public function get_id_masuk_baku_karyawan($id_pemesanan)
+    {
+        $this->db->where('id_pemesanan', $id_pemesanan);
+        return $this->db->get('pemesanan_karyawan')->row();
+    }
+
+    public function get_detail_pemesanan_karyawan($id_pemesanan)
+    {
+        $this->db->select('*');
+        $this->db->from('pemesanan_karyawan');
+        $this->db->join('mobil', 'mobil.id_mobil = pemesanan_karyawan.id_mobil', 'left');
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan_karyawan.id_jenis_barang', 'left');
+        $this->db->join('pegawai', 'pegawai.id = pemesanan_karyawan.id_pelanggan', 'left');
+        $this->db->where('id_pemesanan', $id_pemesanan);
+        $this->db->order_by('pemesanan_karyawan.id_pemesanan', 'DESC');
+        return $this->db->get()->result();
+    }
+    // akhir daftar barang karyawan
 }

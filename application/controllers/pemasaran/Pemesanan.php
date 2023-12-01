@@ -33,8 +33,23 @@ class Pemesanan extends CI_Controller
 
     public function index()
     {
+        $tanggal = $this->input->get('tanggal');
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+        $data['bulan_lap'] = $bulan;
+        $data['tahun_lap'] = $tahun;
+
+        if (!empty($tanggal)) {
+            $this->session->set_userdata('tanggal', $tanggal); // Simpan tanggal ke session jika diperlukan
+        }
         $data['title'] = 'Daftar Pemesanan Barang';
-        $data['pesan'] = $this->Model_pemesanan->get_all();
+        $data['pesan'] = $this->Model_pemesanan->get_all($bulan, $tahun);
         if ($this->session->userdata('upk_bagian') == 'admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
@@ -239,11 +254,151 @@ class Pemesanan extends CI_Controller
         $this->session->set_userdata('tanggal_exportpdf', $tanggal);
         $data['tanggal_hari_ini'] = $this->input->get('tanggal');
         $data['daftar_kiriman'] = $this->Model_pemesanan->get_daftar_kiriman($tanggal);
+        $data['total_pesanan'] = $this->Model_pemesanan->get_all_pesanan($tanggal);
         $data['title'] = 'Daftar Pengiriman Barang';
         $this->load->view('templates/pengguna/header', $data);
         $this->load->view('templates/pengguna/navbar_pasar');
         $this->load->view('templates/pengguna/sidebar_pasar');
         $this->load->view('pemasaran/view_daftar_pengiriman', $data);
+        $this->load->view('templates/pengguna/footer');
+    }
+
+    // awal penjualan rutin karyawan
+    public function barang_karyawan()
+    {
+        $tanggal = $this->input->get('tanggal');
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+        $data['bulan_lap'] = $bulan;
+        $data['tahun_lap'] = $tahun;
+
+        if (!empty($tanggal)) {
+            $this->session->set_userdata('tanggal', $tanggal); // Simpan tanggal ke session jika diperlukan
+        }
+
+        $data['title'] = 'Daftar Penjualan Rutin Karyawan';
+        $data['pesan'] = $this->Model_pemesanan->get_all_pegawai($bulan, $tahun);
+        $this->load->view('templates/pengguna/header', $data);
+        $this->load->view('templates/pengguna/navbar_pasar');
+        $this->load->view('templates/pengguna/sidebar_pasar');
+        $this->load->view('pemasaran/view_barang_karyawan', $data);
+        $this->load->view('templates/pengguna/footer');
+    }
+
+    public function input_barang_karyawan()
+    {
+        $this->form_validation->set_rules('id_jenis_barang', 'Nama Barang', 'required|trim');
+        $this->form_validation->set_rules('id_pelanggan', 'Nama Pelanggan', 'required|trim');
+        // $this->form_validation->set_rules('id_mobil', 'Nama Mobil', 'required|trim');
+        $this->form_validation->set_rules('tanggal_pesan', 'Tanggal Pesan', 'required|trim');
+        $this->form_validation->set_rules('jenis_pesanan', 'Jenis Pesanan', 'required|trim');
+        $this->form_validation->set_rules('jumlah_pesan', 'Jumlah Pesan', 'required|trim|numeric');
+        $this->form_validation->set_message('required', '%s masih kosong');
+        $this->form_validation->set_message('numeric', '%s harus berupa angka');
+
+
+        if ($this->form_validation->run() == false) {
+            $data['title'] = 'Transaksi Pemesanan Barang';
+            $data['nama_barang'] = $this->Model_pemesanan->get_produk();
+            $data['pegawai'] = $this->Model_pemesanan->get_pegawai();
+
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_pasar');
+            $this->load->view('templates/pengguna/sidebar_pasar');
+            $this->load->view('pemasaran/view_tambah_pemesanan_karyawan', $data);
+            $this->load->view('templates/pengguna/footer');
+        } else {
+            $data['id_jenis_barang'] = $this->input->post('id_jenis_barang');
+            $data['id_pelanggan'] = $this->input->post('id_pelanggan');
+            $data['id_mobil'] = null;
+            $data['tanggal_pesan'] = $this->input->post('tanggal_pesan');
+            $data['jenis_pesanan'] = $this->input->post('jenis_pesanan');
+            $data['jumlah_pesan'] = $this->input->post('jumlah_pesan');
+            $data['input_pesan'] = $this->session->userdata('nama_lengkap');
+
+            $tarif = $this->Model_pemesanan->getTarifByIdPegawai($data['id_pelanggan']);
+
+            // Ambil harga dari jenis barang yang dipilih
+            $harga_barang = $this->Model_pemesanan->getHargaByJenisBarang_pegawai($data['id_jenis_barang'], $tarif);
+            $harga = $harga_barang->harga;
+
+            // Hitung total harga
+            $data['harga_barang'] = $harga;
+            $data['total_harga'] = $harga * $data['jumlah_pesan'];
+
+            $this->Model_pemesanan->upload('pemesanan_karyawan', $data);
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+                        <strong>Sukses,</strong> Data Pesanan baru berhasil di tambah
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        </button>
+                      </div>'
+            );
+            redirect('pemasaran/pemesanan/barang_karyawan');
+        }
+    }
+
+    public function pilih_mobil_karyawan($id_pemesanan)
+    {
+        $this->form_validation->set_rules('id_mobil', 'Nama Mobil', 'required|trim');
+        $this->form_validation->set_message('required', '%s masih kosong');
+
+        if ($this->form_validation->run() == false) {
+            // $data['mobil'] = $this->Model_pemesanan->get_id_masuk_baku($id_pemesanan);
+            $data['mobil'] = $this->Model_pemesanan->get_mobil();
+            $data['title'] = 'Form Pilih Mobil';
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_pasar');
+            $this->load->view('templates/pengguna/sidebar_pasar');
+            $this->load->view('pemasaran/view_pilih_mobil', $data);
+            $this->load->view('templates/pengguna/footer');
+        } else {
+
+            $data['id_mobil'] = $this->input->post('id_mobil');
+            $this->Model_pemesanan->update('pemesanan_karyawan', $data, $id_pemesanan);
+
+            // Dapatkan data untuk penyisipan ke tabel keluar_jadi
+            $data_pemesanan = $this->Model_pemesanan->get_id_masuk_baku_karyawan($id_pemesanan);
+            $data_keluar_jadi = array(
+                'id_jenis_barang' => $data_pemesanan->id_jenis_barang,
+                'id_mobil' => $data_pemesanan->id_mobil,
+                'jumlah_keluar' => $data_pemesanan->jumlah_pesan,
+                'tanggal_keluar' => $data_pemesanan->tanggal_pesan,
+                'jumlah_akhir' => $data_pemesanan->jumlah_pesan,
+                'jenis_pesanan' => $data_pemesanan->jenis_pesanan,
+                'input_status_keluar' => $this->session->userdata('nama_lengkap')
+            );
+
+            // Sisipkan data ke dalam tabel keluar_jadi
+            $this->Model_pemesanan->insert_keluar_jadi('keluar_jadi', $data_keluar_jadi);
+
+
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+                        <strong>Sukses,</strong> data Mobil berhasil di tambah
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        </button>
+                      </div>'
+            );
+            redirect('pemasaran/pemesanan/barang_karyawan');
+        }
+    }
+    public function detail_karyawan($id_pemesanan)
+    {
+        $data['detail_pemesanan'] = $this->Model_pemesanan->get_detail_pemesanan_karyawan($id_pemesanan);
+        $data['title'] = 'Detail Pemesanan Barang';
+        $this->load->view('templates/pengguna/header', $data);
+        $this->load->view('templates/pengguna/navbar_pasar');
+        $this->load->view('templates/pengguna/sidebar_pasar');
+        $this->load->view('pemasaran/view_detail_pemesanan_karyawan', $data);
         $this->load->view('templates/pengguna/footer');
     }
 }

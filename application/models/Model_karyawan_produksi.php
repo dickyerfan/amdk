@@ -72,9 +72,15 @@ class model_karyawan_produksi extends CI_Model
 
     public function get_jenis_barang()
     {
-        $this->db->select('barang_jadi.jumlah_barang_jadi,barang_jadi.id_jenis_barang,barang_jadi.tanggal_barang_jadi, jenis_barang.nama_barang_jadi');
+        $this->db->select('barang_jadi.jumlah_barang_jadi,barang_jadi.id_jenis_barang,barang_jadi.tanggal_barang_jadi, jenis_barang.nama_barang_jadi,ongkos_produksi.ongkos_per_unit');
         $this->db->from('barang_jadi');
         $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = barang_jadi.id_jenis_barang');
+        $this->db->join('ongkos_produksi', 'barang_jadi.id_jenis_barang = ongkos_produksi.id_jenis_barang');
         return $this->db->get()->result();
     }
+
+    // public function get_ongkos_produksi()
+    // {
+    //     return $this->db->get('ongkos_produksi')->result();
+    // }
 }

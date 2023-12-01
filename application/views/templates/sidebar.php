@@ -23,6 +23,7 @@
                             <a class="nav-link" href="<?= base_url('manager/jenis_barang') ?>" style="font-size: 0.8rem;">Daftar Barang</a>
                             <a class="nav-link" href="<?= base_url('manager/harga') ?>" style="font-size: 0.8rem;">Daftar Harga</a>
                             <a class="nav-link" href="<?= base_url('user/admin') ?>" style="font-size: 0.8rem;">Daftar User</a>
+                            <a class="nav-link" href="<?= base_url('manager/pegawai') ?>" style="font-size: 0.8rem;">Daftar Pegawai PDAM</a>
                         </nav>
                     </div>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#baku" aria-expanded="false" aria-controls="baku">

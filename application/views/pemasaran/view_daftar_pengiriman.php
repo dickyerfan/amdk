@@ -54,36 +54,55 @@
                             <h5><?= $tanggal_hari_ini; ?></h5>
                         </div>
                     </div>
+
+                    <div class="row justify-content-center mb-2">
+                        <div class="col-lg-6">
+                            <?php foreach ($total_pesanan as $row) : ?>
+                                <div class="card">
+                                    <div class="card-header text-center">
+                                        <h5>Total Pengiriman hari ini : <?= $row->total_pesanan == null ? '0' : $row->total_pesanan; ?> barang</h5>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+
                     <div class="row justify-content-center">
                         <?php if ($daftar_kiriman) : ?>
                             <?php foreach ($daftar_kiriman as $mobil) : ?>
-                                <div class="col-lg-8">
-                                    <div class="card mb-3">
+                                <div class="col-lg-6">
+                                    <div class="card mb-2">
                                         <div class="card-header">
                                             <h5>Mobil : <?= $mobil->nama_mobil; ?> / <?= $mobil->plat_nomor; ?></h5>
                                         </div>
                                         <div class="card-body">
-                                            <h5 class="card-text">Total Jumlah Barang : <?= $mobil->total_pemesanan; ?></h5>
-                                            <h5 class="card-text">Daftar Jenis Barang :</h5>
-                                            <?php foreach ($mobil->jenis_barang as $barang) : ?>
-                                                <div class="table-responsive">
-                                                    <table class="table table-borderless">
-                                                        <thead>
+                                            <!-- <h5 class="card-text">Total Jumlah Barang : <?= $mobil->total_pemesanan; ?></h5> -->
+                                            <h5 class="card-text">Daftar Barang :</h5>
+                                            <div class="table-responsive">
+                                                <table class="table table-borderless table-sm">
+                                                    <tbody>
+                                                        <?php foreach ($mobil->jenis_barang as $barang) : ?>
                                                             <tr>
                                                                 <td width="40%">
                                                                     - <?= ucwords($barang->nama_barang_jadi); ?>
                                                                 </td>
+                                                                <td>:</td>
                                                                 <td>
                                                                     <?= $barang->jumlah_pesan; ?>
                                                                 </td>
                                                             </tr>
-                                                        </thead>
-                                                    </table>
-                                                </div>
-                                                <!-- <li class="list-group-item">
+                                                        <?php endforeach; ?>
+                                                        <tr class="fw-bold">
+                                                            <td>Total Barang</td>
+                                                            <td>:</td>
+                                                            <td><?= $mobil->total_pemesanan; ?></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <!-- <li class="list-group-item">
                                                     - <?= $barang->nama_barang_jadi; ?> - <?= $barang->jumlah_pesan; ?> buah
                                                 </li> -->
-                                            <?php endforeach; ?>
                                         </div>
                                         <div class="card-footer text-muted">
                                             Tanggal Pesan : <?= date('d-m-Y', strtotime($mobil->tanggal_pesan)); ?>
@@ -92,7 +111,11 @@
                                 </div>
                             <?php endforeach; ?>
                         <?php else : ?>
-                            <div class="btn btn-danger">Belum ada data pemesanan yang tersedia.</div>
+                            <div class="row justify-content-center">
+                                <div class="col-auto">
+                                    <div class="btn btn-danger shadow">Belum ada data pemesanan yang tersedia.</div>
+                                </div>
+                            </div>
                         <?php endif; ?>
                     </div>
                 </div>
