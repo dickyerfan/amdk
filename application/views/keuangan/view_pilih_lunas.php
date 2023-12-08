@@ -16,7 +16,7 @@
                                             <div class="form-control"><?= $lunas[0]->nama_pelanggan; ?> </div>
                                         </div>
                                         <div class="col">
-                                            <div class="form-control"><?= $lunas[0]->jumlah_pesan ?> <?= $lunas[0]->nama_barang_jadi ?></div>
+                                            <div class="form-control"><?= $lunas[0]->jumlah_pesan ?> <?= $lunas[0]->nama_produk ?></div>
                                         </div>
                                     </div>
                                     <div class="row mb-2">

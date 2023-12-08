@@ -4,17 +4,17 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('keuangan/penjualan'); ?>" method="get">
+                        <form action="<?= base_url('keuangan/piutang'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
                                 <input type="date" name="tanggal" class="form-control">
                                 <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
                             </div>
                         </form>
-                        <div class="navbar-nav ms-auto">
+                        <!-- <div class="navbar-nav ms-auto">
                             <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
                                 <a href="<?= base_url('keuangan/pelanggan') ?>"><button class="float-end neumorphic-button"><i class="fas fa-users"></i> Daftar Pelanggan</button></a>
                             <?php endif; ?>
-                        </div>
+                        </div> -->
                     </nav>
                 </div>
                 <div class="p-2">
@@ -58,56 +58,41 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>
-                                        <th class="text-center">Tanggal</th>
-                                        <th class="text-center">Nama Pelanggan</th>
-                                        <th class="text-center">Alamat</th>
+                                        <!-- <th class="text-center">Tgl Bayar</th> -->
+                                        <th class="text-center">Tgl Order</th>
                                         <th class="text-center">Jenis Barang</th>
+                                        <th class="text-center">Nama Pelanggan</th>
                                         <th class="text-center">Jumlah</th>
                                         <th class="text-center">Harga</th>
                                         <th class="text-center">Total</th>
-                                        <th class="text-center">Jenis pesanan</th>
-                                        <th class="text-center">Mobil</th>
-                                        <th class="text-center">Nota</th>
-                                        <th class="text-center">Status</th>
-                                        <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $no = 1;
-                                    foreach ($pesan as $row) : ?>
+                                    $total_piutang = 0;
+                                    foreach ($pesan as $row) :
+                                        $tanggal_bayar = date('d-m-y', strtotime($row->tanggal_bayar));
+                                        $total_piutang = $row->total_piutang;
+                                    ?>
                                         <tr class="text-center">
                                             <td><?= $no++ ?></td>
+                                            <!-- <td><?= $row->status_bayar == 0  ? '-' : $tanggal_bayar; ?></td> -->
                                             <td><?= date('d-m-y', strtotime($row->tanggal_pesan)); ?></td>
-                                            <td class="text-start"><?= ucwords(strtolower($row->nama_pelanggan)); ?></td>
-                                            <td class="text-start"><?= ucwords(strtolower($row->alamat_pelanggan)); ?></td>
                                             <td class="text-start"><?= $row->nama_produk; ?></td>
+                                            <td class="text-start"><?= ucwords(strtolower($row->nama_pelanggan)); ?></td>
                                             <td class="text-end"><?= number_format($row->jumlah_pesan, 0, ',', '.'); ?></td>
                                             <td class="text-end"><?= number_format($row->harga_barang, 0, ',', '.'); ?></td>
                                             <td class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></td>
-                                            <td>
-                                                <?php
-                                                if ($row->jenis_pesanan == 1) {
-                                                    echo 'Kunjungan Rutin';
-                                                } elseif ($row->jenis_pesanan == 2) {
-                                                    echo 'Pesanan Langsung';
-                                                } elseif ($row->jenis_pesanan == 3) {
-                                                    echo 'Karyawan';
-                                                } else {
-                                                    echo 'Operasional';
-                                                } ?>
-                                            </td>
-                                            <td><?= $row->nama_mobil; ?></td>
-                                            <td><?= $row->status_nota == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Setor</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?></td>
-                                            <td><?= $row->status_bayar == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Lunas</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Piutang</span>'; ?></td>
-                                            <td>
-                                                <a href="<?= $row->status_bayar == 0 && $row->status_nota == 1 ? base_url('keuangan/penjualan/pilih_lunas/') : "javascript:void(0)" ?><?= $row->id_pemesanan; ?>"><i class="fas fa-dollar text-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk bayar"></i></a>
-                                                <a href="<?= base_url('keuangan/penjualan/detail/') ?><?= $row->id_pemesanan ?>"><i class="fa-solid fa-circle-info text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk melihat detail penjualan"></i></a>
-                                                <!-- <a href="<?= base_url('barang_baku/barang_masuk/hapus/') ?><?= $row->id_pemesanan ?>" class="hapus-link"><i class="fas fa-trash text-danger"></i></a> -->
-                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="6" class="text-end">Jumlah</th>
+                                        <th class="text-end"><?= number_format($total_piutang, 0, ',', '.'); ?></th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
