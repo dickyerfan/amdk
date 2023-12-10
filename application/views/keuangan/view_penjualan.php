@@ -54,61 +54,99 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <table class="table table-sm table-bordered" id="example" style="font-size: 0.8rem;">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Tanggal</th>
-                                        <th class="text-center">Nama Pelanggan</th>
-                                        <th class="text-center">Alamat</th>
-                                        <th class="text-center">Jenis Barang</th>
-                                        <th class="text-center">Jumlah</th>
-                                        <th class="text-center">Harga</th>
-                                        <th class="text-center">Total</th>
-                                        <th class="text-center">Jenis pesanan</th>
-                                        <th class="text-center">Mobil</th>
-                                        <th class="text-center">Nota</th>
-                                        <th class="text-center">Status</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($pesan as $row) : ?>
-                                        <tr class="text-center">
-                                            <td><?= $no++ ?></td>
-                                            <td><?= date('d-m-y', strtotime($row->tanggal_pesan)); ?></td>
-                                            <td class="text-start"><?= ucwords(strtolower($row->nama_pelanggan)); ?></td>
-                                            <td class="text-start"><?= ucwords(strtolower($row->alamat_pelanggan)); ?></td>
-                                            <td class="text-start"><?= $row->nama_produk; ?></td>
-                                            <td class="text-end"><?= number_format($row->jumlah_pesan, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($row->harga_barang, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></td>
-                                            <td>
-                                                <?php
-                                                if ($row->jenis_pesanan == 1) {
-                                                    echo 'Kunjungan Rutin';
-                                                } elseif ($row->jenis_pesanan == 2) {
-                                                    echo 'Pesanan Langsung';
-                                                } elseif ($row->jenis_pesanan == 3) {
-                                                    echo 'Karyawan';
-                                                } else {
-                                                    echo 'Operasional';
-                                                } ?>
-                                            </td>
-                                            <td><?= $row->nama_mobil; ?></td>
-                                            <td><?= $row->status_nota == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Setor</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?></td>
-                                            <td><?= $row->status_bayar == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Lunas</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Piutang</span>'; ?></td>
-                                            <td>
-                                                <a href="<?= $row->status_bayar == 0 && $row->status_nota == 1 ? base_url('keuangan/penjualan/pilih_lunas/') : "javascript:void(0)" ?><?= $row->id_pemesanan; ?>"><i class="fas fa-dollar text-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk bayar"></i></a>
-                                                <a href="<?= base_url('keuangan/penjualan/detail/') ?><?= $row->id_pemesanan ?>"><i class="fa-solid fa-circle-info text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk melihat detail penjualan"></i></a>
-                                                <!-- <a href="<?= base_url('barang_baku/barang_masuk/hapus/') ?><?= $row->id_pemesanan ?>" class="hapus-link"><i class="fas fa-trash text-danger"></i></a> -->
-                                            </td>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered" id="example" style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Tanggal</th>
+                                            <th class="text-center">Nama Pelanggan</th>
+                                            <th class="text-center">Alamat</th>
+                                            <th class="text-center">Jenis Barang</th>
+                                            <th class="text-center">Jumlah</th>
+                                            <th class="text-center">Harga</th>
+                                            <th class="text-center">Total</th>
+                                            <th class="text-center">Jenis pesanan</th>
+                                            <th class="text-center">Mobil</th>
+                                            <th class="text-center">Nota</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Action</th>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        foreach ($pesan as $row) : ?>
+                                            <tr class="text-center">
+                                                <td><?= $no++ ?></td>
+                                                <td><?= date('d-m-y', strtotime($row->tanggal_pesan)); ?></td>
+                                                <td class="text-start"><?= ucwords(strtolower($row->nama_pelanggan)); ?></td>
+                                                <td class="text-start"><?= ucwords(strtolower($row->alamat_pelanggan)); ?></td>
+                                                <td class="text-start"><?= $row->nama_produk; ?></td>
+                                                <td class="text-end"><?= number_format($row->jumlah_pesan, 0, ',', '.'); ?></td>
+                                                <td class="text-end"><?= number_format($row->harga_barang, 0, ',', '.'); ?></td>
+                                                <td class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></td>
+                                                <td>
+                                                    <?php
+                                                    if ($row->jenis_pesanan == 1) {
+                                                        echo 'Kunjungan Rutin';
+                                                    } elseif ($row->jenis_pesanan == 2) {
+                                                        echo 'Pesanan Langsung';
+                                                    } elseif ($row->jenis_pesanan == 3) {
+                                                        echo 'Karyawan';
+                                                    } else {
+                                                        echo 'Operasional';
+                                                    } ?>
+                                                </td>
+                                                <td><?= $row->nama_mobil; ?></td>
+                                                <td><?= $row->status_nota == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Setor</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?></td>
+                                                <td><?= $row->status_bayar == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Lunas</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Piutang</span>'; ?></td>
+                                                <td>
+                                                    <!-- <?php
+                                                            // Ambil waktu saat ini
+                                                            $current_time = strtotime(date('H:i'));
+                                                            // Tentukan batas waktu jam 14:00
+                                                            $deadline_time = strtotime('14:00');
+                                                            // Cek apakah sudah lewat jam 14:00 atau tidak dan status_bayar dan status_nota sesuai
+                                                            $can_click = $current_time < $deadline_time && $row->status_bayar == 0 && $row->status_nota == 1;
+                                                            // Bangun URL berdasarkan kondisi waktu dan status
+                                                            $url = $can_click ? base_url('keuangan/penjualan/pilih_lunas/') . $row->id_pemesanan : "javascript:void(0)";
+                                                            // Buat link dengan URL yang sesuai
+                                                            ?>
+                                                    <a href="<?= $url; ?>" style="text-decoration: none;">
+                                                        <i class="fas fa-dollar text-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk bayar"></i>
+                                                    </a> -->
+
+                                                    <?php
+                                                    // Ambil waktu saat ini
+                                                    $current_time = strtotime(date('H:i'));
+                                                    // Tentukan batas waktu jam 14:00
+                                                    $deadline_time = strtotime('22:00');
+                                                    // Cek apakah sudah lewat jam 14:00 
+                                                    $can_click = $current_time < $deadline_time;
+                                                    if ($row->status_bayar == 1 && $row->status_nota == 1) {
+                                                        $url = "javascript:Swal.fire('Peringatan', 'Barang sudah lunas.', 'warning');";
+                                                    } else if ($row->status_nota == 0) {
+                                                        $url = "javascript:Swal.fire('Peringatan', 'Maaf, Bagian pemasaran belum setor uangnya.', 'warning');";
+                                                    } else if (!$can_click) {
+                                                        $url = "javascript:Swal.fire('Peringatan', 'Maaf, waktu pelunasan sudah lewat jam 14:00 WIB', 'warning');";
+                                                    } else {
+                                                        $url = base_url('keuangan/penjualan/pilih_lunas/') . $row->id_pemesanan;
+                                                    }
+                                                    ?>
+                                                    <a href="<?= $url; ?>" style="text-decoration: none;">
+                                                        <i class="fas fa-dollar text-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk bayar"></i>
+                                                    </a>
+
+                                                    <a href="<?= base_url('keuangan/penjualan/detail/') ?><?= $row->id_pemesanan ?>"><i class="fa-solid fa-circle-info text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk melihat detail penjualan"></i></a>
+
+                                                    <!-- <a href="<?= $row->status_bayar == 0 && $row->status_nota == 1 ? base_url('keuangan/penjualan/pilih_lunas/') : "javascript:void(0)" ?><?= $row->id_pemesanan; ?>"><i class="fas fa-dollar text-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk bayar"></i></a> -->
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

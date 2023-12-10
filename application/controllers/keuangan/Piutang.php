@@ -61,7 +61,7 @@ class Piutang extends CI_Controller
             $this->load->view('templates/pengguna/navbar_uang');
             $this->load->view('templates/pengguna/sidebar_uang');
             $this->load->view('keuangan/view_piutang', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_uang');
         }
     }
 }

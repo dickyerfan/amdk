@@ -96,7 +96,7 @@ class Laporan_keuangan extends CI_Controller
             $this->load->view('templates/pengguna/navbar_uang');
             $this->load->view('templates/pengguna/sidebar_uang');
             $this->load->view('keuangan/view_laporan_keuangan', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_uang');
         }
     }
 

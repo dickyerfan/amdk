@@ -42,13 +42,21 @@ class Laporan_penerimaan extends CI_Controller
         $tanggal_array = array();
         foreach ($data['lap_terima'] as $row) {
             $id_jenis_barang = $row->id_jenis_barang;
-            $tanggal = $row->tanggal_bayar;
-            $tanggal = date("Y-m-d", strtotime($tanggal));
+            $tanggal_lengkap = $row->tanggal_bayar;
+            $tanggal = date("Y-m-d", strtotime($tanggal_lengkap));
             $lap_terima[$id_jenis_barang]['nama_produk'] = $row->nama_produk;
-            $lap_terima[$id_jenis_barang]['pemesanan'][$tanggal] = $row->total_harga;
+
+            // $lap_terima[$id_jenis_barang]['pemesanan'][$tanggal] = $row->total_harga;
+            if (isset($lap_terima[$id_jenis_barang]['pemesanan'][$tanggal])) {
+                $lap_terima[$id_jenis_barang]['pemesanan'][$tanggal] += $row->total_harga;
+            } else {
+                $lap_terima[$id_jenis_barang]['pemesanan'][$tanggal] = $row->total_harga;
+            }
+
             $tanggal_array[] = $tanggal;
         }
         $data['lap_terima'] = $lap_terima;
+
 
         $jml_barang = array();
         $tanggal_array = array();
@@ -57,14 +65,18 @@ class Laporan_penerimaan extends CI_Controller
             $tanggal = $row->tanggal_bayar;
             $tanggal = date("Y-m-d", strtotime($tanggal));
             $jml_barang[$id_jenis_barang]['nama_produk'] = $row->nama_produk;
-            $jml_barang[$id_jenis_barang]['pemesanan'][$tanggal] = $row->total_barang;
+            // $jml_barang[$id_jenis_barang]['pemesanan'][$tanggal] = $row->total_barang;
+
+            if (isset($jml_barang[$id_jenis_barang]['pemesanan'][$tanggal])) {
+                $jml_barang[$id_jenis_barang]['pemesanan'][$tanggal] += $row->total_barang;
+            } else {
+                $jml_barang[$id_jenis_barang]['pemesanan'][$tanggal] = $row->total_barang;
+            }
             $tanggal_array[] = $tanggal;
         }
         $data['jml_barang'] = $jml_barang;
 
-
         $data['tanggal_array'] = array_unique($tanggal_array);
-
 
         // Get the selected month and year, or provide default values
         $selectedMonth = $this->input->get('tanggal');
@@ -98,7 +110,7 @@ class Laporan_penerimaan extends CI_Controller
             $this->load->view('templates/pengguna/navbar_uang');
             $this->load->view('templates/pengguna/sidebar_uang');
             $this->load->view('keuangan/view_laporan_penerimaan', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_uang');
         }
     }
 
@@ -106,38 +118,39 @@ class Laporan_penerimaan extends CI_Controller
     {
 
         $data['nama_barang'] = $this->Model_laporan->get_nama_barang();
-        $data['lunas'] = $this->Model_laporan->get_lunas();
-        $data['piutang'] = $this->Model_laporan->get_piutang();
-        $data['title'] = 'Laporan Keuangan AMDK';
+        $data['lap_terima'] = $this->Model_laporan->get_penerimaan();
+        $data['jml_barang'] = $this->Model_laporan->get_jumlah_barang();
+        $data['title'] = 'Rekap Laporan Penerimaan AMDK';
 
-        $lunas = array();
+        $lap_terima = array();
         $tanggal_array = array();
-        foreach ($data['lunas'] as $row) {
+        foreach ($data['lap_terima'] as $row) {
             $id_jenis_barang = $row->id_jenis_barang;
-            $tanggal = $row->tanggal_pesan;
-            $lunas[$id_jenis_barang]['nama_produk'] = $row->nama_produk;
-            $lunas[$id_jenis_barang]['pemesanan'][$tanggal] = $row->total_harga;
+            $tanggal = $row->tanggal_bayar;
+            $tanggal = date("Y-m-d", strtotime($tanggal));
+            $lap_terima[$id_jenis_barang]['nama_produk'] = $row->nama_produk;
+            $lap_terima[$id_jenis_barang]['pemesanan'][$tanggal] = $row->total_harga;
             $tanggal_array[] = $tanggal;
         }
+        $data['lap_terima'] = $lap_terima;
 
-        $data['lunas'] = $lunas;
-
-        $piutang = array();
+        $jml_barang = array();
         $tanggal_array = array();
-        foreach ($data['piutang'] as $row) {
+        foreach ($data['jml_barang'] as $row) {
             $id_jenis_barang = $row->id_jenis_barang;
-            $tanggal = $row->tanggal_pesan;
-            $piutang[$id_jenis_barang]['nama_produk'] = $row->nama_produk;
-            $piutang[$id_jenis_barang]['pemesanan'][$tanggal] = $row->total_harga;
+            $tanggal = $row->tanggal_bayar;
+            $tanggal = date("Y-m-d", strtotime($tanggal));
+            $jml_barang[$id_jenis_barang]['nama_produk'] = $row->nama_produk;
+            $jml_barang[$id_jenis_barang]['pemesanan'][$tanggal] = $row->total_barang;
             $tanggal_array[] = $tanggal;
         }
+        $data['jml_barang'] = $jml_barang;
 
-        $data['piutang'] = $piutang;
         $data['tanggal_array'] = array_unique($tanggal_array);
 
 
         // Get the selected month and year, or provide default values
-        $selectedMonth = $this->session->userdata('bulan_exportpdf');
+        $selectedMonth = $this->input->get('tanggal');
         if (empty($selectedMonth)) {
             $selectedMonth = date('Y-m'); // Use the current month as default
         }
@@ -175,7 +188,7 @@ class Laporan_penerimaan extends CI_Controller
         $this->pdf->setPaper('folio', 'landscape');
 
         // $this->pdf->filename = "Potensi Sr.pdf";
-        $this->pdf->filename = "LapBulanan-{$bulan}-{$tahun}.pdf";
-        $this->pdf->generate('keuangan/laporan_keuangan_pdf', $data);
+        $this->pdf->filename = "LapPenerimaan-{$bulan}-{$tahun}.pdf";
+        $this->pdf->generate('keuangan/laporan_penerimaan_pdf', $data);
     }
 }

@@ -31,7 +31,8 @@
                                     </select>
                                     <small class="form-text text-danger pl-3"><?= form_error('id_pelanggan'); ?></small>
                                 </div>
-                                <small class="text-danger">(tambahkan di daftar pelanggan, Jika tidak ditemukan nama pelanggan)</small>
+                                <!-- <small class="text-danger">(tambahkan di daftar pelanggan, Jika tidak ditemukan nama pelanggan)</small> -->
+                                <small><a href="<?= base_url('pemasaran/pelanggan/tambah') ?>" style="text-decoration: none;">(tambahkan pelanggan, Jika tidak ditemukan nama pelanggan)</a> </small>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">

@@ -50,7 +50,7 @@ class Karyawan_produksi extends CI_Controller
             $this->load->view('templates/pengguna/navbar_uang', $data);
             $this->load->view('templates/pengguna/sidebar_uang');
             $this->load->view('keuangan/karyawan_produksi/view_karyawan_produksi', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_uang');
         }
     }
 
@@ -70,7 +70,7 @@ class Karyawan_produksi extends CI_Controller
             $this->load->view('templates/pengguna/navbar_uang', $data);
             $this->load->view('templates/pengguna/sidebar_uang');
             $this->load->view('keuangan/karyawan_produksi/view_tambah_karyawan_produksi', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_uang');
         } else {
             $data['user'] = $this->Model_karyawan_produksi->tambahData();
             $this->session->set_flashdata(
@@ -93,7 +93,7 @@ class Karyawan_produksi extends CI_Controller
         $this->load->view('templates/pengguna/navbar_uang', $data);
         $this->load->view('templates/pengguna/sidebar_uang');
         $this->load->view('keuangan/karyawan_produksi/view_edit_karyawan_produksi', $data);
-        $this->load->view('templates/pengguna/footer');
+        $this->load->view('templates/pengguna/footer_uang');
     }
 
     public function update()
@@ -176,7 +176,7 @@ class Karyawan_produksi extends CI_Controller
             $this->load->view('templates/pengguna/navbar_uang', $data);
             $this->load->view('templates/pengguna/sidebar_uang');
             $this->load->view('keuangan/karyawan_produksi/view_absen_karprod', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_uang');
         }
     }
 
@@ -194,7 +194,7 @@ class Karyawan_produksi extends CI_Controller
             $this->load->view('templates/pengguna/navbar_uang', $data);
             $this->load->view('templates/pengguna/sidebar_uang');
             $this->load->view('keuangan/karyawan_produksi/view_tambah_absen_karprod', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_uang');
         } else {
             $tanggal = $this->input->post('tanggal');
             $karyawan = $this->input->post('karyawan');
@@ -273,7 +273,7 @@ class Karyawan_produksi extends CI_Controller
             $this->load->view('templates/pengguna/navbar_uang', $data);
             $this->load->view('templates/pengguna/sidebar_uang');
             $this->load->view('keuangan/karyawan_produksi/view_honor_karprod', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_uang');
         }
     }
 }

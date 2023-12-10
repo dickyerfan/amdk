@@ -46,7 +46,7 @@ class Pelanggan extends CI_Controller
             $this->load->view('templates/pengguna/navbar_uang');
             $this->load->view('templates/pengguna/sidebar_uang');
             $this->load->view('keuangan/view_pelanggan', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_uang');
         }
     }
 
@@ -71,7 +71,7 @@ class Pelanggan extends CI_Controller
             $this->load->view('templates/pengguna/navbar_uang');
             $this->load->view('templates/pengguna/sidebar_uang');
             $this->load->view('keuangan/view_tambah_pelanggan', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_uang');
         } else {
             $data['user'] = $this->Model_pelanggan->tambahData();
             $this->session->set_flashdata(
@@ -94,7 +94,7 @@ class Pelanggan extends CI_Controller
         $this->load->view('templates/pengguna/navbar_uang');
         $this->load->view('templates/pengguna/sidebar_uang');
         $this->load->view('keuangan/view_edit_pelanggan', $data);
-        $this->load->view('templates/pengguna/footer');
+        $this->load->view('templates/pengguna/footer_uang');
     }
 
     public function update()

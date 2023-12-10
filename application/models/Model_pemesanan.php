@@ -98,6 +98,7 @@ class Model_pemesanan extends CI_Model
         $this->db->set('tanggal_update', $data['tanggal_update']);
         $this->db->set('input_update', $data['input_update']);
         $this->db->set('status_nota', $data['status_nota']);
+        $this->db->set('status_pesan', $data['status_pesan']);
         $this->db->update('pemesanan');
     }
 

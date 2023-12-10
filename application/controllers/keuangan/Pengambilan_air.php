@@ -59,7 +59,7 @@ class Pengambilan_air extends CI_Controller
             $this->load->view('templates/pengguna/navbar_uang');
             $this->load->view('templates/pengguna/sidebar_uang');
             $this->load->view('keuangan/view_ambil_air', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_uang');
         }
     }
 
@@ -99,7 +99,7 @@ class Pengambilan_air extends CI_Controller
             $this->load->view('templates/pengguna/navbar_uang');
             $this->load->view('templates/pengguna/sidebar_uang');
             $this->load->view('keuangan/view_tambah_ambil_air', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_uang');
         } else {
             $data = [
                 'tanggal_ambil_air' => $this->input->post('tanggal_ambil_air', true),
@@ -131,7 +131,7 @@ class Pengambilan_air extends CI_Controller
         $this->load->view('templates/pengguna/navbar_uang');
         $this->load->view('templates/pengguna/sidebar_uang');
         $this->load->view('keuangan/view_edit_pelanggan', $data);
-        $this->load->view('templates/pengguna/footer');
+        $this->load->view('templates/pengguna/footer_uang');
     }
 
     public function update()

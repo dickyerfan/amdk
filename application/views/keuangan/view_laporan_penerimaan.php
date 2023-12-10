@@ -60,14 +60,62 @@
                                             <td rowspan="2" style="vertical-align: middle;">No</td>
                                             <td class="text-center" rowspan="2" style="vertical-align: middle;">Tanggal</td> <!-- Date column -->
                                             <?php foreach ($nama_barang as $jenis) : ?>
-                                                <td class="text-center" colspan="2" style="vertical-align: middle;"><?= $jenis == 'galon kosong' ? 'Non Air' : $jenis; ?></td>
+                                                <!-- <td class="text-center" colspan="2" style="vertical-align: middle;"><?= $jenis == 'galon kosong' ? 'Non Air' : $jenis; ?></td> -->
+                                                <td class="text-center" colspan="2" style="vertical-align: middle;">
+                                                    <?php
+                                                    switch ($jenis) {
+                                                        case 'galon 19l':
+                                                            echo 'Galon 19l';
+                                                            break;
+                                                        case 'gelas 220ml ijen':
+                                                            echo '220 Ijen Biru';
+                                                            break;
+                                                        case 'gelas 220ml genggong':
+                                                            echo '220 Genggong';
+                                                            break;
+                                                        case 'gelas 220ml an nujum':
+                                                            echo '220 An Nujum';
+                                                            break;
+                                                        case 'gelas 220ml syubbanq':
+                                                            echo '220 SyubbanQ';
+                                                            break;
+                                                        case 'gelas 220ml amalis':
+                                                            echo '220 Amalis';
+                                                            break;
+                                                        case 'gelas 220ml ijen merah':
+                                                            echo '220 Ijen Merah';
+                                                            break;
+                                                        case 'botol 330ml ijen':
+                                                            echo '330 Ijen';
+                                                            break;
+                                                        case 'botol 500ml ijen':
+                                                            echo '500 Ijen';
+                                                            break;
+                                                        case 'botol 500ml amalis':
+                                                            echo '500 Amalis';
+                                                            break;
+                                                        case 'botol 1500 ml ijen':
+                                                            echo '1500 Ijen';
+                                                            break;
+                                                        case 'botol 1500 ml amalis':
+                                                            echo '1500 Amalis';
+                                                            break;
+                                                        case 'galon kosong':
+                                                            echo 'No Air';
+                                                            break;
+                                                        default:
+                                                            echo $jenis;
+                                                            break;
+                                                    }
+                                                    ?>
+                                                </td>
                                             <?php endforeach; ?>
                                             <td class="text-center" rowspan="2" style=" vertical-align: middle;">Jumlah</td>
                                         </tr>
                                         <tr>
                                             <?php foreach ($nama_barang as $jenis) : ?>
-                                                <td class="text-center">Rupiah</td>
                                                 <td class="text-center">jml</td>
+                                                <td class="text-center">Rupiah</td>
                                             <?php endforeach; ?>
                                         </tr>
                                     </thead>
@@ -82,30 +130,6 @@
                                                 $total = 0;
                                                 $total_jml_barang = 0;
                                                 foreach ($nama_barang as $jenis) : ?>
-                                                    <td class="text-end">
-                                                        <?php
-                                                        // Cari nama barang yang cocok di $lap_terima
-                                                        $found = false;
-                                                        foreach ($lap_terima as $terima) {
-                                                            if ($terima['nama_produk'] == $jenis) {
-                                                                $found = true;
-                                                                if (isset($terima['pemesanan'][$tanggal])) {
-                                                                    // echo $terima['pemesanan'][$tanggal];
-                                                                    $penerimaan = $terima['pemesanan'][$tanggal];
-                                                                    echo number_format($penerimaan, 0, ',', '.');
-                                                                    $total += $penerimaan;
-                                                                } else {
-                                                                    echo '0'; // Display 0 if no data for this date and product
-                                                                }
-                                                                break;
-                                                            }
-                                                        }
-                                                        // Jika tidak ditemukan, munculkan '0'
-                                                        if (!$found) {
-                                                            echo '0';
-                                                        }
-                                                        ?>
-                                                    </td>
                                                     <td class="text-center">
                                                         <?php
                                                         // Cari nama barang yang cocok di $jml_barang
@@ -118,6 +142,30 @@
                                                                     $jumlah_barang = $barang['pemesanan'][$tanggal];
                                                                     echo $jumlah_barang;
                                                                     $total_jml_barang += $jumlah_barang;
+                                                                } else {
+                                                                    echo '0'; // Display 0 if no data for this date and product
+                                                                }
+                                                                break;
+                                                            }
+                                                        }
+                                                        // Jika tidak ditemukan, munculkan '0'
+                                                        if (!$found) {
+                                                            echo '0';
+                                                        }
+                                                        ?>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <?php
+                                                        // Cari nama barang yang cocok di $lap_terima
+                                                        $found = false;
+                                                        foreach ($lap_terima as $terima) {
+                                                            if ($terima['nama_produk'] == $jenis) {
+                                                                $found = true;
+                                                                if (isset($terima['pemesanan'][$tanggal])) {
+                                                                    // echo $terima['pemesanan'][$tanggal];
+                                                                    $penerimaan = $terima['pemesanan'][$tanggal];
+                                                                    echo number_format($penerimaan, 0, ',', '.');
+                                                                    $total += $penerimaan;
                                                                 } else {
                                                                     echo '0'; // Display 0 if no data for this date and product
                                                                 }
@@ -145,25 +193,6 @@
                                             $total_penerimaaan = 0;
                                             $total_barang = 0;
                                             foreach ($nama_barang as $jenis) : ?>
-                                                <td class="text-end">
-                                                    <?php
-                                                    $totalPenerimaan = 0;
-                                                    foreach ($dateRange as $tanggal) {
-                                                        $totalTerimaPerJenisTanggal = 0;
-                                                        foreach ($lap_terima as $terima) {
-                                                            if ($terima['nama_produk'] == $jenis) {
-                                                                if (isset($terima['pemesanan'][$tanggal])) {
-                                                                    $jumlah_terima = $terima['pemesanan'][$tanggal];
-                                                                    $totalTerimaPerJenisTanggal += $jumlah_terima;
-                                                                    $total_penerimaaan += $jumlah_terima; // Tambahkan ke total semua di sini
-                                                                }
-                                                            }
-                                                        }
-                                                        $totalPenerimaan += $totalTerimaPerJenisTanggal;
-                                                    }
-                                                    echo number_format($totalPenerimaan, 0, ',', '.');
-                                                    ?>
-                                                </td>
                                                 <td class="text-center">
                                                     <?php
                                                     $totalPerJenis = 0;
@@ -181,6 +210,25 @@
                                                         $totalPerJenis += $totalPerJenisTanggal;
                                                     }
                                                     echo $totalPerJenis;
+                                                    ?>
+                                                </td>
+                                                <td class="text-end">
+                                                    <?php
+                                                    $totalPenerimaan = 0;
+                                                    foreach ($dateRange as $tanggal) {
+                                                        $totalTerimaPerJenisTanggal = 0;
+                                                        foreach ($lap_terima as $terima) {
+                                                            if ($terima['nama_produk'] == $jenis) {
+                                                                if (isset($terima['pemesanan'][$tanggal])) {
+                                                                    $jumlah_terima = $terima['pemesanan'][$tanggal];
+                                                                    $totalTerimaPerJenisTanggal += $jumlah_terima;
+                                                                    $total_penerimaaan += $jumlah_terima; // Tambahkan ke total semua di sini
+                                                                }
+                                                            }
+                                                        }
+                                                        $totalPenerimaan += $totalTerimaPerJenisTanggal;
+                                                    }
+                                                    echo number_format($totalPenerimaan, 0, ',', '.');
                                                     ?>
                                                 </td>
                                             <?php endforeach; ?>

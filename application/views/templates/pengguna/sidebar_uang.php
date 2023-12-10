@@ -21,6 +21,7 @@
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="<?= base_url('keuangan/pelanggan') ?>" style="font-size: 0.8rem;">Daftar Pelanggan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/penjualan') ?>" style="font-size: 0.8rem;">Penjualan</a>
+                            <a class="nav-link" href="<?= base_url('keuangan/rutin_karyawan') ?>" style="font-size: 0.8rem;">Rutin Karyawan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/ban_ops') ?>" style="font-size: 0.8rem;">Bantuan / Operasional</a>
                         </nav>
                     </div>
@@ -56,9 +57,9 @@
                     </a>
                     <div class="collapse" id="laporan" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="<?= base_url('keuangan/laporan_keuangan') ?>" style="font-size: 0.8rem;">Laporan Keuangan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/laporan_penerimaan') ?>" style="font-size: 0.8rem;">Laporan Penerimaan</a>
-                            <a class="nav-link" href="<?= base_url('keuangan/laporan_piutang') ?>" style="font-size: 0.8rem;">Laporan Piutang</a>
+                            <a class="nav-link" href="<?= base_url('keuangan/laporan_keuangan') ?>" style="font-size: 0.8rem;">Laporan Bulanan</a>
+                            <!-- <a class="nav-link" href="<?= base_url('keuangan/laporan_piutang') ?>" style="font-size: 0.8rem;">Laporan Piutang</a> -->
                         </nav>
                     </div>
 

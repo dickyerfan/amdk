@@ -62,7 +62,7 @@ class Penjualan extends CI_Controller
             $this->load->view('templates/pengguna/navbar_uang');
             $this->load->view('templates/pengguna/sidebar_uang');
             $this->load->view('keuangan/view_penjualan', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_uang');
         }
     }
 
@@ -79,9 +79,10 @@ class Penjualan extends CI_Controller
             $this->load->view('templates/pengguna/navbar_uang');
             $this->load->view('templates/pengguna/sidebar_uang');
             $this->load->view('keuangan/view_pilih_lunas', $data);
-            $this->load->view('templates/pengguna/footer');
+            $this->load->view('templates/pengguna/footer_uang');
         } else {
             $data['status_bayar'] = $this->input->post('status_bayar');
+            $data['status_pesan'] = 0;
             $data['input_bayar'] = $this->session->userdata('nama_lengkap');
             $data['tanggal_bayar'] = date('Y-m-d H:i:s');
             $this->Model_penjualan->update('pemesanan', $data, $id_pemesanan);
@@ -117,6 +118,31 @@ class Penjualan extends CI_Controller
         $this->load->view('templates/pengguna/navbar_uang');
         $this->load->view('templates/pengguna/sidebar_uang');
         $this->load->view('keuangan/view_detail_pemesanan', $data);
-        $this->load->view('templates/pengguna/footer');
+        $this->load->view('templates/pengguna/footer_uang');
     }
+
+    public function cek_status_pesanan()
+    {
+        $this->db->select('*');
+        $this->db->from('pemesanan');
+        $this->db->where('status_pesan', 1);
+        $result = $this->db->get()->result();
+
+        if ($result) {
+            $response['success'] = true;
+        } else {
+            $response['success'] = false;
+        }
+
+        echo json_encode($response);
+    }
+
+    // public function update_status_pesan()
+    // {
+    //     $data = [
+    //         'status_pesan' => 0
+    //     ];
+    //     $this->db->update('pemesanan', $data);
+    //     redirect('keuangan/penjualan');
+    // }
 }

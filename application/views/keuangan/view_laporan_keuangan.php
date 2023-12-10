@@ -60,7 +60,55 @@
                                             <td rowspan="2" style="vertical-align: middle;">No</td>
                                             <td class="text-center" rowspan="2" style="vertical-align: middle;">Tanggal</td> <!-- Date column -->
                                             <?php foreach ($nama_barang as $jenis) : ?>
-                                                <td class="text-center" colspan="2" style="vertical-align: middle;"><?= $jenis == 'galon kosong' ? 'Non Air' : $jenis; ?></td>
+                                                <td class="text-center" colspan="2" style="vertical-align: middle;">
+                                                    <?php
+                                                    switch ($jenis) {
+                                                        case 'galon 19l':
+                                                            echo 'Galon 19l';
+                                                            break;
+                                                        case 'gelas 220ml ijen':
+                                                            echo '220 Ijen Biru';
+                                                            break;
+                                                        case 'gelas 220ml genggong':
+                                                            echo '220 Genggong';
+                                                            break;
+                                                        case 'gelas 220ml an nujum':
+                                                            echo '220 An Nujum';
+                                                            break;
+                                                        case 'gelas 220ml syubbanq':
+                                                            echo '220 SyubbanQ';
+                                                            break;
+                                                        case 'gelas 220ml amalis':
+                                                            echo '220 Amalis';
+                                                            break;
+                                                        case 'gelas 220ml ijen merah':
+                                                            echo '220 Ijen Merah';
+                                                            break;
+                                                        case 'botol 330ml ijen':
+                                                            echo '330 Ijen';
+                                                            break;
+                                                        case 'botol 500ml ijen':
+                                                            echo '500 Ijen';
+                                                            break;
+                                                        case 'botol 500ml amalis':
+                                                            echo '500 Amalis';
+                                                            break;
+                                                        case 'botol 1500 ml ijen':
+                                                            echo '1500 Ijen';
+                                                            break;
+                                                        case 'botol 1500 ml amalis':
+                                                            echo '1500 Amalis';
+                                                            break;
+                                                        case 'galon kosong':
+                                                            echo 'No Air';
+                                                            break;
+                                                        default:
+                                                            echo $jenis;
+                                                            break;
+                                                    }
+                                                    ?>
+                                                </td>
+                                                <!-- <td class="text-center" colspan="2" style="vertical-align: middle;"><?= $jenis == 'galon kosong' ? 'Non Air' : $jenis; ?></td> -->
                                             <?php endforeach; ?>
                                             <td class="text-center" colspan="2" style="vertical-align: middle;">Jumlah</td>
                                         </tr>

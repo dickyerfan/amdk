@@ -206,6 +206,7 @@ class Pemesanan extends CI_Controller
             $data['input_update'] = $this->session->userdata('nama_lengkap');
             $data['tanggal_update'] = date('Y-m-d H:i:s');
             $data['status_nota'] = 1;
+            $data['status_pesan'] = 1;
 
             // Simpan data ke dalam database
             $this->Model_pemesanan->update_nota($data);

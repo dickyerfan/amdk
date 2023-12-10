@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Ban_ops extends CI_Controller
+class Rutin_karyawan extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
         $this->load->library('form_validation');
-        $this->load->model('Model_ban_ops');
+        $this->load->model('Model_rutin_karyawan');
         if (!$this->session->userdata('nama_pengguna')) {
             $this->session->set_flashdata(
                 'info',
@@ -49,19 +49,19 @@ class Ban_ops extends CI_Controller
             $this->session->set_userdata('tanggal', $tanggal); // Simpan tanggal ke session jika diperlukan
         }
 
-        $data['title'] = 'Daftar Bantuan / Operasional AMDK';
-        $data['ban_ops'] = $this->Model_ban_ops->get_ban_ops($bulan, $tahun);
+        $data['title'] = 'Daftar Rutin Karyawan PDAM';
+        $data['rutin'] = $this->Model_rutin_karyawan->get_all();
         if ($this->session->userdata('upk_bagian') == 'admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');
-            $this->load->view('keuangan/view_ban_ops', $data);
+            $this->load->view('keuangan/view_rutin_karyawan', $data);
             $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_uang');
             $this->load->view('templates/pengguna/sidebar_uang');
-            $this->load->view('keuangan/view_ban_ops', $data);
+            $this->load->view('keuangan/view_rutin_karyawan', $data);
             $this->load->view('templates/pengguna/footer_uang');
         }
     }

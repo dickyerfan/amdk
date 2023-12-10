@@ -157,15 +157,13 @@
                     </td>
                     <!-- <td class="text-center" colspan="2" style="vertical-align: middle;"><?= $jenis == 'galon kosong' ? 'Non Air' : $jenis; ?></td> -->
                 <?php endforeach; ?>
-                <td class="text-center" colspan="2">Jumlah</td>
+                <td class="text-center" rowspan="2" style=" vertical-align: middle;">Jumlah</td>
             </tr>
             <tr>
                 <?php foreach ($nama_barang as $jenis) : ?>
-                    <td class="text-center">lunas</td>
-                    <td class="text-center">piutang</td>
+                    <td class="text-center">jml</td>
+                    <td class="text-center">Rupiah</td>
                 <?php endforeach; ?>
-                <td class="text-center">lunas</td>
-                <td class="text-center">piutang</td>
             </tr>
         </thead>
         <tbody>
@@ -177,20 +175,20 @@
                     <td class="text-center"><?= date('d-m-Y', strtotime($tanggal)) ?></td>
                     <?php
                     $total = 0;
-                    $total_piutang = 0;
+                    $total_jml_barang = 0;
                     foreach ($nama_barang as $jenis) : ?>
                         <td class="text-center">
                             <?php
-                            // Cari nama barang yang cocok di $lunas
+                            // Cari nama barang yang cocok di $jml_barang
                             $found = false;
-                            foreach ($lunas as $barang) {
+                            foreach ($jml_barang as $barang) {
                                 if ($barang['nama_produk'] == $jenis) {
                                     $found = true;
                                     if (isset($barang['pemesanan'][$tanggal])) {
                                         // echo $barang['pemesanan'][$tanggal];
                                         $jumlah_barang = $barang['pemesanan'][$tanggal];
                                         echo $jumlah_barang;
-                                        $total += $jumlah_barang;
+                                        $total_jml_barang += $jumlah_barang;
                                     } else {
                                         echo '0'; // Display 0 if no data for this date and product
                                     }
@@ -203,18 +201,18 @@
                             }
                             ?>
                         </td>
-                        <td class="text-center">
+                        <td class="text-end">
                             <?php
-                            // Cari nama barang yang cocok di $piutang
+                            // Cari nama barang yang cocok di $lap_terima
                             $found = false;
-                            foreach ($piutang as $barang) {
-                                if ($barang['nama_produk'] == $jenis) {
+                            foreach ($lap_terima as $terima) {
+                                if ($terima['nama_produk'] == $jenis) {
                                     $found = true;
-                                    if (isset($barang['pemesanan'][$tanggal])) {
-                                        // echo $barang['pemesanan'][$tanggal];
-                                        $jumlah_barang = $barang['pemesanan'][$tanggal];
-                                        echo $jumlah_barang;
-                                        $total_piutang += $jumlah_barang;
+                                    if (isset($terima['pemesanan'][$tanggal])) {
+                                        // echo $terima['pemesanan'][$tanggal];
+                                        $penerimaan = $terima['pemesanan'][$tanggal];
+                                        echo number_format($penerimaan, 0, ',', '.');
+                                        $total += $penerimaan;
                                     } else {
                                         echo '0'; // Display 0 if no data for this date and product
                                     }
@@ -228,8 +226,9 @@
                             ?>
                         </td>
                     <?php endforeach; ?>
-                    <td class="text-center"><?= $total ?></td>
-                    <td class="text-center"><?= $total_piutang ?></td>
+                    <td class="text-end"><?= number_format($total, 0, ',', '.');  ?></td>
+
+                    <!-- <td class="text-center"><?= $total_jml_barang; ?></td> -->
                 </tr>
             <?php endforeach; ?>
         </tbody>
@@ -238,20 +237,20 @@
                 <td></td>
                 <td>Jumlah Total</td>
                 <?php
-                $total_lunas = 0;
-                $total_piutang = 0;
+                $total_penerimaaan = 0;
+                $total_barang = 0;
                 foreach ($nama_barang as $jenis) : ?>
                     <td class="text-center">
                         <?php
                         $totalPerJenis = 0;
                         foreach ($dateRange as $tanggal) {
                             $totalPerJenisTanggal = 0;
-                            foreach ($lunas as $barang) {
+                            foreach ($jml_barang as $barang) {
                                 if ($barang['nama_produk'] == $jenis) {
                                     if (isset($barang['pemesanan'][$tanggal])) {
                                         $jumlah_barang = $barang['pemesanan'][$tanggal];
                                         $totalPerJenisTanggal += $jumlah_barang;
-                                        $total_lunas += $jumlah_barang; // Tambahkan ke total semua di sini
+                                        $total_jml_barang += $jumlah_barang; // Tambahkan ke total semua di sini
                                     }
                                 }
                             }
@@ -260,29 +259,29 @@
                         echo $totalPerJenis;
                         ?>
                     </td>
-                    <td class="text-center">
+                    <td class="text-end">
                         <?php
-                        $totalPerJenis = 0;
+                        $totalPenerimaan = 0;
                         foreach ($dateRange as $tanggal) {
-                            $totalPerJenisTanggal = 0;
-                            foreach ($piutang as $barang) {
-                                if ($barang['nama_produk'] == $jenis) {
-                                    if (isset($barang['pemesanan'][$tanggal])) {
-                                        $jumlah_barang = $barang['pemesanan'][$tanggal];
-                                        $totalPerJenisTanggal += $jumlah_barang;
-                                        $total_piutang += $jumlah_barang; // Tambahkan ke total semua di sini
+                            $totalTerimaPerJenisTanggal = 0;
+                            foreach ($lap_terima as $terima) {
+                                if ($terima['nama_produk'] == $jenis) {
+                                    if (isset($terima['pemesanan'][$tanggal])) {
+                                        $jumlah_terima = $terima['pemesanan'][$tanggal];
+                                        $totalTerimaPerJenisTanggal += $jumlah_terima;
+                                        $total_penerimaaan += $jumlah_terima; // Tambahkan ke total semua di sini
                                     }
                                 }
                             }
-                            $totalPerJenis += $totalPerJenisTanggal;
+                            $totalPenerimaan += $totalTerimaPerJenisTanggal;
                         }
-                        echo $totalPerJenis;
+                        echo number_format($totalPenerimaan, 0, ',', '.');
                         ?>
                     </td>
                 <?php endforeach; ?>
 
-                <td class='text-center'><?= $total_lunas; ?></td>
-                <td class='text-center'><?= $total_piutang; ?></td>
+                <td class='text-end'><?= number_format($total_penerimaaan, 0, ',', '.'); ?></td>
+                <!-- <td class='text-center'><?= $total_jml_barang; ?></td> -->
             </tr>
         </tfoot>
     </table>
@@ -292,7 +291,7 @@
         <p style="width: 50%; float: right;text-align:center; margin-bottom: 1px;">Dibuat Oleh :</p>
         <div style="clear: both;"></div>
         <p style="width: 50%; float: left; text-align:center;">Manager AMDK</p>
-        <p style="width: 50%; float: right;text-align:center;">Kabag Pemasaran AMDK</p>
+        <p style="width: 50%; float: right;text-align:center;">Kabag Keuangan AMDK</p>
         <div style="clear: both; margin-bottom:40px;"></div>
         <u style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"><?= $manager->nama_karyawan; ?></u>
         <u style="width: 50%; float: right;text-align:center; margin-bottom: 1px;"><?= $uang->nama_karyawan; ?></u>
