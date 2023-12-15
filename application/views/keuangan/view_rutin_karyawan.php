@@ -4,12 +4,12 @@
             <div class="card">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('keuangan/rutin_karyawan'); ?>" method="get">
+                        <!-- <form action="<?= base_url('keuangan/rutin_karyawan'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
                                 <input type="date" name="tanggal" class="form-control">
                                 <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
                             </div>
-                        </form>
+                        </form> -->
                         <div class="navbar-nav ms-auto">
                             <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
                                 <a href="<?= base_url('keuangan/rutin_karyawan/tambah'); ?>"><button class=" neumorphic-button float-end"><i class="fas fa-plus"></i> Tambah Rutin Karyawan</button></a>
@@ -26,31 +26,6 @@
                     <div class="row justify-content-center mb-2">
                         <div class="col-lg-6 text-center">
                             <h5><?= strtoupper($title); ?></h5>
-                            <?php
-                            if (empty($bulan_lap)) {
-                                $bulan_lap = date('m');
-                                $tahun_lap = date('Y');
-                            }
-
-                            $bulan = [
-                                '01' => 'Januari',
-                                '02' => 'Februari',
-                                '03' => 'Maret',
-                                '04' => 'April',
-                                '05' => 'Mei',
-                                '06' => 'Juni',
-                                '07' => 'Juli',
-                                '08' => 'Agustus',
-                                '09' => 'September',
-                                '10' => 'Oktober',
-                                '11' => 'November',
-                                '12' => 'Desember',
-                            ];
-
-                            $bulan_lap = strtr($bulan_lap, $bulan);
-
-                            ?>
-                            <h5>Bulan : <?= $bulan_lap . ' ' . $tahun_lap; ?></h5>
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -87,8 +62,8 @@
                                         <td class="text-center"><?= $row->btl1500; ?></td>
                                         <td class="text-end"><?= $row->nominal; ?></td>
                                         <td class="text-center">
-                                            <!-- <a href="<?= base_url(); ?>keuangan/pelanggan/edit/<?= $row->id_pelanggan; ?>"><i class="fas fa-fw fa-edit" style="color: green;"></i></a>
-                                            <a href="<?= base_url(); ?>keuangan/pelanggan/hapus/<?= $row->id_pelanggan; ?>" class="tombolHapus"><i class=" fas fa-fw fa-trash" style="color:red;"></i></a> -->
+                                            <a href="<?= base_url(); ?>keuangan/rutin_karyawan/edit/<?= $row->id_rutin; ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk edit jatah Karyawan"><i class="fas fa-fw fa-edit" style="color: green;"></i></a>
+                                            <!-- <a href="<?= base_url(); ?>keuangan/rutin_karyawan/hapus/<?= $row->id_rutin; ?>" class="tombolHapus"><i class=" fas fa-fw fa-trash" style="color:red;"></i></a> -->
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

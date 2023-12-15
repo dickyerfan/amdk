@@ -24,22 +24,28 @@ class model_ban_ops extends CI_Model
 
     public function tambahData()
     {
-        $jumlah_ban_ops = intval($this->input->post('jumlah_ban_ops', true));
-        $id_jenis_barang = $this->input->post('id_jenis_barang', true);
-        $get_harga = $this->db->get_where('harga', ['id_jenis_barang' => $id_jenis_barang])->row();
-        $total = $jumlah_ban_ops * $get_harga->harga;
+        $jumlah_ban_ops = ($this->input->post('jumlah_ban_ops', true));
+        $jenis_barang = $this->input->post('id_jenis_barang');
+        $total = 0;
 
-        $data = [
-            'id_jenis_barang' => $this->input->post('id_jenis_barang', true),
-            'jumlah_ban_ops' => $this->input->post('jumlah_ban_ops', true),
-            'harga_ban_ops' => $total,
-            'jenis_ban_ops' => $this->input->post('jenis_ban_ops', true),
-            'nama_ban_ops' => strtoupper($this->input->post('nama_ban_ops', true)),
-            'tanggal_ban_ops' => $this->input->post('tanggal_ban_ops', true),
-            'keterangan' => strtoupper($this->input->post('keterangan', true)),
-            'input_ban_ops' => $this->session->userdata('nama_lengkap')
-        ];
-        $this->db->insert('ban_ops', $data);
+
+        foreach ($jenis_barang as $id_jenis_barang) {
+            $jumlah = $jumlah_ban_ops[$id_jenis_barang];
+            $get_harga = $this->db->get_where('harga', ['id_jenis_barang' => $id_jenis_barang])->row();
+            $total = $jumlah * intval($get_harga->harga);
+
+            $data = array(
+                'id_jenis_barang' => $id_jenis_barang,
+                'jumlah_ban_ops' => $jumlah,
+                'harga_ban_ops' => $total,
+                'jenis_ban_ops' => $this->input->post('jenis_ban_ops', true),
+                'nama_ban_ops' => strtoupper($this->input->post('nama_ban_ops', true)),
+                'tanggal_ban_ops' => $this->input->post('tanggal_ban_ops', true),
+                'keterangan' => strtoupper($this->input->post('keterangan', true)),
+                'input_ban_ops' => $this->session->userdata('nama_lengkap')
+            );
+            $this->db->insert('ban_ops', $data);
+        }
     }
 
     public function hapusData($id_pelanggan)

@@ -4,16 +4,14 @@
             <div class="card">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('keuangan/ban_ops'); ?>" method="get">
+                        <form action="<?= base_url('keuangan/laporan_ban_ops'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
                                 <input type="date" name="tanggal" class="form-control">
                                 <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
                             </div>
                         </form>
                         <div class="navbar-nav ms-auto">
-                            <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
-                                <a href="<?= base_url('keuangan/ban_ops/tambah'); ?>"><button class=" neumorphic-button float-end"><i class="fas fa-plus"></i> Tambah Bantuan/Operasional</button></a>
-                            <?php endif; ?>
+                            <a href="<?= base_url('keuangan/laporan_ban_ops/exportpdf_ops') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div>
                     </nav>
 
@@ -65,7 +63,6 @@
                                     <th class="text-center">Total</th>
                                     <th class="text-center">Jenis</th>
                                     <th class="text-center">Keterangan</th>
-                                    <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -82,10 +79,6 @@
                                         <td class="text-end"><?= number_format($row->harga_ban_ops, 0, ',', '.'); ?></td>
                                         <td><?= strtoupper($row->jenis_ban_ops); ?></td>
                                         <td><?= $row->keterangan ?></td>
-                                        <td class="text-center">
-                                            <!-- <a href="<?= base_url(); ?>keuangan/pelanggan/edit/<?= $row->id_pelanggan; ?>"><i class="fas fa-fw fa-edit" style="color: green;"></i></a>
-                                            <a href="<?= base_url(); ?>keuangan/pelanggan/hapus/<?= $row->id_pelanggan; ?>" class="tombolHapus"><i class=" fas fa-fw fa-trash" style="color:red;"></i></a> -->
-                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

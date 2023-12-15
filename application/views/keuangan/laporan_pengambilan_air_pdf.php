@@ -224,24 +224,35 @@
         </tfoot> -->
     </table>
 
+    <?php
+    $nik_manager = $manager->nik_karyawan;
+    if ($nik_manager) {
+        $nik_manager =  sprintf('%03s %02s %03s', substr($nik_manager, 0, 3), substr($nik_manager, 3, 2), substr($nik_manager, 5));
+    } else {
+        $nik_manager = '';
+    }
+
+    $nik_uang = $uang->nik_karyawan;
+    if ($nik_uang) {
+        $nik_uang = sprintf('%03s %02s %03s', substr($nik_uang, 0, 3), substr($nik_uang, 3, 2), substr($nik_uang, 5));
+    } else {
+        $nik_uang = '';
+    }
+    ?>
+
     <div style="font-size: 0.8rem;">
         <p style="width: 50%; float: left; text-align:center; margin-bottom: 1px;">Mengetahui</p>
         <p style="width: 50%; float: right;text-align:center; margin-bottom: 1px;">Dibuat Oleh :</p>
         <div style="clear: both;"></div>
         <p style="width: 50%; float: left; text-align:center;">Manager AMDK</p>
-        <p style="width: 50%; float: right;text-align:center;">Kabag Keuangan AMDK</p>
+        <p style="width: 50%; float: right;text-align:center;">Kabag Administrasi & Keuangan</p>
         <div style="clear: both; margin-bottom:40px;"></div>
-        <u style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"><?= $manager->nama_karyawan; ?></u>
-        <u style="width: 50%; float: right;text-align:center; margin-bottom: 1px;"><?= $uang->nama_karyawan; ?></u>
+        <u style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"><?= strtoupper($manager->nama_karyawan); ?></u>
+        <u style="width: 50%; float: right;text-align:center; margin-bottom: 1px;"><?= strtoupper($uang->nama_karyawan); ?></u>
         <div style="clear: both;"></div>
-        <p style="width: 50%; float: left; text-align:center;"><?= $manager->nik_karyawan; ?></p>
-        <p style="width: 50%; float: right;text-align:center;"><?= $uang->nik_karyawan; ?></p>
+        <p style="width: 50%; float: left; text-align:center;">NIK. <?= $nik_manager; ?></p>
+        <p style="width: 50%; float: right;text-align:center;">NIK. <?= $nik_uang; ?></p>
         <div style="clear: both;"></div>
-        <!-- <?php if ($manager) : ?>
-            <p style="width: 50%; float: left; text-align: center;"><?= $manager->nama_karyawan; ?></p>
-        <?php else : ?>
-            <p style="width: 50%; float: left; text-align: center;">-</p>
-        <?php endif; ?> -->
     </div>
 
     <script src="<?= base_url() ?>assets/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

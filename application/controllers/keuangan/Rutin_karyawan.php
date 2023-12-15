@@ -68,54 +68,58 @@ class Rutin_karyawan extends CI_Controller
 
     public function tambah()
     {
-        $data['title'] = "Tambah Data Bantuan / Operasional";
+        $data['title'] = "Tambah Daftar Rutin Karyawan";
 
-        $this->form_validation->set_rules('id_jenis_barang', 'Jenis Barang', 'required|trim');
-        $this->form_validation->set_rules('jumlah_ban_ops', 'Jumlah', 'required|trim|numeric');
-        $this->form_validation->set_rules('jenis_ban_ops', 'Jenis', 'required|trim');
-        $this->form_validation->set_rules('nama_ban_ops', 'Nama Bantuan/Operasional', 'required|trim');
-        $this->form_validation->set_rules('tanggal_ban_ops', 'Tanggal', 'required|trim');
-        $this->form_validation->set_rules('keterangan', 'Keterangan', 'required|trim');
+        $this->form_validation->set_rules('id_bagian', 'Bagian', 'required|trim');
+        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
+        $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim');
+        $this->form_validation->set_rules('no_hp', 'No HP', 'required|trim|numeric');
+        // $this->form_validation->set_rules('galon', 'Galon', 'required|trim');
+        // $this->form_validation->set_rules('gelas', 'Gelas', 'required|trim');
+        // $this->form_validation->set_rules('btl330', 'Botol 330', 'required|trim');
+        // $this->form_validation->set_rules('btl500', 'Botol 500', 'required|trim');
+        // $this->form_validation->set_rules('btl1500', 'Botol 1500', 'required|trim');
 
         $this->form_validation->set_message('required', '%s masih kosong');
         $this->form_validation->set_message('numeric', '%s harus di tulis angka');
         // $this->form_validation->set_message('is_unique', '%s Sudah terdaftar, Ganti yang lain');
 
         if ($this->form_validation->run() == false) {
-            $data['nama_barang'] = $this->Model_ban_ops->get_nama_barang();
+            $data['bagian'] = $this->db->get('bagian')->result();
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_uang');
             $this->load->view('templates/pengguna/sidebar_uang');
-            $this->load->view('keuangan/view_tambah_ban_ops', $data);
+            $this->load->view('keuangan/view_tambah_rutin_karyawan', $data);
             $this->load->view('templates/pengguna/footer_uang');
         } else {
-            $data['user'] = $this->Model_ban_ops->tambahData();
+            $data['user'] = $this->Model_rutin_karyawan->tambahData();
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-primary alert-dismissible fade show" role="alert">
-                        <strong>Sukses,</strong> Data Bantuan/Operasional Baru berhasil di tambah
+                        <strong>Sukses,</strong> Data rutin karyawan Baru berhasil di tambah
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                         </button>
                       </div>'
             );
-            redirect('keuangan/ban_ops');
+            redirect('keuangan/rutin_karyawan');
         }
     }
 
-    public function edit($id_pelanggan)
+    public function edit($id_rutin)
     {
-        $data['title'] = "Form Edit Pelanggan";
-        $data['edit_pelanggan'] = $this->db->get_where('pelanggan', ['id_pelanggan' => $id_pelanggan])->row();
+        $data['title'] = "Form Edit Rutin Karyawan";
+        $data['edit_rutin'] = $this->db->get_where('rutin_pegawai', ['id_rutin' => $id_rutin])->row();
+        $data['bagian'] = $this->db->get('bagian')->result();
         $this->load->view('templates/pengguna/header', $data);
         $this->load->view('templates/pengguna/navbar_uang');
         $this->load->view('templates/pengguna/sidebar_uang');
-        $this->load->view('keuangan/view_edit_pelanggan', $data);
+        $this->load->view('keuangan/view_edit_rutin_karyawan', $data);
         $this->load->view('templates/pengguna/footer_uang');
     }
 
     public function update()
     {
-        $this->Model_ban_ops->updateData();
+        $this->Model_rutin_karyawan->updateData();
         if ($this->db->affected_rows() <= 0) {
             $this->session->set_flashdata(
                 'info',
@@ -125,31 +129,31 @@ class Rutin_karyawan extends CI_Controller
                         </button>
                       </div>'
             );
-            redirect('keuangan/ban_ops');
+            redirect('keuangan/rutin_karyawan');
         } else {
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Sukses,</strong> Data Pelanggan berhasil di update
+                        <strong>Sukses,</strong> Data Rutin Karyawan berhasil di update
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                         </button>
                       </div>'
             );
-            redirect('keuangan/ban_ops');
+            redirect('keuangan/rutin_karyawan');
         }
     }
 
-    public function hapus($id_pelanggan)
+    public function hapus($id_rutin)
     {
-        $this->Model_ban_ops->hapusData($id_pelanggan);
+        $this->Model_rutin_karyawan->hapusData($id_rutin);
         $this->session->set_flashdata(
             'info',
             '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Sukses,</strong> Data Pelanggan berhasil di hapus
+                    <strong>Sukses,</strong> Data Rutin Karyawan berhasil di hapus
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                     </button>
                   </div>'
         );
-        redirect('keuangan/ban_ops');
+        redirect('keuangan/rutin_karyawan');
     }
 }

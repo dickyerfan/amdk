@@ -46,7 +46,7 @@ class Ban_ops extends CI_Controller
         $data['tahun_lap'] = $tahun;
 
         if (!empty($tanggal)) {
-            $this->session->set_userdata('tanggal', $tanggal); // Simpan tanggal ke session jika diperlukan
+            $this->session->set_userdata('tanggal', $tanggal);
         }
 
         $data['title'] = 'Daftar Bantuan / Operasional AMDK';
@@ -70,8 +70,9 @@ class Ban_ops extends CI_Controller
     {
         $data['title'] = "Tambah Data Bantuan / Operasional";
 
-        $this->form_validation->set_rules('id_jenis_barang', 'Jenis Barang', 'required|trim');
-        $this->form_validation->set_rules('jumlah_ban_ops', 'Jumlah', 'required|trim|numeric');
+        // $this->form_validation->set_rules('id_jenis_barang', 'Jenis Barang', 'required|trim');
+        $this->form_validation->set_rules('id_jenis_barang', 'Jenis Barang', 'callback_check_checkbox');
+        $this->form_validation->set_rules('jumlah_ban_ops', 'Jumlah', 'callback_check_jumlah_ban_ops');
         $this->form_validation->set_rules('jenis_ban_ops', 'Jenis', 'required|trim');
         $this->form_validation->set_rules('nama_ban_ops', 'Nama Bantuan/Operasional', 'required|trim');
         $this->form_validation->set_rules('tanggal_ban_ops', 'Tanggal', 'required|trim');
@@ -79,10 +80,9 @@ class Ban_ops extends CI_Controller
 
         $this->form_validation->set_message('required', '%s masih kosong');
         $this->form_validation->set_message('numeric', '%s harus di tulis angka');
-        // $this->form_validation->set_message('is_unique', '%s Sudah terdaftar, Ganti yang lain');
 
         if ($this->form_validation->run() == false) {
-            $data['nama_barang'] = $this->Model_ban_ops->get_nama_barang();
+            $data['jenis_barang'] = $this->Model_ban_ops->get_nama_barang();
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_uang');
             $this->load->view('templates/pengguna/sidebar_uang');
@@ -99,6 +99,38 @@ class Ban_ops extends CI_Controller
                       </div>'
             );
             redirect('keuangan/ban_ops');
+        }
+
+        if ($this->form_validation->run('check_jumlah_ban_ops') == false) {
+            echo validation_errors(); // Tampilkan pesan kesalahan jika ada
+        }
+    }
+
+    public function check_checkbox()
+    {
+        // Ambil data dari $_POST
+        $id_jenis_barang = $this->input->post('id_jenis_barang');
+
+        // Periksa apakah setidaknya satu checkbox dipilih
+        if (!empty($id_jenis_barang)) {
+            return true; // Setidaknya satu checkbox dipilih
+        } else {
+            $this->form_validation->set_message('check_checkbox', 'Pilih setidaknya satu barang.');
+            return false; // Tidak ada checkbox yang dipilih
+        }
+    }
+
+    public function check_jumlah_ban_ops()
+    {
+        // Ambil data dari $_POST
+        $jumlah_ban_ops = $this->input->post('jumlah_ban_ops');
+
+        // Periksa apakah setidaknya satu elemen pada $jumlah_ban_ops tidak kosong
+        if (is_array($jumlah_ban_ops) && count(array_filter($jumlah_ban_ops)) > 0) {
+            return true; // Setidaknya satu elemen pada $jumlah_ban_ops tidak kosong
+        } else {
+            $this->form_validation->set_message('check_jumlah_ban_ops', 'Isi jumlah barang.');
+            return false; // Semua elemen pada $jumlah_ban_ops kosong
         }
     }
 

@@ -1,15 +1,16 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class model_rutin_karyawan extends CI_Model
+class Model_rutin_karyawan extends CI_Model
 {
     public function get_all()
     {
         $this->db->select('*,bagian.id_bagian, bagian.nama_bagian');
         $this->db->from('rutin_pegawai');
         $this->db->join('bagian', 'bagian.id_bagian=rutin_pegawai.id_bagian');
-        $this->db->where('rutin_pegawai.aktif', 1);
-        $this->db->where('rutin_pegawai.status_pegawai', 'Karyawan Tetap');
+        // $this->db->where('rutin_pegawai.aktif', 1);
+        // $this->db->where('rutin_pegawai.status_pegawai', 'Karyawan Tetap');
+        $this->db->order_by('rutin_pegawai.id_bagian', 'asc');
         $query = $this->db->get();
         return $query->result();
     }
@@ -24,29 +25,23 @@ class model_rutin_karyawan extends CI_Model
 
     public function tambahData()
     {
-        $jumlah_ban_ops = intval($this->input->post('jumlah_ban_ops', true));
-        $id_jenis_barang = $this->input->post('id_jenis_barang', true);
-        $get_harga = $this->db->get_where('harga', ['id_jenis_barang' => $id_jenis_barang])->row();
-        $total = $jumlah_ban_ops * $get_harga->harga;
-
+        $nominal = $this->hitungNominal();
         $data = [
-            'id_jenis_barang' => $this->input->post('id_jenis_barang', true),
-            'jumlah_ban_ops' => $this->input->post('jumlah_ban_ops', true),
-            'harga_ban_ops' => $total,
-            'jenis_ban_ops' => $this->input->post('jenis_ban_ops', true),
-            'nama_ban_ops' => strtoupper($this->input->post('nama_ban_ops', true)),
-            'tanggal_ban_ops' => $this->input->post('tanggal_ban_ops', true),
-            'keterangan' => strtoupper($this->input->post('keterangan', true)),
-            'input_ban_ops' => $this->session->userdata('nama_lengkap')
+            'id_bagian' => $this->input->post('id_bagian', true),
+            'nama' => $this->input->post('nama', true),
+            'alamat' => $this->input->post('alamat', true),
+            'no_hp' => $this->input->post('no_hp', true),
+            'galon' => $this->input->post('galon', true),
+            'gelas' => $this->input->post('gelas', true),
+            'btl330' => $this->input->post('btl330', true),
+            'btl500' => $this->input->post('btl500', true),
+            'btl1500' => $this->input->post('btl1500', true),
+            'nominal' => $nominal
         ];
-        $this->db->insert('ban_ops', $data);
+        $this->db->insert('rutin_pegawai', $data);
     }
 
-    public function hapusData($id_pelanggan)
-    {
-        $this->db->where('id_pelanggan', $id_pelanggan);
-        $this->db->delete('pelanggan');
-    }
+
 
     public function getIdAdmin($id_pelanggan)
     {
@@ -55,18 +50,97 @@ class model_rutin_karyawan extends CI_Model
 
     public function updateData()
     {
+        $nominal = $this->hitungNominal();
 
         $data = [
-            'area_pelanggan' => strtoupper($this->input->post('area_pelanggan', true)),
-            'gol_pelanggan' => strtoupper($this->input->post('gol_pelanggan', true)),
-            'nama_pelanggan' => strtoupper($this->input->post('nama_pelanggan', true)),
-            'alamat_pelanggan' => strtoupper($this->input->post('alamat_pelanggan', true)),
-            'telpon_pelanggan' => $this->input->post('telpon_pelanggan', true),
-            'ket' => $this->input->post('ket', true),
-            'tarif' => $this->input->post('tarif', true),
-            'aktif' => $this->input->post('aktif', true)
+            'id_bagian' => $this->input->post('id_bagian', true),
+            'nama' => $this->input->post('nama', true),
+            'alamat' => $this->input->post('alamat', true),
+            'no_hp' => $this->input->post('no_hp', true),
+            'galon' => $this->input->post('galon', true),
+            'gelas' => $this->input->post('gelas', true),
+            'btl330' => $this->input->post('btl330', true),
+            'btl500' => $this->input->post('btl500', true),
+            'btl1500' => $this->input->post('btl1500', true)
         ];
-        $this->db->where('id_pelanggan', $this->input->post('id_pelanggan'));
-        $this->db->update('pelanggan', $data);
+
+        $this->db->where('id_rutin', $this->input->post('id_rutin'));
+        $this->db->set('nominal', $nominal);
+        $this->db->update('rutin_pegawai', $data);
+    }
+
+
+    private function hitungNominal()
+    {
+        $galon = $this->input->post('galon', true);
+        $gelas = $this->input->post('gelas', true);
+        $btl330 = $this->input->post('btl330', true);
+        $btl500 = $this->input->post('btl500', true);
+        $btl1500 = $this->input->post('btl1500', true);
+
+        // Array untuk menyimpan jenis_barang yang memiliki quantity > 0
+        $jenis_barang_array = [];
+
+        if ($galon > 0) {
+            $jenis_barang_array[] = 1;
+        }
+        if ($gelas > 0) {
+            $jenis_barang_array[] = 2;
+        }
+        if ($btl330 > 0) {
+            $jenis_barang_array[] = 8;
+        }
+        if ($btl500 > 0) {
+            $jenis_barang_array[] = 9;
+        }
+        if ($btl1500 > 0) {
+            $jenis_barang_array[] = 11;
+        }
+
+        // cari harga dari tabel harga didatabase berdasarkan jenis_harga dan jenis_barang
+        $prices = $this->db->select('id_jenis_barang, harga')
+            ->from('harga')
+            ->where('jenis_harga', 'UMUM')
+            ->where_in('id_jenis_barang', $jenis_barang_array)
+            ->get()
+            ->result_array();
+
+        $nominal = 0;        // hitung nominal dari jumlah pesanan dikali harga
+        foreach ($prices as $price) {
+            $jenis_barang_id = $price['id_jenis_barang'];
+            // Periksa nama input yang sesuai dengan ID jenis barang
+            $input_name = ''; // Ganti ini dengan nama input yang sesuai dengan ID jenis barang
+            switch ($jenis_barang_id) {
+                case 1:
+                    $input_name = 'galon';
+                    break;
+                case 2:
+                    $input_name = 'gelas';
+                    break;
+                case 8:
+                    $input_name = 'btl330';
+                    break;
+                case 9:
+                    $input_name = 'btl500';
+                    break;
+                case 11:
+                    $input_name = 'btl1500';
+                    break;
+            }
+
+            $jumlah_jatah = $this->input->post($input_name, true);
+
+            if ($jumlah_jatah > 0) {
+                $nominal += $jumlah_jatah * $price['harga'];
+            }
+        }
+
+        return $nominal;
+    }
+
+    public function hapusData($id_rutin)
+    {
+        $this->db->where('id_rutin', $id_rutin);
+        $this->db->delete('rutin_pegawai');
     }
 }
