@@ -234,6 +234,37 @@ class Model_laporan extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function get_ops($bulan, $tahun)
+    {
+        $this->db->select('*,jenis_barang.id_jenis_barang, jenis_barang.nama_barang_jadi');
+        $this->db->from('ban_ops');
+        $this->db->join('jenis_barang', 'ban_ops.id_jenis_barang=jenis_barang.id_jenis_barang');
+        $this->db->where('jenis_ban_ops', 'operasional');
+        $this->db->where('MONTH(ban_ops.tanggal_ban_ops)', $bulan);
+        $this->db->where('YEAR(ban_ops.tanggal_ban_ops)', $tahun);
+        $this->db->order_by('tanggal_ban_ops', 'esc');
+        return $this->db->get()->result();
+    }
+
+    public function get_ban($bulan, $tahun)
+    {
+        $this->db->select('*,jenis_barang.id_jenis_barang, jenis_barang.nama_barang_jadi');
+        $this->db->from('ban_ops');
+        $this->db->join('jenis_barang', 'ban_ops.id_jenis_barang=jenis_barang.id_jenis_barang');
+        $this->db->where('jenis_ban_ops', 'bantuan');
+        $this->db->where('MONTH(ban_ops.tanggal_ban_ops)', $bulan);
+        $this->db->where('YEAR(ban_ops.tanggal_ban_ops)', $tahun);
+        $this->db->order_by('tanggal_ban_ops', 'esc');
+        return $this->db->get()->result();
+    }
+
+    public function get_jenis_produk()
+    {
+        $this->db->select('*');
+        $this->db->from('jenis_barang');
+        return $this->db->get()->result();
+    }
+
     // tanda tangan laporan
     public function get_manager()
     {
