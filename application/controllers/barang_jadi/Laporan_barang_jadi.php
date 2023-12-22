@@ -150,7 +150,7 @@ class Laporan_barang_jadi extends CI_Controller
         $this->pdf->setPaper('A4', 'landscape');
 
         // $this->pdf->filename = "Potensi Sr.pdf";
-        $this->pdf->filename = "LapBulanan-{$bulan}-{$tahun}.pdf";
+        $this->pdf->filename = "LapBarangJadi-{$bulan}-{$tahun}.pdf";
         $this->pdf->generate('barang_jadi/laporan_barang_jadi_pdf', $data);
     }
 }

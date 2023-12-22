@@ -84,7 +84,7 @@
                                             <td><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
                                             <td><?= $row->input_status_keluar; ?></td>
                                             <td>
-                                                <?= $row->status_keluar == 0 ? '<span class="neumorphic-button text-success">Milik Barang Baku</span>' : '<span class="neumorphic-button text-primary">Milik Barang Produksi</span>' ?>
+                                                <?= $row->status_keluar == 0 ? '<span class="neumorphic-button text-success">Milik Barang Baku</span>' : '<span class="neumorphic-button text-primary">Barang Milik Produksi</span>' ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

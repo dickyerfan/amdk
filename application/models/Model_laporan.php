@@ -197,7 +197,7 @@ class Model_laporan extends CI_Model
         $this->db->select('jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, SUM(pemesanan.total_harga) as total_harga');
         $this->db->from('pemesanan');
         $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
-        $this->db->where('status_bayar', 1);
+        $this->db->where('status_piutang', 0);
         $this->db->where('jenis_pesanan', 2);
         $this->db->group_by('jenis_produk.nama_produk, pemesanan.tanggal_pesan'); // Mengelompokkan berdasarkan tanggal dan produk
         return $this->db->get()->result();
@@ -207,7 +207,7 @@ class Model_laporan extends CI_Model
         $this->db->select('jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, SUM(pemesanan.total_harga) as total_harga');
         $this->db->from('pemesanan');
         $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
-        $this->db->where('status_bayar', 0);
+        $this->db->where('status_piutang', 1);
         $this->db->where('jenis_pesanan', 2);
         $this->db->group_by('jenis_produk.nama_produk, pemesanan.tanggal_pesan'); // Mengelompokkan berdasarkan tanggal dan produk
         return $this->db->get()->result();

@@ -81,10 +81,24 @@ class Penjualan extends CI_Controller
             $this->load->view('keuangan/view_pilih_lunas', $data);
             $this->load->view('templates/pengguna/footer_uang');
         } else {
+
             $data['status_bayar'] = $this->input->post('status_bayar');
             $data['status_pesan'] = 0;
             $data['input_bayar'] = $this->session->userdata('nama_lengkap');
             $data['tanggal_bayar'] = date('Y-m-d H:i:s');
+
+            // Periksa bulan dan tahun antara tanggal_pesan dan tanggal_bayar
+            $bulan_tahun_pesan = date('Y-m', strtotime($this->db->get_where('pemesanan', ['id_pemesanan' => $id_pemesanan])->row()->tanggal_pesan));
+            $bulan_tahun_bayar = date('Y-m', strtotime($data['tanggal_bayar']));
+
+            if ($bulan_tahun_bayar > $bulan_tahun_pesan) {
+                // Jika bulan dan tahun tanggal_bayar lebih besar dari tanggal_pesan, update status_piutang tetap 1
+                $data['status_piutang'] = 1;
+            } else {
+                // Jika bulan dan tahun tanggal_bayar sama atau lebih kecil dari tanggal_pesan, status_piutang menjadi 0
+                $data['status_piutang'] = 0;
+            }
+
             $this->Model_penjualan->update('pemesanan', $data, $id_pemesanan);
             $cek_lunas = $this->db->get_where('pemesanan', ['id_pemesanan' => $id_pemesanan])->row();
             if ($cek_lunas->status_bayar == 0) {
@@ -110,6 +124,7 @@ class Penjualan extends CI_Controller
             }
         }
     }
+
     public function detail($id_pemesanan)
     {
         $data['detail_pemesanan'] = $this->Model_pemesanan->get_detail_pemesanan($id_pemesanan);

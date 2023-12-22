@@ -25,7 +25,7 @@
                             <div class="col-md-8">
                                 <div class="form-check mb-2">
                                     <!-- <label>Jenis Barang</label> -->
-                                    <?php foreach ($jenis_barang as $jenis) : ?>
+                                    <!-- <?php foreach ($jenis_barang as $jenis) : ?>
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <input type="checkbox" name="id_jenis_barang[<?= $jenis->id_jenis_barang; ?>]" value="<?= $jenis->id_jenis_barang; ?>">
@@ -37,26 +37,27 @@
                                                 <small class="form-text text-danger pl-3"><?= form_error('jumlah_barang_jadi'); ?></small>
                                             </div>
                                         </div>
+                                    <?php endforeach; ?> -->
+
+                                    <?php foreach ($jenis_barang as $jenis) : ?>
+                                        <?php if ($jenis->nama_barang_jadi !== 'galon 19l') : ?>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <input type="checkbox" name="id_jenis_barang[<?= $jenis->id_jenis_barang; ?>]" value="<?= $jenis->id_jenis_barang; ?>">
+                                                    <?= $jenis->nama_barang_jadi; ?>
+                                                    <small class="form-text text-danger pl-3"><?= form_error('id_jenis_barang'); ?></small>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <input type="text" name="jumlah_barang_jadi[<?= $jenis->id_jenis_barang; ?>]" class="form-control mb-2" placeholder="Masukan Jumlah <?= $jenis->nama_barang_jadi ?>">
+                                                    <small class="form-text text-danger pl-3"><?= form_error('jumlah_barang_jadi'); ?></small>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
                                     <?php endforeach; ?>
+
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="row justify-content-center">
-                            <div class="col-md-5">
-                                <div class="form-check mb-2">
-                                    <label>Jenis Barang</label><br>
-                                    <?php foreach ($jenis_barang as $jenis) : ?>
-                                        <input type="checkbox" name="id_jenis_barang[<?= $jenis->id_jenis_barang; ?>]" value="<?= $jenis->id_jenis_barang; ?>">
-                                        <?= $jenis->nama_barang_jadi; ?>
-                                        <small class="form-text text-danger pl-3"><?= form_error('id_jenis_barang'); ?></small>
-                                        <label>Jumlah Barang Jadi</label>
-                                        <input type="text" name="jumlah_barang_jadi[<?= $jenis->id_jenis_barang; ?>]" class="form-control" placeholder="Masukan Jumlah <?= $jenis->nama_barang_jadi ?>">
-                                        <small class="form-text text-danger pl-3"><?= form_error('jumlah_barang_jadi'); ?></small>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        </div> -->
-
                         <div class="row justify-content-center">
                             <div class="col-md-12 text-center">
                                 <button class="neumorphic-button mt-2" name="tambah" type="submit"><i class="fas fa-save"></i> Simpan</button>

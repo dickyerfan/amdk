@@ -12,6 +12,11 @@
                         </form>
                         <div class="navbar-nav ms-auto">
                             <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
+                                <a href="<?= base_url('barang_produksi/barang_keluar/ambil_galon_baru') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Ambil Galon Baru</button></a>
+                            <?php endif; ?>
+                        </div>
+                        <div class="navbar-nav ms-2">
+                            <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
                                 <a href="<?= base_url('barang_produksi/barang_keluar/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Transaksi barang lainnya</button></a>
                             <?php endif; ?>
                         </div>
@@ -74,7 +79,7 @@
                                     ?>
                                             <tr class="text-center">
                                                 <td><?= $no++ ?></td>
-                                                <td><?= $row->tanggal_keluar_baku; ?></td>
+                                                <td><?= date('d-m-Y', strtotime($row->tanggal_keluar_baku)); ?></td>
                                                 <td class="text-start"><?= $row->nama_barang_jadi; ?></td>
                                                 <td><?= number_format($row->total_keluar_baku, 0, ',', '.'); ?></td>
                                                 <td><?= $row->input_keluar_baku; ?></td>

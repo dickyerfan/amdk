@@ -61,7 +61,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row justify-content-center">
+                        <!-- <div class="row justify-content-center">
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <div class="mb-3" style="text-align: center;">Pilih Status Ambil</div>
@@ -72,7 +72,7 @@
                                     <small class="form-text text-danger pl-3"><?= form_error('status'); ?></small>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="row justify-content-center">
                             <div class="col-auto">
                                 <button class=" neumorphic-button mt-2" name="tambah" type="submit"><i class="fas fa-dolly"></i> Ambil Rutin Karyawan</button>

@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table id="example" class="table table-hover table-striped table-bordered table-sm" width="100%" cellspacing="0" style="font-size: 0.8rem;">
+                        <table id="example2" class="table table-hover table-striped table-bordered table-sm" width="100%" cellspacing="0" style="font-size: 0.8rem;">
                             <!-- <thead>
                                 <tr class="text-center" style="vertical-align: middle;">
                                     <th class="text-center">No</th>
@@ -79,7 +79,6 @@
                                     <th class="text-center">Keterangan</th>
                                 </tr>
                             </thead> -->
-
                             <thead>
                                 <tr class="text-center" style="vertical-align: middle;">
                                     <th class="text-center">No</th>
@@ -146,20 +145,40 @@
                                 ?>
                                     <tr>
                                         <td class="text-center"><?= $no++; ?></td>
-                                        <td><?= $row->tanggal_ban_ops; ?></td>
+                                        <td><?= date('d-m-Y', strtotime($row->tanggal_ban_ops));  ?></td>
                                         <td><?= $row->nama_ban_ops; ?></td>
                                         <?php foreach ($jenis_produk as $barang) : ?>
                                             <?php
                                             $jumlah_barang = isset($row->jumlah[$barang->nama_barang_jadi]) ? $row->jumlah[$barang->nama_barang_jadi] : ' ';
                                             $total_harga = $row->harga_ban_ops_total;
                                             ?>
-                                            <td><?= $jumlah_barang; ?></td>
+                                            <td class="text-center"><?= $jumlah_barang; ?></td>
                                         <?php endforeach; ?>
                                         <td class="text-end"><?= number_format($total_harga, 0, ',', '.'); ?></td>
                                         <td><?= $row->keterangan ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
+                            <tfoot>
+                                <tr class="text-center" style="vertical-align: middle;">
+                                    <th class="text-center" colspan="3">Jumlah</th>
+                                    <?php foreach ($jenis_produk as $barang) : ?>
+                                        <?php
+                                        $total_jumlah_barang = 0;
+                                        $total_semua_harga = 0;
+
+                                        foreach ($grouped_ban_ops as $row) {
+                                            $jumlah_barang = isset($row->jumlah[$barang->nama_barang_jadi]) ? $row->jumlah[$barang->nama_barang_jadi] : 0;
+                                            $total_jumlah_barang += $jumlah_barang;
+                                            $total_semua_harga += $row->harga_ban_ops_total;
+                                        }
+                                        ?>
+                                        <th class="text-center" style="vertical-align: middle;"><?= $total_jumlah_barang; ?></th>
+                                    <?php endforeach; ?>
+                                    <th class="text-center" style="vertical-align: middle;"><?= number_format($total_semua_harga, 0, ',', '.'); ?></th>
+                                    <th class="text-center"></th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>

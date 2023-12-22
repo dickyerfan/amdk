@@ -78,7 +78,7 @@ class Laporan_harian extends CI_Controller
         $this->pdf->setPaper('A4', 'portrait');
 
         // $this->pdf->filename = "Potensi Sr.pdf";
-        $this->pdf->filename = "LapHarian-{$tanggal}.pdf";
+        $this->pdf->filename = "LapHarianBaku-{$tanggal}.pdf";
         $this->pdf->generate('barang_baku/laporan_harian_pdf', $data);
     }
 

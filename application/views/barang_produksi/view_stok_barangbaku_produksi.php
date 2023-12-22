@@ -4,7 +4,7 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('barang_produksi/barang_baku_produksi'); ?>" method="get">
+                        <!-- <form action="<?= base_url('barang_produksi/barang_baku_produksi'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
                                 <input type="date" name="tanggal" class="form-control">
                                 <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
@@ -14,7 +14,7 @@
                             <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
                                 <a href="#"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Ambil Barang Baku</button></a>
                             <?php endif; ?>
-                        </div>
+                        </div> -->
                     </nav>
                 </div>
                 <div class="p-2">

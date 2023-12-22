@@ -7,7 +7,7 @@ class Model_barang_produksi extends CI_Model
     // awal barang keluar
     public function getbarang_keluar($bulan, $tahun)
     {
-        $this->db->select('tanggal_keluar_baku, nama_barang_jadi,input_keluar_baku, jenis_barang.id_jenis_barang, jenis_barang.nama_barang_jadi, SUM(jumlah_keluar_baku) as total_keluar_baku');
+        $this->db->select('keluar_baku_produksi.tanggal_keluar_baku, nama_barang_jadi,input_keluar_baku, jenis_barang.id_jenis_barang, jenis_barang.nama_barang_jadi, SUM(jumlah_keluar_baku) as total_keluar_baku');
         $this->db->from('keluar_baku_produksi');
         $this->db->join('barang_baku', 'keluar_baku_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
         $this->db->join('jenis_barang', 'keluar_baku_produksi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
@@ -15,7 +15,8 @@ class Model_barang_produksi extends CI_Model
         $this->db->where('YEAR(keluar_baku_produksi.tanggal_keluar_baku)', $tahun);
         $this->db->group_by('keluar_baku_produksi.tanggal_keluar_baku');
         $this->db->group_by('jenis_barang.nama_barang_jadi');
-        $this->db->order_by('id_keluar_baku_produksi', 'ASC');
+        // $this->db->order_by('id_keluar_baku_produksi', 'ASC');
+        $this->db->order_by('tanggal_keluar_baku', 'ASC');
         return $this->db->get()->result();
     }
 
@@ -47,12 +48,12 @@ class Model_barang_produksi extends CI_Model
     public function get_barangbaku_produksi()
     {
         $this->db->select('*,barang_baku.*, 
-                   (SELECT SUM(jumlah_keluar) FROM baku_produksi WHERE baku_produksi.id_barang_baku = barang_baku.id_barang_baku ) AS jumlah_masuk,
+                   (SELECT SUM(jumlah_keluar) FROM keluar_baku WHERE keluar_baku.id_barang_baku = barang_baku.id_barang_baku AND keluar_baku.bagian = "produksi" ) AS jumlah_masuk,
                    (SELECT SUM(jumlah_stok_awal_baku) FROM stok_awal_baku_produksi WHERE stok_awal_baku_produksi.id_barang_baku = barang_baku.id_barang_baku) AS jumlah_stok_awal,
                    (SELECT SUM(jumlah_keluar_baku) FROM keluar_baku_produksi WHERE keluar_baku_produksi.id_barang_baku = barang_baku.id_barang_baku) AS jumlah_keluar,
                    (SELECT SUM(jumlah_rusak_produksi) FROM rusak_produksi WHERE rusak_produksi.id_barang_baku = barang_baku.id_barang_baku) AS jumlah_rusak', FALSE);
         $this->db->from('barang_baku');
-        $this->db->join('baku_produksi', 'baku_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->join('keluar_baku', 'keluar_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
         $this->db->join('keluar_baku_produksi', 'keluar_baku_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
         $this->db->join('rusak_produksi', 'rusak_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
         $this->db->join('stok_awal_baku_produksi', 'stok_awal_baku_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
@@ -202,7 +203,31 @@ class Model_barang_produksi extends CI_Model
     }
     // akhir barang jadi
 
+    // awal pengembalian galon
+    public function get_galon($bulan, $tahun)
+    {
+        $this->db->select('*');
+        $this->db->from('galon_kembali');
+        // $this->db->join('barang_baku', 'galon_kembali.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->where('MONTH(galon_kembali.tanggal_kembali)', $bulan);
+        $this->db->where('YEAR(galon_kembali.tanggal_kembali)', $tahun);
+        // $this->db->group_by('rusak_produksi.id_rusak_produksi');
+        return $this->db->get()->result();
+    }
 
+    public function update_galon_kembali($data_galon, $tanggal_barang_jadi)
+    {
+        $this->db->where('tanggal_kembali', $tanggal_barang_jadi);
+        return $this->db->update('galon_kembali', $data_galon);
+    }
+
+    public function update_galon_baru($data_galon, $tanggal_keluar_baku)
+    {
+        $this->db->where('tanggal_kembali', $tanggal_keluar_baku);
+        return $this->db->update('galon_kembali', $data_galon);
+    }
+
+    // akhir pengembalian galon
 
 
 

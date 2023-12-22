@@ -135,6 +135,22 @@
         </tbody>
     </table>
 
+    <?php
+    $nik_manager = $manager->nik_karyawan;
+    if ($nik_manager) {
+        $nik_manager =  sprintf('%03s %02s %03s', substr($nik_manager, 0, 3), substr($nik_manager, 3, 2), substr($nik_manager, 5));
+    } else {
+        $nik_manager = '';
+    }
+
+    $nik_baku = $baku->nik_karyawan;
+    if ($nik_baku) {
+        $nik_baku = sprintf('%03s %02s %03s', substr($nik_baku, 0, 3), substr($nik_baku, 3, 2), substr($nik_baku, 5));
+    } else {
+        $nik_baku = '';
+    }
+    ?>
+
     <div style="font-size: 0.8rem;" class="tandaTangan">
         <p style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"></p>
         <p style="width: 50%; float: right;text-align:center; margin-bottom: 1px;">Bondowoso, <?= $tanggal_hari_ini ?></p>
@@ -148,8 +164,8 @@
         <u style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"><?= $manager->nama_karyawan; ?></u>
         <u style="width: 50%; float: right;text-align:center; margin-bottom: 1px;"><?= $baku->nama_karyawan; ?></u>
         <div style="clear: both;"></div>
-        <p style="width: 50%; float: left; text-align:center;"><?= $manager->nik_karyawan; ?></p>
-        <p style="width: 50%; float: right;text-align:center;"><?= $baku->nik_karyawan; ?></p>
+        <p style="width: 50%; float: left; text-align:center;">NIK. <?= $nik_manager; ?></p>
+        <p style="width: 50%; float: right;text-align:center;">NIK. <?= $nik_baku; ?></p>
         <div style="clear: both;"></div>
     </div>
 

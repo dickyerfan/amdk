@@ -73,6 +73,7 @@ class Model_barang_jadi extends CI_Model
         $this->db->where('YEAR(keluar_jadi.tanggal_keluar)', $tahun);
         // $this->db->where('keluar_baku.status_keluar', 0);
         $this->db->group_by('keluar_jadi.id_keluar_jadi');
+        $this->db->order_by('keluar_jadi.tanggal_keluar', 'DESC');
         return $this->db->get()->result();
     }
 

@@ -83,6 +83,7 @@ class Ban_ops extends CI_Controller
 
         if ($this->form_validation->run() == false) {
             $data['jenis_barang'] = $this->Model_ban_ops->get_nama_barang();
+            $data['mobil'] = $this->db->get('mobil')->result();
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_uang');
             $this->load->view('templates/pengguna/sidebar_uang');
@@ -90,6 +91,7 @@ class Ban_ops extends CI_Controller
             $this->load->view('templates/pengguna/footer_uang');
         } else {
             $data['user'] = $this->Model_ban_ops->tambahData();
+
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-primary alert-dismissible fade show" role="alert">

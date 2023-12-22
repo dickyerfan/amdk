@@ -10,6 +10,7 @@ class model_ban_ops extends CI_Model
         $this->db->join('jenis_barang', 'ban_ops.id_jenis_barang=jenis_barang.id_jenis_barang');
         $this->db->where('MONTH(ban_ops.tanggal_ban_ops)', $bulan);
         $this->db->where('YEAR(ban_ops.tanggal_ban_ops)', $tahun);
+        $this->db->order_by('ban_ops.tanggal_ban_ops', 'desc');
         $query = $this->db->get();
         return $query->result();
     }
@@ -28,7 +29,6 @@ class model_ban_ops extends CI_Model
         $jenis_barang = $this->input->post('id_jenis_barang');
         $total = 0;
 
-
         foreach ($jenis_barang as $id_jenis_barang) {
             $jumlah = $jumlah_ban_ops[$id_jenis_barang];
             $get_harga = $this->db->get_where('harga', ['id_jenis_barang' => $id_jenis_barang])->row();
@@ -38,6 +38,7 @@ class model_ban_ops extends CI_Model
                 'id_jenis_barang' => $id_jenis_barang,
                 'jumlah_ban_ops' => $jumlah,
                 'harga_ban_ops' => $total,
+                'id_mobil' => $this->input->post('id_mobil', true),
                 'jenis_ban_ops' => $this->input->post('jenis_ban_ops', true),
                 'nama_ban_ops' => strtoupper($this->input->post('nama_ban_ops', true)),
                 'tanggal_ban_ops' => $this->input->post('tanggal_ban_ops', true),
@@ -45,6 +46,17 @@ class model_ban_ops extends CI_Model
                 'input_ban_ops' => $this->session->userdata('nama_lengkap')
             );
             $this->db->insert('ban_ops', $data);
+
+            $data_keluar_jadi = array(
+                'id_jenis_barang' => $id_jenis_barang,
+                'id_mobil' => $this->input->post('id_mobil', true),
+                'jumlah_keluar' => $jumlah,
+                'tanggal_keluar' => $this->input->post('tanggal_ban_ops', true),
+                'jumlah_akhir' => $jumlah,
+                'jenis_pesanan' => 4,
+                'input_status_keluar' => $this->session->userdata('nama_lengkap')
+            );
+            $this->db->insert('keluar_jadi', $data_keluar_jadi);
         }
     }
 

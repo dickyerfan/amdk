@@ -68,7 +68,7 @@
                                     <th class="text-center">Botol 1500</th>
                                     <th class="text-center">Nominal</th>
                                     <th class="text-center">Status</th>
-                                    <th class="text-center">Action</th>
+                                    <!-- <th class="text-center">Action</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -94,9 +94,9 @@
                                         <td class="text-center"><?= $row->btl1500 == 0 ? '' : $row->btl1500; ?></td>
                                         <td class="text-end"><?= number_format($row->nominal, 0, ',', '.'); ?></td>
                                         <td class="text-center"><?= $row->status == 0 ? '<span class="btn btn-danger btn-sm"style="font-size: 0.7rem;">Belum</span>' : '<span class="btn btn-primary btn-sm"style="font-size: 0.7rem;">Sudah</span>'; ?></td>
-                                        <td class="text-center">
+                                        <!-- <td class="text-center">
                                             <a href="<?= base_url('keuangan/ambil_rutin_karyawan/edit/') ?><?= $row->id_ambil_rutin ?>"><i class="fa-solid fa-dolly text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk ambil air karyawan"></i></a>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

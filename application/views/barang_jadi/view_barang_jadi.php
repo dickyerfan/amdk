@@ -49,7 +49,7 @@
                                         foreach ($barang_jadi as $row) : ?>
                                             <tr class="text-center">
                                                 <td><?= $no++ ?></td>
-                                                <td><?= $row->tanggal_barang_jadi; ?></td>
+                                                <td><?= date('d-m-Y', strtotime($row->tanggal_barang_jadi)); ?></td>
                                                 <td class="text-start"><?= $row->nama_barang_jadi; ?></td>
                                                 <td class="text-start"><?= $row->jenis_barang; ?></td>
                                                 <td><?= number_format($row->jumlah_barang_jadi, 0, ',', '.'); ?></td>

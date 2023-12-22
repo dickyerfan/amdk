@@ -135,7 +135,7 @@
                                                     }
                                                     ?>
                                                     <a href="<?= $url; ?>" style="text-decoration: none;">
-                                                        <i class="fas fa-dollar text-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk bayar"></i>
+                                                        <i class="fas fa-rupiah-sign text-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk bayar"></i>
                                                     </a>
 
                                                     <a href="<?= base_url('keuangan/penjualan/detail/') ?><?= $row->id_pemesanan ?>"><i class="fa-solid fa-circle-info text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk melihat detail penjualan"></i></a>

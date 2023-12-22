@@ -180,8 +180,23 @@
                 <td class='text-center'><?= $totalSemua ?></td>
             </tr>
         </tfoot>
-
     </table>
+
+    <?php
+    $nik_manager = $manager->nik_karyawan;
+    if ($nik_manager) {
+        $nik_manager =  sprintf('%03s %02s %03s', substr($nik_manager, 0, 3), substr($nik_manager, 3, 2), substr($nik_manager, 5));
+    } else {
+        $nik_manager = '';
+    }
+
+    $nik_pasar = $pasar->nik_karyawan;
+    if ($nik_pasar) {
+        $nik_pasar = sprintf('%03s %02s %03s', substr($nik_pasar, 0, 3), substr($nik_pasar, 3, 2), substr($nik_pasar, 5));
+    } else {
+        $nik_pasar = '';
+    }
+    ?>
 
     <div style="font-size: 0.8rem;">
         <p style="width: 50%; float: left; text-align:center; margin-bottom: 1px;">Mengetahui</p>
@@ -193,14 +208,9 @@
         <u style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"><?= $manager->nama_karyawan; ?></u>
         <u style="width: 50%; float: right;text-align:center; margin-bottom: 1px;"><?= $pasar->nama_karyawan; ?></u>
         <div style="clear: both;"></div>
-        <p style="width: 50%; float: left; text-align:center;"><?= $manager->nik_karyawan; ?></p>
-        <p style="width: 50%; float: right;text-align:center;"><?= $pasar->nik_karyawan; ?></p>
+        <p style="width: 50%; float: left; text-align:center;">NIK. <?= $nik_manager; ?></p>
+        <p style="width: 50%; float: right;text-align:center;">NIK. <?= $nik_pasar; ?></p>
         <div style="clear: both;"></div>
-        <!-- <?php if ($manager) : ?>
-            <p style="width: 50%; float: left; text-align: center;"><?= $manager->nama_karyawan; ?></p>
-        <?php else : ?>
-            <p style="width: 50%; float: left; text-align: center;">-</p>
-        <?php endif; ?> -->
     </div>
 
     <script src="<?= base_url() ?>assets/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

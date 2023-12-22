@@ -64,10 +64,99 @@ class Model_ambil_rutin_karyawan extends CI_Model
     {
 
         $data = [
-            'status' => $this->input->post('status', true),
+            // 'status' => $this->input->post('status', true),
+            'status' => 1
         ];
 
         $this->db->where('id_ambil_rutin', $this->input->post('id_ambil_rutin'));
         $this->db->update('ambil_rutin_pegawai', $data);
+
+        $keluarJadiData = $this->db->get_where('ambil_rutin_pegawai', ['id_ambil_rutin' => $this->input->post('id_ambil_rutin')])->row_array();
+
+        $jenisBarangIds = $this->getJenisBarangIds($keluarJadiData);
+
+        // Jika ada id_jenis_barang yang ditemukan
+        if (!empty($jenisBarangIds)) {
+            // Insert data ke tabel keluar_jadi untuk setiap id_jenis_barang
+            foreach ($jenisBarangIds as $idJenisBarang) {
+                // Siapkan data untuk diinsert ke tabel keluar_jadi
+                $dataKeluarJadi = [
+                    'id_jenis_barang' => $idJenisBarang,
+                    'id_mobil' => 1,
+                    'tanggal_keluar' => date('Y-m-d'), // Sesuaikan dengan kolom yang ingin diambil
+                    'jenis_pesanan' => 3,
+                    'input_status_keluar ' => $this->session->userdata('nama_lengkap')
+                ];
+
+                // Ambil nilai dari masing-masing kolom di tabel ambil_rutin_karyawan sesuai dengan id_jenis_barang yang sesuai
+                $dataKeluarJadi['jumlah_keluar'] = $this->getJumlahAkhirByIdJenisBarang($keluarJadiData, $idJenisBarang);
+                $dataKeluarJadi['jumlah_akhir'] = $this->getJumlahAkhirByIdJenisBarang($keluarJadiData, $idJenisBarang);
+
+                // Insert data ke tabel keluar_jadi
+                $this->db->insert('keluar_jadi', $dataKeluarJadi);
+            }
+        }
+
+        // var_dump($jenisBarangIds);
+        // die();
+    }
+
+    private function getJenisBarangIds($keluarJadiData)
+    {
+        // Array yang menentukan korespondensi antara kolom di tabel ambil_rutin_karyawan dengan data di tabel jenis_barang
+        $mapping = [
+            'galon' => 'galon 19l',
+            'gelas' => 'gelas 220ml ijen',
+            'btl330' => 'botol 330ml ijen',
+            'btl500' => 'botol 500ml ijen',
+            'btl1500' => 'botol 1500ml ijen',
+        ];
+
+        $jenisBarangIds = [];
+
+        // Iterasi melalui mapping dan cek apakah nilai kolom di tabel ambil_rutin_karyawan cocok dengan data di tabel jenis_barang
+        foreach ($mapping as $column => $jenisBarang) {
+            if ($keluarJadiData[$column] > 0) {
+                $query = $this->db->get_where('jenis_barang', ['nama_barang_jadi' => $jenisBarang]);
+
+                if ($query->num_rows() > 0) {
+                    foreach ($query->result() as $row) {
+                        $jenisBarangIds[] = $row->id_jenis_barang;
+                    }
+                }
+            }
+        }
+
+        // Jika tidak ada kecocokan, Anda perlu menangani ini sesuai dengan logika aplikasi Anda
+        return $jenisBarangIds;
+    }
+
+    // Fungsi untuk mendapatkan jumlah_akhir berdasarkan id_jenis_barang
+    private function getJumlahAkhirByIdJenisBarang($keluarJadiData, $idJenisBarang)
+    {
+        // Logika untuk mengambil nilai dari masing-masing kolom di tabel ambil_rutin_karyawan sesuai dengan id_jenis_barang yang sesuai
+        // Sesuaikan logika ini dengan struktur tabel dan hubungan antara kolom-kolom di tabel ambil_rutin_karyawan
+        $jumlahAkhir = 0;
+
+        // Contoh: Jika $idJenisBarang adalah 1, maka ambil nilai dari kolom yang sesuai
+        switch ($idJenisBarang) {
+            case 1:
+                $jumlahAkhir = $keluarJadiData['galon'];
+                break;
+            case 2:
+                $jumlahAkhir = $keluarJadiData['gelas'];
+                break;
+            case 8:
+                $jumlahAkhir = $keluarJadiData['btl330'];
+                break;
+            case 9:
+                $jumlahAkhir = $keluarJadiData['btl500'];
+                break;
+            case 11:
+                $jumlahAkhir = $keluarJadiData['btl1500'];
+                break;
+        }
+
+        return $jumlahAkhir;
     }
 }

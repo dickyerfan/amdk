@@ -163,7 +163,7 @@ class Laporan_produksi extends CI_Controller
         $this->pdf->setPaper('folio', 'landscape');
 
         // $this->pdf->filename = "Potensi Sr.pdf";
-        $this->pdf->filename = "LapBulanan-{$bulan}-{$tahun}.pdf";
+        $this->pdf->filename = "LapProduksi-{$bulan}-{$tahun}.pdf";
         $this->pdf->generate('barang_produksi/laporan_produksi_pdf', $data);
     }
 }

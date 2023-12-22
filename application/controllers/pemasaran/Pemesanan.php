@@ -138,8 +138,8 @@ class Pemesanan extends CI_Controller
             $data['id_mobil'] = $this->input->post('id_mobil');
             $this->Model_pemesanan->update('pemesanan', $data, $id_pemesanan);
 
-            // Dapatkan data untuk penyisipan ke tabel keluar_jadi
-            $data_pemesanan = $this->Model_pemesanan->get_id_masuk_baku($id_pemesanan);
+            // Dapatkan data untuk penyimpanan ke tabel keluar_jadi
+            $data_pemesanan = $this->Model_pemesanan->get_id_pemesanan($id_pemesanan);
             $data_keluar_jadi = array(
                 'id_jenis_barang' => $data_pemesanan->id_jenis_barang,
                 'id_mobil' => $data_pemesanan->id_mobil,

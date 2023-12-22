@@ -35,6 +35,15 @@
                                     <small class="form-text text-danger pl-3"><?= form_error('tanggal_rusak_produksi'); ?></small>
                                 </div>
                                 <div class="form-group mb-2">
+                                    <label for="jenis_rusak_produksi">Jenis Rusak Barang :</label>
+                                    <select name="jenis_rusak_produksi" class="form-select select2">
+                                        <option value="">Pilih Jenis Rusak...</option>
+                                        <option value="Pabrik">Pabrik</option>
+                                        <option value="Produksi">Produksi</option>
+                                    </select>
+                                    <small class="form-text text-danger pl-3"><?= form_error('jenis_rusak_produksi'); ?></small>
+                                </div>
+                                <div class="form-group mb-2">
                                     <label for="bukti_rusak_produksi">Bukti Transaksi :</label>
                                     <input type="file" class="form-control" id="bukti_rusak_produksi" name="bukti_rusak_produksi" value="<?= set_value('bukti_rusak_produksi'); ?>">
                                     <small class="form-text text-danger pl-3"><?= form_error('bukti_rusak_produksi'); ?></small>
@@ -42,10 +51,8 @@
                                 </div>
                                 <div class="form-group mb-2">
                                     <label for="keterangan">Keterangan :</label>
-                                    <!-- <input type="text" class="form-control" id="keterangan" name="keterangan" value="<?= set_value('keterangan'); ?>"> -->
                                     <textarea name="keterangan" id="keterangan" cols="30" rows="6" class="form-control"><?= set_value('keterangan'); ?></textarea>
                                     <small class="form-text text-danger pl-3"><?= form_error('keterangan'); ?></small>
-                                    <!-- <small class="form-text text-danger pl-3">Sertakan foto pendukung jika dibutuhkan</small> -->
                                 </div>
                             </div>
                         </div>

@@ -11,7 +11,7 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="form-group mb-3">
-                                    <div class="mb-2">Tanggal Order:</div>
+                                    <div class="mb-2">Tanggal Order :</div>
                                     <input type="date" class="form-control" id="tanggal_ban_ops" name="tanggal_ban_ops" placeholder="Masukan Jumlah" value="<?= set_value('tanggal_ban_ops'); ?>">
                                     <small class="form-text text-danger pl-3"><?= form_error('tanggal_ban_ops'); ?></small>
                                 </div>
@@ -31,9 +31,19 @@
                                 </div>
                                 <div class="form-group mb-3">
                                     <div class="mb-2">Keterangan :</div>
-                                    <textarea class="form-control" name="keterangan" id="keterangan" cols="30" rows="10"><?= set_value('keterangan'); ?></textarea>
+                                    <textarea class="form-control" name="keterangan" id="keterangan" cols="20" rows="7"><?= set_value('keterangan'); ?></textarea>
                                     <!-- <input type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Masukan Keterangan" value="<?= set_value('keterangan'); ?>"> -->
                                     <small class="form-text text-danger pl-3"><?= form_error('keterangan'); ?></small>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <div class="mb-2">Pilih Mobil :</div>
+                                    <select name="id_mobil" id="id_mobil" class="form-control select2">
+                                        <!-- <option value="">Pilih Mobil</option> -->
+                                        <?php foreach ($mobil as $row) : ?>
+                                            <option value="<?= $row->id_mobil; ?>"><?= $row->nama_mobil; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <small class="form-text text-danger pl-3"><?= form_error('id_mobil'); ?></small>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">

@@ -127,7 +127,7 @@
                                         foreach ($dateRange as $tanggal) : ?>
                                             <tr>
                                                 <td class="text-center"><?= $no++ ?></td>
-                                                <td class="text-center"><?= date('d-m-Y', strtotime($tanggal)) ?></td>
+                                                <td class="text-center"><?= date('d-m-Y', strtotime($tanggal)); ?></td>
                                                 <?php
                                                 $total = 0;
                                                 $total_piutang = 0;
@@ -233,8 +233,7 @@
                                                     ?>
                                                 </td>
                                             <?php endforeach; ?>
-
-                                            <td class="text-center"><?= number_format($total, 0, ',', '.');  ?></td>
+                                            <td class="text-center"><?= number_format($total_lunas, 0, ',', '.');  ?></td>
                                             <td class="text-center"><?= number_format($total_piutang, 0, ',', '.');  ?></td>
                                         </tr>
                                     </tfoot>

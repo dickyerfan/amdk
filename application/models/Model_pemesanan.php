@@ -53,7 +53,7 @@ class Model_pemesanan extends CI_Model
         return $this->db->get()->result();
     }
 
-    public function get_id_masuk_baku($id_pemesanan)
+    public function get_id_pemesanan($id_pemesanan)
     {
         $this->db->where('id_pemesanan', $id_pemesanan);
         return $this->db->get('pemesanan')->row();
@@ -84,11 +84,6 @@ class Model_pemesanan extends CI_Model
         $this->db->from('pelanggan');
         $this->db->where('id_pelanggan', $id_pelanggan);
         return $this->db->get()->row()->tarif;
-    }
-
-    public function get_id_pemesanan($id_pemesanan)
-    {
-        return $this->db->get_where('pemesanan', ['id_pemesanan' => $id_pemesanan])->row();
     }
 
     public function update_nota($data)

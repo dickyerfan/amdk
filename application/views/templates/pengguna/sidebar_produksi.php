@@ -31,24 +31,14 @@
                         <div class="sb-nav-link-icon"><i class="fa-fw fas fa-times-circle"></i></div>
                         <div style="font-size: 0.8rem;"> Barang Baku Rusak</div>
                     </a>
+                    <a class="nav-link" href="<?= base_url('barang_produksi/pengembalian_galon') ?>">
+                        <div class="sb-nav-link-icon"><i class="fa-fw fas fa-glass-water"></i></div>
+                        <div style="font-size: 0.8rem;"> Pengembalian Galon</div>
+                    </a>
                     <a class="nav-link" href="<?= base_url('barang_produksi/barang_jadi') ?>">
                         <div class="sb-nav-link-icon"><i class="fa-fw fas fa-tools"></i></div>
                         <div style="font-size: 0.8rem;"> Proses Barang Jadi</div>
                     </a>
-
-                    <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#transaksi" aria-expanded="false" aria-controls="transaksi">
-                        <div class="sb-nav-link-icon"><i class="fa-fw fa fa-tools"></i></div>
-                        <div style="font-size: 0.8rem;"> Transaksi</div>
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="transaksi" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="<?= base_url('barang_produksi/permintaan_barang_baku') ?>" style="font-size: 0.8rem;">Permintaan Barang Baku</a>
-                            <a class="nav-link" href="<?= base_url('barang_produksi/barang_jadi') ?>" style="font-size: 0.8rem;">Proses Barang Jadi</a>
-                            <a class="nav-link" href="<?= base_url('barang_produksi/barang_rusak') ?>" style="font-size: 0.8rem;">Barang Rusak</a>
-                        </nav>
-                    </div> -->
-
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#laporan" aria-expanded="false" aria-controls="laporan">
                         <div class="sb-nav-link-icon"><i class="fa-fw fa fa-file-invoice"></i></div>
                         <div style="font-size: 0.8rem;"> Laporan</div>

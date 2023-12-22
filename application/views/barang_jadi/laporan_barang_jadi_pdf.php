@@ -43,7 +43,7 @@
         .tableUtama th,
         .tableUtama td {
             border: 1px solid black;
-            font-size: 0.55rem;
+            font-size: 0.5rem;
             padding: 1.5px 3px;
         }
 
@@ -189,8 +189,23 @@
                 <td class='text-center'><?= $totalSemua ?></td>
             </tr>
         </tfoot>
-
     </table>
+
+    <?php
+    $nik_manager = $manager->nik_karyawan;
+    if ($nik_manager) {
+        $nik_manager =  sprintf('%03s %02s %03s', substr($nik_manager, 0, 3), substr($nik_manager, 3, 2), substr($nik_manager, 5));
+    } else {
+        $nik_manager = '';
+    }
+
+    $nik_jadi = $jadi->nik_karyawan;
+    if ($nik_jadi) {
+        $nik_jadi = sprintf('%03s %02s %03s', substr($nik_jadi, 0, 3), substr($nik_jadi, 3, 2), substr($nik_jadi, 5));
+    } else {
+        $nik_jadi = '';
+    }
+    ?>
 
     <div style="font-size: 0.7rem;">
         <p style="width: 50%; float: left; text-align:center; margin-bottom: 1px;">Mengetahui</p>
@@ -202,14 +217,9 @@
         <u style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"><?= $manager->nama_karyawan; ?></u>
         <u style="width: 50%; float: right;text-align:center; margin-bottom: 1px;"><?= $jadi->nama_karyawan; ?></u>
         <div style="clear: both;"></div>
-        <p style="width: 50%; float: left; text-align:center;"><?= $manager->nik_karyawan; ?></p>
-        <p style="width: 50%; float: right;text-align:center;"><?= $jadi->nik_karyawan; ?></p>
+        <p style="width: 50%; float: left; text-align:center;">NIK. <?= $nik_manager; ?></p>
+        <p style="width: 50%; float: right;text-align:center;">NIK. <?= $nik_jadi; ?></p>
         <div style="clear: both;"></div>
-        <!-- <?php if ($manager) : ?>
-            <p style="width: 50%; float: left; text-align: center;"><?= $manager->nama_karyawan; ?></p>
-        <?php else : ?>
-            <p style="width: 50%; float: left; text-align: center;">-</p>
-        <?php endif; ?> -->
     </div>
 
     <script src="<?= base_url() ?>assets/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

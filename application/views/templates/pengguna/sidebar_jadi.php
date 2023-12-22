@@ -48,7 +48,7 @@
                     <div class="collapse" id="laporan" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="<?= base_url('barang_jadi/laporan_barang_jadi') ?>" style="font-size: 0.8rem;">Laporan Barang Jadi</a>
-                            <a class="nav-link" href="" style="font-size: 0.8rem;">Laporan Bulanan</a>
+                            <!-- <a class="nav-link" href="" style="font-size: 0.8rem;">Laporan Bulanan</a> -->
                         </nav>
                     </div>
 

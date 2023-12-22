@@ -37,7 +37,7 @@
                                                 <tr>
                                                     <td>Tanggal Transaksi</td>
                                                     <td> : </td>
-                                                    <td><?= $row->tanggal_rusak_produksi; ?></td>
+                                                    <td><?= date('d-m-Y', strtotime($row->tanggal_rusak_produksi)); ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Jumlah Barang</td>
@@ -52,7 +52,7 @@
                                                 <tr>
                                                     <td>Keterangan</td>
                                                     <td> : </td>
-                                                    <td><?= $row->keterangan; ?></td>
+                                                    <td>Rusak <?= $row->jenis_rusak_produksi; ?></td>
                                                 </tr>
                                             </table>
                                         </div>

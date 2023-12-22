@@ -75,7 +75,7 @@
                                 ?>
                                     <tr>
                                         <td class="text-center"><?= $no++; ?></td>
-                                        <td><?= $row->tanggal_ban_ops; ?></td>
+                                        <td><?= date('d-m-Y', strtotime($row->tanggal_ban_ops)); ?></td>
                                         <td><?= $row->nama_ban_ops; ?></td>
                                         <td><?= strtoupper($row->nama_barang_jadi); ?></td>
                                         <td class="text-center"><?= $row->jumlah_ban_ops; ?></td>

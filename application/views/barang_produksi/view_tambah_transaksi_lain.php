@@ -14,13 +14,33 @@
                     <form class="user" action="" method="POST">
                         <div class="row justify-content-center mb-3">
                             <div class="col-md-4">
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="id_barang_baku">Nama Barang Baku :</label>
                                     <select name="id_barang_baku" id="id_barang_baku" class="form-select">
                                         <option value="">Pilih Barang</option>
                                         <?php foreach ($nama_barang as $row) : ?>
                                             <option value="<?= $row->id_barang_baku ?>"><?= $row->nama_barang_baku ?></option>
                                         <?php endforeach; ?>
+                                    </select>
+                                    <small class="form-text text-danger pl-3"><?= form_error('id_barang_baku'); ?></small>
+                                </div> -->
+                                <div class="form-group">
+                                    <label for="id_barang_baku">Nama Barang Baku :</label>
+                                    <select name="id_barang_baku" id="id_barang_baku" class="form-select">
+                                        <option value="">Pilih Barang</option>
+                                        <!-- <option value="1">Galon Baru</option> -->
+                                        <option value="6">Isolasi</option>
+                                        <option value="14">Lit Cup Ijen 8 line</option>
+                                        <option value="15">Lit Cup Ijen 4 line</option>
+                                        <option value="16">Lit Cup Ijen 2 line</option>
+                                        <option value="17">Lit Cup Genggong 8 line</option>
+                                        <option value="18">Lit Cup Genggong 4 line</option>
+                                        <option value="19">Lit Cup An Nujum 8 line</option>
+                                        <option value="20">Lit Cup SyubbanQ 8 line</option>
+                                        <option value="21">Lit Cup SyubbanQ 4 line</option>
+                                        <option value="22">Lit Cup Amalis 4 line</option>
+                                        <option value="23">Lit Cup Fatayat 2 line</option>
+                                        <option value="41">Liquid Galon</option>
                                     </select>
                                     <small class="form-text text-danger pl-3"><?= form_error('id_barang_baku'); ?></small>
                                 </div>

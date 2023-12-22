@@ -89,6 +89,7 @@ class Permintaan_barang_baku extends CI_Controller
                 $tanggal_keluar = $this->input->post('tanggal_keluar', true);
                 $id_barang_baku = $this->input->post('id_barang_baku', true);
 
+                // Membuat kode barang
                 $kode = $this->db->get_where('barang_baku', ['id_barang_baku' => $id_barang_baku])->row();
 
                 if ($kode) {

@@ -4,7 +4,7 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('barang_produksi/barang_rusak'); ?>" method="get">
+                        <form action="<?= base_url('barang_produksi/pengembalian_galon'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
                                 <input type="date" name="tanggal" class="form-control">
                                 <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
@@ -12,7 +12,7 @@
                         </form>
                         <div class="navbar-nav ms-auto">
                             <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
-                                <a href="<?= base_url('barang_produksi/barang_rusak/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Tambah Barang Rusak</button></a>
+                                <a href="<?= base_url('barang_produksi/pengembalian_galon/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Tambah Galon Kembali</button></a>
                             <?php endif; ?>
                         </div>
                     </nav>
@@ -58,10 +58,12 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>
-                                        <th class="text-center">Tanggal Rusak</th>
-                                        <th class="text-center">Nama Barang</th>
-                                        <th class="text-center">Jumlah</th>
-                                        <th class="text-center">Keterangan</th>
+                                        <th class="text-center">Tanggal</th>
+                                        <th class="text-center">Jmlh Kembali</th>
+                                        <th class="text-center">Jmlh Baru</th>
+                                        <th class="text-center">Jmlh Produksi</th>
+                                        <th class="text-center">Jmlh Rusak</th>
+                                        <th class="text-center">Jmlh Akhir</th>
                                         <th class="text-center">Input Oleh</th>
                                         <th class="text-center">Action</th>
                                     </tr>
@@ -69,16 +71,18 @@
                                 <tbody>
                                     <?php
                                     $no = 1;
-                                    foreach ($barang_rusak as $row) : ?>
+                                    foreach ($galon as $row) : ?>
                                         <tr class="text-center">
                                             <td><?= $no++ ?></td>
-                                            <td><?= date('d-m-Y', strtotime($row->tanggal_rusak_produksi)); ?></td>
-                                            <td class="text-start"><?= $row->nama_barang_baku; ?></td>
-                                            <td><?= number_format($row->jumlah_rusak_produksi, 0, ',', '.'); ?></td>
-                                            <td>Rusak <?= $row->jenis_rusak_produksi; ?></td>
-                                            <td><?= $row->input_status_rusak_produksi; ?></td>
+                                            <td><?= date('d-m-Y', strtotime($row->tanggal_kembali)); ?></td>
+                                            <td><?= number_format($row->jumlah_kembali, 0, ',', '.'); ?></td>
+                                            <td><?= number_format($row->jumlah_baru, 0, ',', '.'); ?></td>
+                                            <td><?= number_format($row->jumlah_produksi, 0, ',', '.'); ?></td>
+                                            <td><?= number_format($row->jumlah_rusak, 0, ',', '.'); ?></td>
+                                            <td><?= number_format($row->jumlah_akhir, 0, ',', '.'); ?></td>
+                                            <td><?= $row->input_status_kembali; ?></td>
                                             <td>
-                                                <a href="<?= base_url('barang_produksi/barang_rusak/detail_rusak/') ?><?= $row->id_rusak_produksi ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Detail</span></a>
+                                                <a href="<?= base_url('barang_produksi/pengembalian_galon/detail/') ?><?= $row->id_galon_kembali ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Detail</span></a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
