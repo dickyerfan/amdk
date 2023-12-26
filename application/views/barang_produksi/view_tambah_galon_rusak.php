@@ -8,16 +8,15 @@
                 </div>
                 <div class="p-2">
                     <?= $this->session->flashdata('info'); ?>
-                    <?= $this->session->unset_userdata('info'); ?>
+                    <!-- <?= $this->session->unset_userdata('info'); ?> -->
                 </div>
                 <div class="card-body">
                     <form class="user" action="" method="POST">
                         <div class="row justify-content-center">
                             <div class="col-md-4">
                                 <div class="form-group mb-2">
-                                    <label for="tanggal_kembali">Tanggal Kembali :</label>
+                                    <label for="tanggal_kembali">Tanggal Rusak :</label>
                                     <?php
-                                    // Set tanggal hari ini
                                     $today = date('Y-m-d');
                                     ?>
                                     <input type="date" class="form-control" id="tanggal_kembali" name="tanggal_kembali" value="<?= set_value('tanggal_kembali', $today); ?>" min="<?= $today; ?>" max="<?= $today; ?>">
@@ -33,18 +32,42 @@
                                             <input type="text" name="id_jenis_barang" value="Galon Pengembalian" class="form-control mb-2" disabled>
                                         </div>
                                         <div class="col-lg-6">
-                                            <input type="text" name="jumlah_kembali" class="form-control mb-2" placeholder="Masukan Jumlah Galon Kembali">
-                                            <small class="form-text text-danger pl-3"><?= form_error('jumlah_kembali'); ?></small>
+                                            <input type="text" name="jumlah_rusak" class="form-control mb-2" placeholder="Masukan Jumlah Galon Kembali yang rusak">
+                                            <small class="form-text text-danger pl-3"><?= form_error('jumlah_rusak'); ?></small>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row justify-content-center">
-                            <div class="col-md-12 text-center">
-                                <button class="neumorphic-button mt-2" name="tambah" type="submit"><i class="fas fa-save"></i> Simpan</button>
-                            </div>
-                        </div>
+                        <?php
+                        $tanggal_rusak = date('Y-m-d');
+                        $this->db->where('tanggal_kembali', $tanggal_rusak);
+                        $query = $this->db->get('galon_kembali');
+
+                        if ($query->num_rows() > 0) {
+                            $result = $query->row();
+
+                            if ($result->jumlah_rusak > 0) {
+                                // Menampilkan pesan kesalahan dan mengarahkan pengguna kembali
+                                $this->session->set_flashdata(
+                                    'info',
+                                    '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <strong>Maaf,</strong> galon kembali yang rusak sudah di input
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>'
+                                );
+                                redirect('barang_produksi/pengembalian_galon');
+                            } else {
+                                echo '<div class="row justify-content-center">
+                                <div class="col-md-12 text-center">
+                                    <button class="neumorphic-button mt-2" name="tambah" type="submit"><i class="fas fa-save"></i> Simpan</button>
+                                </div>
+                                </div>';
+                            }
+                        }
+
+                        ?>
+
                     </form>
                 </div>
             </div>

@@ -62,9 +62,11 @@
                                             <th class="text-center">Tanggal</th>
                                             <th class="text-center">Kode Barang</th>
                                             <th class="text-center">Nama Barang</th>
-                                            <th class="text-center">Jumlah</th>
+                                            <th class="text-center">Jml Masuk</th>
+                                            <th class="text-center">Jml Keluar</th>
+                                            <th class="text-center">Jml Akhir</th>
                                             <th class="text-center">Input Oleh</th>
-                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -74,14 +76,19 @@
                                         ?>
                                             <tr class="text-center">
                                                 <td><?= $no++ ?></td>
-                                                <td><?= $row->tanggal_keluar; ?></td>
+                                                <td><?= date('d-m-Y', strtotime($row->tanggal_order)); ?></td>
                                                 <td><?= $row->kode_barang; ?></td>
                                                 <td class="text-start"><?= $row->nama_barang_baku; ?></td>
+                                                <td><?= number_format($row->jumlah_masuk, 0, ',', '.'); ?></td>
                                                 <td><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
-                                                <td><?= $row->input_status_keluar; ?></td>
+                                                <td><?= number_format($row->jumlah_akhir, 0, ',', '.'); ?></td>
+                                                <td><?= $row->input_status_baku_jadi; ?></td>
                                                 <td>
-                                                    <?= $row->status_keluar == 0 ? '<span class="neumorphic-button text-success">Milik Barang Baku</span>' : '<span class="neumorphic-button text-primary">Milik Barang Jadi</span>' ?>
+                                                    <a href="<?= base_url(); ?>barang_jadi/bon_barang_baku/edit/<?= $row->id_barang_baku_jadi; ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk ambil kardus"><i class="fas fa-fw fa-edit" style="color: green;"></i></a>
                                                 </td>
+                                                <!-- <td>
+                                                    <?= $row->status_baku_jadi == 0 ? '<span class="neumorphic-button text-success">Milik Barang Baku</span>' : '<span class="neumorphic-button text-primary">Milik Barang Jadi</span>' ?>
+                                                </td> -->
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>

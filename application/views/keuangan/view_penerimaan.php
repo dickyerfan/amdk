@@ -10,18 +10,41 @@
                                 <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
                             </div>
                         </form>
-                        <!-- <div class="navbar-nav ms-auto">
-                            <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
-                                <a href="<?= base_url('keuangan/pelanggan') ?>"><button class="float-end neumorphic-button"><i class="fas fa-users"></i> Daftar Pelanggan</button></a>
+                        <div class="navbar-nav ms-auto">
+                            <?php if (!empty($pesan) && isset($pesan[0])) : ?>
+                                <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
+                                    <a href="<?= $pesan[0]->status_setor == 0 ? base_url('keuangan/penerimaan/setor_bank') : "javascript:void(0)"; ?>">
+                                        <button class="float-end neumorphic-button"><i class="fas fa-bank"></i> Setor Bank</button>
+                                    </a>
+                                <?php endif; ?>
                             <?php endif; ?>
-                        </div> -->
+                        </div>
+
                     </nav>
                 </div>
                 <div class="p-2">
                     <?= $this->session->flashdata('info'); ?>
                     <?= $this->session->unset_userdata('info'); ?>
                 </div>
+
                 <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class=" neumorphic-button">
+                                <?php
+                                if (!empty($pesan) && isset($pesan[0])) {
+                                    if ($pesan[0]->status_setor == 1) {
+                                        echo "<span class='text-center fw-bold text-primary'>Sudah Setor </span>";
+                                    } else {
+                                        echo "<span class='text-center fw-bold text-danger'>Belum Setor </span>";
+                                    }
+                                } else {
+                                    echo "<span class='text-center fw-bold text-success'>Belum ada Penerimaan</span>";
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row justify-content-center mb-2">
                         <!-- <div class="col-lg-6 text-center">
                             <h5><?= strtoupper($title); ?></h5>

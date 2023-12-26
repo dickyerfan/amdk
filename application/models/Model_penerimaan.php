@@ -19,19 +19,15 @@ class Model_penerimaan extends CI_Model
         return $this->db->get()->result();
     }
 
-    // public function get_all($bulan, $tahun)
-    // {
-    //     $this->db->select(
-    //         '*,
-    //     (SELECT SUM(total_harga) FROM pemesanan WHERE MONTH(pemesanan.tanggal_bayar) = "' . $bulan . '" AND YEAR(pemesanan.tanggal_bayar) = "' . $tahun . '" AND pemesanan.status_bayar = 1) AS total_penerimaan'
-    //     );
-    //     $this->db->from('pemesanan');
-    //     $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang', 'left');
-    //     $this->db->join('pelanggan', 'pelanggan.id_pelanggan = pemesanan.id_pelanggan', 'left');
-    //     $this->db->where('MONTH(pemesanan.tanggal_bayar)', $bulan);
-    //     $this->db->where('YEAR(pemesanan.tanggal_bayar)', $tahun);
-    //     $this->db->where('status_bayar', 1);
-    //     $this->db->order_by('pemesanan.id_pemesanan', 'DESC');
-    //     return $this->db->get()->result();
-    // }
+    public function update_nota($data)
+    {
+        $this->db->where('DATE(tanggal_bayar)', $data['tanggal_bayar']);
+        $update_data = array(
+            'nota_setor' => $data['nota_setor'],
+            'tanggal_setor' => $data['tanggal_setor'],
+            'input_setor' => $data['input_setor'],
+            'status_setor' => $data['status_setor']
+        );
+        $this->db->update('pemesanan', $update_data);
+    }
 }

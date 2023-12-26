@@ -32,7 +32,12 @@
                                                 <tr>
                                                     <td>Status Bayar</td>
                                                     <td> : </td>
-                                                    <td><?= $row->status_bayar == 0 ? '<span class="btn btn-danger btn-sm">Belum Lunas</span>' : '<span class="btn btn-primary btn-sm">Lunas</span>'; ?></td>
+                                                    <td><?= $row->status_bayar == 0 ? '<span class="btn btn-danger btn-sm">Belum Lunas</span>' : '<span class="btn btn-primary btn-sm">Sudah Lunas</span>'; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Status Setor Bank</td>
+                                                    <td> : </td>
+                                                    <td><?= $row->status_setor == 0 ? '<span class="btn btn-danger btn-sm me-5">Belum setor</span>' : '<span class="btn btn-success btn-sm">Sudah Setor</span>'; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Nama Pelanggan</td>
@@ -87,7 +92,7 @@
                                                 </tr>
 
                                                 <tr>
-                                                    <td>Petugas Input</td>
+                                                    <td>Input Pesanan</td>
                                                     <td> : </td>
                                                     <td><?= $row->input_pesan; ?></td>
                                                 </tr>
@@ -97,7 +102,7 @@
                                                     <td><?= $row->nama_mobil == null ? 'Belum Masuk Mobil' : $row->nama_mobil; ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Petugas Bayar</td>
+                                                    <td>Input Bayar</td>
                                                     <td> : </td>
                                                     <td><?= $row->input_update == null ? '-' : $row->input_update; ?></td>
                                                 </tr>
@@ -116,6 +121,16 @@
                                                     <td> : </td>
                                                     <td><?= $row->tanggal_bayar; ?></td>
                                                 </tr>
+                                                <tr>
+                                                    <td>Ptgs Setor Bank</td>
+                                                    <td> : </td>
+                                                    <td><?= $row->input_setor == null ? '-' : $row->input_setor; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tanggal setor</td>
+                                                    <td> : </td>
+                                                    <td><?= $row->tanggal_setor; ?></td>
+                                                </tr>
                                             </table>
                                         </div>
                                     </div>
@@ -130,6 +145,20 @@
                                                 <tr>
                                                     <td>
                                                         <img src="<?= base_url('uploads/pasar/nota/' . $row->nota_beli); ?>" alt="" style="width: 100%;">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <table class="table table-borderless">
+                                                <tr>
+                                                    <td class="text-center">Bukti Setor</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <img src="<?= base_url('uploads/uang/nota/' . $row->nota_setor); ?>" alt="" style="width: 100%;">
                                                     </td>
                                                 </tr>
                                             </table>

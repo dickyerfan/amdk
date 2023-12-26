@@ -12,7 +12,12 @@
                         </form>
                         <div class="navbar-nav ms-auto">
                             <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
-                                <a href="<?= base_url('barang_produksi/pengembalian_galon/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Tambah Galon Kembali</button></a>
+                                <a href="<?= base_url('barang_produksi/pengembalian_galon/galon_rusak') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Input Galon Kembali Rusak</button></a>
+                            <?php endif; ?>
+                        </div>
+                        <div class="navbar-nav ms-2">
+                            <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
+                                <a href="<?= base_url('barang_produksi/pengembalian_galon/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Input Galon Kembali</button></a>
                             <?php endif; ?>
                         </div>
                     </nav>
@@ -65,7 +70,7 @@
                                         <th class="text-center">Jmlh Rusak</th>
                                         <th class="text-center">Jmlh Akhir</th>
                                         <th class="text-center">Input Oleh</th>
-                                        <th class="text-center">Action</th>
+                                        <!-- <th class="text-center">Action</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -81,9 +86,9 @@
                                             <td><?= number_format($row->jumlah_rusak, 0, ',', '.'); ?></td>
                                             <td><?= number_format($row->jumlah_akhir, 0, ',', '.'); ?></td>
                                             <td><?= $row->input_status_kembali; ?></td>
-                                            <td>
+                                            <!-- <td>
                                                 <a href="<?= base_url('barang_produksi/pengembalian_galon/detail/') ?><?= $row->id_galon_kembali ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Detail</span></a>
-                                            </td>
+                                            </td> -->
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>

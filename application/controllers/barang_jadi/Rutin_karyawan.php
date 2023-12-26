@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Stok_awal_jadi extends CI_Controller
+class Rutin_karyawan extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
         $this->load->library('form_validation');
-        $this->load->model('Model_barang_jadi');
+        $this->load->model('Model_rutin_karyawan');
         if (!$this->session->userdata('nama_pengguna')) {
             $this->session->set_flashdata(
                 'info',
@@ -33,74 +33,88 @@ class Stok_awal_jadi extends CI_Controller
 
     public function index()
     {
-        $data['title'] = 'Stock Awal Barang Jadi';
-        $data['stok_barang'] = $this->Model_barang_jadi->getstok_awal();
+        $tanggal = $this->input->get('tanggal');
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+        $data['bulan_lap'] = $bulan;
+        $data['tahun_lap'] = $tahun;
+
+        if (!empty($tanggal)) {
+            $this->session->set_userdata('tanggal', $tanggal); // Simpan tanggal ke session jika diperlukan
+        }
+
+        $data['title'] = 'Daftar Rutin Karyawan PDAM';
+        $data['rutin'] = $this->Model_rutin_karyawan->get_all();
         if ($this->session->userdata('upk_bagian') == 'admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');
-            $this->load->view('barang_jadi/view_stok_awal_jadi', $data);
+            $this->load->view('barang_jadi/view_rutin_karyawan', $data);
             $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_jadi');
             $this->load->view('templates/pengguna/sidebar_jadi');
-            $this->load->view('barang_jadi/view_stok_awal_jadi', $data);
+            $this->load->view('barang_jadi/view_rutin_karyawan', $data);
             $this->load->view('templates/pengguna/footer_jadi');
         }
     }
 
-    public function upload()
+    public function tambah()
     {
-        $this->form_validation->set_rules('id_jenis_barang', 'Nama Barang Jadi', 'required|trim|is_unique[stok_awal_jadi.id_jenis_barang]');
-        $this->form_validation->set_rules('jumlah_stok_awal_jadi', 'Jumlah Stok Awal', 'required|trim');
-        $this->form_validation->set_rules('tanggal_stok_awal_jadi', 'Tanggal Stok Awal', 'required|trim');
+        $data['title'] = "Tambah Daftar Rutin Karyawan";
+
+        $this->form_validation->set_rules('id_bagian', 'Bagian', 'required|trim');
+        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
+        $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim');
+        $this->form_validation->set_rules('no_hp', 'No HP', 'required|trim|numeric');
+
         $this->form_validation->set_message('required', '%s masih kosong');
-        $this->form_validation->set_message('is_unique', '%s sudah terdaftar');
+        $this->form_validation->set_message('numeric', '%s harus di tulis angka');
+        // $this->form_validation->set_message('is_unique', '%s Sudah terdaftar, Ganti yang lain');
 
         if ($this->form_validation->run() == false) {
-            $data['title'] = 'Tambah Stok Awal Barang Jadi';
-            $data['nama_barang'] = $this->Model_barang_jadi->get_nama_barang();
+            $data['bagian'] = $this->db->get('bagian')->result();
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_jadi');
             $this->load->view('templates/pengguna/sidebar_jadi');
-            $this->load->view('barang_jadi/view_tambah_stok_awal', $data);
+            $this->load->view('barang_jadi/view_tambah_rutin_karyawan', $data);
             $this->load->view('templates/pengguna/footer_jadi');
         } else {
-
-            $data['id_jenis_barang'] = $this->input->post('id_jenis_barang', true);
-            $data['jumlah_stok_awal_jadi'] = $this->input->post('jumlah_stok_awal_jadi');
-            $data['tanggal_stok_awal_jadi'] = $this->input->post('tanggal_stok_awal_jadi');
-            $data['input_status_stok_awal_jadi'] = $this->session->userdata('nama_lengkap');
-
-            $this->Model_barang_jadi->upload('stok_awal_jadi', $data);
+            $data['user'] = $this->Model_rutin_karyawan->tambahData();
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-primary alert-dismissible fade show" role="alert">
-                        <strong>Sukses,</strong> Data Stok awal barang Jadi berhasil di simpan
+                        <strong>Sukses,</strong> Data rutin karyawan Baru berhasil di tambah
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                         </button>
-                    </div>'
+                      </div>'
             );
-            redirect('barang_jadi/stok_awal_jadi');
+            redirect('barang_jadi/rutin_karyawan');
         }
     }
 
-    public function edit($id_stok_awal_jadi)
+    public function edit($id_rutin)
     {
-        $data['title'] = "Form Edit Stok Awal Barang Jadi";
-        $data['edit_stok_awal'] = $this->db->get_where('stok_awal_jadi', ['id_stok_awal_jadi' => $id_stok_awal_jadi])->row();
-        $data['nama_barang'] = $this->Model_barang_jadi->get_nama_barang();
+        $data['title'] = "Form Edit Rutin Karyawan";
+        $data['edit_rutin'] = $this->db->get_where('rutin_pegawai', ['id_rutin' => $id_rutin])->row();
+        $data['bagian'] = $this->db->get('bagian')->result();
         $this->load->view('templates/pengguna/header', $data);
         $this->load->view('templates/pengguna/navbar_jadi');
         $this->load->view('templates/pengguna/sidebar_jadi');
-        $this->load->view('barang_jadi/view_edit_stok_awal', $data);
+        $this->load->view('barang_jadi/view_edit_rutin_karyawan', $data);
         $this->load->view('templates/pengguna/footer_jadi');
     }
 
     public function update()
     {
-        $this->Model_barang_jadi->update_stok_awal_jadi();
+        $this->Model_rutin_karyawan->updateData();
         if ($this->db->affected_rows() <= 0) {
             $this->session->set_flashdata(
                 'info',
@@ -110,17 +124,31 @@ class Stok_awal_jadi extends CI_Controller
                         </button>
                       </div>'
             );
-            redirect('barang_jadi/stok_awal_jadi');
+            redirect('barang_jadi/rutin_karyawan');
         } else {
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Sukses,</strong> Data stok awal barang jadi berhasil di update
+                        <strong>Sukses,</strong> Data Rutin Karyawan berhasil di update
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                         </button>
                       </div>'
             );
-            redirect('barang_jadi/stok_awal_jadi');
+            redirect('barang_jadi/rutin_karyawan');
         }
+    }
+
+    public function hapus($id_rutin)
+    {
+        $this->Model_rutin_karyawan->hapusData($id_rutin);
+        $this->session->set_flashdata(
+            'info',
+            '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Sukses,</strong> Data Rutin Karyawan berhasil di hapus
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                  </div>'
+        );
+        redirect('barang_jadi/rutin_karyawan');
     }
 }

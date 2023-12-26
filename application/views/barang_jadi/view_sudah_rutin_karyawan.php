@@ -4,27 +4,17 @@
             <div class="card">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('keuangan/laporan_rutin_karyawan'); ?>" method="get">
+                        <form action="<?= base_url('barang_jadi/ambil_rutin_karyawan/sudah_ambil'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
                                 <input type="date" name="tanggal" class="form-control">
                                 <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
                             </div>
                         </form>
                         <div class="navbar-nav ms-2">
-                            <a href="<?= base_url('keuangan/laporan_rutin_karyawan/exportpdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
-                        </div>
-                        <div class="navbar-nav ms-2">
-                            <a href="<?= base_url('keuangan/laporan_rutin_karyawan/input_terima_karyawan') ?>" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-rupiah-sign"></i> Input Penerimaan Karyawan</button></a>
+                            <a href="<?= base_url('barang_jadi/ambil_rutin_karyawan/exportpdf_sudah') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div>
                         <div class="navbar-nav ms-auto">
-                            <!-- <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
-                                <a href="<?= base_url('keuangan/laporan_rutin_karyawan/download'); ?>"><button class=" neumorphic-button float-end"><i class="fas fa-plus"></i> Download Daftar Rutin Karyawan</button></a>
-                            <?php endif; ?> -->
-                            <form action="<?= base_url('keuangan/laporan_rutin_karyawan/download'); ?>" method="post">
-                                <input type="hidden" name="tanggal" value="<?= date('Y-m-d'); ?>" />
-                                <button class="neumorphic-button float-end" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Klik Untuk Download Daftar Rutin Karyawan" id="ambil_data" type="submit" name="ambil_data"><i class="fas fa-fw fa-download"></i>
-                                    Download Daftar Rutin Karyawan</button>
-                            </form>
+                            <a href="<?= base_url('barang_jadi/ambil_rutin_karyawan') ?>" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-reply"></i> Kembali</button></a>
                         </div>
                     </nav>
 
@@ -77,6 +67,8 @@
                                     <th class="text-center">Botol 500</th>
                                     <th class="text-center">Botol 1500</th>
                                     <th class="text-center">Nominal</th>
+                                    <th class="text-center">Status</th>
+                                    <!-- <th class="text-center">Action</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -101,6 +93,10 @@
                                         <td class="text-center"><?= $row->btl500 == 0 ? '' : $row->btl500; ?></td>
                                         <td class="text-center"><?= $row->btl1500 == 0 ? '' : $row->btl1500; ?></td>
                                         <td class="text-end"><?= number_format($row->nominal, 0, ',', '.'); ?></td>
+                                        <td class="text-center"><?= $row->status == 0 ? '<span class="btn btn-danger btn-sm"style="font-size: 0.7rem;">Belum</span>' : '<span class="btn btn-primary btn-sm"style="font-size: 0.7rem;">Sudah</span>'; ?></td>
+                                        <!-- <td class="text-center">
+                                            <a href="<?= base_url('barang_jadi/ambil_rutin_karyawan/edit/') ?><?= $row->id_ambil_rutin ?>"><i class="fa-solid fa-dolly text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk ambil air karyawan"></i></a>
+                                        </td> -->
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -113,6 +109,7 @@
                                     <td class="text-center fw-bold"><?= $total_btl500; ?></td>
                                     <td class="text-center fw-bold"><?= $total_btl1500; ?></td>
                                     <td class="text-end fw-bold"><?= number_format($total_nominal, 0, ',', '.'); ?></td>
+                                    <td colspan="2"></td>
                                 </tr>
                             </tfoot>
                         </table>

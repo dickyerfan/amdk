@@ -9,14 +9,28 @@
                 <div class="p-2">
                     <?= $this->session->flashdata('info'); ?>
                     <?= $this->session->unset_userdata('info'); ?>
+                    Jumlah Galon Baru saat ini tanggal <?= date('d-m-Y') . ' : ' . $stok_galon_baru; ?> Galon <br>
+                    Jumlah Galon Kembali tanggal <?= date('d-m-Y'); ?> : <?= $jumlah_kembali; ?> Galon <br>
+                    <small class="text-danger">silakan tambah galon baru jika galon kembali tidak cukup untuk produksi</small>
                 </div>
                 <div class="card-body">
                     <form class="user" action="" method="POST">
                         <div class="row justify-content-center">
-                            <div class="col-md-4">
+                            <!-- ini kode untuk membuka tanggal yang dikunci selain hari ini -->
+                            <!-- <div class="col-md-4">
                                 <div class="form-group mb-2">
                                     <label for="tanggal_keluar_baku">Tanggal Keluar :</label>
                                     <input type="date" class="form-control" id="tanggal_keluar_baku" name="tanggal_keluar_baku" value="<?= set_value('tanggal_keluar_baku'); ?>">
+                                    <small class="form-text text-danger pl-3"><?= form_error('tanggal_keluar_baku'); ?></small>
+                                </div>
+                            </div> -->
+                            <div class="col-md-4">
+                                <div class="form-group mb-2">
+                                    <label for="tanggal_keluar_baku">Tanggal Keluar :</label>
+                                    <?php
+                                    $today = date('Y-m-d');
+                                    ?>
+                                    <input type="date" class="form-control" id="tanggal_keluar_baku" name="tanggal_keluar_baku" value="<?= set_value('tanggal_keluar_baku', $today); ?>" min="<?= $today; ?>" max="<?= $today; ?>">
                                     <small class="form-text text-danger pl-3"><?= form_error('tanggal_keluar_baku'); ?></small>
                                 </div>
                             </div>

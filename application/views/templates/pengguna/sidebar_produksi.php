@@ -37,7 +37,7 @@
                     </a>
                     <a class="nav-link" href="<?= base_url('barang_produksi/barang_jadi') ?>">
                         <div class="sb-nav-link-icon"><i class="fa-fw fas fa-tools"></i></div>
-                        <div style="font-size: 0.8rem;"> Proses Barang Jadi</div>
+                        <div style="font-size: 0.8rem;"> Produksi Barang Jadi</div>
                     </a>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#laporan" aria-expanded="false" aria-controls="laporan">
                         <div class="sb-nav-link-icon"><i class="fa-fw fa fa-file-invoice"></i></div>
@@ -47,8 +47,8 @@
                     <div class="collapse" id="laporan" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="<?= base_url('barang_produksi/laporan_produksi') ?>" style="font-size: 0.8rem;">Produksi Barang Jadi</a>
-                            <a class="nav-link" href="<?= base_url('barang_produksi/laporan_produksi/barang_baku') ?>" style="font-size: 0.8rem;">Barang baku</a>
-                            <a class="nav-link" href="<?= base_url('barang_produksi/laporan_produksi/barang_rusak') ?>" style="font-size: 0.8rem;">Barang Rusak</a>
+                            <!-- <a class="nav-link" href="<?= base_url('barang_produksi/laporan_produksi/barang_baku') ?>" style="font-size: 0.8rem;">Barang baku</a>
+                            <a class="nav-link" href="<?= base_url('barang_produksi/laporan_produksi/barang_rusak') ?>" style="font-size: 0.8rem;">Barang Rusak</a> -->
                         </nav>
                     </div>
                     <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#karyawan_produksi" aria-expanded="false" aria-controls="karyawan_produksi">

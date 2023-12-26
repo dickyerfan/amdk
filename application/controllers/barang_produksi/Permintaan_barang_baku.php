@@ -69,10 +69,11 @@ class Permintaan_barang_baku extends CI_Controller
     public function upload()
     {
         $this->form_validation->set_rules('id_barang_baku', 'Nama Barang', 'required|trim');
-        $this->form_validation->set_rules('jumlah_keluar', 'Jumlah Keluar', 'required|trim|numeric');
+        $this->form_validation->set_rules('jumlah_keluar', 'Jumlah Keluar', 'required|trim|numeric|greater_than[0]');
         $this->form_validation->set_rules('tanggal_keluar', 'Tanggal Keluar', 'required|trim');
         $this->form_validation->set_message('required', '%s masih kosong');
         $this->form_validation->set_message('numeric', '%s harus berupa angka');
+        $this->form_validation->set_message('greater_than', '%s harus lebih besar dari 0');
 
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Transaksi Barang Baku';

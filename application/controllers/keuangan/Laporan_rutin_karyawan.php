@@ -68,6 +68,65 @@ class Laporan_rutin_karyawan extends CI_Controller
         }
     }
 
+    public function input_terima_karyawan()
+    {
+        $tanggal = $this->session->userdata('tanggal');
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+
+        $data['bulan_lap'] = $bulan;
+        $data['tahun_lap'] = $tahun;
+        $data['title'] = 'Input Penerimaaan Rutin Karyawan';
+        $data['rutin'] = $this->Model_lap_rutin_karyawan->get_all($bulan, $tahun);
+
+        $this->load->view('templates/pengguna/header', $data);
+        $this->load->view('templates/pengguna/navbar_uang');
+        $this->load->view('templates/pengguna/sidebar_uang');
+        $this->load->view('keuangan/view_input_terima_rutin_karyawan', $data);
+        $this->load->view('templates/pengguna/footer_uang');
+    }
+
+    public function setor()
+    {
+        $tanggal = $this->session->userdata('tanggal');
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+
+        $total_galon = $total_gelas = $total_btl330 = $total_btl500 = $total_btl1500 = 0;
+        $rutin = $this->Model_lap_rutin_karyawan->get_all($bulan, $tahun);
+        foreach ($rutin as $row) {
+            $total_galon += $row->galon;
+            $total_gelas += $row->gelas;
+            $total_btl330 += $row->btl330;
+            $total_btl500 += $row->btl500;
+            $total_btl1500 += $row->btl1500;
+        };
+
+        $total_galon = $total_galon;
+        $total_gelas = $row->gelas;
+        $total_btl330 = $row->btl330;
+        $total_btl500 = $row->btl500;
+        $total_btl1500 = $row->btl1500;
+
+        $rupiah_galon = $total_galon * 11000;
+        $rupiah_gelas = $row->gelas * 15000;
+        $rupiah_btl330 = $row->btl330 * 33000;
+        $rupiah_btl500 = $row->btl500 * 35000;
+        $rupiah_btl1500 = $row->btl1500 * 38000;
+    }
+
     public function exportpdf()
     {
         $tanggal = $this->session->userdata('tanggal');

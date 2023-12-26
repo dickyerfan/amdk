@@ -65,10 +65,11 @@ class Bon_barang_baku extends CI_Controller
     public function upload()
     {
         $this->form_validation->set_rules('id_barang_baku', 'Nama Barang', 'required|trim');
-        $this->form_validation->set_rules('jumlah_keluar', 'Jumlah Keluar', 'required|trim|numeric');
+        $this->form_validation->set_rules('jumlah_keluar', 'Jumlah Keluar', 'required|trim|numeric|greater_than[0]');
         $this->form_validation->set_rules('tanggal_keluar', 'Tanggal Keluar', 'required|trim');
         $this->form_validation->set_message('required', '%s masih kosong');
         $this->form_validation->set_message('numeric', '%s harus berupa angka');
+        $this->form_validation->set_message('greater_than', '%s harus lebih besar dari 0');
 
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Transaksi Barang Baku';
@@ -135,7 +136,7 @@ class Bon_barang_baku extends CI_Controller
                     $this->session->set_flashdata(
                         'info',
                         '<div class="alert alert-primary alert-dismissible fade show" role="alert">
-                            <strong>Sukses,</strong> Permintaan barang baku berhasil di simpan
+                            <strong>Sukses,</strong> Permintaan barang baku berhasil dikirimkan
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                             </button>
                         </div>'
@@ -152,7 +153,7 @@ class Bon_barang_baku extends CI_Controller
                 $this->session->set_flashdata(
                     'info',
                     '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Gagal,</strong> Silakan masukkan file foto barang rusak
+                        <strong>Gagal,</strong> Silakan masukkan file permintaan barang
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                         </button>
                     </div>'
@@ -185,6 +186,32 @@ class Bon_barang_baku extends CI_Controller
         ];
         $this->db->where('bagian', 'jadi');
         $this->db->update('keluar_baku', $data);
+        redirect('barang_jadi/bon_barang_baku');
+    }
+
+    public function edit($id_barang_baku_jadi)
+    {
+        $data['title'] = "Form ambil kardus";
+        $data['edit_baku_jadi'] = $this->db->get_where('barang_baku_jadi', ['id_barang_baku_jadi' => $id_barang_baku_jadi])->row();
+        $data['nama_barang'] = $this->Model_barang_jadi->get_nama_barang_baku();
+        $this->load->view('templates/pengguna/header', $data);
+        $this->load->view('templates/pengguna/navbar_jadi');
+        $this->load->view('templates/pengguna/sidebar_jadi');
+        $this->load->view('barang_jadi/view_edit_barang_baku', $data);
+        $this->load->view('templates/pengguna/footer_jadi');
+    }
+
+    public function update()
+    {
+        $this->Model_barang_jadi->update_baku_jadi();
+        $this->session->set_flashdata(
+            'info',
+            '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Sukses,</strong> barang baku kardus berhasil diambil
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        </button>
+                      </div>'
+        );
         redirect('barang_jadi/bon_barang_baku');
     }
 }

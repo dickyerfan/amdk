@@ -218,7 +218,7 @@ class Model_laporan extends CI_Model
         $this->db->select('jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_bayar, SUM(pemesanan.total_harga) as total_harga');
         $this->db->from('pemesanan');
         $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
-        $this->db->where('status_bayar', 1);
+        $this->db->where('status_setor', 1);
         $this->db->group_by('jenis_produk.id_produk, jenis_produk.nama_produk, pemesanan.id_jenis_barang, pemesanan.tanggal_bayar');
         $this->db->order_by('pemesanan.tanggal_bayar', 'asc');
         return $this->db->get()->result();

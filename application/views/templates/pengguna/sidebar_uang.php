@@ -24,7 +24,7 @@
                             <a class="nav-link" href="<?= base_url('keuangan/ban_ops') ?>" style="font-size: 0.8rem;">Bantuan / Operasional</a>
                         </nav>
                     </div>
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#rutin" aria-expanded="false" aria-controls="rutin">
+                    <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#rutin" aria-expanded="false" aria-controls="rutin">
                         <div class="sb-nav-link-icon"><i class="fa-fw fa fa-user"></i></div>
                         <div style="font-size: 0.8rem;"> Daftar Rutin Karyawan</div>
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -33,9 +33,8 @@
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="<?= base_url('keuangan/rutin_karyawan') ?>" style="font-size: 0.8rem;">Daftar Rutin Karyawan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/ambil_rutin_karyawan') ?>" style="font-size: 0.8rem;">Ambil Rutin Karyawan</a>
-                            <!-- <a class="nav-link" href="<?= base_url('keuangan/laporan_rutin_karyawan') ?>" style="font-size: 0.8rem;">Laporan Rutin Karyawan</a> -->
                         </nav>
-                    </div>
+                    </div> -->
 
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#karyawan_produksi" aria-expanded="false" aria-controls="karyawan_produksi">
                         <div class="sb-nav-link-icon"><i class="fa-fw fas fa-users"></i></div>

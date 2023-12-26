@@ -45,6 +45,18 @@ class Model_barang_jadi extends CI_Model
         $this->db->from('jenis_barang');
         return $this->db->get()->result();
     }
+
+    public function update_stok_awal_jadi()
+    {
+
+        $data = [
+            'id_jenis_barang' => $this->input->post('id_jenis_barang', true),
+            'jumlah_stok_awal_jadi' => $this->input->post('jumlah_stok_awal_jadi', true)
+        ];
+
+        $this->db->where('id_stok_awal_jadi', $this->input->post('id_stok_awal_jadi'));
+        $this->db->update('stok_awal_jadi', $data);
+    }
     //akhir upload stok awal
 
     //awal barang_masuk
@@ -132,29 +144,64 @@ class Model_barang_jadi extends CI_Model
         $this->db->update($table, $data);
     }
 
-    // awal bon barang baku
-    public function getbarang_baku($bulan, $tahun)
-    {
-        $this->db->select('keluar_baku.*, barang_baku.nama_barang_baku');
-        $this->db->from('keluar_baku');
-        $this->db->join('barang_baku', 'keluar_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
-        $this->db->where('keluar_baku.status_tolak', 1);
-        $this->db->where('keluar_baku.bagian', 'jadi');
-        $this->db->where('MONTH(keluar_baku.tanggal_keluar)', $bulan);
-        $this->db->where('YEAR(keluar_baku.tanggal_keluar)', $tahun);
-        // $this->db->group_by('keluar_baku.id_keluar_baku');
-        $this->db->order_by('keluar_baku.tanggal_keluar', 'DESC');
-        $this->db->order_by('keluar_baku.id_keluar_baku', 'DESC');
-        return $this->db->get()->result();
-    }
+
 
     public function get_nama_barang_baku()
     {
         $this->db->select('*');
         $this->db->from('barang_baku');
+        $this->db->where('id_barang_baku', 6);
+        $this->db->or_where_in('id_barang_baku', 8);
+        $this->db->or_where_in('id_barang_baku', 9);
+        $this->db->or_where_in('id_barang_baku', 10);
+        $this->db->or_where_in('id_barang_baku', 11);
+        $this->db->or_where_in('id_barang_baku', 12);
+        $this->db->or_where_in('id_barang_baku', 13);
+
         return $this->db->get()->result();
     }
     //akhir barang rusak
+
+    // awal bon barang baku
+    public function getbarang_baku($bulan, $tahun)
+    {
+        $this->db->select('barang_baku_jadi.*, barang_baku.nama_barang_baku');
+        $this->db->from('barang_baku_jadi');
+        $this->db->join('barang_baku', 'barang_baku_jadi.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->where('MONTH(barang_baku_jadi.tanggal_order)', $bulan);
+        $this->db->where('YEAR(barang_baku_jadi.tanggal_order)', $tahun);
+        $this->db->order_by('barang_baku_jadi.tanggal_order', 'DESC');
+        $this->db->order_by('barang_baku_jadi.id_barang_baku_jadi', 'DESC');
+        return $this->db->get()->result();
+    }
+
+    public function update_baku_jadi()
+    {
+        $data = [
+            'jumlah_keluar' => $this->input->post('jumlah_keluar', true)
+        ];
+
+        $this->db->where('id_barang_baku_jadi', $this->input->post('id_barang_baku_jadi'));
+        $this->db->update('barang_baku_jadi', $data);
+    }
+
+
+    // public function getbarang_baku($bulan, $tahun)
+    // {
+    //     $this->db->select('keluar_baku.*, barang_baku.nama_barang_baku');
+    //     $this->db->from('keluar_baku');
+    //     $this->db->join('barang_baku', 'keluar_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
+    //     $this->db->where('keluar_baku.status_tolak', 1);
+    //     $this->db->where('keluar_baku.bagian', 'jadi');
+    //     $this->db->where('MONTH(keluar_baku.tanggal_keluar)', $bulan);
+    //     $this->db->where('YEAR(keluar_baku.tanggal_keluar)', $tahun);
+    //     $this->db->order_by('keluar_baku.tanggal_keluar', 'DESC');
+    //     $this->db->order_by('keluar_baku.id_keluar_baku', 'DESC');
+    //     return $this->db->get()->result();
+    // }
+
+
+
 
     public function terima_barang($data_terima_barang, $id_keluar_jadi)
     {

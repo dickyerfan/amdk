@@ -13,10 +13,21 @@
                 <div class="card-body">
                     <form class="user" action="" method="POST">
                         <div class="row justify-content-center">
-                            <div class="col-md-4">
+                            <!-- ini kode untuk membuka tanggal yang terkunci selain hari ini -->
+                            <!-- <div class="col-md-4">
                                 <div class="form-group mb-2">
                                     <label for="tanggal_barang_jadi">Tanggal Barang Jadi :</label>
                                     <input type="date" class="form-control" id="tanggal_barang_jadi" name="tanggal_barang_jadi" value="<?= set_value('tanggal_barang_jadi'); ?>">
+                                    <small class="form-text text-danger pl-3"><?= form_error('tanggal_barang_jadi'); ?></small>
+                                </div>
+                            </div> -->
+                            <div class="col-md-4">
+                                <div class="form-group mb-2">
+                                    <label for="tanggal_barang_jadi">Tanggal Barang Jadi :</label>
+                                    <?php
+                                    $today = date('Y-m-d');
+                                    ?>
+                                    <input type="date" class="form-control" id="tanggal_barang_jadi" name="tanggal_barang_jadi" value="<?= set_value('tanggal_barang_jadi', $today); ?>" min="<?= $today; ?>" max="<?= $today; ?>">
                                     <small class="form-text text-danger pl-3"><?= form_error('tanggal_barang_jadi'); ?></small>
                                 </div>
                             </div>

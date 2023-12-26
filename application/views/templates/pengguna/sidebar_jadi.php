@@ -12,18 +12,6 @@
                         <div style="font-size: 0.8rem;"> Dashboard</div>
                     </a>
 
-                    <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#baku" aria-expanded="false" aria-controls="baku">
-                        <div class="sb-nav-link-icon"><i class="fa-fw fa fa-warehouse"></i></div>
-                        <div style="font-size: 0.8rem;"> Barang Baku</div>
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="baku" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="<?= base_url('barang_baku/stok_barang_baku') ?>" style="font-size: 0.8rem;">Stok Barang Baku</a>
-                            <a class="nav-link" href="<?= base_url('barang_baku/stok_awal') ?>" style="font-size: 0.8rem;">Data Stok Awal</a>
-                            <a class="nav-link" href="<?= base_url('jenis_barang') ?>" style="font-size: 0.8rem;">Jenis Barang</a>
-                        </nav>
-                    </div> -->
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#transaksi" aria-expanded="false" aria-controls="transaksi">
                         <div class="sb-nav-link-icon"><i class="fa-fw fa fa-cart-shopping"></i></div>
                         <div style="font-size: 0.8rem;"> Transaksi</div>
@@ -39,7 +27,17 @@
                             <a class="nav-link" href="<?= base_url('barang_jadi/bon_barang_baku') ?>" style="font-size: 0.8rem;">Bon Barang Baku</a>
                         </nav>
                     </div>
-
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#rutin" aria-expanded="false" aria-controls="rutin">
+                        <div class="sb-nav-link-icon"><i class="fa-fw fa fa-user"></i></div>
+                        <div style="font-size: 0.8rem;">Rutin Karyawan</div>
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="rutin" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="<?= base_url('barang_jadi/rutin_karyawan') ?>" style="font-size: 0.8rem;">Daftar Rutin Karyawan</a>
+                            <a class="nav-link" href="<?= base_url('barang_jadi/ambil_rutin_karyawan') ?>" style="font-size: 0.8rem;">Ambil Rutin Karyawan</a>
+                        </nav>
+                    </div>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#laporan" aria-expanded="false" aria-controls="laporan">
                         <div class="sb-nav-link-icon"><i class="fa-fw fa fa-file-invoice"></i></div>
                         <div style="font-size: 0.8rem;"> Laporan</div>

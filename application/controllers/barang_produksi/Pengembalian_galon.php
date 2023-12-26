@@ -65,11 +65,12 @@ class Pengembalian_galon extends CI_Controller
 
     public function upload()
     {
-        $this->form_validation->set_rules('jumlah_kembali', 'Jumlah Kembali', 'required|trim|numeric');
-        $this->form_validation->set_rules('tanggal_kembali', 'Tanggal Kembali', 'required|trim|is_unique[galon_kembali.tanggal_kembali]');
+        $this->form_validation->set_rules('jumlah_kembali', 'Jumlah Kembali', 'required|trim|numeric|greater_than[0]');
+        $this->form_validation->set_rules('tanggal_kembali', 'Hari ini', 'required|trim|is_unique[galon_kembali.tanggal_kembali]');
         $this->form_validation->set_message('required', '%s masih kosong');
         $this->form_validation->set_message('numeric', '%s harus berupa angka');
-        $this->form_validation->set_message('is_unique', '%s sudah ada');
+        $this->form_validation->set_message('is_unique', '%s sudah dilakukan input galon kembali');
+        $this->form_validation->set_message('greater_than', '%s harus lebih besar dari 0');
 
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Form Pengembalian Galon';
@@ -99,6 +100,48 @@ class Pengembalian_galon extends CI_Controller
                 'info',
                 '<div class="alert alert-primary alert-dismissible fade show" role="alert">
                             <strong>Sukses,</strong> Pengembalian galon baru berhasil di simpan
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            </button>
+                        </div>'
+            );
+            redirect('barang_produksi/pengembalian_galon');
+        }
+    }
+
+    public function galon_rusak()
+    {
+        $this->form_validation->set_rules('jumlah_rusak', 'Jumlah Rusak', 'required|trim|numeric');
+        $this->form_validation->set_rules('tanggal_kembali', 'Tanggal Kembali', 'required|trim');
+        $this->form_validation->set_message('required', '%s masih kosong');
+        $this->form_validation->set_message('numeric', '%s harus berupa angka');
+
+        if ($this->form_validation->run() == false) {
+            $data['title'] = 'Form Galon Kembali Rusak';
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_produksi');
+            $this->load->view('templates/pengguna/sidebar_produksi');
+            $this->load->view('barang_produksi/view_tambah_galon_rusak', $data);
+            $this->load->view('templates/pengguna/footer_produksi');
+        } else {
+
+            $tanggal_rusak = $this->input->post('tanggal_kembali', true);
+            $data['jumlah_rusak'] = $this->input->post('jumlah_rusak', true);
+
+            // Ambil data jumlah_kembali dari tabel galon_kembali berdasarkan tanggal_rusak
+            $this->db->where('tanggal_kembali', $tanggal_rusak);
+            $query = $this->db->get('galon_kembali');
+            $result = $query->row();
+
+            // Hitung jumlah_akhir
+            $data['jumlah_akhir'] = $result->jumlah_kembali - $data['jumlah_rusak'];
+
+            $this->db->where('tanggal_kembali', $tanggal_rusak);
+            $this->db->update('galon_kembali', $data);
+
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+                            <strong>Sukses,</strong> galon kembali yang rusak berhasil di simpan
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                             </button>
                         </div>'

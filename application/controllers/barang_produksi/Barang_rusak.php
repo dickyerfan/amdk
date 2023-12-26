@@ -66,11 +66,12 @@ class Barang_rusak extends CI_Controller
     public function upload()
     {
         $this->form_validation->set_rules('id_barang_baku', 'Nama Barang Baku', 'required|trim');
-        $this->form_validation->set_rules('jumlah_rusak_produksi', 'Jumlah Rusak', 'required|trim|numeric');
+        $this->form_validation->set_rules('jumlah_rusak_produksi', 'Jumlah Rusak', 'required|trim|numeric|greater_than[0]');
         $this->form_validation->set_rules('tanggal_rusak_produksi', 'Tanggal Rusak', 'required|trim');
         $this->form_validation->set_rules('jenis_rusak_produksi', 'Jenis Rusak', 'required|trim');
         $this->form_validation->set_message('required', '%s masih kosong');
         $this->form_validation->set_message('numeric', '%s harus berupa angka');
+        $this->form_validation->set_message('greater_than', '%s harus lebih besar dari 0');
 
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Transaksi Barang Rusak';
