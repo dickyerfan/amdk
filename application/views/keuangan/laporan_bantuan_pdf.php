@@ -151,7 +151,7 @@
                                 echo 'No Air';
                                 break;
                             default:
-                                echo $jenis;
+                                echo $jenis->nama_barang_jadi;
                                 break;
                         }
                         ?>
