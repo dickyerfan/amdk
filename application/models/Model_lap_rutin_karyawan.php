@@ -28,4 +28,45 @@ class Model_lap_rutin_karyawan extends CI_Model
         $this->db->from('jenis_barang');
         return $this->db->get()->result();
     }
+
+    public function insert_pemesanan($id_jenis_barang, $id_pelanggan, $tanggal_pesan, $jenis_pesanan, $jumlah_pesan, $harga_barang, $total_harga, $tanggal_bayar, $nota_setor, $tanggal_setor, $status_setor, $input_setor, $status_nota, $status_piutang, $status_bayar)
+    {
+        $data = array(
+            'id_jenis_barang' => $id_jenis_barang,
+            'id_pelanggan' => $id_pelanggan,
+            'tanggal_pesan' => $tanggal_pesan,
+            'jenis_pesanan' => $jenis_pesanan,
+            'jumlah_pesan' => $jumlah_pesan,
+            'harga_barang' => $harga_barang,
+            'total_harga' => $total_harga,
+            'tanggal_bayar' => $tanggal_bayar,
+            'nota_setor' => $nota_setor,
+            'tanggal_setor' => $tanggal_setor,
+            'status_setor' => $status_setor,
+            'input_setor' => $input_setor,
+            'status_nota' => $status_nota,
+            'status_piutang' => $status_piutang,
+            'status_bayar' => $status_bayar
+        );
+
+        $this->db->insert('pemesanan', $data);
+    }
+
+
+    public function get_pemesanan_karyawan($bulan, $tahun)
+    {
+        $this->db->select(
+            '*,
+        (SELECT SUM(total_harga) FROM pemesanan WHERE MONTH(pemesanan.tanggal_bayar) = "' . $bulan . '" AND YEAR(pemesanan.tanggal_bayar) = "' . $tahun . '" AND jenis_pesanan = 3 AND pemesanan.status_bayar = 1) AS total_penerimaan'
+        );
+        $this->db->from('pemesanan');
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang', 'left');
+        $this->db->join('pelanggan', 'pelanggan.id_pelanggan = pemesanan.id_pelanggan', 'left');
+        $this->db->where('MONTH(pemesanan.tanggal_bayar)', $bulan);
+        $this->db->where('YEAR(pemesanan.tanggal_bayar)', $tahun);
+        $this->db->where('jenis_pesanan', 3);
+        $this->db->where('status_bayar', 1);
+        $this->db->order_by('pemesanan.id_pemesanan', 'DESC');
+        return  $this->db->get()->result();
+    }
 }

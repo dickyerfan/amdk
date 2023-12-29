@@ -181,7 +181,7 @@
                                 <div class="card-header text-center">
                                     <table class="table table-borderless table-sm">
                                         <tr>
-                                            <td>Total </td>
+                                            <td class="text-start">Total Harus Disetor </td>
                                             <td>
                                                 Rp.
                                             </td>
@@ -192,9 +192,30 @@
                             </div>
                             <div class="card mb-1">
                                 <div class="card-header text-center">
-                                    <button class="btn btn-block">
-                                        <a href="<?= base_url('keuangan/laporan_rutin_karyawan/setor') ?>" style="text-decoration: none; font-size:1.5rem;">SETOR</a>
-                                    </button>
+                                    <table class="table table-borderless table-sm">
+                                        <tr>
+                                            <td class="text-start">Total Penerimaan</td>
+                                            <td>
+                                                Rp.
+                                            </td>
+                                            <?php if (!empty($pesan_karyawan) && isset($pesan_karyawan[0]->total_penerimaan)) : ?>
+                                                <td class="text-end"><?= number_format($pesan_karyawan[0]->total_penerimaan, 0, ',', '.'); ?></td>
+                                            <?php else : ?>
+                                                <td class="text-end">Data tidak tersedia</td>
+                                            <?php endif; ?>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card mb-1">
+                                <div class="card-header text-center">
+                                    <form action="<?= base_url('keuangan/laporan_rutin_karyawan/setor') ?>" method="post" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="nota_setor">Nota Setor (Upload Nota):</label>
+                                            <input type="file" class="form-control" name="nota_setor">
+                                        </div>
+                                        <button type="submit" class="btn btn-secondary btn-sm mt-2">Setor Rutin Karyawan</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

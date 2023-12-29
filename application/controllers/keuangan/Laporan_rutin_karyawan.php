@@ -84,6 +84,7 @@ class Laporan_rutin_karyawan extends CI_Controller
         $data['tahun_lap'] = $tahun;
         $data['title'] = 'Input Penerimaaan Rutin Karyawan';
         $data['rutin'] = $this->Model_lap_rutin_karyawan->get_all($bulan, $tahun);
+        $data['pesan_karyawan'] = $this->Model_lap_rutin_karyawan->get_pemesanan_karyawan($bulan, $tahun);
 
         $this->load->view('templates/pengguna/header', $data);
         $this->load->view('templates/pengguna/navbar_uang');
@@ -103,28 +104,90 @@ class Laporan_rutin_karyawan extends CI_Controller
             $bulan = date('m');
             $tahun = date('Y');
         }
-
-        $total_galon = $total_gelas = $total_btl330 = $total_btl500 = $total_btl1500 = 0;
+        $total_pesanan = $this->Model_lap_rutin_karyawan->get_pemesanan_karyawan($bulan, $tahun)[0]->total_penerimaan;
         $rutin = $this->Model_lap_rutin_karyawan->get_all($bulan, $tahun);
+        $total_galon = $total_gelas = $total_btl330 = $total_btl500 = $total_btl1500 = $total_nominal = 0;
         foreach ($rutin as $row) {
             $total_galon += $row->galon;
             $total_gelas += $row->gelas;
             $total_btl330 += $row->btl330;
             $total_btl500 += $row->btl500;
             $total_btl1500 += $row->btl1500;
+            $total_nominal += $row->nominal;
         };
 
-        $total_galon = $total_galon;
-        $total_gelas = $row->gelas;
-        $total_btl330 = $row->btl330;
-        $total_btl500 = $row->btl500;
-        $total_btl1500 = $row->btl1500;
+        $input_setor = $this->session->userdata('nama_lengkap');
+
+        $galon = $total_galon;
+        $gelas = $total_gelas;
+        $btl330 = $total_btl330;
+        $btl500 = $total_btl500;
+        $btl1500 = $total_btl1500;
+        $nominal = $total_nominal;
 
         $rupiah_galon = $total_galon * 11000;
-        $rupiah_gelas = $row->gelas * 15000;
-        $rupiah_btl330 = $row->btl330 * 33000;
-        $rupiah_btl500 = $row->btl500 * 35000;
-        $rupiah_btl1500 = $row->btl1500 * 38000;
+        $rupiah_gelas = $total_gelas * 15000;
+        $rupiah_btl330 = $total_btl330 * 33000;
+        $rupiah_btl500 = $total_btl500 * 35000;
+        $rupiah_btl1500 = $total_btl1500 * 38000;
+
+        if ($total_pesanan == $nominal) {
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Maaf,</strong> Total penerimaan sudah disetor. Anda tidak dapat melakukan setoran lagi
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        </button>
+                      </div>'
+            );
+            redirect('keuangan/laporan_rutin_karyawan');
+        }
+
+        if (!empty($_FILES['nota_setor']['name'])) {
+            $config['upload_path']   = './uploads/uang/nota/';
+            $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+            $config['max_size']      = 1024;
+            $config['overwrite']     = true;
+
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload('nota_setor')) {
+
+                $upload_data = $this->upload->data();
+                $nota_setor = $upload_data['file_name'];
+
+                $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 695, $tanggal, 3, $galon, 11000, $rupiah_galon, $tanggal, $nota_setor, $tanggal, 1, $input_setor, 1, 0, 1);
+                $this->Model_lap_rutin_karyawan->insert_pemesanan(2, 695, $tanggal, 3, $gelas, 15000, $rupiah_gelas, $tanggal, $nota_setor, $tanggal, 1, $input_setor, 1, 0, 1);
+                $this->Model_lap_rutin_karyawan->insert_pemesanan(8, 695, $tanggal, 3, $btl330, 33000, $rupiah_btl330, $tanggal, $nota_setor, $tanggal, 1, $input_setor, 1, 0, 1);
+                $this->Model_lap_rutin_karyawan->insert_pemesanan(9, 695, $tanggal, 3, $btl500, 35000, $rupiah_btl500, $tanggal, $nota_setor, $tanggal, 1, $input_setor, 1, 0, 1);
+                $this->Model_lap_rutin_karyawan->insert_pemesanan(11, 695, $tanggal, 3, $btl1500, 38000, $rupiah_btl1500, $tanggal, $nota_setor, $tanggal, 1, $input_setor, 1, 0, 1);
+
+                $this->session->set_flashdata(
+                    'info',
+                    '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+                            <strong>Sukses,</strong> Data Pesanan Rutin karyawan berhasil di setor
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            </button>
+                          </div>'
+                );
+                redirect('keuangan/laporan_rutin_karyawan');
+            } else {
+                // Jika proses upload gagal
+                $error_msg = $this->upload->display_errors();
+                $this->session->set_flashdata('info', $error_msg);
+                redirect('barang_produksi/barang_rusak');
+            }
+        } else {
+            // Tampilkan pesan kesalahan jika tidak ada file yang diunggah
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Gagal,</strong> Silakan masukkan file Nota Setor Bank
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                </div>'
+            );
+            redirect('keuangan/laporan_rutin_karyawan');
+        }
     }
 
     public function exportpdf()

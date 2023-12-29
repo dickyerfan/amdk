@@ -20,7 +20,9 @@
                     <div class="collapse" id="transaksi" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="<?= base_url('keuangan/pelanggan') ?>" style="font-size: 0.8rem;">Daftar Pelanggan</a>
-                            <a class="nav-link" href="<?= base_url('keuangan/penjualan') ?>" style="font-size: 0.8rem;">Penjualan</a>
+                            <a class="nav-link" href="<?= base_url('keuangan/penjualan') ?>" style="font-size: 0.8rem;">Daftar Penjualan</a>
+                            <a class="nav-link" href="<?= base_url('keuangan/penerimaan') ?>" style="font-size: 0.8rem;">Daftar Penerimaan</a>
+                            <a class="nav-link" href="<?= base_url('keuangan/piutang') ?>" style="font-size: 0.8rem;">Daftar Piutang</a>
                             <a class="nav-link" href="<?= base_url('keuangan/ban_ops') ?>" style="font-size: 0.8rem;">Bantuan / Operasional</a>
                         </nav>
                     </div>
@@ -52,14 +54,14 @@
                         <div class="sb-nav-link-icon"><i class="fa-fw fas fa-truck"></i></div>
                         <div style="font-size: 0.8rem;"> Pengambilan Air</div>
                     </a>
-                    <a class="nav-link" href="<?= base_url('keuangan/penerimaan') ?>">
+                    <!-- <a class="nav-link" href="<?= base_url('keuangan/penerimaan') ?>">
                         <div class="sb-nav-link-icon"><i class="fa-fw fas fa-sack-dollar"></i></div>
                         <div style="font-size: 0.8rem;"> Daftar Penerimaan</div>
-                    </a>
-                    <a class="nav-link" href="<?= base_url('keuangan/piutang') ?>">
+                    </a> -->
+                    <!-- <a class="nav-link" href="<?= base_url('keuangan/piutang') ?>">
                         <div class="sb-nav-link-icon"><i class="fa-fw fas fa-comments-dollar"></i></div>
                         <div style="font-size: 0.8rem;"> Daftar Piutang</div>
-                    </a>
+                    </a> -->
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#laporan" aria-expanded="false" aria-controls="laporan">
                         <div class="sb-nav-link-icon"><i class="fa-fw fa fa-file-invoice"></i></div>
                         <div style="font-size: 0.8rem;"> Laporan</div>
