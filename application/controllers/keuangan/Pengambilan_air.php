@@ -48,7 +48,7 @@ class Pengambilan_air extends CI_Controller
 
         $data['title'] = 'Daftar Pengambilan Air Baku';
         $data['ambil_air'] = $this->Model_ambil_air->get_ambil_air($bulan, $tahun);
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');

@@ -51,7 +51,7 @@ class Ban_ops extends CI_Controller
 
         $data['title'] = 'Daftar Bantuan / Operasional AMDK';
         $data['ban_ops'] = $this->Model_ban_ops->get_ban_ops($bulan, $tahun);
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');

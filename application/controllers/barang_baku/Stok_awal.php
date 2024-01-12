@@ -85,4 +85,41 @@ class Stok_awal extends CI_Controller
             redirect('barang_baku/stok_awal');
         }
     }
+
+    public function edit($id_stok_awal_baku)
+    {
+        $data['title'] = "Form Edit Stok Awal Baku";
+        $data['edit_stok'] = $this->Model_barang_baku->get_id_stok_awal($id_stok_awal_baku);
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar');
+        $this->load->view('templates/sidebar');
+        $this->load->view('manager/barang_baku/view_edit_stok_awal_baku', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function update()
+    {
+        $this->Model_barang_baku->update_stok();
+        if ($this->db->affected_rows() <= 0) {
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Maaf,</strong> tidak ada perubahan data
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        </button>
+                      </div>'
+            );
+            redirect('barang_baku/stok_awal');
+        } else {
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Sukses,</strong> Stok Barang Baku berhasil di update
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        </button>
+                      </div>'
+            );
+            redirect('barang_baku/stok_awal');
+        }
+    }
 }

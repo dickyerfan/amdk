@@ -51,7 +51,7 @@ class Rutin_karyawan extends CI_Controller
 
         $data['title'] = 'Daftar Rutin Karyawan PDAM';
         $data['rutin'] = $this->Model_rutin_karyawan->get_all();
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');

@@ -47,7 +47,7 @@ class Pengembalian_galon extends CI_Controller
         $data['tahun_lap'] = $tahun;
         $data['title'] = 'Pengembalian Galon 19 liter';
         $data['galon'] = $this->Model_barang_produksi->get_galon($bulan, $tahun);
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');

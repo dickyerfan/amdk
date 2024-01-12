@@ -51,7 +51,7 @@ class Penjualan extends CI_Controller
         }
         $data['title'] = 'Daftar Penjualan Barang';
         $data['pesan'] = $this->Model_penjualan->get_all($bulan, $tahun);
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');

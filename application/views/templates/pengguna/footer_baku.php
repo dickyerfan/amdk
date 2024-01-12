@@ -124,6 +124,7 @@
                         '<td class="text-center">' + no++ + '</td>' +
                         '<td class="text-center">' + data[i].tanggal_keluar + '</td>' +
                         '<td>' + data[i].kode_barang + '</td>' +
+                        '<td class="text-center">' + data[i].no_nota.toUpperCase() + '</td>' +
                         '<td>' + data[i].nama_barang_baku + '</td>' +
                         '<td class="text-end">' + jumlahKeluarDiformat + '</td>' +
                         '<td>' + data[i].input_status_keluar + '</td>' +

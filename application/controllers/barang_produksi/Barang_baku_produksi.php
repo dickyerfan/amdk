@@ -35,7 +35,7 @@ class Barang_baku_produksi extends CI_Controller
     {
         $data['title'] = 'Stock Barang Baku Produksi';
         $data['stok_barangbaku_produksi'] = $this->Model_barang_produksi->get_barangbaku_produksi();
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');

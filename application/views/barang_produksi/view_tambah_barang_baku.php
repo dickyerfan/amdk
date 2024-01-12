@@ -15,31 +15,9 @@
                         <div class="row justify-content-center mb-3">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="id_barang_baku">Nama Barang Baku :</label>
-                                    <select name="id_barang_baku" id="id_barang_baku" class="form-select">
-                                        <option value="">Pilih Barang</option>
-                                        <?php foreach ($nama_barang as $row) : ?>
-                                            <option value="<?= $row->id_barang_baku ?>"><?= $row->nama_barang_baku ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <!-- <input type="text" class="form-control" id="nama_barang_baku" name="nama_barang_baku" value="<?= set_value('nama_barang_baku'); ?>"> -->
-                                    <small class="form-text text-danger pl-3"><?= form_error('id_barang_baku'); ?></small>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
                                     <label for="tanggal_keluar">Tanggal Keluar :</label>
                                     <input type="date" class="form-control" id="tanggal_keluar" name="tanggal_keluar" value="<?= set_value('tanggal_keluar'); ?>">
                                     <small class="form-text text-danger pl-3"><?= form_error('tanggal_keluar'); ?></small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row justify-content-center mb-3">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="jumlah_keluar">Jumlah Barang :</label>
-                                    <input type="text" class="form-control" id="jumlah_keluar" name="jumlah_keluar" value="<?= set_value('jumlah_keluar'); ?>">
-                                    <small class="form-text text-danger pl-3"><?= form_error('jumlah_keluar'); ?></small>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -49,7 +27,40 @@
                                     <small class="form-text text-danger pl-3"><?= form_error('bukti_keluar_gd'); ?></small>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="no_nota">No Nota :</label>
+                                    <input type="text" class="form-control" id="no_nota" name="no_nota" value="<?= set_value('no_nota'); ?>">
+                                    <small class="form-text text-danger pl-3"><?= form_error('no_nota'); ?></small>
+                                </div>
+                            </div>
                         </div>
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-md-12">
+                                <div class="form-check mb-2">
+                                    <div class="row">
+                                        <?php $index = 0; ?>
+                                        <?php foreach ($nama_barang as $row) : ?>
+                                            <div class="col-lg-3">
+                                                <input type="checkbox" name="id_barang_baku[<?= $row->id_barang_baku; ?>]" value="<?= $row->id_barang_baku; ?>">
+                                                <?= strtoupper($row->nama_barang_baku); ?>
+                                                <small class="form-text text-danger pl-3"><?= form_error('id_jenis_barang'); ?></small>
+                                                <input type="text" name="jumlah_keluar[<?= $row->id_barang_baku; ?>]" class="form-control mb-2">
+                                                <small class="form-text text-danger pl-3"><?= form_error('jumlah_keluar'); ?></small>
+                                            </div>
+
+                                            <?php if ($index % 4 == 3 || $index == count($nama_barang) - 1) : ?>
+                                    </div>
+                                    <div class="row">
+                                    <?php endif; ?>
+
+                                    <?php $index++; ?>
+                                <?php endforeach; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row justify-content-center">
                             <div class="col-md-12 text-center">
                                 <button class="neumorphic-button mt-2" name="tambah" type="submit"><i class="fas fa-save"></i> Simpan</button>

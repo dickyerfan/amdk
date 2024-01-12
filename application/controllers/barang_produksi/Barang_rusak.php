@@ -47,7 +47,7 @@ class Barang_rusak extends CI_Controller
         $data['tahun_lap'] = $tahun;
         $data['title'] = 'Berita Acara Barang Rusak';
         $data['barang_rusak'] = $this->Model_barang_produksi->getbarang_rusak($bulan, $tahun);
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');

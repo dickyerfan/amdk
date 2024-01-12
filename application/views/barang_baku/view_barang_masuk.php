@@ -73,7 +73,7 @@
                                     foreach ($barang_masuk as $row) : ?>
                                         <tr class="text-center">
                                             <td><?= $no++ ?></td>
-                                            <td><?= $row->tanggal_masuk; ?></td>
+                                            <td><?= date('d-m-Y', strtotime($row->tanggal_masuk)); ?></td>
                                             <!-- <td><?= $row->kode_barang_masuk; ?></td> -->
                                             <td class="text-start"><?= $row->nama_barang_baku; ?></td>
                                             <td class="text-end"><?= number_format($row->jumlah_masuk, 0, ',', '.'); ?></td>

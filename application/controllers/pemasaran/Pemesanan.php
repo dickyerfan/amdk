@@ -50,7 +50,7 @@ class Pemesanan extends CI_Controller
         }
         $data['title'] = 'Daftar Pemesanan Barang';
         $data['pesan'] = $this->Model_pemesanan->get_all($bulan, $tahun);
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');
@@ -257,11 +257,20 @@ class Pemesanan extends CI_Controller
         $data['daftar_kiriman'] = $this->Model_pemesanan->get_daftar_kiriman($tanggal);
         $data['total_pesanan'] = $this->Model_pemesanan->get_all_pesanan($tanggal);
         $data['title'] = 'Daftar Pengiriman Barang';
-        $this->load->view('templates/pengguna/header', $data);
-        $this->load->view('templates/pengguna/navbar_pasar');
-        $this->load->view('templates/pengguna/sidebar_pasar');
-        $this->load->view('pemasaran/view_daftar_pengiriman', $data);
-        $this->load->view('templates/pengguna/footer');
+
+        if ($this->session->userdata('level') == 'Admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('pemasaran/view_daftar_pengiriman', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_pasar');
+            $this->load->view('templates/pengguna/sidebar_pasar');
+            $this->load->view('pemasaran/view_daftar_pengiriman', $data);
+            $this->load->view('templates/pengguna/footer');
+        }
     }
 
     // awal penjualan rutin karyawan

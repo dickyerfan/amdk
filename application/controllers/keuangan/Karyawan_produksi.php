@@ -39,11 +39,11 @@ class Karyawan_produksi extends CI_Controller
         $data['title'] = "Daftar Karyawan Produksi AMDK Ijen Water";
         $data['karyawan'] = $this->Model_karyawan_produksi->get_karyawan();
 
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');
-            $this->load->view('keuangan/view_karyawan_produksi', $data);
+            $this->load->view('keuangan/karyawan_produksi/view_karyawan_produksi', $data);
             $this->load->view('templates/pengguna/footer_produksi');
         } else {
             $this->load->view('templates/pengguna/header', $data);
@@ -165,7 +165,7 @@ class Karyawan_produksi extends CI_Controller
         $data['data_jenis_barang'] = $data_jenis_barang;
         $data['absensi_karyawan'] = $absensi_karyawan;
 
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');
@@ -262,7 +262,7 @@ class Karyawan_produksi extends CI_Controller
         $data['data_jenis_barang'] = $data_jenis_barang;
         $data['absensi_karyawan'] = $absensi_karyawan;
 
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');

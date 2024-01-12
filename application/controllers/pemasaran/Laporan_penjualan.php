@@ -72,7 +72,7 @@ class Laporan_penjualan extends CI_Controller
         $data['dateRange'] = $dateRange;
         $this->session->set_userdata('bulan_exportpdf', $selectedMonth);
 
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');

@@ -30,6 +30,11 @@
                                         <div class="card-body">
                                             <table class="table table-borderless">
                                                 <tr>
+                                                    <td>No Nota</td>
+                                                    <td> : </td>
+                                                    <td><?= strtoupper($row->no_nota); ?></td>
+                                                </tr>
+                                                <tr>
                                                     <td>Nama Barang</td>
                                                     <td> : </td>
                                                     <td><?= strtoupper($row->nama_barang_baku); ?></td>
@@ -37,7 +42,7 @@
                                                 <tr>
                                                     <td>Tanggal Transaksi</td>
                                                     <td> : </td>
-                                                    <td><?= $row->tanggal_keluar; ?></td>
+                                                    <td><?= date('d-m-Y', strtotime($row->tanggal_keluar)); ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Jumlah Barang</td>

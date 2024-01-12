@@ -35,7 +35,7 @@ class Pelanggan extends CI_Controller
     {
         $data['title'] = 'Daftar Pelanggan AMDK';
         $data['pelanggan'] = $this->Model_pelanggan->get_pelanggan();
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');

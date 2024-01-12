@@ -43,7 +43,7 @@ class Stok_barang_jadi extends CI_Controller
         $data['title'] = 'Stock Barang Jadi';
         $data['tanggal_hari_ini'] = $this->input->get('tanggal');
         $data['stok_barang'] = $this->Model_barang_jadi->getdata($tanggal);
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');

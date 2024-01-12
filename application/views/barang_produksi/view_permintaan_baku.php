@@ -12,7 +12,7 @@
                         </form>
                         <div class="navbar-nav ms-auto">
                             <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
-                                <a href="<?= base_url('barang_produksi/permintaan_barang_baku/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Permintaan Barang</button></a>
+                                <a href="<?= base_url('barang_produksi/permintaan_barang_baku/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Permintaan Barang Baku</button></a>
                             <?php endif; ?>
                         </div>
                         <!-- <div class="navbar-nav ms-auto">
@@ -65,6 +65,7 @@
                                         <th class="text-center">No</th>
                                         <th class="text-center">Tanggal</th>
                                         <th class="text-center">Kode Barang</th>
+                                        <th class="text-center">No Nota</th>
                                         <th class="text-center">Nama Barang</th>
                                         <th class="text-center">Jumlah</th>
                                         <th class="text-center">Input Oleh</th>
@@ -78,8 +79,9 @@
                                     ?>
                                         <tr class="text-center">
                                             <td><?= $no++ ?></td>
-                                            <td><?= $row->tanggal_keluar; ?></td>
+                                            <td><?= date('d-m-Y', strtotime($row->tanggal_keluar)); ?></td>
                                             <td><?= $row->kode_barang; ?></td>
+                                            <td><?= strtoupper($row->no_nota); ?></td>
                                             <td class="text-start"><?= $row->nama_barang_baku; ?></td>
                                             <td><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
                                             <td><?= $row->input_status_keluar; ?></td>

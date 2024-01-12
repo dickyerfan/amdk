@@ -64,7 +64,7 @@ class Barang_jadi extends CI_Controller
 
         $data['title'] = 'Produksi Barang Jadi' . ' ' . $bulanTitle[$bulan] . ' ' . $tahun;
         $data['barang_jadi'] = $this->Model_barang_produksi->getbarang_jadi($bulan, $tahun);
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');

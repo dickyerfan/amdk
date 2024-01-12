@@ -195,7 +195,7 @@ class Ambil_rutin_karyawan extends CI_Controller
         $data['title'] = 'Daftar Sudah Ambil Air Karyawan PDAM';
         $data['rutin'] = $this->Model_ambil_rutin_karyawan->get_sudah_ambil($bulan, $tahun);
 
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');

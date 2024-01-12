@@ -53,7 +53,7 @@ class Penerimaan extends CI_Controller
         $data['title'] = 'Daftar Penerimaan Kas AMDK';
         $data['pesan'] = $this->Model_penerimaan->get_all($tanggal);
         // $data['pesan'] = $this->Model_penerimaan->get_all($bulan, $tahun);
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');

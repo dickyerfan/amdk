@@ -66,6 +66,7 @@
                                         <th class="text-center">No</th>
                                         <th class="text-center">Tanggal Transaksi</th>
                                         <th class="text-center">Kode Barang</th>
+                                        <th class="text-center">No Nota</th>
                                         <th class="text-center">Nama Barang</th>
                                         <th class="text-center">Jumlah</th>
                                         <th class="text-center">Pemohon</th>

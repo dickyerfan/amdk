@@ -64,7 +64,7 @@ class Barang_keluar extends CI_Controller
 
         $data['title'] = 'Transaksi Keluar Barang Jadi' . ' ' . $bulanTitle[$bulan] . ' ' . $tahun;
         $data['barang_keluar'] = $this->Model_barang_jadi->getbarang_keluar($bulan, $tahun);
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');

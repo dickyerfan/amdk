@@ -72,7 +72,7 @@ class Laporan_ban_ops extends CI_Controller
         }
         $data['grouped_ban_ops'] = $grouped_ban_ops;
         $data['jenis_produk'] = $jenis_produk;
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');

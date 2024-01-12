@@ -47,7 +47,7 @@ class Bon_barang_baku extends CI_Controller
         $data['tahun_lap'] = $tahun;
         $data['title'] = 'Permintaan Barang Baku';
         $data['barang_baku'] = $this->Model_barang_jadi->getbarang_baku($bulan, $tahun);
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');
