@@ -29,7 +29,8 @@
                                     <?php
                                     $today = date('Y-m-d');
                                     ?>
-                                    <input type="date" class="form-control" id="tanggal_barang_jadi" name="tanggal_barang_jadi" value="<?= set_value('tanggal_barang_jadi', $today); ?>" min="<?= $today; ?>" max="<?= $today; ?>">
+                                    <input type="date" class="form-control" id="tanggal_barang_jadi" name="tanggal_barang_jadi" value="<?= set_value('tanggal_barang_jadi', $today); ?>">
+                                    <!-- <input type="date" class="form-control" id="tanggal_barang_jadi" name="tanggal_barang_jadi" value="<?= set_value('tanggal_barang_jadi', $today); ?>" min="<?= $today; ?>" max="<?= $today; ?>"> -->
                                     <small class="form-text text-danger pl-3"><?= form_error('tanggal_barang_jadi'); ?></small>
                                 </div>
                             </div>

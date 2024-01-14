@@ -120,9 +120,18 @@
                 for (i = 0; i < data.length; i++) {
                     var jumlahKeluar = data[i].jumlah_keluar;
                     var jumlahKeluarDiformat = jumlahKeluar.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                    var tanggalKeluar = new Date(data[i].tanggal_keluar);
+                    // Mendapatkan informasi tanggal, bulan, dan tahun
+                    var tanggal = tanggalKeluar.getDate();
+                    var bulan = tanggalKeluar.getMonth() + 1; // Perlu ditambah 1 karena indeks bulan dimulai dari 0
+                    var tahun = tanggalKeluar.getFullYear();
+
+                    // Membuat string dengan format "d-m-Y"
+                    var tanggalDalamFormat = tanggal + '-' + bulan + '-' + tahun;
+
                     textHtml += '<tr>' +
                         '<td class="text-center">' + no++ + '</td>' +
-                        '<td class="text-center">' + data[i].tanggal_keluar + '</td>' +
+                        '<td class="text-center">' + tanggalDalamFormat + '</td>' +
                         '<td>' + data[i].kode_barang + '</td>' +
                         '<td class="text-center">' + data[i].no_nota.toUpperCase() + '</td>' +
                         '<td>' + data[i].nama_barang_baku + '</td>' +

@@ -80,7 +80,7 @@
                                         <tr class="text-center">
                                             <td><?= $no++ ?></td>
                                             <td><?= date('d-m-Y', strtotime($row->tanggal_keluar)); ?></td>
-                                            <td><?= $row->kode_barang; ?></td>
+                                            <td class="text-start"><?= $row->kode_barang; ?></td>
                                             <td><?= strtoupper($row->no_nota); ?></td>
                                             <td class="text-start"><?= $row->nama_barang_baku; ?></td>
                                             <td><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>

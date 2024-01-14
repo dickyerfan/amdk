@@ -20,7 +20,8 @@
                                     // Set tanggal hari ini
                                     $today = date('Y-m-d');
                                     ?>
-                                    <input type="date" class="form-control" id="tanggal_kembali" name="tanggal_kembali" value="<?= set_value('tanggal_kembali', $today); ?>" min="<?= $today; ?>" max="<?= $today; ?>">
+                                    <input type="date" class="form-control" id="tanggal_kembali" name="tanggal_kembali" value="<?= set_value('tanggal_kembali', $today); ?>">
+                                    <!-- <input type="date" class="form-control" id="tanggal_kembali" name="tanggal_kembali" value="<?= set_value('tanggal_kembali', $today); ?>" min="<?= $today; ?>" max="<?= $today; ?>"> -->
                                     <small class="form-text text-danger pl-3"><?= form_error('tanggal_kembali'); ?></small>
                                 </div>
                             </div>
