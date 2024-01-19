@@ -7,12 +7,12 @@
                     <nav class="navbar navbar-light bg-light">
                         <form action="<?= base_url('keuangan/karyawan_produksi/honor_karyawan'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
+                                <input type="date" name="tanggal_honor" class="form-control">
                                 <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
                             </div>
                         </form>
                         <div class="navbar-nav me-2">
-                            <a href="#" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
+                            <a href="<?= base_url('keuangan/karyawan_produksi/ekspor_honor_karyawan') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div>
                         <!-- <div class="navbar-nav ms-auto">
                             <a href="<?= base_url('keuangan/karyawan_produksi/tambah_absen'); ?>">
@@ -33,7 +33,7 @@
                             <div>
                                 <p class="my-0 text-center"><?= strtoupper($title) ?></p>
                                 <?php
-                                $tanggal = $this->input->get('tanggal');
+                                $tanggal = $this->input->get('tanggal_honor');
                                 if (empty($tanggal)) {
                                     $bulan = date('m');
                                     $tahun = date('Y');
@@ -67,7 +67,7 @@
                                     <thead>
                                         <tr>
                                             <th class="text-center">No</th>
-                                            <th>Nama Karyawan</th>
+                                            <th>Nama</th>
                                             <?php
                                             // Hitung jumlah hari dalam bulan dan tahun yang dipilih
                                             $jumlah_hari = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
@@ -193,11 +193,29 @@
                                     </thead>
                                     <tbody>
                                         <?php
+                                        $nama_barang_mapping = [
+                                            'galon 19l' => 'Galon',
+                                            'gelas 220ml ijen' => 'Ijen 220',
+                                            'gelas 220ml genggong' => 'Genggong 220',
+                                            'gelas 220ml an nujum' => 'An Nujum 220',
+                                            'gelas 220ml syubbanq' => 'SyubbanQ 220',
+                                            'gelas 220ml amalis' => 'Amalis 220',
+                                            'gelas 220ml ijen merah' => 'Ijen Mrh 220',
+                                            'botol 330ml ijen' => 'Ijen 330',
+                                            'botol 500ml ijen' => 'Ijen 500',
+                                            'botol 500ml amalis' => 'Amalis 500',
+                                            'botol 1500ml ijen' => 'Ijen 1500',
+                                            'botol 1500ml amalis' => 'Amalis 1500'
+
+                                        ];
+
                                         $no = 1;
                                         foreach ($data_jenis_barang as $barang) : ?>
+
                                             <tr>
                                                 <td class="text-center"><?= $no++ ?></td>
-                                                <td><?= $barang['nama_barang_jadi']; ?></td>
+                                                <!-- <td><?= $barang['nama_barang_jadi']; ?></td> -->
+                                                <td><?= $nama_barang_mapping[$barang['nama_barang_jadi']] ?? $barang['nama_barang_jadi']; ?></td>
                                                 <?php
                                                 $total_honor = 0;
                                                 foreach (range(1, $jumlah_hari) as $i) {
@@ -217,7 +235,7 @@
                                     <tfoot>
                                         <tr>
                                             <td></td>
-                                            <td>Jumlah Total</td>
+                                            <td class="fw-bold">Jumlah Total</td>
                                             <?php
                                             $total_honor_keseluruhan = 0;
                                             foreach (range(1, $jumlah_hari) as $i) {
@@ -229,10 +247,10 @@
                                                         $total_honor_keseluruhan += $barang['barang_jadi'][$tanggal];
                                                     }
                                                 }
-                                                echo "<td class='text-end'>" . number_format($total, 0, ',', '.') . "</td>";
+                                                echo "<td class='text-end fw-bold'>" . number_format($total, 0, ',', '.') . "</td>";
                                             }
                                             ?>
-                                            <td class='text-end'><?= number_format($total_honor_keseluruhan, 0, ',', '.'); ?></td>
+                                            <td class='text-end fw-bold'><?= number_format($total_honor_keseluruhan, 0, ',', '.'); ?></td>
                                         </tr>
                                     </tfoot>
                                 </table>

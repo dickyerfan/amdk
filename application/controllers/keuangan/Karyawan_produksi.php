@@ -10,6 +10,7 @@ class Karyawan_produksi extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Model_karyawan_produksi');
+        $this->load->model('Model_laporan');
         $this->load->library('form_validation');
         if (!$this->session->userdata('nama_pengguna')) {
             $this->session->set_flashdata(
@@ -38,6 +39,7 @@ class Karyawan_produksi extends CI_Controller
     {
         $data['title'] = "Daftar Karyawan Produksi AMDK Ijen Water";
         $data['karyawan'] = $this->Model_karyawan_produksi->get_karyawan();
+        $tanggal = $this->session->userdata('tanggal');
 
         if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
@@ -138,7 +140,23 @@ class Karyawan_produksi extends CI_Controller
 
     public function absensi_karyawan()
     {
-        $data['title'] = "Absensi Karyawan Produksi AMDK Ijen Water";
+        $tanggal = $this->input->get('tanggal');
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+        $data['bulan_lap'] = $bulan;
+        $data['tahun_lap'] = $tahun;
+
+        if (!empty($tanggal)) {
+            $this->session->set_userdata('tanggal', $tanggal);
+        }
+
+        $data['title'] = "Absensi Karyawan Produksi & Hasil Produksi AMDK Ijen Water";
         $data['absen_karProd'] = $this->Model_karyawan_produksi->get_absen_karprod();
         $data['produksi_barang'] = $this->Model_karyawan_produksi->get_jenis_barang();
 
@@ -234,8 +252,78 @@ class Karyawan_produksi extends CI_Controller
         }
     }
 
+
+    public function ekspor_absensi_karyawan()
+    {
+        $tanggal = $this->session->userdata('tanggal');
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+        $data['bulan_lap'] = $bulan;
+        $data['tahun_lap'] = $tahun;
+
+        $data['bulan_lap'] = $bulan;
+        $data['tahun_lap'] = $tahun;
+        $data['manager'] = $this->Model_laporan->get_manager();
+        $data['uang'] = $this->Model_laporan->get_uang();
+
+        $data['title'] = "Absensi Karyawan Produksi & Hasil Produksi AMDK Ijen Water";
+        $data['absen_karProd'] = $this->Model_karyawan_produksi->get_absen_karprod();
+        $data['produksi_barang'] = $this->Model_karyawan_produksi->get_jenis_barang();
+
+
+        $absensi_karyawan = array();
+        foreach ($data['absen_karProd'] as $row) {
+            if (!isset($absensi_karyawan[$row->id_karyawan_produksi])) {
+                $absensi_karyawan[$row->id_karyawan_produksi]['nama_karyawan_produksi'] = $row->nama_karyawan_produksi;
+            }
+            $tanggal = $row->tanggal;
+            $absensi_karyawan[$row->id_karyawan_produksi]['absen_karyawan_produksi'][$tanggal] = $row->status_absen;
+        }
+
+
+        $data_jenis_barang = array();
+        foreach ($data['produksi_barang'] as $row) {
+            if (!isset($data_jenis_barang[$row->id_jenis_barang])) {
+                $data_jenis_barang[$row->id_jenis_barang]['nama_barang_jadi'] = $row->nama_barang_jadi;
+            }
+            $tanggal = $row->tanggal_barang_jadi;
+            $data_jenis_barang[$row->id_jenis_barang]['barang_jadi'][$tanggal] = $row->jumlah_barang_jadi;
+        }
+
+        $data['data_jenis_barang'] = $data_jenis_barang;
+        $data['absensi_karyawan'] = $absensi_karyawan;
+
+        // Set paper size and orientation
+        $this->pdf->setPaper('folio', 'landscape');
+
+        $this->pdf->filename = "LapAbsenKyw-{$bulan}-{$tahun}.pdf";
+        $this->pdf->generate('keuangan/laporan_absen_kyw_pdf', $data);
+    }
+
     public function honor_karyawan()
     {
+        $tanggal = $this->input->get('tanggal_honor');
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+        $data['bulan_lap'] = $bulan;
+        $data['tahun_lap'] = $tahun;
+
+        if (!empty($tanggal)) {
+            $this->session->set_userdata('tanggal_honor', $tanggal);
+        }
+
         $data['title'] = "Uraian Biaya Produksi AMDK Ijen Water";
         $data['absen_karProd'] = $this->Model_karyawan_produksi->get_absen_karprod();
         $data['produksi_barang'] = $this->Model_karyawan_produksi->get_jenis_barang();
@@ -275,5 +363,57 @@ class Karyawan_produksi extends CI_Controller
             $this->load->view('keuangan/karyawan_produksi/view_honor_karprod', $data);
             $this->load->view('templates/pengguna/footer_uang');
         }
+    }
+
+    public function ekspor_honor_karyawan()
+    {
+        $tanggal = $this->session->userdata('tanggal_honor');
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+        $data['bulan_lap'] = $bulan;
+        $data['tahun_lap'] = $tahun;
+
+        $data['bulan_lap'] = $bulan;
+        $data['tahun_lap'] = $tahun;
+        $data['manager'] = $this->Model_laporan->get_manager();
+        $data['uang'] = $this->Model_laporan->get_uang();
+
+        $data['title'] = "Uraian Biaya Produksi AMDK Ijen Water";
+        $data['absen_karProd'] = $this->Model_karyawan_produksi->get_absen_karprod();
+        $data['produksi_barang'] = $this->Model_karyawan_produksi->get_jenis_barang();
+
+        $absensi_karyawan = array();
+        foreach ($data['absen_karProd'] as $row) {
+            if (!isset($absensi_karyawan[$row->id_karyawan_produksi])) {
+                $absensi_karyawan[$row->id_karyawan_produksi]['nama_karyawan_produksi'] = $row->nama_karyawan_produksi;
+            }
+            $tanggal = $row->tanggal;
+            $absensi_karyawan[$row->id_karyawan_produksi]['absen_karyawan_produksi'][$tanggal] = $row->status_absen;
+        }
+
+        $data_jenis_barang = array();
+        foreach ($data['produksi_barang'] as $row) {
+            if (!isset($data_jenis_barang[$row->id_jenis_barang])) {
+                $data_jenis_barang[$row->id_jenis_barang]['nama_barang_jadi'] = $row->nama_barang_jadi;
+            }
+            $tanggal = $row->tanggal_barang_jadi;
+            $ongkos = $row->ongkos_per_unit;
+            $data_jenis_barang[$row->id_jenis_barang]['barang_jadi'][$tanggal] = $row->jumlah_barang_jadi * $ongkos;
+        }
+
+        $data['data_jenis_barang'] = $data_jenis_barang;
+        $data['absensi_karyawan'] = $absensi_karyawan;
+
+        // Set paper size and orientation
+        $this->pdf->setPaper('folio', 'landscape');
+
+        $this->pdf->filename = "LaphonorKyw-{$bulan}-{$tahun}.pdf";
+        $this->pdf->generate('keuangan/laporan_honor_kyw_pdf', $data);
     }
 }

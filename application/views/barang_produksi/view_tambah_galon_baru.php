@@ -30,7 +30,8 @@
                                     <?php
                                     $today = date('Y-m-d');
                                     ?>
-                                    <input type="date" class="form-control" id="tanggal_keluar_baku" name="tanggal_keluar_baku" value="<?= set_value('tanggal_keluar_baku', $today); ?>" min="<?= $today; ?>" max="<?= $today; ?>">
+                                    <input type="date" class="form-control" id="tanggal_keluar_baku" name="tanggal_keluar_baku" value="<?= set_value('tanggal_keluar_baku', $today); ?>">
+                                    <!-- <input type="date" class="form-control" id="tanggal_keluar_baku" name="tanggal_keluar_baku" value="<?= set_value('tanggal_keluar_baku', $today); ?>" min="<?= $today; ?>" max="<?= $today; ?>"> -->
                                     <small class="form-text text-danger pl-3"><?= form_error('tanggal_keluar_baku'); ?></small>
                                 </div>
                             </div>

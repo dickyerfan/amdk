@@ -7,7 +7,7 @@ class model_pelanggan extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('pelanggan');
-        // $this->db->where('status', 1);
+        $this->db->where('aktif', 1);
         $query = $this->db->get();
         return $query->result();
     }

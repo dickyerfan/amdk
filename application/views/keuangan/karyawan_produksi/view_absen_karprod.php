@@ -12,7 +12,7 @@
                             </div>
                         </form>
                         <div class="navbar-nav me-2">
-                            <a href="#" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
+                            <a href="<?= base_url('keuangan/karyawan_produksi/ekspor_absensi_karyawan') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div>
                         <div class="navbar-nav ms-auto">
                             <a href="<?= base_url('keuangan/karyawan_produksi/tambah_absen'); ?>">
@@ -163,14 +163,14 @@
                                                 foreach (range(1, $jumlah_hari) as $i) {
                                                     $tanggal = sprintf('%04d-%02d-%02d', $tahun, $bulan, $i);
                                                     $jumlah_barang = isset($barang['barang_jadi'][$tanggal]) ? $barang['barang_jadi'][$tanggal] : '0';
-                                                    echo "<td class='text-center'>{$jumlah_barang}</td>";
+                                                    echo "<td class='text-center'>" . number_format($jumlah_barang, 0, ',', '.') . "</td>";
                                                     // Menghitung total hadir
                                                     if ($jumlah_barang) {
                                                         $total_barang += $jumlah_barang;
                                                     }
                                                 }
                                                 ?>
-                                                <th class="text-center"><?= $total_barang; ?></th>
+                                                <th class="text-center"><?= number_format($total_barang, 0, ',', '.'); ?></th>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -189,10 +189,10 @@
                                                         $total_barang_keseluruhan += $barang['barang_jadi'][$tanggal];
                                                     }
                                                 }
-                                                echo "<th class='text-center'>{$total}</th>";
+                                                echo "<th class='text-center'>" . number_format($total, 0, ',', '.') . "</th>";
                                             }
                                             ?>
-                                            <th class='text-center'><?= $total_barang_keseluruhan ?></th>
+                                            <th class='text-center'><?= number_format($total_barang_keseluruhan, 0, ',', '.'); ?></th>
                                         </tr>
                                     </tfoot>
                                 </table>

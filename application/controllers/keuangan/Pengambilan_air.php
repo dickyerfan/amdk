@@ -92,6 +92,9 @@ class Pengambilan_air extends CI_Controller
         if (!empty($bbm)) {
             $ket = $bbm / $harga_solar;
             $data['ket'] = round($ket, 0);
+        } else {
+            // Atur $data['ket'] ke 0 jika $bbm kosong
+            $data['ket'] = 0;
         }
 
         if ($this->form_validation->run() == false) {

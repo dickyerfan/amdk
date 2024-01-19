@@ -16,7 +16,7 @@ class Model_barang_produksi extends CI_Model
         $this->db->group_by('keluar_baku_produksi.tanggal_keluar_baku');
         $this->db->group_by('jenis_barang.nama_barang_jadi');
         // $this->db->order_by('id_keluar_baku_produksi', 'ASC');
-        $this->db->order_by('tanggal_keluar_baku', 'ASC');
+        $this->db->order_by('tanggal_keluar_baku', 'DESC');
         return $this->db->get()->result();
     }
 
@@ -211,6 +211,7 @@ class Model_barang_produksi extends CI_Model
         // $this->db->join('barang_baku', 'galon_kembali.id_barang_baku = barang_baku.id_barang_baku', 'left');
         $this->db->where('MONTH(galon_kembali.tanggal_kembali)', $bulan);
         $this->db->where('YEAR(galon_kembali.tanggal_kembali)', $tahun);
+        $this->db->order_by('id_galon_kembali', 'DESC');
         // $this->db->group_by('rusak_produksi.id_rusak_produksi');
         return $this->db->get()->result();
     }

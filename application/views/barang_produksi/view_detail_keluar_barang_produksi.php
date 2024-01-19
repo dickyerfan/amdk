@@ -43,7 +43,7 @@
                                     ?>
                                         <tr class="text-center">
                                             <td><?= $no++ ?></td>
-                                            <td><?= $row->tanggal_keluar_baku; ?></td>
+                                            <td><?= date('d-m-Y', strtotime($row->tanggal_keluar_baku)); ?></td>
                                             <td class="text-start"><?= $row->nama_barang_baku; ?></td>
                                             <td><?= number_format($row->jumlah_keluar_baku, 0, ',', '.'); ?></td>
                                             <td><?= $row->input_keluar_baku; ?></td>
