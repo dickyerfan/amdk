@@ -78,11 +78,20 @@ class Permintaan_barang_baku extends CI_Controller
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Transaksi Barang Baku';
             $data['nama_barang'] = $this->Model_barang_produksi->get_nama_barang_baku();
-            $this->load->view('templates/pengguna/header', $data);
-            $this->load->view('templates/pengguna/navbar_produksi');
-            $this->load->view('templates/pengguna/sidebar_produksi');
-            $this->load->view('barang_produksi/view_tambah_barang_baku', $data);
-            $this->load->view('templates/pengguna/footer_produksi');
+
+            if ($this->session->userdata('level') == 'Admin') {
+                $this->load->view('templates/header', $data);
+                $this->load->view('templates/navbar');
+                $this->load->view('templates/sidebar');
+                $this->load->view('barang_produksi/view_tambah_barang_baku', $data);
+                $this->load->view('templates/pengguna/footer_produksi');
+            } else {
+                $this->load->view('templates/pengguna/header', $data);
+                $this->load->view('templates/pengguna/navbar_produksi');
+                $this->load->view('templates/pengguna/sidebar_produksi');
+                $this->load->view('barang_produksi/view_tambah_barang_baku', $data);
+                $this->load->view('templates/pengguna/footer_produksi');
+            }
         } else {
             // Cek apakah ada file yang diupload
             if (!empty($_FILES['bukti_keluar_gd']['name'])) {

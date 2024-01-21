@@ -238,9 +238,10 @@ class Model_laporan extends CI_Model
 
     public function get_ops($bulan, $tahun)
     {
-        $this->db->select('*,jenis_barang.id_jenis_barang, jenis_barang.nama_barang_jadi');
+        $this->db->select('*,jenis_barang.id_jenis_barang, jenis_barang.nama_barang_jadi, pelanggan.nama_pelanggan');
         $this->db->from('ban_ops');
         $this->db->join('jenis_barang', 'ban_ops.id_jenis_barang=jenis_barang.id_jenis_barang');
+        $this->db->join('pelanggan', 'ban_ops.id_pelanggan=pelanggan.id_pelanggan', 'left');
         $this->db->where('jenis_ban_ops', 'operasional');
         $this->db->where('MONTH(ban_ops.tanggal_ban_ops)', $bulan);
         $this->db->where('YEAR(ban_ops.tanggal_ban_ops)', $tahun);
@@ -250,9 +251,10 @@ class Model_laporan extends CI_Model
 
     public function get_ban($bulan, $tahun)
     {
-        $this->db->select('*,jenis_barang.id_jenis_barang, jenis_barang.nama_barang_jadi');
+        $this->db->select('*,jenis_barang.id_jenis_barang, jenis_barang.nama_barang_jadi, pelanggan.nama_pelanggan');
         $this->db->from('ban_ops');
         $this->db->join('jenis_barang', 'ban_ops.id_jenis_barang=jenis_barang.id_jenis_barang');
+        $this->db->join('pelanggan', 'ban_ops.id_pelanggan=pelanggan.id_pelanggan', 'left');
         $this->db->where('jenis_ban_ops', 'bantuan');
         $this->db->where('MONTH(ban_ops.tanggal_ban_ops)', $bulan);
         $this->db->where('YEAR(ban_ops.tanggal_ban_ops)', $tahun);

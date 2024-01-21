@@ -52,15 +52,16 @@ class Laporan_ban_ops extends CI_Controller
         $data['title'] = 'Laporan Operasional AMDK';
         // Ambil data dari model
         $ban_ops = $this->Model_laporan->get_ops($bulan, $tahun);
+
         $jenis_produk = $this->Model_laporan->get_jenis_produk();
 
         // Mengelompokkan data berdasarkan nama dan tanggal
         $grouped_ban_ops = [];
         foreach ($ban_ops as $row) {
-            $key = $row->nama_ban_ops . $row->tanggal_ban_ops;
+            $key = $row->nama_pelanggan . $row->tanggal_ban_ops;
             if (!isset($grouped_ban_ops[$key])) {
                 $grouped_ban_ops[$key] = (object)[
-                    'nama_ban_ops' => $row->nama_ban_ops,
+                    'nama_pelanggan' => $row->nama_pelanggan,
                     'tanggal_ban_ops' => $row->tanggal_ban_ops,
                     'jumlah' => [],
                     'harga_ban_ops_total' => 0,
@@ -108,10 +109,10 @@ class Laporan_ban_ops extends CI_Controller
         // Mengelompokkan data berdasarkan nama dan tanggal
         $grouped_ban_ops = [];
         foreach ($ban_ops as $row) {
-            $key = $row->nama_ban_ops . $row->tanggal_ban_ops;
+            $key = $row->nama_pelanggan . $row->tanggal_ban_ops;
             if (!isset($grouped_ban_ops[$key])) {
                 $grouped_ban_ops[$key] = (object)[
-                    'nama_ban_ops' => $row->nama_ban_ops,
+                    'nama_pelanggan' => $row->nama_pelanggan,
                     'tanggal_ban_ops' => $row->tanggal_ban_ops,
                     'jumlah' => [],
                     'harga_ban_ops_total' => 0,
@@ -160,10 +161,10 @@ class Laporan_ban_ops extends CI_Controller
         // Mengelompokkan data berdasarkan nama dan tanggal
         $grouped_ban_ops = [];
         foreach ($ban_ops as $row) {
-            $key = $row->nama_ban_ops . $row->tanggal_ban_ops;
+            $key = $row->nama_pelanggan . $row->tanggal_ban_ops;
             if (!isset($grouped_ban_ops[$key])) {
                 $grouped_ban_ops[$key] = (object)[
-                    'nama_ban_ops' => $row->nama_ban_ops,
+                    'nama_pelanggan' => $row->nama_pelanggan,
                     'tanggal_ban_ops' => $row->tanggal_ban_ops,
                     'jumlah' => [],
                     'harga_ban_ops_total' => 0,
@@ -175,7 +176,7 @@ class Laporan_ban_ops extends CI_Controller
         }
         $data['grouped_ban_ops'] = $grouped_ban_ops;
         $data['jenis_produk'] = $jenis_produk;
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');
@@ -203,7 +204,7 @@ class Laporan_ban_ops extends CI_Controller
         }
         $data['bulan_lap'] = $bulan;
         $data['tahun_lap'] = $tahun;
-        $data['title'] = 'Laporan Operasional AMDK';
+        $data['title'] = 'Laporan Bantuan AMDK';
         // Ambil data dari model
         $ban_ops = $this->Model_laporan->get_ban($bulan, $tahun);
         $jenis_produk = $this->Model_laporan->get_jenis_produk();
@@ -211,10 +212,10 @@ class Laporan_ban_ops extends CI_Controller
         // Mengelompokkan data berdasarkan nama dan tanggal
         $grouped_ban_ops = [];
         foreach ($ban_ops as $row) {
-            $key = $row->nama_ban_ops . $row->tanggal_ban_ops;
+            $key = $row->nama_pelanggan . $row->tanggal_ban_ops;
             if (!isset($grouped_ban_ops[$key])) {
                 $grouped_ban_ops[$key] = (object)[
-                    'nama_ban_ops' => $row->nama_ban_ops,
+                    'nama_pelanggan' => $row->nama_pelanggan,
                     'tanggal_ban_ops' => $row->tanggal_ban_ops,
                     'jumlah' => [],
                     'harga_ban_ops_total' => 0,

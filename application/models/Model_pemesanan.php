@@ -33,7 +33,7 @@ class Model_pemesanan extends CI_Model
 
     public function upload($table, $data)
     {
-        $this->db->insert($table, $data);
+        return $this->db->insert_batch($table, $data);
     }
 
     public function update($table, $data, $id_pemesanan)

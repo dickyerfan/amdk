@@ -95,7 +95,7 @@
                                                     } elseif ($row->jenis_pesanan == 3) {
                                                         echo 'Karyawan';
                                                     } else {
-                                                        echo 'Operasional';
+                                                        echo 'Bantuan / Operasional';
                                                     } ?>
                                                 </td>
                                                 <td><?= $row->nama_mobil; ?></td>

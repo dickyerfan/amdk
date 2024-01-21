@@ -123,7 +123,7 @@
                                     <tr>
                                         <td class="text-center"><?= $no++; ?></td>
                                         <td><?= date('d-m-Y', strtotime($row->tanggal_ban_ops)); ?></td>
-                                        <td><?= $row->nama_ban_ops; ?></td>
+                                        <td><?= $row->nama_pelanggan; ?></td>
                                         <?php foreach ($jenis_produk as $barang) : ?>
                                             <?php
                                             $jumlah_barang = isset($row->jumlah[$barang->nama_barang_jadi]) ? $row->jumlah[$barang->nama_barang_jadi] : ' ';

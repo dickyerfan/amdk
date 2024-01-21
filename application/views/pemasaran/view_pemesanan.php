@@ -87,17 +87,17 @@
                                                 <td class="text-end"><?= number_format($row->harga_barang, 0, ',', '.'); ?></td>
                                                 <td class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></td>
                                                 <td>
-                                                    <!-- <?php
-                                                            if ($row->jenis_pesanan == 1) {
-                                                                echo 'Kunjungan Rutin';
-                                                            } elseif ($row->jenis_pesanan == 2) {
-                                                                echo 'Pesanan Langsung';
-                                                            } elseif ($row->jenis_pesanan == 3) {
-                                                                echo 'Karyawan';
-                                                            } else {
-                                                                echo 'Operasional';
-                                                            } ?> -->
-                                                    <?= $row->jenis_pesanan == 1 ? 'Kunjungan Rutin' : 'Pesanan Langsung'; ?>
+                                                    <?php
+                                                    if ($row->jenis_pesanan == 1) {
+                                                        echo 'Kunjungan Rutin';
+                                                    } elseif ($row->jenis_pesanan == 2) {
+                                                        echo 'Pesanan Langsung';
+                                                    } elseif ($row->jenis_pesanan == 3) {
+                                                        echo 'Karyawan';
+                                                    } else {
+                                                        echo 'Bantuan / Operasional';
+                                                    } ?>
+                                                    <!-- <?= $row->jenis_pesanan == 1 ? 'Kunjungan Rutin' : 'Pesanan Langsung'; ?> -->
                                                 </td>
                                                 <td><?= $row->nama_mobil; ?></td>
                                                 <!-- <td></td> -->

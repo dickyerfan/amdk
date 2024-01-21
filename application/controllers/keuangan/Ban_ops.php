@@ -74,7 +74,7 @@ class Ban_ops extends CI_Controller
         $this->form_validation->set_rules('id_jenis_barang', 'Jenis Barang', 'callback_check_checkbox');
         $this->form_validation->set_rules('jumlah_ban_ops', 'Jumlah', 'callback_check_jumlah_ban_ops');
         $this->form_validation->set_rules('jenis_ban_ops', 'Jenis', 'required|trim');
-        $this->form_validation->set_rules('nama_ban_ops', 'Nama Bantuan/Operasional', 'required|trim');
+        $this->form_validation->set_rules('id_pelanggan', 'Nama Pelanggan', 'required|trim');
         $this->form_validation->set_rules('tanggal_ban_ops', 'Tanggal', 'required|trim');
         $this->form_validation->set_rules('keterangan', 'Keterangan', 'required|trim');
 
@@ -84,6 +84,7 @@ class Ban_ops extends CI_Controller
         if ($this->form_validation->run() == false) {
             $data['jenis_barang'] = $this->Model_ban_ops->get_nama_barang();
             $data['mobil'] = $this->db->get('mobil')->result();
+            $data['pelanggan'] = $this->Model_ban_ops->get_pelanggan();
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_uang');
             $this->load->view('templates/pengguna/sidebar_uang');

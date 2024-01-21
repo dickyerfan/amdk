@@ -25,9 +25,16 @@
                                     <small class="form-text text-danger pl-3"><?= form_error('jenis_ban_ops'); ?></small>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <div class="mb-2">Nama Kegiatan :</div>
-                                    <input type="text" class="form-control" id="nama_ban_ops" name="nama_ban_ops" placeholder="Masukan Nama Kegiatan" value="<?= set_value('nama_ban_ops'); ?>">
-                                    <small class="form-text text-danger pl-3"><?= form_error('nama_ban_ops'); ?></small>
+                                    <div class="mb-2">Nama :</div>
+                                    <select name="id_pelanggan" id="id_pelanggan" class="form-control select2">
+                                        <option value="">Pilih pelanggan</option>
+                                        <?php foreach ($pelanggan as $row) :  ?>
+                                            <option value="<?= $row->id_pelanggan ?>"><?= $row->nama_pelanggan; ?></option>
+                                        <?php endforeach;  ?>
+                                    </select>
+                                    <small class="form-text text-danger pl-3"><?= form_error('id_pelanggan'); ?></small>
+                                    <!-- <input type="text" class="form-control" id="nama_ban_ops" name="nama_ban_ops" placeholder="Masukan Nama" value="<?= set_value('nama_ban_ops'); ?>">
+                                    <small class="form-text text-danger pl-3"><?= form_error('nama_ban_ops'); ?></small> -->
                                 </div>
                                 <div class="form-group mb-3">
                                     <div class="mb-2">Keterangan :</div>

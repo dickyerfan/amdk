@@ -9,19 +9,18 @@
                 <div class="card-body">
                     <form class="user" action="" method="POST">
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <div class="form-group">
-                                    <select name="id_jenis_barang" id="id_jenis_barang" class="form-control select2">
-                                        <option value="">Pilih Jenis Barang</option>
-                                        <?php foreach ($nama_barang as $row) :  ?>
-                                            <option value="<?= $row->id_produk ?>"><?= $row->nama_produk; ?></option>
-                                        <?php endforeach;  ?>
-                                    </select>
-                                    <small class="form-text text-danger pl-3"><?= form_error('id_jenis_barang'); ?></small>
+                                    <div class="form-group">
+                                        <label for="tanggal_pesan">Tanggal Pesan :</label>
+                                        <input type="date" class="form-control" id="tanggal_pesan" name="tanggal_pesan" placeholder="Masukan Tanggal Pesan" value="<?= set_value('tanggal_pesan'); ?>">
+                                        <small class="form-text text-danger pl-3"><?= form_error('tanggal_pesan'); ?></small>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <div class="form-group">
+                                    <label for="id_pelanggan">Nama Pelanggan :</label>
                                     <select name="id_pelanggan" id="id_pelanggan" class="form-control select2">
                                         <option value="">Pilih pelanggan</option>
                                         <?php foreach ($pelanggan as $row) :  ?>
@@ -34,22 +33,9 @@
                                 <!-- <small class="text-danger">(tambahkan di daftar pelanggan, Jika tidak ditemukan nama pelanggan)</small> -->
                                 <small><a href="<?= base_url('pemasaran/pelanggan/tambah') ?>" style="text-decoration: none;">(tambahkan pelanggan, Jika tidak ditemukan nama pelanggan)</a> </small>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <div class="form-group">
-                                    <div class="form-group">
-                                        <input type="date" class="form-control" id="tanggal_pesan" name="tanggal_pesan" placeholder="Masukan Tanggal Pesan" value="<?= set_value('tanggal_pesan'); ?>">
-                                        <small class="form-text text-danger pl-3"><?= form_error('tanggal_pesan'); ?></small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="form-group">
-                                    <input type="number" class="form-control" id="jumlah_pesan" name="jumlah_pesan" placeholder="Masukan Jumlah Pesanan" value="<?= set_value('jumlah_pesan'); ?>">
-                                    <small class="form-text text-danger pl-3"><?= form_error('jumlah_pesan'); ?></small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="form-group">
+                                    <label for="jenis_pesanan">Jenis Pesanan :</label>
                                     <select name="jenis_pesanan" id="jenis_pesanan" class="form-control select2">
                                         <option value="">Pilih Jenis Pesanan</option>
                                         <option value="1">Kunjungan Rutin</option>
@@ -61,7 +47,34 @@
                                 </div>
                             </div>
                         </div>
-                        <button class=" neumorphic-button mt-2" name="tambah" type="submit"><i class="fas fa-save"></i> Simpan</button>
+                        <div class="row justify-content-center">
+                            <div class="col-md-8">
+                                <div class="form-check mb-2">
+                                    <div class="row">
+                                        <?php $index = 0; ?>
+                                        <?php foreach ($nama_barang as $jenis) : ?>
+                                            <div class="col-lg-4">
+                                                <input type="checkbox" name="id_jenis_barang[<?= $jenis->id_produk; ?>]" value="<?= $jenis->id_produk; ?>">
+                                                <?= strtoupper($jenis->nama_produk); ?>
+                                                <small class="form-text text-danger pl-3"><?= form_error('id_jenis_barang'); ?></small>
+                                                <input type="number" name="jumlah_pesan[<?= $jenis->id_produk; ?>]" class="form-control mb-2">
+                                                <small class="form-text text-danger pl-3"><?= form_error('jumlah_pesan'); ?></small>
+                                            </div>
+                                            <?php if ($index % 3 == 2 || $index == count($nama_barang) - 1) : ?>
+                                    </div>
+                                    <div class="row">
+                                    <?php endif; ?>
+
+                                    <?php $index++; ?>
+                                <?php endforeach; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-md-12 text-center">
+                                    <button class=" neumorphic-button mt-2" name="tambah" type="submit"><i class="fas fa-save"></i> Simpan</button>
+                                </div>
+                            </div>
                     </form>
                 </div>
             </div>
