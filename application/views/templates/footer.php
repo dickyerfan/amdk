@@ -66,7 +66,7 @@
     // });
 </script>
 
-<script>
+<!-- <script>
     $('.btn-danger').on('click', function(e) {
         e.preventDefault();
         const href = $(this).attr('href');
@@ -90,7 +90,7 @@
             scrollTop: 0
         }, 500);
     });
-</script>
+</script> -->
 <script>
     $('#belum').on('click', function() {
         $('#tanya').show();
@@ -110,33 +110,6 @@
         window.print();
     })
 </script>
-<!-- <script>
-    window.setTimeout(function() {
-        $(".alert").fadeTo(500, 0).slideUp(500, function() {
-            $(this).remove();
-        });
-    }, 5000);
-</script> -->
-
-<!-- <script>
-    window.setTimeout(function() {
-        $( ".alert" ).animate({
-    left: "+=50",
-    width: "350"
-  }, 5000, function() {
-  }).fadeTo(1000, 0).slideUp(1000, function(){
-            $(this).remove(); 
-        });
-    }, 1000);
-</script> -->
-
-<!-- <script>
-    window.setTimeout(function() {
-        $(".alert").fadeOut(1000, function() {
-            $(this).remove();
-        });
-    }, 5000); // 5 detik
-</script> -->
 
 <script>
     window.setTimeout(function() {
@@ -171,6 +144,56 @@
             });
         });
     });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#searchInput').on('keyup', function() {
+            var searchText = this.value.toLowerCase();
+            $('#example2 tbody tr').each(function() {
+                var rowData = $(this).text().toLowerCase();
+                $(this).toggle(rowData.indexOf(searchText) > -1);
+            });
+        });
+    });
+</script>
+
+<script>
+    $('.tombolHapus').on('click', function(e) {
+        e.preventDefault();
+        const href = $(this).attr('href');
+        Swal.fire({
+            title: 'Yakin mau Di Hapus?',
+            text: 'Jika yakin tekan Hapus',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Hapus'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.location.href = href;
+            }
+        })
+    })
+</script>
+<script>
+    function tampilkanKonfirmasi(id_keluar_jadi) {
+        Swal.fire({
+            title: 'Konfirmasi',
+            text: 'Apakah Anda setuju untuk menerima barang?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Setuju!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '<?= base_url("barang_jadi/barang_keluar/terima_barang/") ?>' + id_keluar_jadi;
+            }
+        });
+    }
 </script>
 
 </body>

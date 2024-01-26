@@ -77,7 +77,7 @@
                                                 <td><?= $row->status_keluar == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Keluar</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?>
                                                 </td>
                                                 <td>
-                                                    <a href="<?= $row->status_kembali == 0 ? base_url('barang_jadi/barang_keluar/barang_kembali/') : "javascript:void(0)" ?><?= $row->id_keluar_jadi; ?>"><i class="fas fa-box text-success me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="klik input barang kembali"></i></a>
+                                                    <a href="<?= ($row->status_kembali == 0 && $row->status_keluar == 0) ? base_url('barang_jadi/barang_keluar/barang_kembali/') : "javascript:void(0)" ?><?= $row->id_keluar_jadi; ?>"><i class="fas fa-box text-success me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="klik input barang kembali"></i></a>
                                                     <a href="<?= $row->status_keluar == 0 ? "javascript:void(0)" : "javascript:void(0)" ?>" onclick="<?= $row->status_keluar == 0 ? "tampilkanKonfirmasi(" . $row->id_keluar_jadi . ")" : "" ?>">
                                                         <i class="fas fa-circle-check" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk terima permintaan barang"></i>
                                                     </a>

@@ -190,6 +190,7 @@ class Pemesanan extends CI_Controller
 
     public function pilih_mobil($id_pemesanan)
     {
+        $tanggal = $this->session->userdata('tanggal');
         $this->form_validation->set_rules('id_mobil', 'Nama Mobil', 'required|trim');
         $this->form_validation->set_message('required', '%s masih kosong');
 
@@ -207,6 +208,7 @@ class Pemesanan extends CI_Controller
             $data['id_mobil'] = $this->input->post('id_mobil');
             $this->Model_pemesanan->update('pemesanan', $data, $id_pemesanan);
 
+
             // Dapatkan data untuk penyimpanan ke tabel keluar_jadi
             $data_pemesanan = $this->Model_pemesanan->get_id_pemesanan($id_pemesanan);
             $data_keluar_jadi = array(
@@ -222,7 +224,6 @@ class Pemesanan extends CI_Controller
             // Sisipkan data ke dalam tabel keluar_jadi
             $this->Model_pemesanan->insert_keluar_jadi('keluar_jadi', $data_keluar_jadi);
 
-
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-primary alert-dismissible fade show" role="alert">
@@ -231,7 +232,9 @@ class Pemesanan extends CI_Controller
                         </button>
                       </div>'
             );
-            redirect('pemasaran/pemesanan');
+            $alamat = 'pemasaran/pemesanan?tanggal=' . $tanggal;
+            redirect($alamat);
+            // redirect('pemasaran/pemesanan');
         }
     }
 

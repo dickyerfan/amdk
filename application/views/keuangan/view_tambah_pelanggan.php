@@ -59,7 +59,7 @@
                                         <option value="">Pilih Tarif</option>
                                         <option value="Umum">Umum</option>
                                         <option value="Retail">Retail</option>
-                                        <option value="Semi Grosir">SemiGrosir</option>
+                                        <option value="SemiGrosir">SemiGrosir</option>
                                         <option value="Grosir">Grosir</option>
                                     </select>
                                     <small class="form-text text-danger pl-3"><?= form_error('tarif'); ?></small>

@@ -5,7 +5,7 @@
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
                         <!-- <div class="navbar-nav">
-                            <a href="<?= base_url('rkap/usulan_inves/export_pdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
+                            <a href="<?= base_url('barang_baku/barang_keluar/terima_barang') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-download"></i> Terima Barang</button></a>
                         </div> -->
                         <div class="navbar-nav ms-auto">
                             <a href="<?= base_url('barang_baku/barang_keluar') ?>"><button class="float-end neumorphic-button"><i class="fas fa-arrow-left"></i> Kembali</button></a>
@@ -29,7 +29,6 @@
                                     <tr class="text-center">
                                         <th class="text-center">No</th>
                                         <th class="text-center">Tgl Transaksi</th>
-                                        <th class="text-center">No Nota</th>
                                         <th class="text-center">Kode Barang</th>
                                         <th class="text-center">Nama Barang</th>
                                         <th class="text-center">Jumlah</th>
@@ -42,7 +41,6 @@
                                         <tr>
                                             <td class="text-center"><?= $no++; ?></td>
                                             <td class="text-center"><?= date('d-m-Y', strtotime($row->tanggal_keluar)); ?></td>
-                                            <td><?= $row->no_nota; ?></td>
                                             <td><?= $row->kode_barang; ?></td>
                                             <td><?= $row->nama_barang_baku; ?></td>
                                             <td class="text-end"><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
@@ -50,22 +48,21 @@
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
+                            <form class="user" action="<?= base_url('barang_baku/barang_keluar/terima_barang/') . $row->tanggal_keluar . '/' . $row->bagian ?>" method="POST" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <input type="hidden" name="tanggal_keluar" id="tanggal_keluar" value="<?= $row->tanggal_keluar; ?>">
+                                        <div class="form-group">
+                                            <label for="bukti_keluar_gd" class="mb-2">Bukti Pemesanan Barang Baku :</label>
+                                            <input type="file" class="form-control" id="bukti_keluar_gd" name="bukti_keluar_gd" value="<?= set_value('bukti_keluar_gd'); ?>">
+                                            <small class="form-text text-danger pl-3"><?= form_error('bukti_keluar_gd'); ?></small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class=" neumorphic-button mt-2" name="tambah" type="submit"><i class="fas fa-edit"></i> Update</button>
+                            </form>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <table class="table table-borderless">
-                        <tr>
-                            <td class="text-center">Bukti penerimaan Gudang</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">
-                                <img src="<?= base_url('uploads/baku/keluar/' . $row->bukti_keluar_gd); ?>" alt="" style="width:50%;">
-                            </td>
-                        </tr>
-                    </table>
                 </div>
             </div>
         </div>

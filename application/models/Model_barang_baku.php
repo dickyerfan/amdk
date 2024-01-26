@@ -138,6 +138,19 @@ class Model_barang_baku extends CI_Model
     // akhir barang masuk
 
     // awal barang keluar
+    public function get_barang_keluar($bulan, $tahun)
+    {
+        $this->db->select('keluar_baku.*, barang_baku.nama_barang_baku');
+        $this->db->from('keluar_baku');
+        $this->db->join('barang_baku', 'keluar_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->where('keluar_baku.status_tolak', 1);
+        $this->db->where('MONTH(keluar_baku.tanggal_keluar)', $bulan);
+        $this->db->where('YEAR(keluar_baku.tanggal_keluar)', $tahun);
+        $this->db->group_by('keluar_baku.id_keluar_baku');
+        $this->db->order_by('keluar_baku.tanggal_keluar', 'DESC');
+        return $this->db->get()->result();
+    }
+
     public function get_permintaan_barang($bulan, $tahun)
     {
         $this->db->select('keluar_baku.*, barang_baku.nama_barang_baku');
@@ -151,16 +164,27 @@ class Model_barang_baku extends CI_Model
         return $this->db->get()->result();
     }
 
-    public function get_detail_barang_keluar($id_keluar_baku)
+    public function get_detail_barang_keluar($tanggal_keluar, $bagian)
     {
-        $this->db->select('*');
+        $this->db->select('*, keluar_baku.kode_barang');
         $this->db->from('keluar_baku');
         $this->db->join('barang_baku', 'keluar_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
-        $this->db->where('id_keluar_baku', $id_keluar_baku);
+        $this->db->where('tanggal_keluar', $tanggal_keluar);
+        $this->db->where('bagian', $bagian);
         $this->db->group_by('keluar_baku.id_keluar_baku');
         return $this->db->get()->result();
     }
-    // akhir barang keluar
+
+    public function update_Bukti_pemesanan($data, $tanggal_keluar, $bagian)
+    {
+        $this->db->where('tanggal_keluar', $tanggal_keluar);
+        $this->db->where('bagian', $bagian);
+        $this->db->set('bukti_keluar_gd', $data['bukti_keluar_gd']);
+        $this->db->set('no_nota', $data['no_nota']);
+        $this->db->set('status_keluar', $data['status_keluar']);
+        $this->db->set('status_produksi', $data['status_produksi']);
+        $this->db->update('keluar_baku');
+    }
 
     // awal barang rusak
     public function getbarang_rusak($bulan, $tahun)

@@ -61,6 +61,7 @@
                                             <th class="text-center">No</th>
                                             <th class="text-center">Tanggal</th>
                                             <th class="text-center">Kode Barang</th>
+                                            <th class="text-center">No Nota</th>
                                             <th class="text-center">Nama Barang</th>
                                             <th class="text-center">Jml Masuk</th>
                                             <th class="text-center">Jml Keluar</th>
@@ -78,6 +79,7 @@
                                                 <td><?= $no++ ?></td>
                                                 <td><?= date('d-m-Y', strtotime($row->tanggal_order)); ?></td>
                                                 <td><?= $row->kode_barang; ?></td>
+                                                <td><?= $row->no_nota; ?></td>
                                                 <td class="text-start"><?= $row->nama_barang_baku; ?></td>
                                                 <td><?= number_format($row->jumlah_masuk, 0, ',', '.'); ?></td>
                                                 <td><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>

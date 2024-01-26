@@ -36,12 +36,16 @@ class model_ban_ops extends CI_Model
     {
         $jumlah_ban_ops = ($this->input->post('jumlah_ban_ops', true));
         $jenis_barang = $this->input->post('id_jenis_barang');
+        $id_pelanggan = $this->input->post('id_pelanggan');
         $total = 0;
 
         foreach ($jenis_barang as $id_jenis_barang) {
             $jumlah = $jumlah_ban_ops[$id_jenis_barang];
-            $get_harga = $this->db->get_where('harga', ['id_jenis_barang' => $id_jenis_barang])->row();
-            $total = $jumlah * intval($get_harga->harga);
+
+            $tarif = $this->getTarifByIdPelanggan($id_pelanggan);
+            $harga_barang = $this->getHargaByJenisBarang($id_jenis_barang, $tarif);
+            $harga = $harga_barang->harga;
+            $total = $harga * $jumlah;
 
             $data = array(
                 'id_jenis_barang' => $id_jenis_barang,
@@ -69,11 +73,12 @@ class model_ban_ops extends CI_Model
 
             $data_pemesanan = array(
                 'id_jenis_barang' => $id_jenis_barang,
+                'id_mobil' => $this->input->post('id_mobil', true),
                 'id_pelanggan' => $this->input->post('id_pelanggan', true),
                 'tanggal_pesan' => $this->input->post('tanggal_ban_ops', true),
                 'jenis_pesanan' => 4,
                 'jumlah_pesan' => $jumlah,
-                'harga_barang' => $get_harga->harga,
+                'harga_barang' => $harga,
                 'total_harga' => $total,
                 'input_pesan' => $this->session->userdata('nama_lengkap'),
                 // 'tanggal_bayar' => $tanggal_bayar,
@@ -88,6 +93,25 @@ class model_ban_ops extends CI_Model
 
             $this->db->insert('pemesanan', $data_pemesanan);
         }
+    }
+
+    public function getTarifByIdPelanggan($id_pelanggan)
+    {
+        $this->db->select('tarif');
+        $this->db->from('pelanggan');
+        $this->db->where('id_pelanggan', $id_pelanggan);
+        return $this->db->get()->row()->tarif;
+    }
+
+    public function getHargaByJenisBarang($id_jenis_barang, $tarif)
+    {
+        $this->db->select('harga');
+        $this->db->from('harga');
+        $this->db->join('pelanggan', 'harga.jenis_harga = pelanggan.tarif', 'left');
+        $this->db->join('jenis_barang', 'harga.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
+        $this->db->where('harga.id_jenis_barang', $id_jenis_barang);
+        $this->db->where('pelanggan.tarif', $tarif);
+        return $this->db->get()->row();
     }
 
     public function hapusData($id_pelanggan)

@@ -42,6 +42,7 @@ class Model_pemesanan extends CI_Model
         $this->db->update($table, $data);
     }
 
+
     // awal pilih mobil
     // ketika bagian pemasaran pilik mobil armada maka sekaligus mengirim permintaan ke bagian barang jadi
     // dengan insert ke tabel keluar_jadi

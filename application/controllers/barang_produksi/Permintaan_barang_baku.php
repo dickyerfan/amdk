@@ -69,7 +69,7 @@ class Permintaan_barang_baku extends CI_Controller
     public function upload()
     {
         // $this->form_validation->set_rules('jumlah_keluar', 'Jumlah Keluar', 'required|trim|numeric|greater_than[0]');
-        $this->form_validation->set_rules('no_nota', 'NO Nota', 'required|trim');
+        // $this->form_validation->set_rules('no_nota', 'NO Nota', 'required|trim');
         $this->form_validation->set_rules('tanggal_keluar', 'Tanggal Keluar', 'required|trim');
         $this->form_validation->set_message('required', '%s masih kosong');
         $this->form_validation->set_message('numeric', '%s harus berupa angka');
@@ -93,110 +93,64 @@ class Permintaan_barang_baku extends CI_Controller
                 $this->load->view('templates/pengguna/footer_produksi');
             }
         } else {
-            // Cek apakah ada file yang diupload
-            if (!empty($_FILES['bukti_keluar_gd']['name'])) {
-                // Mendapatkan tanggal dari input form
-                $tanggal_keluar = $this->input->post('tanggal_keluar', true);
-                $id_barang_baku = $this->input->post('id_barang_baku', true);
-                $jumlah_keluar = $this->input->post('jumlah_keluar', true);
-                $no_nota = $this->input->post('no_nota', true);
+            // Mendapatkan tanggal dari input form
+            $tanggal_keluar = $this->input->post('tanggal_keluar', true);
+            $id_barang_baku = $this->input->post('id_barang_baku', true);
+            $jumlah_keluar = $this->input->post('jumlah_keluar', true);
+
+            $dataToInsert = array();
+            foreach ($id_barang_baku as $barang_baku) {
+                $jumlah = $jumlah_keluar[$barang_baku];
 
 
-                $dataToInsert = array();
-                foreach ($id_barang_baku as $barang_baku) {
-                    $jumlah = $jumlah_keluar[$barang_baku];
+                // Membuat kode barang
+                $kode = $this->db->get_where('barang_baku', ['id_barang_baku' => $barang_baku])->row();
 
+                if ($kode) {
+                    // Membuat format tanggal dalam bentuk YYYYmmdd
+                    $formatted_tanggal = date('ymd', strtotime($tanggal_keluar));
 
-                    // Membuat kode barang
-                    $kode = $this->db->get_where('barang_baku', ['id_barang_baku' => $barang_baku])->row();
+                    // Mengambil nomor urut terakhir berdasarkan tanggal dan id_barang_baku
+                    $this->db->select('MAX(CAST(SUBSTRING_INDEX(kode_barang, "-", -1) AS SIGNED)) as max_urut', false);
+                    $this->db->from('keluar_baku');
+                    $this->db->where('tanggal_keluar', date('Y-m-d', strtotime($tanggal_keluar)));
+                    $this->db->where('id_barang_baku', $barang_baku);
+                    $result = $this->db->get()->row();
 
-                    if ($kode) {
-                        // Membuat format tanggal dalam bentuk YYYYmmdd
-                        $formatted_tanggal = date('ymd', strtotime($tanggal_keluar));
+                    // Jika tidak ada data, kembalikan nomor urut pertama
+                    $nomor_urut = $result->max_urut ? $result->max_urut + 1 : 1;
 
-                        // Mengambil nomor urut terakhir berdasarkan tanggal dan id_barang_baku
-                        $this->db->select('MAX(CAST(SUBSTRING_INDEX(kode_barang, "-", -1) AS SIGNED)) as max_urut', false);
-                        $this->db->from('keluar_baku');
-                        $this->db->where('tanggal_keluar', date('Y-m-d', strtotime($tanggal_keluar)));
-                        $this->db->where('id_barang_baku', $barang_baku);
-                        $result = $this->db->get()->row();
-
-                        // Jika tidak ada data, kembalikan nomor urut pertama
-                        $nomor_urut = $result->max_urut ? $result->max_urut + 1 : 1;
-
-                        // Menggabungkan kode barang dengan nomor urut
-                        $kode_barang = strtoupper($kode->kode_barang) . '-' . $formatted_tanggal . '-' . sprintf('%02d', $nomor_urut);
-                        $data = array(
-                            'id_barang_baku' => $barang_baku,
-                            'tanggal_keluar' => $tanggal_keluar,
-                            'jumlah_keluar' => $jumlah,
-                            'no_nota' => $no_nota,
-                            'input_status_keluar' => $this->session->userdata('nama_lengkap'),
-                            'bagian' => $this->session->userdata('upk_bagian'),
-                            'kode_barang' => $kode_barang
-                        );
-                        $dataToInsert[] = $data;
-                    } else {
-                        $kode_barang = null;
-                    }
-                }
-
-
-                // Membuat nama file sesuai dengan tanggal
-                $file_name = date('Y-m-d', strtotime($tanggal_keluar)) . '.jpg';
-
-                // Menyimpan file dengan nama yang sesuai
-                $config['upload_path']   = './uploads/baku/keluar/';
-                $config['allowed_types'] = 'jpg|jpeg|png|pdf';
-                $config['max_size']      = 1000;
-                $config['file_name']     = $file_name;
-                $config['overwrite']     = true; // Mengizinkan penggantian file yang ada dengan nama yang sama
-
-                $this->load->library('upload', $config);
-                if ($this->upload->do_upload('bukti_keluar_gd')) {
-                    // Isi data selain file yang diupload
-                    foreach ($dataToInsert as $data) {
-
-                        $data['bukti_keluar_gd'] = $file_name; // Simpan nama file dalam database
-
-                        // Simpan data ke dalam database
-                        $this->db->insert('keluar_baku', $data);
-                    }
-
-                    $this->session->set_flashdata(
-                        'info',
-                        '<div class="alert alert-primary alert-dismissible fade show" role="alert">
-                            <strong>Sukses,</strong> Permintaan barang baku berhasil di simpan
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                            </button>
-                        </div>'
+                    // Menggabungkan kode barang dengan nomor urut
+                    $kode_barang = strtoupper($kode->kode_barang) . '-' . $formatted_tanggal . '-' . sprintf('%02d', $nomor_urut);
+                    $dataToInsert[] = array(
+                        'id_barang_baku' => $barang_baku,
+                        'tanggal_keluar' => $tanggal_keluar,
+                        'jumlah_keluar' => $jumlah,
+                        'input_status_keluar' => $this->session->userdata('nama_lengkap'),
+                        'bagian' => $this->session->userdata('upk_bagian'),
+                        'kode_barang' => $kode_barang
                     );
-                    redirect('barang_produksi/permintaan_barang_baku');
                 } else {
-                    // Jika proses upload gagal
-                    $error_msg = $this->upload->display_errors();
-                    $this->session->set_flashdata('info', $error_msg);
-                    redirect('barang_produksi/permintaan_barang_baku');
+                    $kode_barang = null;
                 }
-            } else {
-                // Tampilkan pesan kesalahan jika tidak ada file yang diunggah
-                $this->session->set_flashdata(
-                    'info',
-                    '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Gagal,</strong> Silakan masukkan file foto pendukung
+            }
+            $this->db->insert_batch('keluar_baku', $dataToInsert);
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+                        <strong>Sukses,</strong> Permintaan barang baku berhasil di simpan
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                         </button>
                     </div>'
-                );
-                redirect('barang_produksi/permintaan_barang_baku');
-            }
+            );
+            redirect('barang_produksi/permintaan_barang_baku');
         }
     }
 
     // public function upload()
     // {
-    //     $this->form_validation->set_rules('id_barang_baku', 'Nama Barang', 'required|trim');
-    //     $this->form_validation->set_rules('jumlah_keluar', 'Jumlah Keluar', 'required|trim|numeric|greater_than[0]');
+    //     // $this->form_validation->set_rules('jumlah_keluar', 'Jumlah Keluar', 'required|trim|numeric|greater_than[0]');
+    //     $this->form_validation->set_rules('no_nota', 'NO Nota', 'required|trim');
     //     $this->form_validation->set_rules('tanggal_keluar', 'Tanggal Keluar', 'required|trim');
     //     $this->form_validation->set_message('required', '%s masih kosong');
     //     $this->form_validation->set_message('numeric', '%s harus berupa angka');
@@ -205,41 +159,69 @@ class Permintaan_barang_baku extends CI_Controller
     //     if ($this->form_validation->run() == false) {
     //         $data['title'] = 'Transaksi Barang Baku';
     //         $data['nama_barang'] = $this->Model_barang_produksi->get_nama_barang_baku();
-    //         $this->load->view('templates/pengguna/header', $data);
-    //         $this->load->view('templates/pengguna/navbar_produksi');
-    //         $this->load->view('templates/pengguna/sidebar_produksi');
-    //         $this->load->view('barang_produksi/view_tambah_barang_baku', $data);
-    //         $this->load->view('templates/pengguna/footer_produksi');
+
+    //         if ($this->session->userdata('level') == 'Admin') {
+    //             $this->load->view('templates/header', $data);
+    //             $this->load->view('templates/navbar');
+    //             $this->load->view('templates/sidebar');
+    //             $this->load->view('barang_produksi/view_tambah_barang_baku', $data);
+    //             $this->load->view('templates/pengguna/footer_produksi');
+    //         } else {
+    //             $this->load->view('templates/pengguna/header', $data);
+    //             $this->load->view('templates/pengguna/navbar_produksi');
+    //             $this->load->view('templates/pengguna/sidebar_produksi');
+    //             $this->load->view('barang_produksi/view_tambah_barang_baku', $data);
+    //             $this->load->view('templates/pengguna/footer_produksi');
+    //         }
     //     } else {
     //         // Cek apakah ada file yang diupload
     //         if (!empty($_FILES['bukti_keluar_gd']['name'])) {
     //             // Mendapatkan tanggal dari input form
     //             $tanggal_keluar = $this->input->post('tanggal_keluar', true);
     //             $id_barang_baku = $this->input->post('id_barang_baku', true);
+    //             $jumlah_keluar = $this->input->post('jumlah_keluar', true);
+    //             $no_nota = $this->input->post('no_nota', true);
 
-    //             // Membuat kode barang
-    //             $kode = $this->db->get_where('barang_baku', ['id_barang_baku' => $id_barang_baku])->row();
 
-    //             if ($kode) {
-    //                 // Membuat format tanggal dalam bentuk YYYYmmdd
-    //                 $formatted_tanggal = date('ymd', strtotime($tanggal_keluar));
-    //                 $tanggal_query = date('Y-m-d', strtotime($tanggal_keluar));
+    //             $dataToInsert = array();
+    //             foreach ($id_barang_baku as $barang_baku) {
+    //                 $jumlah = $jumlah_keluar[$barang_baku];
 
-    //                 // Mengambil nomor urut terakhir berdasarkan tanggal dan id_barang_baku
-    //                 $this->db->select('MAX(CAST(SUBSTRING_INDEX(kode_barang, "-", -1) AS SIGNED)) as max_urut', false);
-    //                 $this->db->from('keluar_baku');
-    //                 $this->db->where('tanggal_keluar', date('Y-m-d', strtotime($tanggal_keluar)));
-    //                 $this->db->where('id_barang_baku', $id_barang_baku);
-    //                 $result = $this->db->get()->row();
 
-    //                 // Jika tidak ada data, kembalikan nomor urut pertama
-    //                 $nomor_urut = $result->max_urut ? $result->max_urut + 1 : 1;
+    //                 // Membuat kode barang
+    //                 $kode = $this->db->get_where('barang_baku', ['id_barang_baku' => $barang_baku])->row();
 
-    //                 // Menggabungkan kode barang dengan nomor urut
-    //                 $kode_barang = strtoupper($kode->kode_barang) . '-' . $formatted_tanggal . '-' . sprintf('%02d', $nomor_urut);
-    //             } else {
-    //                 $kode_barang = null;
+    //                 if ($kode) {
+    //                     // Membuat format tanggal dalam bentuk YYYYmmdd
+    //                     $formatted_tanggal = date('ymd', strtotime($tanggal_keluar));
+
+    //                     // Mengambil nomor urut terakhir berdasarkan tanggal dan id_barang_baku
+    //                     $this->db->select('MAX(CAST(SUBSTRING_INDEX(kode_barang, "-", -1) AS SIGNED)) as max_urut', false);
+    //                     $this->db->from('keluar_baku');
+    //                     $this->db->where('tanggal_keluar', date('Y-m-d', strtotime($tanggal_keluar)));
+    //                     $this->db->where('id_barang_baku', $barang_baku);
+    //                     $result = $this->db->get()->row();
+
+    //                     // Jika tidak ada data, kembalikan nomor urut pertama
+    //                     $nomor_urut = $result->max_urut ? $result->max_urut + 1 : 1;
+
+    //                     // Menggabungkan kode barang dengan nomor urut
+    //                     $kode_barang = strtoupper($kode->kode_barang) . '-' . $formatted_tanggal . '-' . sprintf('%02d', $nomor_urut);
+    //                     $data = array(
+    //                         'id_barang_baku' => $barang_baku,
+    //                         'tanggal_keluar' => $tanggal_keluar,
+    //                         'jumlah_keluar' => $jumlah,
+    //                         'no_nota' => $no_nota,
+    //                         'input_status_keluar' => $this->session->userdata('nama_lengkap'),
+    //                         'bagian' => $this->session->userdata('upk_bagian'),
+    //                         'kode_barang' => $kode_barang
+    //                     );
+    //                     $dataToInsert[] = $data;
+    //                 } else {
+    //                     $kode_barang = null;
+    //                 }
     //             }
+
 
     //             // Membuat nama file sesuai dengan tanggal
     //             $file_name = date('Y-m-d', strtotime($tanggal_keluar)) . '.jpg';
@@ -254,16 +236,13 @@ class Permintaan_barang_baku extends CI_Controller
     //             $this->load->library('upload', $config);
     //             if ($this->upload->do_upload('bukti_keluar_gd')) {
     //                 // Isi data selain file yang diupload
-    //                 $data['id_barang_baku'] = (int) $this->input->post('id_barang_baku', true);
-    //                 $data['jumlah_keluar'] = $this->input->post('jumlah_keluar', true);
-    //                 $data['tanggal_keluar'] = $this->input->post('tanggal_keluar', true);
-    //                 $data['input_status_keluar'] = $this->session->userdata('nama_lengkap');
-    //                 $data['bagian'] = $this->session->userdata('upk_bagian');
-    //                 $data['bukti_keluar_gd'] = $file_name; // Simpan nama file dalam database
-    //                 $data['kode_barang'] = $kode_barang;
-    //                 // Simpan data ke dalam database
-    //                 // $this->db->insert('baku_produksi', $data);
-    //                 $this->db->insert('keluar_baku', $data);
+    //                 foreach ($dataToInsert as $data) {
+
+    //                     $data['bukti_keluar_gd'] = $file_name; // Simpan nama file dalam database
+
+    //                     // Simpan data ke dalam database
+    //                     $this->db->insert('keluar_baku', $data);
+    //                 }
 
     //                 $this->session->set_flashdata(
     //                     'info',
@@ -294,6 +273,8 @@ class Permintaan_barang_baku extends CI_Controller
     //         }
     //     }
     // }
+
+
 
 
     public function tolak_pesanan()

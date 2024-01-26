@@ -69,7 +69,7 @@ class Ban_ops extends CI_Controller
     public function tambah()
     {
         $data['title'] = "Tambah Data Bantuan / Operasional";
-
+        $tanggal = $this->session->userdata('tanggal');
         // $this->form_validation->set_rules('id_jenis_barang', 'Jenis Barang', 'required|trim');
         $this->form_validation->set_rules('id_jenis_barang', 'Jenis Barang', 'callback_check_checkbox');
         $this->form_validation->set_rules('jumlah_ban_ops', 'Jumlah', 'callback_check_jumlah_ban_ops');
@@ -101,7 +101,9 @@ class Ban_ops extends CI_Controller
                         </button>
                       </div>'
             );
-            redirect('keuangan/ban_ops');
+            $alamat = 'keuangan/ban_ops?tanggal=' . $tanggal;
+            redirect($alamat);
+            // redirect('keuangan/ban_ops');
         }
 
         if ($this->form_validation->run('check_jumlah_ban_ops') == false) {

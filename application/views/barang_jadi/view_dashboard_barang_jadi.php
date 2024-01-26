@@ -11,7 +11,7 @@
                                             )">
                     <!-- <h4 class="card-title"><?= strtoupper($title) ?></h4> -->
                     <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
-                        <span class="title">Selamat Datang <?= $this->session->userdata('nama_lengkap'); ?> di Aplikasi AMDK Bondowoso</span>
+                        <span class="title">Selamat Datang <?= $this->session->userdata('nama_lengkap'); ?> di Sistem Aplikasi AMDK PDAM Bondowoso</span>
                     </marquee>
                 </div>
                 <div class="card-body d-flex align-items-center justify-content-center">
