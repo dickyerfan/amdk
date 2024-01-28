@@ -64,7 +64,7 @@
                                     <tr>
                                         <th class="text-center">No</th>
                                         <th class="text-center">Tanggal</th>
-                                        <th class="text-center">Nama Barang</th>
+                                        <th class="text-center">Nama Produk</th>
                                         <th class="text-center">Jumlah</th>
                                         <th class="text-center">Input oleh </th>
                                         <th class="text-center">Action</th>

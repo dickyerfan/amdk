@@ -67,7 +67,7 @@
                                             <td class="text-end"><?= number_format($row->jumlah_masuk, 0, ',', '.'); ?></td>
                                             <td class="text-end"><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
                                             <td class="text-end"><?= number_format($row->jumlah_rusak, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($stok_akhir, 0, ',', '.'); ?></td>
+                                            <td class="text-end fw-bold"><?= number_format($stok_akhir, 0, ',', '.'); ?></td>
                                             <td class="text-end"><?= round($sisa_stok); ?></td>
                                             <td class="text-end"><?= $stok_minimum; ?></td>
                                             <td class="text-center"><?= $stok_minimum < $sisa_stok ? '<span class="btn btn-success btn-sm">Cukup</span>' : '<span class="btn btn-danger btn-sm">Kurang</span>'; ?></td>

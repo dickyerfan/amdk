@@ -299,6 +299,152 @@ class Barang_keluar extends CI_Controller
         }
     }
 
+    public function update_status_keluar_tanggal_sama($tanggal_keluar, $bagian)
+    {
+        $data['detail_barang_keluar'] = $this->Model_barang_baku->get_detail_barang_keluar_tgl_sama($tanggal_keluar, $bagian);
+        $data['title'] = 'Update Pemesanan Barang Baku Susulan';
+        if ($this->session->userdata('level') == 'Admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('barang_baku/view_update_keluar_barang_baku_tgl_sama', $data);
+            $this->load->view('templates/pengguna/footer_baku');
+        } else {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_baku');
+            $this->load->view('templates/pengguna/sidebar_baku');
+            $this->load->view('barang_baku/view_update_keluar_barang_baku_tgl_sama', $data);
+            $this->load->view('templates/pengguna/footer_baku');
+        }
+    }
+
+    public function terima_barang_tgl_sama($tanggal_keluar, $bagian)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        if (!empty($_FILES['bukti_keluar_gd']['name'])) {
+
+            // Fungsi untuk mendapatkan dan menyimpan nomor urut terakhir
+            function getLastNumber($filename)
+            {
+                // Membaca nomor urut terakhir dari file
+                $lastNumber = file_get_contents($filename);
+
+                // Jika file kosong atau gagal dibaca, menggunakan nilai default
+                if ($lastNumber === false || empty($lastNumber)) {
+                    $lastNumber = 512;
+                }
+
+                return intval($lastNumber);
+            }
+
+            // Fungsi untuk menyimpan nomor urut terakhir
+            function saveLastNumber($filename, $number)
+            {
+                // Menyimpan nomor urut terakhir ke file
+                file_put_contents($filename, $number);
+            }
+
+            // Fungsi untuk membuat nomor nota
+            function generateNotaNumber($kode_gudang, $tahun, &$no_urut)
+            {
+                $no_nota_ = $kode_gudang . '/' . $no_urut . '/' . $tahun;
+
+                // Memperbarui nomor urut
+                $no_urut++;
+
+                return $no_nota_;
+            }
+
+            // Nama file untuk menyimpan nomor urut terakhir
+            $filename = 'last_number.txt';
+
+            // Nomor urut dimulai dari file atau nilai default
+            $no_urut = getLastNumber($filename);
+
+            // Prefix dan tahun yang diinginkan
+            $kode_gudang = 'GD.01';
+            $tahun = date('y', strtotime($tanggal_keluar));
+
+            // Membuat nomor nota menggunakan fungsi
+            $nota = generateNotaNumber($kode_gudang, $tahun, $no_urut);
+
+            // Menyimpan nomor urut terakhir
+            saveLastNumber($filename, $no_urut);
+
+            // Membuat nama file sesuai dengan tanggal
+            $file_name = date('Y-m-d', strtotime($tanggal_keluar)) . '_' . $bagian . '.jpg';
+            // Lakukan proses upload file
+            $config['upload_path']   = './uploads/baku/keluar/';
+            $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+            $config['max_size']      = 1000;
+            $config['file_name']     = $file_name;
+            $config['overwrite']     = true; // Mengizinkan penggantian file yang ada dengan nama yang sama
+
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload('bukti_keluar_gd')) {
+                $data_upload = $this->upload->data();
+                $data['bukti_keluar_gd'] = $file_name;
+                // $data['tanggal_keluar'] = $this->input->post('tanggal_keluar');
+            } else {
+                // Jika proses upload gagal
+                $error_msg = $this->upload->display_errors();
+                $this->session->set_flashdata('info', $error_msg);
+                redirect('barang_baku/barang_keluar');
+            }
+
+            // Isi data selain file yang diupload
+            $data['status_keluar'] = 1;
+            $data['status_produksi'] = 0;
+            $data['no_nota'] = $nota;
+
+            // Simpan data ke dalam database
+            $this->Model_barang_baku->update_Bukti_pemesanan_tgl_sama($data, $tanggal_keluar, $bagian);
+
+            // Jika bagian adalah barang jadi, tambahkan data ke tabel barang_baku_jadi
+
+            $this->db->where('tanggal_keluar', $tanggal_keluar);
+            $this->db->where('bagian', 'jadi');
+            $query_keluar = $this->db->get('keluar_baku');
+            $data_keluar_baku = $query_keluar->row_array();
+
+            if (isset($data_keluar_baku['bagian']) && $data_keluar_baku['bagian'] === 'jadi') {
+                $data_baku_jadi = [
+                    'id_barang_baku' => $data_keluar_baku['id_barang_baku'],
+                    'jumlah_masuk' => $data_keluar_baku['jumlah_keluar'],
+                    'jumlah_akhir' => $data_keluar_baku['jumlah_keluar'],
+                    'tanggal_order' => $data_keluar_baku['tanggal_keluar'],
+                    'status_baku_jadi' => $data_keluar_baku['status_keluar'],
+                    'input_status_baku_jadi' => $data_keluar_baku['input_status_keluar'],
+                    'kode_barang' => $data_keluar_baku['kode_barang'],
+                    'no_nota' => $data_keluar_baku['no_nota']
+                ];
+
+                $this->db->insert('barang_baku_jadi', $data_baku_jadi);
+            }
+
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    <strong>Sukses,</strong> Bukti pemesanan berhasil di upload
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                </div>'
+            );
+            redirect('barang_baku/barang_keluar');
+        } else {
+            // Tampilkan pesan kesalahan jika tidak ada file yang diunggah
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Gagal,</strong> Silakan masukkan bukti pemesanan
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                </div>'
+            );
+            redirect('barang_baku/barang_keluar');
+        }
+    }
+
     public function cek_status_permintaan_barang()
     {
         $this->db->select('*');

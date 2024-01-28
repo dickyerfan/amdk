@@ -175,10 +175,34 @@ class Model_barang_baku extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function get_detail_barang_keluar_tgl_sama($tanggal_keluar, $bagian)
+    {
+        $this->db->select('*, keluar_baku.kode_barang');
+        $this->db->from('keluar_baku');
+        $this->db->join('barang_baku', 'keluar_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->where('tanggal_keluar', $tanggal_keluar);
+        $this->db->where('bagian', $bagian);
+        $this->db->where('status_keluar', 0);
+        $this->db->group_by('keluar_baku.id_keluar_baku');
+        return $this->db->get()->result();
+    }
+
     public function update_Bukti_pemesanan($data, $tanggal_keluar, $bagian)
     {
         $this->db->where('tanggal_keluar', $tanggal_keluar);
         $this->db->where('bagian', $bagian);
+        $this->db->set('bukti_keluar_gd', $data['bukti_keluar_gd']);
+        $this->db->set('no_nota', $data['no_nota']);
+        $this->db->set('status_keluar', $data['status_keluar']);
+        $this->db->set('status_produksi', $data['status_produksi']);
+        $this->db->update('keluar_baku');
+    }
+
+    public function update_Bukti_pemesanan_tgl_sama($data, $tanggal_keluar, $bagian)
+    {
+        $this->db->where('tanggal_keluar', $tanggal_keluar);
+        $this->db->where('bagian', $bagian);
+        $this->db->where('status_keluar', 0);
         $this->db->set('bukti_keluar_gd', $data['bukti_keluar_gd']);
         $this->db->set('no_nota', $data['no_nota']);
         $this->db->set('status_keluar', $data['status_keluar']);

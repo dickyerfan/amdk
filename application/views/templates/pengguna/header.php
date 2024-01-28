@@ -25,6 +25,12 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/datepicker.css') ?>">
 
     <style>
+        .cardEffect:hover {
+            transition: transform 0.5s;
+            box-shadow: 2px 2px 10px rgb(0, 0, 0);
+            transform: translateY(-6px) translateX(6px);
+        }
+
         /* .body {
 			background-image: url(img/background.jpg) !important;
 			background-size: cover;

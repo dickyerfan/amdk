@@ -28,6 +28,20 @@ class Model_barang_jadi extends CI_Model
         return $this->db->get()->result();
     }
 
+    // public function get_barang_jadi_dashboard($tanggal)
+    public function get_barang_jadi_dashboard()
+    {
+        $this->db->select('*, sum(barang_jadi.jumlah_barang_jadi) as total');
+        $this->db->from('barang_jadi');
+        $this->db->join('jenis_barang', 'barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
+        // $this->db->where('MONTH(barang_jadi.tanggal_barang_jadi)', $bulan);
+        // $this->db->where('YEAR(barang_jadi.tanggal_barang_jadi)', $tahun);
+        // $this->db->where('barang_jadi.tanggal_barang_jadi', $tanggal);
+        $this->db->group_by('jenis_barang.nama_barang_jadi');
+        $this->db->order_by('jenis_barang.id_jenis_barang');
+        return $this->db->get()->result();
+    }
+
     //awal upload stok awal
     public function getstok_awal()
     {
