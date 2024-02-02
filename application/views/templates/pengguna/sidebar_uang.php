@@ -73,6 +73,7 @@
                             <a class="nav-link" href="<?= base_url('keuangan/laporan_keuangan') ?>" style="font-size: 0.8rem;">Laporan Bulanan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/laporan_rutin_karyawan') ?>" style="font-size: 0.8rem;">Laporan Pembelian Karyawan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/laporan_ban_ops') ?>" style="font-size: 0.8rem;">Laporan Bantuan/Operasional</a>
+                            <a class="nav-link" href="<?= base_url('keuangan/laporan_pemakaian_air') ?>" style="font-size: 0.8rem;">Laporan Pemakaian Air</a>
                         </nav>
                     </div>
 

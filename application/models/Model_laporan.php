@@ -162,7 +162,7 @@ class Model_laporan extends CI_Model
         $this->db->select('jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, SUM(pemesanan.jumlah_pesan) as total_pesanan');
         $this->db->from('pemesanan');
         $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
-        // $this->db->where('pemesanan.status_nota', 1);
+        $this->db->where('pemesanan.status_nota', 1);
         $this->db->where('pemesanan.jenis_pesanan', 2);
         $this->db->or_where('pemesanan.jenis_pesanan', 3);
         $this->db->or_where('pemesanan.jenis_pesanan', 4);
@@ -273,6 +273,28 @@ class Model_laporan extends CI_Model
         $this->db->select('*');
         $this->db->from('jenis_barang');
         return $this->db->get()->result();
+    }
+
+    public function get_ambil_air($tanggal_awal, $tanggal_akhir)
+    {
+        $this->db->select('*, SUM(jumlah) as jumlah_air');
+        $this->db->from('truk_tangki');
+        $this->db->where('tanggal_ambil_air>=', $tanggal_awal);
+        $this->db->where('tanggal_ambil_air <=', $tanggal_akhir);
+        $this->db->group_by('tanggal_ambil_air');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function get_produksi_liter($tanggal_awal, $tanggal_akhir)
+    {
+        $this->db->select('*, SUM(jumlah_liter) as jumlah_liter');
+        $this->db->from('barang_jadi');
+        $this->db->where('tanggal_barang_jadi>=', $tanggal_awal);
+        $this->db->where('tanggal_barang_jadi <=', $tanggal_akhir);
+        $this->db->group_by('tanggal_barang_jadi');
+        $query = $this->db->get();
+        return $query->result();
     }
 
     // tanda tangan laporan

@@ -49,8 +49,11 @@ class Penjualan extends CI_Controller
         if (!empty($tanggal)) {
             $this->session->set_userdata('tanggal', $tanggal); // Simpan tanggal ke session jika diperlukan
         }
+
+        $data['tanggal_hari_ini'] = $this->input->get('tanggal');
         $data['title'] = 'Daftar Penjualan Barang';
-        $data['pesan'] = $this->Model_penjualan->get_all($bulan, $tahun);
+        $data['pesan'] = $this->Model_penjualan->get_all($tanggal);
+        // $data['pesan'] = $this->Model_penjualan->get_all($bulan, $tahun);
         if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');

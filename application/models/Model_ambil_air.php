@@ -29,31 +29,31 @@ class model_ambil_air extends CI_Model
         $this->db->insert('truk_tangki', $data);
     }
 
-    public function hapusData($id_pelanggan)
-    {
-        $this->db->where('id_pelanggan', $id_pelanggan);
-        $this->db->delete('pelanggan');
-    }
+    // public function hapusData($id_pelanggan)
+    // {
+    //     $this->db->where('id_pelanggan', $id_pelanggan);
+    //     $this->db->delete('pelanggan');
+    // }
 
-    public function getIdAdmin($id_pelanggan)
-    {
-        return $this->db->get_where('pelanggan', ['id_pelanggan' => $id_pelanggan])->row();
-    }
+    // public function getIdAdmin($id_pelanggan)
+    // {
+    //     return $this->db->get_where('pelanggan', ['id_pelanggan' => $id_pelanggan])->row();
+    // }
 
-    public function updateData()
-    {
+    // public function updateData()
+    // {
 
-        $data = [
-            'area_pelanggan' => strtoupper($this->input->post('area_pelanggan', true)),
-            'gol_pelanggan' => strtoupper($this->input->post('gol_pelanggan', true)),
-            'nama_pelanggan' => strtoupper($this->input->post('nama_pelanggan', true)),
-            'alamat_pelanggan' => strtoupper($this->input->post('alamat_pelanggan', true)),
-            'telpon_pelanggan' => $this->input->post('telpon_pelanggan', true),
-            'ket' => $this->input->post('ket', true),
-            'tarif' => $this->input->post('tarif', true),
-            'aktif' => $this->input->post('aktif', true)
-        ];
-        $this->db->where('id_pelanggan', $this->input->post('id_pelanggan'));
-        $this->db->update('pelanggan', $data);
-    }
+    //     $data = [
+    //         'area_pelanggan' => strtoupper($this->input->post('area_pelanggan', true)),
+    //         'gol_pelanggan' => strtoupper($this->input->post('gol_pelanggan', true)),
+    //         'nama_pelanggan' => strtoupper($this->input->post('nama_pelanggan', true)),
+    //         'alamat_pelanggan' => strtoupper($this->input->post('alamat_pelanggan', true)),
+    //         'telpon_pelanggan' => $this->input->post('telpon_pelanggan', true),
+    //         'ket' => $this->input->post('ket', true),
+    //         'tarif' => $this->input->post('tarif', true),
+    //         'aktif' => $this->input->post('aktif', true)
+    //     ];
+    //     $this->db->where('id_pelanggan', $this->input->post('id_pelanggan'));
+    //     $this->db->update('pelanggan', $data);
+    // }
 }

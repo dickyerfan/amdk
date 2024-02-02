@@ -97,6 +97,24 @@ class Pengambilan_air extends CI_Controller
             $data['ket'] = 0;
         }
 
+        $this->db->select('stand_meter');
+        $this->db->order_by('tanggal_ambil_air', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get('truk_tangki');
+
+        if ($query->num_rows() > 0) {
+            $result = $query->row();
+            $stand_lalu = $result->stand_meter;
+        } else {
+            // Handle jika tidak ada data
+            $stand_lalu = 0; // Atau sesuaikan dengan nilai default yang diinginkan
+        }
+
+        $stand_ini = $this->input->post('stand_meter', true);
+
+        $kubik = intval($stand_ini) - intval($stand_lalu);
+        $jumlah = $kubik * 1000;
+
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_uang');
@@ -108,7 +126,9 @@ class Pengambilan_air extends CI_Controller
                 'tanggal_ambil_air' => $this->input->post('tanggal_ambil_air', true),
                 'id_karyawan' => $this->input->post('id_karyawan', true),
                 'waktu' => $data['waktu'],
-                'stand_meter' => $this->input->post('stand_meter', true),
+                'stand_lalu' => $stand_lalu,
+                'stand_meter' => $stand_ini,
+                'jumlah' => $jumlah,
                 'bbm' => $this->input->post('bbm', true),
                 'ket' => $data['ket'],
                 'input_truk_tangki' =>  $this->session->userdata('nama_lengkap')
@@ -126,14 +146,14 @@ class Pengambilan_air extends CI_Controller
         }
     }
 
-    public function edit($id_pelanggan)
+    public function edit($id_truk)
     {
-        $data['title'] = "Form Edit Pelanggan";
-        $data['edit_pelanggan'] = $this->db->get_where('pelanggan', ['id_pelanggan' => $id_pelanggan])->row();
+        $data['title'] = "Form Edit Pengambilan Air";
+        $data['edit_ambil_air'] = $this->db->get_where('truk_tangki', ['id_truk' => $id_truk])->row();
         $this->load->view('templates/pengguna/header', $data);
         $this->load->view('templates/pengguna/navbar_uang');
         $this->load->view('templates/pengguna/sidebar_uang');
-        $this->load->view('keuangan/view_edit_pelanggan', $data);
+        $this->load->view('keuangan/view_edit_ambil_air', $data);
         $this->load->view('templates/pengguna/footer_uang');
     }
 
@@ -154,7 +174,7 @@ class Pengambilan_air extends CI_Controller
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Sukses,</strong> Data Pelanggan berhasil di update
+                        <strong>Sukses,</strong> Data Pengambilan Air berhasil di update
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                         </button>
                       </div>'
@@ -163,13 +183,13 @@ class Pengambilan_air extends CI_Controller
         }
     }
 
-    public function hapus($id_pelanggan)
+    public function hapus($id_truk)
     {
-        $this->Model_ambil_air->hapusData($id_pelanggan);
+        $this->Model_ambil_air->hapusData($id_truk);
         $this->session->set_flashdata(
             'info',
             '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Sukses,</strong> Data Pelanggan berhasil di hapus
+                    <strong>Sukses,</strong> Data Pengambilan air berhasil di hapus
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                     </button>
                   </div>'

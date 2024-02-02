@@ -81,12 +81,18 @@ class Model_barang_jadi extends CI_Model
         $this->db->join('jenis_barang', 'barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
         $this->db->where('MONTH(barang_jadi.tanggal_barang_jadi)', $bulan);
         $this->db->where('YEAR(barang_jadi.tanggal_barang_jadi)', $tahun);
-        $this->db->where('status_barang_jadi', 1);
+        $this->db->where('status_barang_produksi', 1);
         $this->db->group_by('barang_jadi.id_barang_jadi');
         $this->db->order_by('barang_jadi.id_barang_jadi', 'DESC');
         return $this->db->get()->result();
     }
-    //barang_masuk
+
+    public function update_status_barang_jadi($id_barang_jadi, $data)
+    {
+        $this->db->where('id_barang_jadi', $id_barang_jadi);
+        return $this->db->update('barang_jadi', $data);
+    }
+    // akhir barang_masuk
 
     // barang keluar
     public function getbarang_keluar($bulan, $tahun)

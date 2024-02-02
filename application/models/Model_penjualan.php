@@ -4,18 +4,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Model_penjualan extends CI_Model
 {
 
-    public function get_all($bulan, $tahun)
+    public function get_all($tanggal)
     {
         $this->db->select('*');
         $this->db->from('pemesanan');
         $this->db->join('mobil', 'mobil.id_mobil = pemesanan.id_mobil', 'left');
         $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang', 'left');
         $this->db->join('pelanggan', 'pelanggan.id_pelanggan = pemesanan.id_pelanggan', 'left');
-        $this->db->where('MONTH(pemesanan.tanggal_pesan)', $bulan);
-        $this->db->where('YEAR(pemesanan.tanggal_pesan)', $tahun);
+        $this->db->where('DATE(pemesanan.tanggal_pesan)', $tanggal);
         $this->db->order_by('pemesanan.id_pemesanan', 'DESC');
+
         return $this->db->get()->result();
     }
+    // public function get_all($bulan, $tahun)
+    // {
+    //     $this->db->select('*');
+    //     $this->db->from('pemesanan');
+    //     $this->db->join('mobil', 'mobil.id_mobil = pemesanan.id_mobil', 'left');
+    //     $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang', 'left');
+    //     $this->db->join('pelanggan', 'pelanggan.id_pelanggan = pemesanan.id_pelanggan', 'left');
+    //     $this->db->where('MONTH(pemesanan.tanggal_pesan)', $bulan);
+    //     $this->db->where('YEAR(pemesanan.tanggal_pesan)', $tahun);
+    //     $this->db->order_by('pemesanan.id_pemesanan', 'DESC');
+    //     return $this->db->get()->result();
+    // }
 
     public function get_lunas($id_pemesanan)
     {

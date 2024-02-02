@@ -77,4 +77,41 @@ class Barang_masuk extends CI_Controller
             $this->load->view('templates/pengguna/footer_jadi');
         }
     }
+
+
+    public function check_kiriman_barang_jadi()
+    {
+        $this->db->select('*');
+        $this->db->from('barang_jadi');
+        $this->db->where('status_barang_produksi', 1);
+        $this->db->where('status_pesan', 1);
+        $result = $this->db->get()->result();
+
+        if ($result) {
+            $response['success'] = true;
+        } else {
+            $response['success'] = false;
+        }
+
+        echo json_encode($response);
+    }
+
+
+    public function proses_barang_jadi($id_barang_jadi)
+    {
+        $data = [
+            'status_barang_jadi' => 1,
+            'status_pesan' => 0
+        ];
+        $this->Model_barang_jadi->Update_status_barang_jadi($id_barang_jadi, $data);
+        $this->session->set_flashdata(
+            'info',
+            '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+                            <strong>Sukses,</strong> Barang Menjadi Milik Barang Jadi
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            </button>
+                        </div>'
+        );
+        redirect('barang_jadi/barang_masuk');
+    }
 }

@@ -23,7 +23,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row justify-content-center mb-2">
-                        <div class="col-lg-6 text-center">
+                        <!-- <div class="col-lg-6 text-center">
                             <h5><?= strtoupper($title); ?></h5>
                             <?php
                             if (empty($bulan_lap)) {
@@ -50,6 +50,36 @@
 
                             ?>
                             <h5>Bulan : <?= $bulan_lap . ' ' . $tahun_lap; ?></h5>
+                        </div> -->
+                        <div class="col-lg-6 text-center">
+                            <h5><?= strtoupper($title); ?></h5>
+                            <?php if (empty($tanggal_hari_ini)) {
+                                // Jika kosong atau null, atur nilainya menjadi tanggal hari ini
+                                $tanggal_hari_ini = date("Y-m-d"); // Format tanggal "YYYY-MM-DD"
+                            }
+                            // Ubah format tanggal ke bahasa Indonesia
+                            setlocale(LC_TIME, 'id_ID');
+                            $tanggal_hari_ini = strftime('%e %B %Y', strtotime($tanggal_hari_ini));
+                            // Ubah nama bulan menjadi bahasa Indonesia
+                            $bulan = [
+                                'January' => 'Januari',
+                                'February' => 'Februari',
+                                'March' => 'Maret',
+                                'April' => 'April',
+                                'May' => 'Mei',
+                                'June' => 'Juni',
+                                'July' => 'Juli',
+                                'August' => 'Agustus',
+                                'September' => 'September',
+                                'October' => 'Oktober',
+                                'November' => 'November',
+                                'December' => 'Desember',
+                            ];
+
+                            $tanggal_hari_ini = strtr($tanggal_hari_ini, $bulan);
+
+                            ?>
+                            <h5><?= $tanggal_hari_ini; ?></h5>
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -105,7 +135,7 @@
                                                 <td><?= $row->status_bayar == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Lunas</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?></td>
                                                 <td>
                                                     <a href="<?= $row->id_mobil == null ? base_url('pemasaran/pemesanan/pilih_mobil/') : "javascript:void(0)" ?><?= $row->id_pemesanan; ?>"><i class="fas fa-truck text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk pilih Mobil"></i></a>
-                                                    <a href="<?= $row->status_nota == 0 ? base_url('pemasaran/pemesanan/upload_nota/') : "javascript:void(0)" ?><?= $row->id_pemesanan ?>"><i class="fa-solid fa-square-poll-horizontal text-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk upload nota"></i></a>
+                                                    <a href="<?= ($row->status_nota == 1 || $row->id_mobil == null) ? "javascript:void(0)"  : base_url('pemasaran/pemesanan/upload_nota/') ?><?= $row->id_pemesanan ?>"><i class="fa-solid fa-square-poll-horizontal text-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk upload nota"></i></a>
                                                     <a href="<?= base_url('pemasaran/pemesanan/detail/') ?><?= $row->id_pemesanan ?>"><i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="klik lihat detail pemesanan"></i></a>
                                                 </td>
                                             </tr>

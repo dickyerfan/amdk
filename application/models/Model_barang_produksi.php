@@ -196,7 +196,7 @@ class Model_barang_produksi extends CI_Model
         return $this->db->insert('keluar_baku_produksi', $data_keluar_baku);
     }
 
-    public function Update_status_barang_jadi($id_barang_jadi, $data)
+    public function update_status_barang_jadi($id_barang_jadi, $data)
     {
         $this->db->where('id_barang_jadi', $id_barang_jadi);
         return $this->db->update('barang_jadi', $data);

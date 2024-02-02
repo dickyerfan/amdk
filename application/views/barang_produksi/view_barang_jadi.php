@@ -60,10 +60,10 @@
                                             <td><?= $row->input_status_barang_jadi; ?></td>
                                             <td><?= $row->status_barang_jadi == 0 ? 'Milik Produksi' : 'Milik Barang jadi' ?></td>
                                             <td>
-                                                <?php if ($row->status_barang_jadi == 0) : ?>
+                                                <?php if ($row->status_barang_produksi == 0) : ?>
                                                     <a href="#" onclick="showAlert(<?= $row->id_barang_jadi ?>)"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Proses</span></a>
                                                 <?php endif; ?>
-                                                <?php if ($row->status_barang_jadi == 1) : ?>
+                                                <?php if ($row->status_barang_produksi == 1) : ?>
                                                     <a href="#"><span class="neumorphic-button text-success btn-sm"><i class="fa-solid fa-circle-info text-success"></i> Selesai</span></a>
                                                 <?php endif; ?>
 

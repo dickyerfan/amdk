@@ -48,8 +48,10 @@ class Pemesanan extends CI_Controller
         if (!empty($tanggal)) {
             $this->session->set_userdata('tanggal', $tanggal); // Simpan tanggal ke session jika diperlukan
         }
+        $data['tanggal_hari_ini'] = $this->input->get('tanggal');
         $data['title'] = 'Daftar Pemesanan Barang';
-        $data['pesan'] = $this->Model_pemesanan->get_all($bulan, $tahun);
+        // $data['pesan'] = $this->Model_pemesanan->get_all($bulan, $tahun);
+        $data['pesan'] = $this->Model_pemesanan->get_all($tanggal);
         if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
@@ -67,6 +69,7 @@ class Pemesanan extends CI_Controller
 
     public function upload()
     {
+        $tanggal = $this->session->userdata('tanggal');
         // $this->form_validation->set_rules('id_jenis_barang', 'Nama Barang', 'required|trim');
         // $this->form_validation->set_rules('jumlah_pesan', 'Jumlah Pesan', 'required|trim|numeric');
         $this->form_validation->set_rules('id_pelanggan', 'Nama Pelanggan', 'required|trim');
@@ -131,7 +134,9 @@ class Pemesanan extends CI_Controller
                         </button>
                       </div>'
             );
-            redirect('pemasaran/pemesanan');
+            $alamat = 'pemasaran/pemesanan?tanggal=' . $tanggal;
+            redirect($alamat);
+            // redirect('pemasaran/pemesanan');
         }
     }
 
@@ -253,6 +258,7 @@ class Pemesanan extends CI_Controller
 
     public function update_nota()
     {
+        $tanggal = $this->session->userdata('tanggal');
         date_default_timezone_set('Asia/Jakarta');
         if (!empty($_FILES['nota_beli']['name'])) {
 
@@ -301,7 +307,9 @@ class Pemesanan extends CI_Controller
                     </button>
                 </div>'
             );
-            redirect('pemasaran/pemesanan');
+            $alamat = 'pemasaran/pemesanan?tanggal=' . $tanggal;
+            redirect($alamat);
+            // redirect('pemasaran/pemesanan');
         }
     }
 

@@ -71,7 +71,8 @@
                                     <th>Tanggal Ambil</th>
                                     <th>Nama Petugas</th>
                                     <th>Waktu</th>
-                                    <th>Stand Meter</th>
+                                    <th>Stand Awal</th>
+                                    <th>Stand Akhir</th>
                                     <th>BBM</th>
                                     <th>Ket</th>
                                     <th>Input/update Oleh</th>
@@ -125,13 +126,14 @@
                                         <td><?= $tanggal_hari_ini; ?></td>
                                         <td><?= $row->nama_karyawan; ?></td>
                                         <td class="text-center"><?= $row->waktu; ?></td>
+                                        <td class="text-center"><?= $row->stand_lalu; ?></td>
                                         <td class="text-center"><?= $row->stand_meter; ?></td>
                                         <td class="text-center"><?= number_format($row->bbm, 0, ',', '.'); ?></td>
                                         <td class="text-center"><?= $row->ket == true ? $row->ket . ' liter' : ''; ?></td>
                                         <td class="text-center"><?= $row->input_truk_tangki; ?></td>
                                         <td class="text-center">
-                                            <a href="<?= base_url(); ?>keuangan/pelanggan/edit/<?= $row->id_truk; ?>"><i class="fas fa-fw fa-edit" style="color: green;"></i></a>
-                                            <a href="<?= base_url(); ?>keuangan/pelanggan/hapus/<?= $row->id_truk; ?>" class="tombolHapus"><i class=" fas fa-fw fa-trash" style="color:red;"></i></a>
+                                            <a href="<?= base_url(); ?>keuangan/pengambilan_air/edit/<?= $row->id_truk; ?>"><i class="fas fa-fw fa-edit" style="color: green;"></i></a>
+                                            <a href="<?= base_url(); ?>keuangan/pengambilan_air/hapus/<?= $row->id_truk; ?>" class="tombolHapus"><i class=" fas fa-fw fa-trash" style="color:red;"></i></a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

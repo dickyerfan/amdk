@@ -236,10 +236,10 @@ class Barang_jadi extends CI_Controller
     public function proses_jadi($id_barang_jadi)
     {
         $data = [
-            // 'status_barang_produksi' => 0,
-            'status_barang_jadi' => 1
+            'status_barang_produksi' => 1,
+            'status_pesan' => 1
         ];
-        $this->Model_barang_produksi->Update_status_barang_jadi($id_barang_jadi, $data);
+        $this->Model_barang_produksi->update_status_barang_jadi($id_barang_jadi, $data);
         $this->session->set_flashdata(
             'info',
             '<div class="alert alert-primary alert-dismissible fade show" role="alert">
