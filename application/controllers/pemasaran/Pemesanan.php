@@ -226,7 +226,7 @@ class Pemesanan extends CI_Controller
                 'input_status_keluar' => $this->session->userdata('nama_lengkap')
             );
 
-            // Sisipkan data ke dalam tabel keluar_jadi
+            // insert data ke dalam tabel keluar_jadi
             $this->Model_pemesanan->insert_keluar_jadi('keluar_jadi', $data_keluar_jadi);
 
             $this->session->set_flashdata(

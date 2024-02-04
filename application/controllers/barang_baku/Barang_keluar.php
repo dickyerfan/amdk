@@ -245,16 +245,27 @@ class Barang_keluar extends CI_Controller
                 $data_baku_jadi = [
                     'id_barang_baku' => $data_keluar_baku['id_barang_baku'],
                     'jumlah_masuk' => $data_keluar_baku['jumlah_keluar'],
-                    'jumlah_akhir' => $data_keluar_baku['jumlah_keluar'],
-                    'tanggal_order' => $data_keluar_baku['tanggal_keluar'],
-                    'status_baku_jadi' => $data_keluar_baku['status_keluar'],
-                    'input_status_baku_jadi' => $data_keluar_baku['input_status_keluar'],
+                    'tanggal_masuk' => $data_keluar_baku['tanggal_keluar'],
+                    'status_masuk' => $data_keluar_baku['status_keluar'],
+                    'input_bbj_masuk' => $data_keluar_baku['input_status_keluar'],
                     'kode_barang' => $data_keluar_baku['kode_barang'],
                     'no_nota' => $data_keluar_baku['no_nota']
                 ];
-
-                $this->db->insert('barang_baku_jadi', $data_baku_jadi);
+                $this->db->insert('barang_baku_jadi_masuk', $data_baku_jadi);
             }
+            // if (isset($data_keluar_baku['bagian']) && $data_keluar_baku['bagian'] === 'jadi') {
+            //     $data_baku_jadi = [
+            //         'id_barang_baku' => $data_keluar_baku['id_barang_baku'],
+            //         'jumlah_masuk' => $data_keluar_baku['jumlah_keluar'],
+            //         'jumlah_akhir' => $data_keluar_baku['jumlah_keluar'],
+            //         'tanggal_order' => $data_keluar_baku['tanggal_keluar'],
+            //         'status_baku_jadi' => $data_keluar_baku['status_keluar'],
+            //         'input_status_baku_jadi' => $data_keluar_baku['input_status_keluar'],
+            //         'kode_barang' => $data_keluar_baku['kode_barang'],
+            //         'no_nota' => $data_keluar_baku['no_nota']
+            //     ];
+            //     $this->db->insert('barang_baku_jadi', $data_baku_jadi);
+            // }
 
             $this->session->set_flashdata(
                 'info',

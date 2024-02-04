@@ -62,6 +62,7 @@ class model_karyawan_produksi extends CI_Model
         $this->db->select('id_absen_karprod, absen_karyawan_produksi.id_karyawan_produksi, karyawan_produksi.nama_karyawan_produksi, absen_karyawan_produksi.status_absen,absen_karyawan_produksi.tanggal');
         $this->db->from('absen_karyawan_produksi');
         $this->db->join('karyawan_produksi', 'karyawan_produksi.id_karyawan_produksi = absen_karyawan_produksi.id_karyawan_produksi');
+        // $this->db->where('karyawan_produksi.status', 1);
         return $this->db->get()->result();
     }
 

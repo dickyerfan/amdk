@@ -133,4 +133,20 @@ class Barang_keluar extends CI_Controller
         $this->Model_barang_jadi->terima_barang($data_terima_barang, $id_keluar_jadi);
         redirect('barang_jadi/barang_keluar');
     }
+
+    public function check_permintaan_barang_jadi()
+    {
+        $this->db->select('*');
+        $this->db->from('keluar_jadi');
+        $this->db->where('status_keluar', 0);
+        $result = $this->db->get()->result();
+
+        if ($result) {
+            $response['success'] = true;
+        } else {
+            $response['success'] = false;
+        }
+
+        echo json_encode($response);
+    }
 }

@@ -33,20 +33,25 @@ class Bon_barang_baku extends CI_Controller
 
     public function index()
     {
+        // $tanggal = $this->input->get('tanggal');
+        // $bulan = substr($tanggal, 5, 2);
+        // $tahun = substr($tanggal, 0, 4);
+        // if (empty($tanggal)) {
+        //     $tanggal = date('Y-m-d');
+        //     $bulan = date('m');
+        //     $tahun = date('Y');
+        // }
+        // $data['bulan_lap'] = $bulan;
+        // $data['tahun_lap'] = $tahun;
+        // $data['barang_baku'] = $this->Model_barang_jadi->getbarang_baku($bulan, $tahun);
+
         $tanggal = $this->input->get('tanggal');
-
-        $bulan = substr($tanggal, 5, 2);
-        $tahun = substr($tanggal, 0, 4);
-
         if (empty($tanggal)) {
             $tanggal = date('Y-m-d');
-            $bulan = date('m');
-            $tahun = date('Y');
         }
-        $data['bulan_lap'] = $bulan;
-        $data['tahun_lap'] = $tahun;
-        $data['title'] = 'Permintaan Barang Baku';
-        $data['barang_baku'] = $this->Model_barang_jadi->getbarang_baku($bulan, $tahun);
+        $data['tanggal_hari_ini'] = $this->input->get('tanggal');
+        $data['stok_barang'] = $this->Model_barang_jadi->getdata_barang_baku_jadi($tanggal);
+        $data['title'] = 'Persediaan Barang Baku';
         if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');

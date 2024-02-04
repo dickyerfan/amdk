@@ -7,7 +7,7 @@ class Baku extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('form_validation');
+        $this->load->model('Model_dashboard');
         if ($this->session->userdata('upk_bagian') != 'baku') {
             $this->session->set_flashdata(
                 'info',
@@ -20,16 +20,9 @@ class Baku extends CI_Controller
     }
     public function index()
     {
-        // if ($this->session->userdata('upk_bagian') != 'baku') {
-        //     $this->session->set_flashdata(
-        //         'info',
-        //         '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-        //                 <strong>Maaf,</strong> Anda harus login sebagai Admin Barang Baku...
-        //               </div>'
-        //     );
-        //     redirect('auth');
-        // }
-
+        $tanggal = date('Y-m-d');
+        $data['produksi'] = $this->Model_dashboard->get_barang_jadi_dashboard($tanggal);
+        $data['penjualan'] = $this->Model_dashboard->get_penjualan_dashboard($tanggal);
         $data['title'] = 'Dashboard';
         $this->load->view('templates/pengguna/header', $data);
         $this->load->view('templates/pengguna/navbar_baku');

@@ -8,7 +8,7 @@ class Jadi extends CI_Controller
     {
         parent::__construct();
         $this->load->library('form_validation');
-        $this->load->model('Model_barang_jadi');
+        $this->load->model('Model_dashboard');
         if (!$this->session->userdata('nama_pengguna')) {
             $this->session->set_flashdata(
                 'info',
@@ -43,13 +43,9 @@ class Jadi extends CI_Controller
         //     redirect('auth');
         // }
 
-        // $tanggal = date('Y-m-d');
-        // $tanggal = '2023-11-29';
-        // $bulan = date('m');
-        // $tahun = date('Y');
-
-        $data['stok_barang'] = $this->Model_barang_jadi->get_barang_jadi_dashboard();
-
+        $tanggal = date('Y-m-d');
+        $data['produksi'] = $this->Model_dashboard->get_barang_jadi_dashboard($tanggal);
+        $data['penjualan'] = $this->Model_dashboard->get_penjualan_dashboard($tanggal);
         $data['title'] = 'Dashboard';
         $this->load->view('templates/pengguna/header', $data);
         $this->load->view('templates/pengguna/navbar_jadi');

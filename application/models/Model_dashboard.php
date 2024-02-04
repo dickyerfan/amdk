@@ -3,46 +3,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Model_dashboard extends CI_Model
 {
-    public function getAllMesjid()
-    {
-        return $this->db->get_where('mesjid', ['aktif' => 1])->result();
-    }
 
-    public function getDetail($id)
+    public function get_barang_jadi_dashboard($tanggal)
     {
-        return $this->db->get_where('mesjid', ['id_mesjid' => $id])->row();
-    }
-
-    public function getAllDetail()
-    {
-        $id = $this->uri->segment(3);
-        $this->db->select('*');
-        $this->db->from('jadwal_kajian');
-        $this->db->join('ustadz', 'ustadz.id_ustadz = jadwal_kajian.id_ustadz');
-        $this->db->join('kitab', 'kitab.id_kitab = jadwal_kajian.id_kitab');
-        $this->db->join('waktu', 'waktu.id_waktu = jadwal_kajian.id_waktu');
-        $this->db->join('mesjid', 'mesjid.id_mesjid = jadwal_kajian.id_mesjid');
-        $this->db->where('jadwal_kajian.id_mesjid', $id);
-        $this->db->where('jadwal_kajian.status_aktif', 1);
-        $this->db->order_by('hari_kajian', 'ASC');
+        $this->db->select('jenis_barang.nama_barang_jadi, COALESCE(SUM(barang_jadi.jumlah_barang_jadi), 0) as total');
+        $this->db->from('jenis_barang');
+        $this->db->join('barang_jadi', 'barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND barang_jadi.tanggal_barang_jadi = "' . $tanggal . '"', 'left');
+        $this->db->group_by('jenis_barang.nama_barang_jadi');
+        $this->db->order_by('jenis_barang.id_jenis_barang');
         return $this->db->get()->result();
     }
 
-    public function tambahData()
+    public function get_penjualan_dashboard($tanggal)
     {
-        date_default_timezone_set('Asia/Jakarta');
-        $data = [
-            "nama" => $this->input->post('nama', true),
-            "email" => $this->input->post('email', true),
-            "tanggal" => date("Y-m-d H:i:s"),
-            "komentar" => $this->input->post('komentar', true),
-        ];
-
-        $this->db->insert('komentar', $data);
-    }
-
-    public function getKomentar()
-    {
-        return $this->db->get('komentar')->result();
+        $this->db->select('jenis_barang.nama_barang_jadi, COALESCE(SUM(pemesanan.jumlah_pesan), 0) as total');
+        $this->db->from('jenis_barang');
+        $this->db->join('pemesanan', 'jenis_barang.id_jenis_barang = pemesanan.id_jenis_barang AND pemesanan.tanggal_pesan = "' . $tanggal . '" AND pemesanan.status_nota = 1', 'left');
+        $this->db->group_by('jenis_barang.nama_barang_jadi');
+        $this->db->order_by('jenis_barang.id_jenis_barang');
+        return $this->db->get()->result();
     }
 }

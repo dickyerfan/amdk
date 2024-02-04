@@ -162,11 +162,11 @@
                 if (response.success === true) {
                     // Ada data dengan status 1, ubah warna ikon dan tampilkan pesan
                     $('#bellIcon').css('color', 'blue');
-                    $('#kiriman_barang_jadi').show();
+                    $('#barang_jadi_keluar').show();
                 } else {
                     // Tidak ada data dengan status 0, kembalikan warna ikon ke semula dan sembunyikan pesan
                     $('#bellIcon').css('color', '');
-                    $('#kiriman_barang_jadi').hide();
+                    $('#barang_jadi_keluar').hide();
                 }
             }
         });

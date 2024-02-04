@@ -25,6 +25,36 @@
                     <div class="row justify-content-center mb-2">
                         <div class="col-lg-6 text-center">
                             <h5><?= strtoupper($title); ?></h5>
+                            <?php if (empty($tanggal_hari_ini)) {
+                                // Jika kosong atau null, atur nilainya menjadi tanggal hari ini
+                                $tanggal_hari_ini = date("Y-m-d"); // Format tanggal "YYYY-MM-DD"
+                            }
+                            // Ubah format tanggal ke bahasa Indonesia
+                            setlocale(LC_TIME, 'id_ID');
+                            $tanggal_hari_ini = strftime('%e %B %Y', strtotime($tanggal_hari_ini));
+                            // Ubah nama bulan menjadi bahasa Indonesia
+                            $bulan = [
+                                'January' => 'Januari',
+                                'February' => 'Februari',
+                                'March' => 'Maret',
+                                'April' => 'April',
+                                'May' => 'Mei',
+                                'June' => 'Juni',
+                                'July' => 'Juli',
+                                'August' => 'Agustus',
+                                'September' => 'September',
+                                'October' => 'Oktober',
+                                'November' => 'November',
+                                'December' => 'Desember',
+                            ];
+
+                            $tanggal_hari_ini = strtr($tanggal_hari_ini, $bulan);
+
+                            ?>
+                            <h5><?= $tanggal_hari_ini; ?></h5>
+                        </div>
+                        <!-- <div class="col-lg-6 text-center">
+                            <h5><?= strtoupper($title); ?></h5>
                             <?php
                             if (empty($bulan_lap)) {
                                 $bulan_lap = date('m');
@@ -50,12 +80,46 @@
 
                             ?>
                             <h5>Bulan : <?= $bulan_lap . ' ' . $tahun_lap; ?></h5>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
                             <div class="table-responsive">
-                                <table class="table table-sm table-bordered" id="example">
+                                <table class="table table-sm table-bordered" id="example2" style="font-size: 1rem;">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Nama Barang</th>
+                                            <th class="text-center">Barang Masuk</th>
+                                            <th class="text-center">Barang Keluar</th>
+                                            <th class="text-center">Stok Akhir</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        $produk_sebelumnya = null;
+                                        foreach ($stok_barang as $row) :
+                                            $stok_akhir = $row->jumlah_masuk - $row->jumlah_keluar;
+                                            if ($produk_sebelumnya !== $row->nama_barang_baku) :
+                                        ?>
+                                                <tr>
+                                                    <td class="text-center"><?= $no++ ?></td>
+                                                    <td><?= ucwords($row->nama_barang_baku); ?></td>
+                                                    <td class="text-end"><?= number_format($row->jumlah_masuk, 0, ',', '.'); ?></td>
+                                                    <td class="text-end"><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
+                                                    <td class="text-end"><?= number_format($stok_akhir, 0, ',', '.'); ?></td>
+                                                    <td class="text-center"><span class="neumorphic-button">Ambil Kardus</span></td>
+                                                </tr>
+                                        <?php
+                                                $produk_sebelumnya = $row->nama_barang_baku;
+                                            endif;
+                                        endforeach;
+                                        ?>
+                                    </tbody>
+                                </table>
+                                <!-- <table class="table table-sm table-bordered" id="example">
                                     <thead>
                                         <tr>
                                             <th class="text-center">No</th>
@@ -88,13 +152,10 @@
                                                 <td>
                                                     <a href="<?= base_url(); ?>barang_jadi/bon_barang_baku/edit/<?= $row->id_barang_baku_jadi; ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk ambil kardus"><i class="fas fa-fw fa-edit" style="color: green;"></i></a>
                                                 </td>
-                                                <!-- <td>
-                                                    <?= $row->status_baku_jadi == 0 ? '<span class="neumorphic-button text-success">Milik Barang Baku</span>' : '<span class="neumorphic-button text-primary">Milik Barang Jadi</span>' ?>
-                                                </td> -->
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
-                                </table>
+                                </table> -->
                             </div>
                         </div>
                     </div>

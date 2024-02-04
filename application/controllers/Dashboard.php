@@ -7,6 +7,7 @@ class Dashboard extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('Model_dashboard');
 	}
 	public function index()
 	{
@@ -29,6 +30,9 @@ class Dashboard extends CI_Controller
 			redirect('auth');
 		}
 
+		$tanggal = date('Y-m-d');
+		$data['produksi'] = $this->Model_dashboard->get_barang_jadi_dashboard($tanggal);
+		$data['penjualan'] = $this->Model_dashboard->get_penjualan_dashboard($tanggal);
 		$data['title'] = 'Dashboard';
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/navbar');
