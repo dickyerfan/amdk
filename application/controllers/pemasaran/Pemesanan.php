@@ -273,6 +273,8 @@ class Pemesanan extends CI_Controller
                 $data_upload = $this->upload->data();
                 $data['nota_beli'] = $data_upload['file_name'];
                 $data['id_pemesanan'] = $this->input->post('id_pemesanan');
+                $data['id_pelanggan'] = $this->input->post('id_pelanggan');
+                $data['tanggal_pesan'] = $this->input->post('tanggal_pesan');
             } else {
                 // Jika proses upload gagal
                 $error_msg = $this->upload->display_errors();
@@ -296,7 +298,9 @@ class Pemesanan extends CI_Controller
                     </button>
                 </div>'
             );
-            redirect('pemasaran/pemesanan');
+            $alamat = 'pemasaran/pemesanan?tanggal=' . $tanggal;
+            redirect($alamat);
+            // redirect('pemasaran/pemesanan');
         } else {
             // Tampilkan pesan kesalahan jika tidak ada file yang diunggah
             $this->session->set_flashdata(

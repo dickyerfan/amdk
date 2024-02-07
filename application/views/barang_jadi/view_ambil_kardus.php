@@ -27,7 +27,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="tanggal_keluar">Tanggal Pesan :</label>
+                                    <label for="tanggal_keluar">Tanggal Keluar :</label>
                                     <input type="date" class="form-control" id="tanggal_keluar" name="tanggal_keluar" value="<?= set_value('tanggal_keluar'); ?>">
                                     <small class="form-text text-danger pl-3"><?= form_error('tanggal_keluar'); ?></small>
                                 </div>
@@ -41,13 +41,6 @@
                                     <small class="form-text text-danger pl-3"><?= form_error('jumlah_keluar'); ?></small>
                                 </div>
                             </div>
-                            <!-- <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="bukti_keluar_gd">Foto Pendukung :</label>
-                                    <input type="file" class="form-control" id="bukti_keluar_gd" name="bukti_keluar_gd" value="<?= set_value('bukti_keluar_gd'); ?>">
-                                    <small class="form-text text-danger pl-3"><?= form_error('bukti_keluar_gd'); ?></small>
-                                </div>
-                            </div> -->
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-md-12 text-center">

@@ -101,7 +101,9 @@ class Model_pemesanan extends CI_Model
 
     public function update_nota($data)
     {
-        $this->db->where('id_pemesanan', $data['id_pemesanan']);
+        // $this->db->where('id_pemesanan', $data['id_pemesanan']);
+        $this->db->where('id_pelanggan', $data['id_pelanggan']);
+        $this->db->where('tanggal_pesan', $data['tanggal_pesan']);
         $this->db->set('nota_beli', $data['nota_beli']);
         $this->db->set('tanggal_update', $data['tanggal_update']);
         $this->db->set('input_update', $data['input_update']);

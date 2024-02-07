@@ -221,7 +221,6 @@ class Laporan_rutin_karyawan extends CI_Controller
 
     public function download()
     {
-
         if (isset($_POST['ambil_data'])) {
             $tanggal = $this->input->post('tanggal');
             $bulan = substr($tanggal, 5, 2);

@@ -234,7 +234,7 @@ class Barang_keluar extends CI_Controller
             // Simpan data ke dalam database
             $this->Model_barang_baku->update_Bukti_pemesanan($data, $tanggal_keluar, $bagian);
 
-            // Jika bagian adalah barang jadi, tambahkan data ke tabel barang_baku_jadi
+            // Jika bagian adalah barang jadi, tambahkan data ke tabel barang_baku_jadi_masuk
 
             $this->db->where('tanggal_keluar', $tanggal_keluar);
             $this->db->where('bagian', 'jadi');

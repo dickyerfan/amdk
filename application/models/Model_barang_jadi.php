@@ -69,7 +69,8 @@ class Model_barang_jadi extends CI_Model
         $this->db->where('YEAR(barang_jadi.tanggal_barang_jadi)', $tahun);
         $this->db->where('status_barang_produksi', 1);
         $this->db->group_by('barang_jadi.id_barang_jadi');
-        $this->db->order_by('barang_jadi.id_barang_jadi', 'DESC');
+        // $this->db->order_by('barang_jadi.id_barang_jadi', 'DESC');
+        $this->db->order_by('barang_jadi.tanggal_barang_jadi', 'DESC');
         return $this->db->get()->result();
     }
 
@@ -172,17 +173,6 @@ class Model_barang_jadi extends CI_Model
 
 
     // awal bon barang baku
-    // public function getbarang_baku($bulan, $tahun)
-    // {
-    //     $this->db->select('barang_baku_jadi.*, barang_baku.nama_barang_baku');
-    //     $this->db->from('barang_baku_jadi');
-    //     $this->db->join('barang_baku', 'barang_baku_jadi.id_barang_baku = barang_baku.id_barang_baku', 'left');
-    //     $this->db->where('MONTH(barang_baku_jadi.tanggal_order)', $bulan);
-    //     $this->db->where('YEAR(barang_baku_jadi.tanggal_order)', $tahun);
-    //     $this->db->order_by('barang_baku_jadi.tanggal_order', 'DESC');
-    //     $this->db->order_by('barang_baku_jadi.id_barang_baku_jadi', 'DESC');
-    //     return $this->db->get()->result();
-    // }
 
     public function getdata_barang_baku_jadi($tanggal)
     {
@@ -209,14 +199,10 @@ class Model_barang_jadi extends CI_Model
         return $this->db->get()->result();
     }
 
-    public function update_baku_jadi()
-    {
-        $data = [
-            'jumlah_keluar' => $this->input->post('jumlah_keluar', true)
-        ];
 
-        $this->db->where('id_barang_baku_jadi', $this->input->post('id_barang_baku_jadi'));
-        $this->db->update('barang_baku_jadi', $data);
+    public function ambil_kardus($data)
+    {
+        $this->db->insert('barang_baku_jadi_keluar', $data);
     }
 
 
@@ -233,8 +219,6 @@ class Model_barang_jadi extends CI_Model
     //     $this->db->order_by('keluar_baku.id_keluar_baku', 'DESC');
     //     return $this->db->get()->result();
     // }
-
-
 
 
     public function terima_barang($data_terima_barang, $id_keluar_jadi)

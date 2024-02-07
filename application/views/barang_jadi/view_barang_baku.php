@@ -102,6 +102,7 @@
                                         $produk_sebelumnya = null;
                                         foreach ($stok_barang as $row) :
                                             $stok_akhir = $row->jumlah_masuk - $row->jumlah_keluar;
+                                            $cek_stok_akhir = intval($row->jumlah_masuk - $row->jumlah_keluar);
                                             if ($produk_sebelumnya !== $row->nama_barang_baku) :
                                         ?>
                                                 <tr>
@@ -110,7 +111,9 @@
                                                     <td class="text-end"><?= number_format($row->jumlah_masuk, 0, ',', '.'); ?></td>
                                                     <td class="text-end"><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
                                                     <td class="text-end"><?= number_format($stok_akhir, 0, ',', '.'); ?></td>
-                                                    <td class="text-center"><span class="neumorphic-button">Ambil Kardus</span></td>
+                                                    <td class="text-center">
+                                                        <a href="<?= $cek_stok_akhir != 0 ? base_url('barang_jadi/bon_barang_baku/ambil_kardus/' . $row->id_barang_baku) : "javascript:Swal.fire('Belum ada stock kardus', '', 'warning');" ?>"><button class="neumorphic-button"> Ambil Kardus</button></a>
+                                                    </td>
                                                 </tr>
                                         <?php
                                                 $produk_sebelumnya = $row->nama_barang_baku;

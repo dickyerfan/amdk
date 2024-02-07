@@ -11,6 +11,8 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <input type="hidden" name="id_pemesanan" id="id_pemesanan" value="<?= $upload_nota->id_pemesanan; ?>">
+                                <input type="hidden" name="id_pelanggan" id="id_pelanggan" value="<?= $upload_nota->id_pelanggan; ?>">
+                                <input type="hidden" name="tanggal_pesan" id="tanggal_pesan" value="<?= $upload_nota->tanggal_pesan; ?>">
                                 <div class="form-group">
                                     <label for="nota_beli">Nota Pembelian :</label>
                                     <input type="file" class="form-control" id="nota_beli" name="nota_beli" value="<?= set_value('nota_beli'); ?>">

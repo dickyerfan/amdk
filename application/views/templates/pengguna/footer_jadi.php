@@ -126,6 +126,33 @@
 </script>
 
 <script>
+    function check_permintaan_barang_jadi() {
+        $.ajax({
+            type: 'POST',
+            url: '<?= base_url('barang_jadi/barang_keluar/check_permintaan_barang_jadi') ?>',
+            dataType: 'json',
+            success: function(response) {
+                if (response.success === true) {
+                    // Ada data dengan status 1, ubah warna ikon dan tampilkan pesan
+                    $('#bellIcon').css('color', 'yellow');
+                    $('#barang_jadi_keluar').show();
+                } else {
+                    // Tidak ada data dengan status 0, kembalikan warna ikon ke semula dan sembunyikan pesan
+                    $('#bellIcon').css('color', '');
+                    $('#barang_jadi_keluar').hide();
+                }
+            }
+        });
+    }
+
+    // Memanggil fungsi checkStatus setiap 5 detik
+
+    setInterval(function() {
+        check_permintaan_barang_jadi(); // Pemanggilan fungsi tampil_data_barang
+    }, 5000); // 5000 milidetik (5 detik)
+</script>
+
+<script>
     function check_kiriman_barang_jadi() {
         $.ajax({
             type: 'POST',
@@ -152,32 +179,8 @@
     }, 5000); // 5000 milidetik (5 detik)
 </script>
 
-<script>
-    function check_permintaan_barang_jadi() {
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url('barang_jadi/barang_keluar/check_permintaan_barang_jadi') ?>',
-            dataType: 'json',
-            success: function(response) {
-                if (response.success === true) {
-                    // Ada data dengan status 1, ubah warna ikon dan tampilkan pesan
-                    $('#bellIcon').css('color', 'blue');
-                    $('#barang_jadi_keluar').show();
-                } else {
-                    // Tidak ada data dengan status 0, kembalikan warna ikon ke semula dan sembunyikan pesan
-                    $('#bellIcon').css('color', '');
-                    $('#barang_jadi_keluar').hide();
-                }
-            }
-        });
-    }
 
-    // Memanggil fungsi checkStatus setiap 5 detik
 
-    setInterval(function() {
-        check_permintaan_barang_jadi(); // Pemanggilan fungsi tampil_data_barang
-    }, 5000); // 5000 milidetik (5 detik)
-</script>
 
 <script>
     window.setTimeout(function() {

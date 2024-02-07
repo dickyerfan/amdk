@@ -20,11 +20,11 @@
             <ul class="dropdown-menu" aria-labelledby="bellDropdown" id="permintaanProduksi" style="display: none;">
                 <li><a href="<?= base_url('barang_jadi/bon_barang_baku/update_status_produksi') ?>" class="dropdown-item" style="font-size: 0.8rem;">ada pesan baru</a></li>
             </ul>
-            <ul class="dropdown-menu" aria-labelledby="bellDropdown" id="kiriman_barang_jadi" style="display: none;">
-                <li><a href="<?= base_url('barang_jadi/barang_masuk') ?>" class="dropdown-item" style="font-size: 0.8rem;">ada pengiriman barang jadi</a></li>
-            </ul>
             <ul class="dropdown-menu" aria-labelledby="bellDropdown" id="barang_jadi_keluar" style="display: none;">
                 <li><a href="<?= base_url('barang_jadi/barang_keluar') ?>" class="dropdown-item" style="font-size: 0.8rem;">ada permintaan barang jadi</a></li>
+            </ul>
+            <ul class="dropdown-menu" aria-labelledby="bellDropdown" id="kiriman_barang_jadi" style="display: none;">
+                <li><a href="<?= base_url('barang_jadi/barang_masuk') ?>" class="dropdown-item" style="font-size: 0.8rem;">ada pengiriman barang jadi</a></li>
             </ul>
         </li>
     </ul>

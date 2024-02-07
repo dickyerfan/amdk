@@ -26,6 +26,7 @@
                             <a class="nav-link" href="<?= base_url('pemasaran/pelanggan') ?>" style="font-size: 0.8rem;">Daftar Pelanggan</a>
                             <a class="nav-link" href="<?= base_url('pemasaran/pemesanan') ?>" style="font-size: 0.8rem;">Pemesanan</a>
                             <a class="nav-link" href="<?= base_url('pemasaran/pemesanan/daftar_kiriman') ?>" style="font-size: 0.8rem;">Daftar Pengiriman</a>
+                            <a class="nav-link" href="<?= base_url('pemasaran/piutang') ?>" style="font-size: 0.8rem;">Daftar Piutang</a>
                             <!-- <a class="nav-link" href="<?= base_url('pemasaran/pemesanan/barang_karyawan') ?>" style="font-size: 0.8rem;">Daftar Barang Karyawan</a> -->
                         </nav>
                     </div>
