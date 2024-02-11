@@ -18,6 +18,11 @@
                                     <input type="file" class="form-control" id="nota_beli" name="nota_beli" value="<?= set_value('nota_beli'); ?>">
                                     <small class="form-text text-danger pl-3"><?= form_error('nota_beli'); ?></small>
                                 </div>
+                                <div class="form-group">
+                                    <label for="nota_beli">Tanggal Setor :</label>
+                                    <input type="datetime-local" class="form-control" id="tanggal_update" name="tanggal_update" value="<?= set_value('tanggal_update'); ?>">
+                                    <small class="form-text text-danger pl-3"><?= form_error('tanggal_update'); ?></small>
+                                </div>
                             </div>
                         </div>
                         <button class=" neumorphic-button mt-2" name="tambah" type="submit"><i class="fas fa-edit"></i> Update</button>

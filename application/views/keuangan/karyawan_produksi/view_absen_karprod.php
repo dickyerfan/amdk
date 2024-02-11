@@ -14,13 +14,13 @@
                         <div class="navbar-nav me-2">
                             <a href="<?= base_url('keuangan/karyawan_produksi/ekspor_absensi_karyawan') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div>
-                        <div class="navbar-nav ms-auto">
+                        <!-- <div class="navbar-nav ms-auto">
                             <a href="<?= base_url('keuangan/karyawan_produksi/tambah_absen'); ?>">
                                 <button class="neumorphic-button float-end">
                                     <i class="fas fa-plus"></i> Input Absen
                                 </button>
                             </a>
-                        </div>
+                        </div> -->
                     </nav>
                 </div>
                 <div class="p-2">

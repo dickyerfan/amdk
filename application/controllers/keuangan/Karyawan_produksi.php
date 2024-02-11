@@ -1,7 +1,4 @@
 <?php
-
-use PhpParser\Node\Expr\Isset_;
-
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Karyawan_produksi extends CI_Controller
@@ -251,7 +248,6 @@ class Karyawan_produksi extends CI_Controller
             redirect('keuangan/karyawan_produksi/absensi_karyawan');
         }
     }
-
 
     public function ekspor_absensi_karyawan()
     {

@@ -62,6 +62,7 @@
                                         <th class="text-center">Tgl Order</th>
                                         <th class="text-center">Jenis Barang</th>
                                         <th class="text-center">Nama Pelanggan</th>
+                                        <th class="text-center">Mobil</th>
                                         <th class="text-center">Jumlah</th>
                                         <th class="text-center">Harga</th>
                                         <th class="text-center">Total</th>
@@ -81,6 +82,7 @@
                                             <td><?= date('d-m-y', strtotime($row->tanggal_pesan)); ?></td>
                                             <td class="text-start"><?= $row->nama_produk; ?></td>
                                             <td class="text-start"><?= ucwords(strtolower($row->nama_pelanggan)); ?></td>
+                                            <td class="text-start"><?= ucwords(strtolower($row->nama_mobil)); ?></td>
                                             <td class="text-end"><?= number_format($row->jumlah_pesan, 0, ',', '.'); ?></td>
                                             <td class="text-end"><?= number_format($row->harga_barang, 0, ',', '.'); ?></td>
                                             <td class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></td>
@@ -89,7 +91,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th colspan="6" class="text-end">Jumlah</th>
+                                        <th colspan="7" class="text-end">Jumlah</th>
                                         <th class="text-end"><?= number_format($total_piutang, 0, ',', '.'); ?></th>
                                     </tr>
                                 </tfoot>

@@ -17,8 +17,30 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">Nama Barang : <?= strtoupper($nama_barang_jadi); ?></li>
                                         <li class="list-group-item">Jumlah Barang : <?= strtoupper($jumlah_keluar); ?></li>
+                                        <li class="list-group-item">Jenis Pesanan :
+                                            <?php
+                                            switch ($jenis_pesanan) {
+                                                case 1:
+                                                    echo "Kunjungan Rutin";
+                                                    break;
+                                                case 2:
+                                                    echo "Pesanan Langsung";
+                                                    break;
+                                                case 3:
+                                                    echo "Bantuan/operasional";
+                                                    break;
+                                                case 4:
+                                                    echo "Karyawan";
+                                                    break;
+                                                default:
+                                                    echo "Tidak ada jenis pesanan";
+                                                    break;
+                                            }
+                                            ?>
+                                        </li>
                                     </ul>
                                 </div>
+                                <!-- <span class="text-danger" style="font-size: 0.8rem;">Jika jenis pesanan Kunjungan Rutin, Jumlah barang kembali di isi yang di order pelanggan</span> -->
                             </div>
                         </div>
                         <div class="row justify-content-center">

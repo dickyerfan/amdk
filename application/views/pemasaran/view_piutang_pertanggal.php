@@ -26,31 +26,33 @@
                     <div class="row justify-content-center mb-2">
                         <div class="col-lg-6 text-center">
                             <h5><?= strtoupper($title); ?></h5>
-                            <?php
-                            if (empty($bulan_lap)) {
-                                $bulan_lap = date('m');
-                                $tahun_lap = date('Y');
+                            <?php if (empty($tanggal_hari_ini)) {
+                                // Jika kosong atau null, atur nilainya menjadi tanggal hari ini
+                                $tanggal_hari_ini = date("Y-m-d"); // Format tanggal "YYYY-MM-DD"
                             }
-
+                            // Ubah format tanggal ke bahasa Indonesia
+                            setlocale(LC_TIME, 'id_ID');
+                            $tanggal_hari_ini = strftime('%e %B %Y', strtotime($tanggal_hari_ini));
+                            // Ubah nama bulan menjadi bahasa Indonesia
                             $bulan = [
-                                '01' => 'Januari',
-                                '02' => 'Februari',
-                                '03' => 'Maret',
-                                '04' => 'April',
-                                '05' => 'Mei',
-                                '06' => 'Juni',
-                                '07' => 'Juli',
-                                '08' => 'Agustus',
-                                '09' => 'September',
-                                '10' => 'Oktober',
-                                '11' => 'November',
-                                '12' => 'Desember',
+                                'January' => 'Januari',
+                                'February' => 'Februari',
+                                'March' => 'Maret',
+                                'April' => 'April',
+                                'May' => 'Mei',
+                                'June' => 'Juni',
+                                'July' => 'Juli',
+                                'August' => 'Agustus',
+                                'September' => 'September',
+                                'October' => 'Oktober',
+                                'November' => 'November',
+                                'December' => 'Desember',
                             ];
 
-                            $bulan_lap = strtr($bulan_lap, $bulan);
+                            $tanggal_hari_ini = strtr($tanggal_hari_ini, $bulan);
 
                             ?>
-                            <h5>Bulan : <?= $bulan_lap . ' ' . $tahun_lap; ?></h5>
+                            <h5><?= $tanggal_hari_ini; ?></h5>
                         </div>
                     </div>
                     <div class="row justify-content-center">

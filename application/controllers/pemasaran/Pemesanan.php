@@ -284,7 +284,8 @@ class Pemesanan extends CI_Controller
 
             // Isi data selain file yang diupload
             $data['input_update'] = $this->session->userdata('nama_lengkap');
-            $data['tanggal_update'] = date('Y-m-d H:i:s');
+            // $data['tanggal_update'] = date('Y-m-d H:i:s'); 
+            $data['tanggal_update'] = $this->input->post('tanggal_update');
             $data['status_nota'] = 1;
             $data['status_pesan'] = 1;
 

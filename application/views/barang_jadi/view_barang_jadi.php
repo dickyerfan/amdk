@@ -24,7 +24,8 @@
                 <div class="card-body">
                     <div class="row justify-content-center mb-2">
                         <div class="col-lg-6 text-center">
-                            <h6><?= strtoupper($title); ?></h6>
+                            <h5><?= strtoupper($title); ?></h5>
+                            <h5>Bulan : <?= $bulan . ' ' . $tahun; ?></h5>
                         </div>
                     </div>
                     <div class="row justify-content-center">

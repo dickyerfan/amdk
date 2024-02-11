@@ -126,7 +126,7 @@ class Model_pemesanan extends CI_Model
 
     public function get_daftar_kiriman($tanggal)
     {
-        $this->db->select('mobil.id_mobil, mobil.nama_mobil, mobil.plat_nomor, pemesanan.tanggal_pesan, 
+        $this->db->select('mobil.id_mobil, mobil.nama_mobil, mobil.plat_nomor, pemesanan.tanggal_pesan, pemesanan.jenis_pesanan, 
             SUM(pemesanan.jumlah_pesan) as total_pemesanan');
         $this->db->from('pemesanan');
         $this->db->join('mobil', 'pemesanan.id_mobil = mobil.id_mobil');
@@ -147,7 +147,7 @@ class Model_pemesanan extends CI_Model
 
     private function getJenisBarang($idMobil, $tanggalPesan)
     {
-        $this->db->select('jenis_barang.nama_barang_jadi, SUM(pemesanan.jumlah_pesan) as jumlah_pesan');
+        $this->db->select('jenis_barang.nama_barang_jadi, pemesanan.jenis_pesanan, SUM(pemesanan.jumlah_pesan) as jumlah_pesan');
         $this->db->from('pemesanan');
         $this->db->join('jenis_barang', 'pemesanan.id_jenis_barang = jenis_barang.id_jenis_barang');
         $this->db->where('pemesanan.id_mobil', $idMobil);

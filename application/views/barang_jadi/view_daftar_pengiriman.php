@@ -4,7 +4,7 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('pemasaran/pemesanan/daftar_kiriman'); ?>" method="get">
+                        <form action="<?= base_url('barang_jadi/daftar_kiriman'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
                                 <input type="date" name="tanggal" class="form-control">
                                 <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
@@ -104,7 +104,6 @@
                                                                             echo "Tidak ada jenis pesanan";
                                                                             break;
                                                                     }
-                                                                    $barang->jenis_pesanan;
                                                                     ?>
                                                                 </td>
                                                             </tr>

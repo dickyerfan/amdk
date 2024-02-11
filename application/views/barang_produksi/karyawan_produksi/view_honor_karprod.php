@@ -5,22 +5,22 @@
                 <div class="card-header shadow">
 
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('barang_produksi/karyawan_produksi/absensi_karyawan'); ?>" method="get">
+                        <form action="<?= base_url('barang_produksi/karyawan_produksi/honor_karyawan'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
+                                <input type="date" name="tanggal_honor" class="form-control">
                                 <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
                             </div>
                         </form>
                         <div class="navbar-nav me-2">
-                            <a href="<?= base_url('barang_produksi/karyawan_produksi/ekspor_absensi_karyawan') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
+                            <a href="<?= base_url('barang_produksi/karyawan_produksi/ekspor_honor_karyawan') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div>
-                        <div class="navbar-nav ms-auto">
+                        <!-- <div class="navbar-nav ms-auto">
                             <a href="<?= base_url('barang_produksi/karyawan_produksi/tambah_absen'); ?>">
                                 <button class="neumorphic-button float-end">
                                     <i class="fas fa-plus"></i> Input Absen
                                 </button>
                             </a>
-                        </div>
+                        </div> -->
                     </nav>
                 </div>
                 <div class="p-2">
@@ -33,7 +33,7 @@
                             <div>
                                 <p class="my-0 text-center"><?= strtoupper($title) ?></p>
                                 <?php
-                                $tanggal = $this->input->get('tanggal');
+                                $tanggal = $this->input->get('tanggal_honor');
                                 if (empty($tanggal)) {
                                     $bulan = date('m');
                                     $tahun = date('Y');
@@ -67,7 +67,7 @@
                                     <thead>
                                         <tr>
                                             <th class="text-center">No</th>
-                                            <th>Nama Karyawan</th>
+                                            <th>Nama</th>
                                             <?php
                                             // Hitung jumlah hari dalam bulan dan tahun yang dipilih
                                             $jumlah_hari = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
@@ -82,6 +82,30 @@
                                     </thead>
                                     <tbody>
                                         <?php
+                                        // kode untuk mendapatkan jumlah total rupiah perhari
+                                        $total_honor_keseluruhan = [];
+                                        foreach (range(1, $jumlah_hari) as $i) {
+                                            $total = 0;
+                                            foreach ($data_jenis_barang as $barang) {
+                                                $tanggal = sprintf('%04d-%02d-%02d', $tahun, $bulan, $i);
+                                                if (isset($barang['barang_jadi'][$tanggal])) {
+                                                    $total += $barang['barang_jadi'][$tanggal];
+                                                }
+                                            }
+                                            $total_honor_keseluruhan[$i] = $total;
+                                        }
+                                        // kode untuk mendapatkan jumlah karyawan yang masuk perhari
+                                        $total_per_tanggal = []; // Tambah baris ini untuk menyimpan nilai total per tanggal
+                                        foreach (range(1, $jumlah_hari) as $i) {
+                                            $total = 0;
+                                            foreach ($absensi_karyawan as $karyawan) {
+                                                $tanggal = sprintf('%04d-%02d-%02d', $tahun, $bulan, $i);
+                                                if (isset($karyawan['absen_karyawan_produksi'][$tanggal]) && $karyawan['absen_karyawan_produksi'][$tanggal] == '1') {
+                                                    $total += $karyawan['absen_karyawan_produksi'][$tanggal];
+                                                }
+                                            }
+                                            $total_per_tanggal[$i] = $total;
+                                        }
                                         $no = 1;
                                         foreach ($absensi_karyawan as $karyawan) : ?>
                                             <tr>
@@ -89,17 +113,20 @@
                                                 <td><?= $karyawan['nama_karyawan_produksi']; ?></td>
                                                 <?php
                                                 $total_hadir = 0;
+                                                $total_honor = 0;
                                                 foreach (range(1, $jumlah_hari) as $i) {
                                                     $tanggal = sprintf('%04d-%02d-%02d', $tahun, $bulan, $i);
-                                                    $absensi_status = isset($karyawan['absen_karyawan_produksi'][$tanggal]) ? $karyawan['absen_karyawan_produksi'][$tanggal] : '0';
-                                                    echo "<td class='text-center'>{$absensi_status}</td>";
-                                                    // Menghitung total hadir
-                                                    if ($absensi_status == '1') {
-                                                        $total_hadir++;
+                                                    $honor = 0;
+                                                    if (isset($total_per_tanggal[$i]) && $total_per_tanggal[$i] != 0) {
+                                                        $honor = $total_honor_keseluruhan[$i] / $total_per_tanggal[$i];
                                                     }
+                                                    $absensi_status = isset($karyawan['absen_karyawan_produksi'][$tanggal]) ? $honor : '0';
+                                                    $honor_karProd = round($absensi_status);
+                                                    $total_honor += round($absensi_status);
+                                                    echo "<td class='text-end'>" . number_format($honor_karProd, 0, ',', '.') . "</td>";
                                                 }
                                                 ?>
-                                                <th class="text-center"><?= $total_hadir; ?></th>
+                                                <th class="text-end"><?= number_format($total_honor, 0, ',', '.'); ?></th>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -122,7 +149,20 @@
                                                 echo "<th class='text-center'>{$total}</th>";
                                             }
                                             ?>
-                                            <th class='text-center'><?= $total_absen_keseluruhan ?></th>
+                                            <?php
+                                            $total_honor_keseluruhan = 0;
+                                            foreach (range(1, $jumlah_hari) as $i) {
+                                                $total = 0;
+                                                foreach ($data_jenis_barang as $barang) {
+                                                    $tanggal = sprintf('%04d-%02d-%02d', $tahun, $bulan, $i);
+                                                    if (isset($barang['barang_jadi'][$tanggal])) {
+                                                        $total += $barang['barang_jadi'][$tanggal];
+                                                        $total_honor_keseluruhan += $barang['barang_jadi'][$tanggal];
+                                                    }
+                                                }
+                                            }
+                                            ?>
+                                            <th class='text-end'><?= number_format($total_honor_keseluruhan, 0, ',', '.'); ?></th>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -153,46 +193,64 @@
                                     </thead>
                                     <tbody>
                                         <?php
+                                        $nama_barang_mapping = [
+                                            'galon 19l' => 'Galon',
+                                            'gelas 220ml ijen' => 'Ijen 220',
+                                            'gelas 220ml genggong' => 'Genggong 220',
+                                            'gelas 220ml an nujum' => 'An Nujum 220',
+                                            'gelas 220ml syubbanq' => 'SyubbanQ 220',
+                                            'gelas 220ml amalis' => 'Amalis 220',
+                                            'gelas 220ml ijen merah' => 'Ijen Mrh 220',
+                                            'botol 330ml ijen' => 'Ijen 330',
+                                            'botol 500ml ijen' => 'Ijen 500',
+                                            'botol 500ml amalis' => 'Amalis 500',
+                                            'botol 1500ml ijen' => 'Ijen 1500',
+                                            'botol 1500ml amalis' => 'Amalis 1500'
+
+                                        ];
+
                                         $no = 1;
                                         foreach ($data_jenis_barang as $barang) : ?>
+
                                             <tr>
                                                 <td class="text-center"><?= $no++ ?></td>
-                                                <td><?= $barang['nama_barang_jadi']; ?></td>
+                                                <!-- <td><?= $barang['nama_barang_jadi']; ?></td> -->
+                                                <td><?= $nama_barang_mapping[$barang['nama_barang_jadi']] ?? $barang['nama_barang_jadi']; ?></td>
                                                 <?php
-                                                $total_barang = 0;
+                                                $total_honor = 0;
                                                 foreach (range(1, $jumlah_hari) as $i) {
                                                     $tanggal = sprintf('%04d-%02d-%02d', $tahun, $bulan, $i);
-                                                    $jumlah_barang = isset($barang['barang_jadi'][$tanggal]) ? $barang['barang_jadi'][$tanggal] : '0';
-                                                    echo "<td class='text-center'>{$jumlah_barang}</td>";
+                                                    $jumlah_honor = isset($barang['barang_jadi'][$tanggal]) ? $barang['barang_jadi'][$tanggal] : '0';
+                                                    echo "<td class='text-end'>" . number_format($jumlah_honor, 0, ',', '.') . "</td>";
                                                     // Menghitung total hadir
-                                                    if ($jumlah_barang) {
-                                                        $total_barang += $jumlah_barang;
+                                                    if ($jumlah_honor) {
+                                                        $total_honor += $jumlah_honor;
                                                     }
                                                 }
                                                 ?>
-                                                <th class="text-center"><?= $total_barang; ?></th>
+                                                <th class="text-end"><?= number_format($total_honor, 0, ',', '.'); ?></th>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
                                     <tfoot>
                                         <tr>
                                             <td></td>
-                                            <td>Jumlah Total</td>
+                                            <td class="fw-bold">Jumlah Total</td>
                                             <?php
-                                            $total_barang_keseluruhan = 0;
+                                            $total_honor_keseluruhan = 0;
                                             foreach (range(1, $jumlah_hari) as $i) {
                                                 $total = 0;
                                                 foreach ($data_jenis_barang as $barang) {
                                                     $tanggal = sprintf('%04d-%02d-%02d', $tahun, $bulan, $i);
                                                     if (isset($barang['barang_jadi'][$tanggal])) {
                                                         $total += $barang['barang_jadi'][$tanggal];
-                                                        $total_barang_keseluruhan += $barang['barang_jadi'][$tanggal];
+                                                        $total_honor_keseluruhan += $barang['barang_jadi'][$tanggal];
                                                     }
                                                 }
-                                                echo "<th class='text-center'>{$total}</th>";
+                                                echo "<td class='text-end fw-bold'>" . number_format($total, 0, ',', '.') . "</td>";
                                             }
                                             ?>
-                                            <th class='text-center'><?= $total_barang_keseluruhan ?></th>
+                                            <td class='text-end fw-bold'><?= number_format($total_honor_keseluruhan, 0, ',', '.'); ?></td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -200,117 +258,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="card-body">
-                    <div class="row">
-                        <div class="col-auto">
-                            <?php
-                            $uniqueDates = array_unique(array_column($absen_karProd, 'tanggal')); // ini fungsinya untuk memilih 1 tanggal saja yang tampil
-                            $uniqueDates = array_filter($uniqueDates, function ($date) {
-                                return $date !== '1970-01-01' && strtotime($date) > 0;
-                            });
-                            sort($uniqueDates);
-                            ?>
-                            <table class="table table-bordered table-sm" style="font-size: 0.8rem;">
-                                <thead>
-                                    <tr>
-                                        <th>Nama Karyawan</th>
-                                        <?php foreach ($uniqueDates as $tanggal) : ?>
-                                            <th><?= date('d', strtotime($tanggal)); ?></th>
-                                        <?php endforeach; ?>
-                                        <th>Jumlah</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($data_karyawan as $namaKaryawan => $absen) : ?>
-                                        <tr>
-                                            <td><?= $namaKaryawan; ?></td>
-                                            <?php $totalHadir = 0; ?>
-                                            <?php foreach ($uniqueDates as $tanggal) : ?>
-                                                <?php
-                                                $hadir = isset($absen[$tanggal]) ? $absen[$tanggal] : '0';
-                                                $totalHadir += intval($hadir);
-                                                echo '<td>' . $hadir . '</td>';
-                                                ?>
-                                            <?php endforeach; ?>
-                                            <td class="text-center"><?= $totalHadir; ?></td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td>Jumlah Hadir</td>
-                                        <?php foreach ($uniqueDates as $tanggal) : ?>
-                                            <?php
-                                            $totalHadir = 0;
-                                            foreach ($data_karyawan as $absen) {
-                                                $hadir = isset($absen[$tanggal]) ? $absen[$tanggal] : '0';
-                                                $totalHadir += intval($hadir);
-                                            }
-                                            echo '<td>' . $totalHadir . '</td>';
-                                            ?>
-                                        <?php endforeach; ?>
-                                        <td></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-auto">
-                            <p>Total Hasil Produksi</p>
-                            <?php
-                            $uniqueDates = array_unique(array_column($produksi_barang, 'tanggal_barang_jadi')); // ini fungsinya untuk memilih 1 tanggal saja yang tampil
-                            $uniqueDates = array_filter($uniqueDates, function ($date) {
-                                return $date !== '1970-01-01' && strtotime($date) > 0;
-                            });
-                            sort($uniqueDates);
-                            ?>
-                            <table class="table table-bordered table-sm" style="font-size: 0.8rem;">
-                                <thead>
-                                    <tr>
-                                        <th>Jenis Barang Jadi</th>
-                                        <?php foreach ($uniqueDates as $tanggal) : ?>
-                                            <th><?= date('d', strtotime($tanggal)); ?></th>
-                                        <?php endforeach; ?>
-                                        <th>Jumlah</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($data_jenis_barang as $jenisBarang => $jumlah_barang) : ?>
-                                        <tr>
-                                            <td><?= $jenisBarang; ?></td>
-                                            <?php $totalJumlah = 0; ?>
-                                            <?php foreach ($uniqueDates as $tanggal) : ?>
-                                                <?php
-                                                $jumlah = isset($jumlah_barang[$tanggal]) ? $jumlah_barang[$tanggal] : '0';
-                                                $totalJumlah += intval($jumlah);
-                                                echo '<td>' . $jumlah . '</td>';
-                                                ?>
-                                            <?php endforeach; ?>
-                                            <td class="text-center"><?= $totalJumlah; ?></td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td>Jumlah</td>
-                                        <?php foreach ($uniqueDates as $tanggal) : ?>
-                                            <?php
-                                            $totalHadir = 0;
-                                            foreach ($data_jenis_barang as $jumlah_barang) {
-                                                $hadir = isset($jumlah_barang[$tanggal]) ? $jumlah_barang[$tanggal] : '0';
-                                                $totalHadir += intval($hadir);
-                                            }
-                                            echo '<td>' . $totalHadir . '</td>';
-                                            ?>
-                                        <?php endforeach; ?>
-                                        <td></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </div>
     </main>

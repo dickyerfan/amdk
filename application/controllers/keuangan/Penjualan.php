@@ -73,6 +73,7 @@ class Penjualan extends CI_Controller
     {
         date_default_timezone_set('Asia/Jakarta');
         $this->form_validation->set_rules('status_bayar', 'Status bayar', 'required|trim');
+        $this->form_validation->set_rules('tanggal_bayar', 'Tanggal bayar', 'required|trim');
         $this->form_validation->set_message('required', '%s harus pilih');
 
         if ($this->form_validation->run() == false) {
@@ -88,7 +89,8 @@ class Penjualan extends CI_Controller
             $data['status_bayar'] = $this->input->post('status_bayar');
             $data['status_pesan'] = 0;
             $data['input_bayar'] = $this->session->userdata('nama_lengkap');
-            $data['tanggal_bayar'] = date('Y-m-d H:i:s');
+            // $data['tanggal_bayar'] = date('Y-m-d H:i:s');
+            $data['tanggal_bayar'] = $this->input->post('tanggal_bayar');
 
             // Periksa bulan dan tahun antara tanggal_pesan dan tanggal_bayar
             $bulan_tahun_pesan = date('Y-m', strtotime($this->db->get_where('pemesanan', ['id_pemesanan' => $id_pemesanan])->row()->tanggal_pesan));

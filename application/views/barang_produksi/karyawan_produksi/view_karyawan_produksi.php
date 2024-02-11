@@ -19,6 +19,7 @@
                                     <th class="text-center">Nama Karyawan</th>
                                     <th class="text-center">J.Kelamin</th>
                                     <th class="text-center">Status</th>
+                                    <th class="text-center">Input/Update Oleh</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -32,6 +33,7 @@
                                         <td><?= $row->nama_karyawan_produksi ?></td>
                                         <td class="text-center"><?= $row->jenkel ?></td>
                                         <td class="text-center"><?= $row->status == 1 ? 'Aktif' : 'Non Aktif' ?></td>
+                                        <td class="text-center"><?= $row->input_karyawan_produksi ?></td>
                                         <td class="text-center">
                                             <a href="<?= base_url(); ?>barang_produksi/karyawan_produksi/edit/<?= $row->id_karyawan_produksi; ?>"><span class="neumorphic-button btn-sm"><i class="fas fa-fw fa-edit"></i> Edit</span></a>
                                             <a href="<?= base_url(); ?>barang_produksi/karyawan_produksi/hapus/<?= $row->id_karyawan_produksi; ?>" class="neumorphic-button btn-sm tombolHapus" style="text-decoration: none; color:red;"><i class="fas fa-fw fa-trash"></i> Hapus</a>

@@ -22,9 +22,41 @@
                     <?= $this->session->unset_userdata('info'); ?>
                 </div>
                 <div class="card-body">
-                    <div class="row justify-content-center mb-2">
+                    <!-- <div class="row justify-content-center mb-2">
                         <div class="col-lg-6 text-center">
                             <h6><?= strtoupper($title); ?></h6>
+                        </div>
+                    </div> -->
+                    <div class="row justify-content-center mb-2">
+                        <div class="col-lg-6 text-center">
+                            <h5><?= strtoupper($title); ?></h5>
+                            <?php if (empty($tanggal_hari_ini)) {
+                                // Jika kosong atau null, atur nilainya menjadi tanggal hari ini
+                                $tanggal_hari_ini = date("Y-m-d"); // Format tanggal "YYYY-MM-DD"
+                            }
+                            // Ubah format tanggal ke bahasa Indonesia
+                            setlocale(LC_TIME, 'id_ID');
+                            $tanggal_hari_ini = strftime('%e %B %Y', strtotime($tanggal_hari_ini));
+                            // Ubah nama bulan menjadi bahasa Indonesia
+                            $bulan = [
+                                'January' => 'Januari',
+                                'February' => 'Februari',
+                                'March' => 'Maret',
+                                'April' => 'April',
+                                'May' => 'Mei',
+                                'June' => 'Juni',
+                                'July' => 'Juli',
+                                'August' => 'Agustus',
+                                'September' => 'September',
+                                'October' => 'Oktober',
+                                'November' => 'November',
+                                'December' => 'Desember',
+                            ];
+
+                            $tanggal_hari_ini = strtr($tanggal_hari_ini, $bulan);
+
+                            ?>
+                            <h5><?= $tanggal_hari_ini; ?></h5>
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -77,7 +109,8 @@
                                                 <td><?= $row->status_keluar == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Keluar</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?>
                                                 </td>
                                                 <td>
-                                                    <a href="<?= ($row->status_kembali == 0 && $row->status_keluar == 0) ? base_url('barang_jadi/barang_keluar/barang_kembali/') : "javascript:void(0)" ?><?= $row->id_keluar_jadi; ?>"><i class="fas fa-box text-success me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="klik input barang kembali"></i></a>
+                                                    <a href="<?= ($row->status_kembali == 0) ? base_url('barang_jadi/barang_keluar/barang_kembali/') : "javascript:void(0)" ?><?= $row->id_keluar_jadi; ?>"><i class="fas fa-box text-success me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="klik input barang kembali"></i></a>
+                                                    <!-- <a href="<?= ($row->status_kembali == 0 && $row->status_keluar == 0) ? base_url('barang_jadi/barang_keluar/barang_kembali/') : "javascript:void(0)" ?><?= $row->id_keluar_jadi; ?>"><i class="fas fa-box text-success me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="klik input barang kembali"></i></a> -->
                                                     <a href="<?= $row->status_keluar == 0 ? "javascript:void(0)" : "javascript:void(0)" ?>" onclick="<?= $row->status_keluar == 0 ? "tampilkanKonfirmasi(" . $row->id_keluar_jadi . ")" : "" ?>">
                                                         <i class="fas fa-circle-check" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk terima permintaan barang"></i>
                                                     </a>

@@ -64,4 +64,39 @@ class Piutang extends CI_Controller
             $this->load->view('templates/pengguna/footer');
         }
     }
+
+    public function pertanggal()
+    {
+        $tanggal = $this->input->get('tanggal');
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+        $data['bulan_lap'] = $bulan;
+        $data['tahun_lap'] = $tahun;
+
+        if (!empty($tanggal)) {
+            $this->session->set_userdata('tanggal', $tanggal); // Simpan tanggal ke session jika diperlukan
+        }
+        $data['title'] = 'Daftar Piutang AMDK';
+        $data['pesan'] = $this->Model_piutang->get_by_date($tanggal);
+        $data['tanggal_hari_ini'] = $this->input->get('tanggal');
+        if ($this->session->userdata('level') == 'Admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('pemasaran/view_piutang_pertanggal', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_pasar');
+            $this->load->view('templates/pengguna/sidebar_pasar');
+            $this->load->view('pemasaran/view_piutang_pertanggal', $data);
+            $this->load->view('templates/pengguna/footer');
+        }
+    }
 }

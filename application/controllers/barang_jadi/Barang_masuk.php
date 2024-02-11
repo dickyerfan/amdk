@@ -33,7 +33,6 @@ class Barang_masuk extends CI_Controller
     public function index()
     {
         $tanggal = $this->input->get('tanggal');
-
         $bulan = substr($tanggal, 5, 2);
         $bulanTitle = substr($tanggal, 5, 2);
         $tahun = substr($tanggal, 0, 4);
@@ -44,7 +43,6 @@ class Barang_masuk extends CI_Controller
             $bulanTitle = date('m');
             $tahun = date('Y');
         }
-
         $bulanTitle = [
             '01' => 'Januari',
             '02' => 'Februari',
@@ -60,8 +58,13 @@ class Barang_masuk extends CI_Controller
             '12' => 'Desember',
         ];
 
+        if (!empty($tanggal)) {
+            $this->session->set_userdata('tanggal', $tanggal); // Simpan tanggal ke session jika diperlukan
+        }
 
-        $data['title'] = 'Transaksi Masuk Barang Jadi' . ' ' . $bulanTitle[$bulan] . ' ' . $tahun;
+        $data['title'] = 'Transaksi Masuk Barang Jadi';
+        $data['bulan'] = $bulanTitle[$bulan];
+        $data['tahun'] = $tahun;
         $data['barang_jadi'] = $this->Model_barang_jadi->getbarang_jadi($bulan, $tahun);
         if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);

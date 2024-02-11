@@ -163,6 +163,7 @@ class Model_laporan extends CI_Model
         $this->db->from('pemesanan');
         $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
         // $this->db->where('pemesanan.status_nota', 1);
+        $this->db->where('pemesanan.id_mobil IS NOT NULL');
         $this->db->where('pemesanan.jenis_pesanan', 2);
         $this->db->or_where('pemesanan.jenis_pesanan', 3);
         $this->db->or_where('pemesanan.jenis_pesanan', 4);

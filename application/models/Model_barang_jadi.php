@@ -82,14 +82,15 @@ class Model_barang_jadi extends CI_Model
     // akhir barang_masuk
 
     // barang keluar
-    public function getbarang_keluar($bulan, $tahun)
+    public function getbarang_keluar($tanggal)
     {
         $this->db->select('*');
         $this->db->from('keluar_jadi');
         $this->db->join('jenis_produk', 'keluar_jadi.id_jenis_barang = jenis_produk.id_produk', 'left');
         $this->db->join('mobil', 'keluar_jadi.id_mobil = mobil.id_mobil', 'left');
-        $this->db->where('MONTH(keluar_jadi.tanggal_keluar)', $bulan);
-        $this->db->where('YEAR(keluar_jadi.tanggal_keluar)', $tahun);
+        $this->db->where('DATE(keluar_jadi.tanggal_keluar)', $tanggal);
+        // $this->db->where('MONTH(keluar_jadi.tanggal_keluar)', $bulan);
+        // $this->db->where('YEAR(keluar_jadi.tanggal_keluar)', $tahun);
         // $this->db->where('keluar_baku.status_keluar', 0);
         // $this->db->group_by('keluar_jadi.id_keluar_jadi');
         $this->db->order_by('keluar_jadi.id_keluar_jadi', 'DESC');

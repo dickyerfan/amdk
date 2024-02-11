@@ -27,6 +27,11 @@
                             <a class="nav-link" href="<?= base_url('barang_jadi/bon_barang_baku') ?>" style="font-size: 0.8rem;">Bon Barang Baku</a>
                         </nav>
                     </div>
+                    <a class="nav-link" href="<?= base_url('barang_jadi/daftar_kiriman') ?>">
+                        <div class="sb-nav-link-icon"><i class="fa-fw fas fa-truck"></i></div>
+                        <div style="font-size: 0.8rem;"> Daftar Kiriman</div>
+                    </a>
+
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#rutin" aria-expanded="false" aria-controls="rutin">
                         <div class="sb-nav-link-icon"><i class="fa-fw fa fa-user"></i></div>
                         <div style="font-size: 0.8rem;">Rutin Karyawan</div>

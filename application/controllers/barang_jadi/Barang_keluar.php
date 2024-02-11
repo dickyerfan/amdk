@@ -33,37 +33,55 @@ class Barang_keluar extends CI_Controller
     }
     public function index()
     {
-        $tanggal = $this->input->get('tanggal');
+        // $tanggal = $this->input->get('tanggal');
 
+        // $bulan = substr($tanggal, 5, 2);
+        // $bulanTitle = substr($tanggal, 5, 2);
+        // $tahun = substr($tanggal, 0, 4);
+
+        // if (empty($tanggal)) {
+        //     $tanggal = date('Y-m-d');
+        //     $bulan = date('m');
+        //     $bulanTitle = date('m');
+        //     $tahun = date('Y');
+        // }
+
+        // $bulanTitle = [
+        //     '01' => 'Januari',
+        //     '02' => 'Februari',
+        //     '03' => 'Maret',
+        //     '04' => 'April',
+        //     '05' => 'Mei',
+        //     '06' => 'Juni',
+        //     '07' => 'Juli',
+        //     '08' => 'Agustus',
+        //     '09' => 'September',
+        //     '10' => 'Oktober',
+        //     '11' => 'November',
+        //     '12' => 'Desember',
+        // ];
+
+        // $data['title'] = 'Transaksi Keluar Barang Jadi' . ' ' . $bulanTitle[$bulan] . ' ' . $tahun;
+
+        $tanggal = $this->input->get('tanggal');
         $bulan = substr($tanggal, 5, 2);
-        $bulanTitle = substr($tanggal, 5, 2);
         $tahun = substr($tanggal, 0, 4);
 
         if (empty($tanggal)) {
             $tanggal = date('Y-m-d');
             $bulan = date('m');
-            $bulanTitle = date('m');
             $tahun = date('Y');
         }
+        $data['bulan_lap'] = $bulan;
+        $data['tahun_lap'] = $tahun;
 
-        $bulanTitle = [
-            '01' => 'Januari',
-            '02' => 'Februari',
-            '03' => 'Maret',
-            '04' => 'April',
-            '05' => 'Mei',
-            '06' => 'Juni',
-            '07' => 'Juli',
-            '08' => 'Agustus',
-            '09' => 'September',
-            '10' => 'Oktober',
-            '11' => 'November',
-            '12' => 'Desember',
-        ];
+        if (!empty($tanggal)) {
+            $this->session->set_userdata('tanggal', $tanggal); // Simpan tanggal ke session jika diperlukan
+        }
+        $data['tanggal_hari_ini'] = $this->input->get('tanggal');
+        $data['title'] = 'Transaksi Keluar Barang Jadi';
 
-
-        $data['title'] = 'Transaksi Keluar Barang Jadi' . ' ' . $bulanTitle[$bulan] . ' ' . $tahun;
-        $data['barang_keluar'] = $this->Model_barang_jadi->getbarang_keluar($bulan, $tahun);
+        $data['barang_keluar'] = $this->Model_barang_jadi->getbarang_keluar($tanggal);
         if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
@@ -89,6 +107,7 @@ class Barang_keluar extends CI_Controller
             'nama_barang_jadi' => $data_barang_keluar->nama_barang_jadi,
             'jumlah_keluar' => $data_barang_keluar->jumlah_keluar,
             'tanggal_keluar' => $data_barang_keluar->tanggal_keluar,
+            'jenis_pesanan' => $data_barang_keluar->jenis_pesanan,
         ];
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Form Barang Kembali';
@@ -102,6 +121,10 @@ class Barang_keluar extends CI_Controller
             $jumlah_keluar = $data_barang_keluar->jumlah_keluar;
             $jumlah_kembali = $this->input->post('jumlah_kembali');
             $jumlah_akhir = $jumlah_keluar - $jumlah_kembali;
+
+            if ($data_barang_keluar->jenis_pesanan == 1) {
+                $jumlah_akhir = 0;
+            }
 
             $data_jumlah_kembali = [
                 'jumlah_kembali' => $jumlah_kembali,

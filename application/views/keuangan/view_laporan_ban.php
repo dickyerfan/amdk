@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('keuangan/laporan_ban_ops'); ?>" method="get">
+                        <form action="<?= base_url('keuangan/laporan_ban_ops/lap_ban'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
                                 <input type="date" name="tanggal" class="form-control">
                                 <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">

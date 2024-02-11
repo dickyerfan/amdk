@@ -21,7 +21,7 @@
                             </div>
                             <div class="col-md-4 mb-3">
                                 <div class="form-group">
-                                    <select name="jenkel" id="jenkel" class="form-control">
+                                    <select name="jenkel" id="jenkel" class="form-select">
                                         <option value="">Pilih Jenis Kelamin</option>
                                         <option value="Laki-laki" <?= $edit_karyawan_produksi->jenkel == 'Laki-laki' ? 'selected' : '' ?>>Laki-laki</option>
                                         <option value="Perempuan" <?= $edit_karyawan_produksi->jenkel == 'Perempuan' ? 'selected' : '' ?>>Perempuan</option>
@@ -31,7 +31,7 @@
                             </div>
                             <div class="col-md-4 mb-3">
                                 <div class="form-group">
-                                    <select name="status" id="status" class="form-control">
+                                    <select name="status" id="status" class="form-select">
                                         <option value="">Pilih Status</option>
                                         <option value="1" <?= $edit_karyawan_produksi->status == '1' ? 'selected' : '' ?>>Aktif</option>
                                         <option value="0" <?= $edit_karyawan_produksi->status == '0' ? 'selected' : '' ?>>Non Aktif</option>

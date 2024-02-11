@@ -19,7 +19,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    <select name="jenkel" id="jenkel" class="form-control">
+                                    <select name="jenkel" id="jenkel" class="form-select">
                                         <option value="">Pilih Jenis Kelamin</option>
                                         <option value="Laki-laki">Laki-laki</option>
                                         <option value="Perempuan">Perempuan</option>
