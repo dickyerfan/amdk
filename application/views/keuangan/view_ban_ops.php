@@ -77,7 +77,7 @@
                                         <td class="text-center"><?= $no++; ?></td>
                                         <td><?= date('d-m-Y', strtotime($row->tanggal_ban_ops)); ?></td>
                                         <td><?= $row->nama_pelanggan; ?></td>
-                                        <td><?= strtoupper($row->nama_barang_jadi); ?></td>
+                                        <td><?= strtoupper($row->nama_produk); ?></td>
                                         <td class="text-center"><?= $row->jumlah_ban_ops; ?></td>
                                         <td class="text-end"><?= number_format($row->harga_ban_ops, 0, ',', '.'); ?></td>
                                         <td><?= strtoupper($row->jenis_ban_ops); ?></td>

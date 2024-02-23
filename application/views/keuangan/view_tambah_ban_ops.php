@@ -60,12 +60,12 @@
                                     <?php foreach ($jenis_barang as $jenis) : ?>
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <input type="checkbox" name="id_jenis_barang[<?= $jenis->id_jenis_barang; ?>]" value="<?= $jenis->id_jenis_barang; ?>">
-                                                <?= $jenis->nama_barang_jadi; ?>
+                                                <input type="checkbox" name="id_jenis_barang[<?= $jenis->id_produk; ?>]" value="<?= $jenis->id_produk; ?>">
+                                                <?= $jenis->nama_produk; ?>
                                                 <small class="form-text text-danger pl-3"><?= form_error('id_jenis_barang'); ?></small>
                                             </div>
                                             <div class="col-md-6">
-                                                <input type="number" name="jumlah_ban_ops[<?= $jenis->id_jenis_barang; ?>]" class="form-control mb-2" placeholder="Masukan Jumlah <?= $jenis->nama_barang_jadi ?>">
+                                                <input type="number" name="jumlah_ban_ops[<?= $jenis->id_produk; ?>]" class="form-control mb-2" placeholder="Masukan Jumlah <?= $jenis->nama_produk ?>">
                                                 <small class="form-text text-danger pl-3"><?= form_error('jumlah_ban_ops'); ?></small>
                                             </div>
                                         </div>

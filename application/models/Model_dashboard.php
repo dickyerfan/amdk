@@ -18,7 +18,8 @@ class Model_dashboard extends CI_Model
     {
         $this->db->select('jenis_barang.nama_barang_jadi, COALESCE(SUM(pemesanan.jumlah_pesan), 0) as total');
         $this->db->from('jenis_barang');
-        $this->db->join('pemesanan', 'jenis_barang.id_jenis_barang = pemesanan.id_jenis_barang AND pemesanan.tanggal_pesan = "' . $tanggal . '" AND pemesanan.status_nota = 1', 'left');
+        // $this->db->join('pemesanan', 'jenis_barang.id_jenis_barang = pemesanan.id_jenis_barang AND pemesanan.tanggal_pesan = "' . $tanggal . '" AND pemesanan.status_nota = 1', 'left');
+        $this->db->join('pemesanan', 'jenis_barang.id_jenis_barang = pemesanan.id_jenis_barang AND pemesanan.tanggal_pesan = "' . $tanggal . '" AND pemesanan.id_mobil IS NOT NULL', 'left');
         $this->db->group_by('jenis_barang.nama_barang_jadi');
         $this->db->order_by('jenis_barang.id_jenis_barang');
         return $this->db->get()->result();

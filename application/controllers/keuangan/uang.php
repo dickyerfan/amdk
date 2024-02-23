@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class uang extends CI_Controller
+class Uang extends CI_Controller
 {
 
     public function __construct()

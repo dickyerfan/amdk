@@ -5,9 +5,9 @@ class model_ban_ops extends CI_Model
 {
     public function get_ban_ops($bulan, $tahun)
     {
-        $this->db->select('*,jenis_barang.id_jenis_barang, jenis_barang.nama_barang_jadi');
+        $this->db->select('*,jenis_produk.id_produk, jenis_produk.nama_produk');
         $this->db->from('ban_ops');
-        $this->db->join('jenis_barang', 'ban_ops.id_jenis_barang=jenis_barang.id_jenis_barang');
+        $this->db->join('jenis_produk', 'ban_ops.id_jenis_barang=jenis_produk.id_produk');
         $this->db->join('pelanggan', 'ban_ops.id_pelanggan=pelanggan.id_pelanggan');
         $this->db->where('MONTH(ban_ops.tanggal_ban_ops)', $bulan);
         $this->db->where('YEAR(ban_ops.tanggal_ban_ops)', $tahun);
@@ -19,7 +19,7 @@ class model_ban_ops extends CI_Model
     public function get_nama_barang()
     {
         $this->db->select('*');
-        $this->db->from('jenis_barang');
+        $this->db->from('jenis_produk');
         return $this->db->get()->result();
     }
 
@@ -108,7 +108,7 @@ class model_ban_ops extends CI_Model
         $this->db->select('harga');
         $this->db->from('harga');
         $this->db->join('pelanggan', 'harga.jenis_harga = pelanggan.tarif', 'left');
-        $this->db->join('jenis_barang', 'harga.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
+        $this->db->join('jenis_produk', 'harga.id_jenis_barang = jenis_produk.id_produk', 'left');
         $this->db->where('harga.id_jenis_barang', $id_jenis_barang);
         $this->db->where('pelanggan.tarif', $tarif);
         return $this->db->get()->row();

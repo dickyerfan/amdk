@@ -1,13 +1,13 @@
 update nota / pemasaran :
-UPDATE `pemesanan` SET `nota_beli` = 'BOOON.png', `status_nota` = '1', `input_update` = 'Muhammad Zainul Hasan', `tanggal_update` = '2024-01-01 13:13:38' WHERE `pemesanan`.`jenis_pesanan` = 2 AND `pemesanan`.`tanggal_pesan` = '2024-01-01';  
+UPDATE `pemesanan` SET `nota_beli` = 'BOOON.png', `status_nota` = '1', `input_update` = 'Muhammad Zainul Hasan', `tanggal_update` = '2024-02-01 13:13:38' WHERE `pemesanan`.`jenis_pesanan` = 2 AND `pemesanan`.`tanggal_pesan` = '2024-02-01';  
 
 
 pilih lunas / keuangan :
 
-UPDATE `pemesanan` SET `status_bayar` = '1', `input_bayar` = 'Putra Raga Adityamala', `tanggal_bayar` = '2024-01-01 13:22:58', `status_pesan` = '0', `status_piutang` = '0' WHERE `pemesanan`.`jenis_pesanan` = 2 AND `pemesanan`.`tanggal_pesan` = '2024-01-01'; 
+UPDATE `pemesanan` SET `status_bayar` = '1', `input_bayar` = 'Putra Raga Adityamala', `tanggal_bayar` = '2024-02-01 13:22:58', `status_pesan` = '0', `status_piutang` = '0' WHERE `pemesanan`.`jenis_pesanan` = 2 AND `pemesanan`.`tanggal_pesan` = '2024-02-01'; 
 
 terima barang / barang jadi :
 
-UPDATE `keluar_jadi` SET `status_keluar` = '1', `input_pemilik_barang` = 'Nurul Qomariyah', `tanggal_barang_keluar` = '2023-12-01 07:35:13' WHERE `keluar_jadi`.`tanggal_keluar` = '2023-12-01'; 
+UPDATE `keluar_jadi` SET `status_keluar` = '1', `input_pemilik_barang` = 'Nurul Qomariyah', `tanggal_barang_keluar` = '2024-02-01 07:35:13' WHERE `keluar_jadi`.`tanggal_keluar` = '2024-02-01'; 
 
 SELECT SUM(total_harga) as total FROM pemesanan WHERE status_bayar = 1 AND DATE(tanggal_bayar) = "2023-11-01" 
