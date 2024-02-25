@@ -19,7 +19,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="bellDropdown" id="pesanan_baru" style="display: none;">
                 <!-- <li><a href="#" class="dropdown-item" style="font-size: 0.8rem;">ada pesan baru</a></li> -->
-                <li><a href="<?= base_url('keuangan/penjualan') ?>" class="dropdown-item" style="font-size: 0.8rem;">ada penyetoran baru</a></li>
+                <li><a href="<?= base_url('keuangan/piutang') ?>" class="dropdown-item" style="font-size: 0.8rem;">ada penyetoran baru</a></li>
             </ul>
         </li>
     </ul>

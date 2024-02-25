@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-header card-outline card-primary shadow">
                     <a class="fw-bold text-dark" style="text-decoration:none ;"><?= strtoupper($title) ?></a>
-                    <a href="<?= base_url('keuangan/penjualan'); ?>"><button class=" neumorphic-button float-end"><i class="fas fa-reply"></i> Kembali</button></a>
+                    <a href="<?= base_url('keuangan/piutang'); ?>"><button class=" neumorphic-button float-end"><i class="fas fa-reply"></i> Kembali</button></a>
                 </div>
                 <div class="card-body">
                     <form class="user" action="" method="POST">

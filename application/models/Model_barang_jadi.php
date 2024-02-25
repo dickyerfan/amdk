@@ -76,7 +76,8 @@ class Model_barang_jadi extends CI_Model
 
         $data = [
             'id_jenis_barang' => $this->input->post('id_jenis_barang', true),
-            'jumlah_stok_awal_jadi' => $this->input->post('jumlah_stok_awal_jadi', true)
+            'jumlah_stok_awal_jadi' => $this->input->post('jumlah_stok_awal_jadi', true),
+            'input_status_stok_awal_jadi' => $this->session->userdata('nama_lengkap')
         ];
 
         $this->db->where('id_stok_awal_jadi', $this->input->post('id_stok_awal_jadi'));

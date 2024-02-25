@@ -4,25 +4,27 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('keuangan/piutang'); ?>" method="get">
-                            <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
-                                <input type="submit" value="Data Perbulan" style="margin-left: 10px;" class="neumorphic-button">
-                            </div>
-                        </form>
+                        <div class="navbar-nav ms-2">
+                            <form action="<?= base_url('pemasaran/piutang'); ?>" method="get">
+                                <div style="display: flex; align-items: center;">
+                                    <input type="date" name="tanggal" class="form-control">
+                                    <input type="submit" value="Data per bulan" style="margin-left: 10px;" class="neumorphic-button">
+                                </div>
+                            </form>
+                        </div>
                         <div class="navbar-nav me-auto ms-2">
-                            <form action="<?= base_url('keuangan/piutang/pertanggal'); ?>" method="get">
+                            <form action="<?= base_url('pemasaran/piutang/pertanggal'); ?>" method="get">
                                 <div style="display: flex; align-items: center;">
                                     <input type="date" name="tanggal" class="form-control">
                                     <input type="submit" value="Data per tanggal" style="margin-left: 10px;" class="neumorphic-button">
                                 </div>
                             </form>
                         </div>
-                        <div class="navbar-nav ms-auto">
-                            <a href="<?= base_url('keuangan/piutang') ?>"><button class="float-end neumorphic-button"> Semua Piutang</button></a>
+                        <div class="navbar-nav me-auto ms-2">
+                            <a href="<?= base_url('pemasaran/piutang') ?>"><button class="float-end neumorphic-button"> Semua Piutang</button></a>
                         </div>
                         <div class="navbar-nav ms-2">
-                            <form action="<?= base_url('keuangan/piutang/nama_produk'); ?>" method="post">
+                            <form action="<?= base_url('pemasaran/piutang/nama_produk'); ?>" method="post">
                                 <div style="display: flex; align-items: center;">
                                     <select name="id_produk" id="id_produk" class="form-control select2" style="width:150px;">
                                         <option value="">Jenis Produk</option>
@@ -35,7 +37,7 @@
                             </form>
                         </div>
                         <div class="navbar-nav ms-2">
-                            <form action="<?= base_url('keuangan/piutang/nama_pelanggan'); ?>" method="post">
+                            <form action="<?= base_url('pemasaran/piutang/nama_pelanggan'); ?>" method="post">
                                 <div style="display: flex; align-items: center;">
                                     <select name="id_pelanggan" id="id_pelanggan" class="form-control select2" style="width:150px;">
                                         <option value="">Pelanggan</option>
@@ -77,7 +79,6 @@
                                         '11' => 'November',
                                         '12' => 'Desember',
                                     ];
-
                                     $bulan_lap = strtr($bulan_lap, $bulan);
                                     ?>
                             <h5>Bulan : <?= $bulan_lap . ' ' . $tahun_lap; ?></h5> -->
@@ -89,7 +90,6 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>
-                                        <!-- <th class="text-center">Tgl Bayar</th> -->
                                         <th class="text-center">Tgl Order</th>
                                         <th class="text-center">Jenis Barang</th>
                                         <th class="text-center">Nama Pelanggan</th>
@@ -105,7 +105,7 @@
                                     <?php
                                     $no = 1;
                                     $total_piutang = 0;
-                                    foreach ($pesan as $row) :
+                                    foreach ($nama_pelanggan as $row) :
                                         $tanggal_bayar = date('d-m-y', strtotime($row->tanggal_bayar));
                                         $total_piutang = $row->total_piutang;
                                     ?>
@@ -119,31 +119,12 @@
                                             <td class="text-end"><?= number_format($row->jumlah_pesan, 0, ',', '.'); ?></td>
                                             <td class="text-end"><?= number_format($row->harga_barang, 0, ',', '.'); ?></td>
                                             <td class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></td>
-                                            <td><?= $row->status_nota == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Ada</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?></td>
+                                            <td><?= $row->status_nota == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Sudah</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?></td>
                                             <td>
-                                                <?php
-                                                // Ambil waktu saat ini
-                                                $current_time = strtotime(date('H:i'));
-                                                // Tentukan batas waktu jam 14:00
-                                                $deadline_time = strtotime('23:00');
-                                                // Cek apakah sudah lewat jam 14:00 
-                                                $can_click = $current_time < $deadline_time;
-                                                if ($row->status_bayar == 1 && $row->status_nota == 1) {
-                                                    $url = "javascript:Swal.fire('Peringatan', 'Barang sudah lunas.', 'warning');";
-                                                } else if ($row->status_nota == 0) {
-                                                    $url = "javascript:Swal.fire('Peringatan', 'Maaf, Bagian pemasaran belum setor uangnya.', 'warning');";
-                                                } else if (!$can_click) {
-                                                    $url = "javascript:Swal.fire('Peringatan', 'Maaf, waktu pelunasan sudah lewat jam 14:00 WIB', 'warning');";
-                                                } else {
-                                                    $url = base_url('keuangan/piutang/pilih_lunas/') . $row->id_pemesanan;
-                                                }
-                                                ?>
-                                                <a href="<?= $url; ?>" style="text-decoration: none;">
-                                                    <span class="btn btn-secondary btn-sm" style="font-size: 0.7rem;">Klik Lunas</span>
-                                                    <!-- <i class="fas fa-rupiah-sign text-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk bayar"></i> -->
+                                                <a href="<?= ($row->status_nota == 1 || $row->id_mobil == null) ? "javascript:void(0);" : base_url('pemasaran/piutang/upload_nota/') . $row->id_pemesanan . '/' . $row->id_pelanggan . '/' . $row->tanggal_pesan; ?>" onclick="<?= ($row->status_nota == 1 || $row->id_mobil == null) ? "Swal.fire('Nota sudah di input', '', 'warning'); return false;" : '' ?>">
+                                                    <!-- <i class="fa-solid fa-square-poll-horizontal text-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk upload nota"></i> -->
+                                                    <span class="btn btn-secondary btn-sm" style="font-size: 0.7rem;">Setor</span>
                                                 </a>
-
-                                                <!-- <a href="<?= base_url('keuangan/piutang/detail/') ?><?= $row->id_pemesanan ?>"><i class="fa-solid fa-circle-info text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk melihat detail penjualan"></i></a> -->
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

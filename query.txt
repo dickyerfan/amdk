@@ -11,3 +11,6 @@ terima barang / barang jadi :
 UPDATE `keluar_jadi` SET `status_keluar` = '1', `input_pemilik_barang` = 'Nurul Qomariyah', `tanggal_barang_keluar` = '2024-02-01 07:35:13' WHERE `keluar_jadi`.`tanggal_keluar` = '2024-02-01'; 
 
 SELECT SUM(total_harga) as total FROM pemesanan WHERE status_bayar = 1 AND DATE(tanggal_bayar) = "2023-11-01" 
+
+pilih lunas untuk bantuan/operasional
+UPDATE pemesanan SET status_bayar = 1, input_bayar = 'Putra Raga Adityamala', tanggal_bayar = '2024-01-02 10:22:58', status_pesan = 0, status_piutang = 0 WHERE pemesanan.jenis_pesanan = 4 AND MONTH(tanggal_pesan) = 11 AND YEAR(tanggal_pesan) = 2023; 

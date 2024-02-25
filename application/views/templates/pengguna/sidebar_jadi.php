@@ -20,7 +20,7 @@
                     <div class="collapse" id="transaksi" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="<?= base_url('barang_jadi/stok_barang_jadi') ?>" style="font-size: 0.8rem;">Stok Barang Jadi</a>
-                            <a class="nav-link" href="<?= base_url('barang_jadi/stok_awal_jadi') ?>" style="font-size: 0.8rem;">Stok Awal</a>
+                            <!-- <a class="nav-link" href="<?= base_url('barang_jadi/stok_awal_jadi') ?>" style="font-size: 0.8rem;">Stok Awal</a> -->
                             <a class="nav-link" href="<?= base_url('barang_jadi/barang_masuk') ?>" style="font-size: 0.8rem;">Barang Masuk</a>
                             <a class="nav-link" href="<?= base_url('barang_jadi/barang_keluar') ?>" style="font-size: 0.8rem;">Barang Keluar</a>
                             <a class="nav-link" href="<?= base_url('barang_jadi/barang_rusak') ?>" style="font-size: 0.8rem;">Barang Rusak</a>

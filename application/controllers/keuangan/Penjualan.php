@@ -72,6 +72,7 @@ class Penjualan extends CI_Controller
     public function pilih_lunas($id_pemesanan)
     {
         date_default_timezone_set('Asia/Jakarta');
+        $tanggal = $this->session->userdata('tanggal');
         $this->form_validation->set_rules('status_bayar', 'Status bayar', 'required|trim');
         $this->form_validation->set_rules('tanggal_bayar', 'Tanggal bayar', 'required|trim');
         $this->form_validation->set_message('required', '%s harus pilih');
@@ -89,7 +90,9 @@ class Penjualan extends CI_Controller
             $data['status_bayar'] = $this->input->post('status_bayar');
             $data['status_pesan'] = 0;
             $data['input_bayar'] = $this->session->userdata('nama_lengkap');
-            // $data['tanggal_bayar'] = date('Y-m-d H:i:s');
+            // ini untuk production
+            // $data['tanggal_bayar'] = date('Y-m-d H:i:s');  
+            // ini hanya untuk input data
             $data['tanggal_bayar'] = $this->input->post('tanggal_bayar');
 
             // Periksa bulan dan tahun antara tanggal_pesan dan tanggal_bayar
@@ -115,7 +118,9 @@ class Penjualan extends CI_Controller
                             </button>
                           </div>'
                 );
-                redirect('keuangan/penjualan');
+                $alamat = 'keuangan/penjualan?tanggal=' . $tanggal;
+                redirect($alamat);
+                // redirect('keuangan/penjualan');
             } else {
                 $this->session->set_flashdata(
                     'info',
@@ -125,7 +130,9 @@ class Penjualan extends CI_Controller
                             </button>
                           </div>'
                 );
-                redirect('keuangan/penjualan');
+                $alamat = 'keuangan/penjualan?tanggal=' . $tanggal;
+                redirect($alamat);
+                // redirect('keuangan/penjualan');
             }
         }
     }

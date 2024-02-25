@@ -31,7 +31,7 @@
                                         <th class="text-center">Tanggal Stok Awal</th>
                                         <th class="text-center">Nama Barang</th>
                                         <th class="text-center">Jumlah Stok</th>
-                                        <th class="text-center">Petugas Input</th>
+                                        <th class="text-center">Petugas Input/Update</th>
                                         <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
@@ -46,7 +46,7 @@
                                             <td><?= $row->jumlah_stok_awal_jadi; ?></td>
                                             <td><?= $row->input_status_stok_awal_jadi; ?></td>
                                             <td>
-                                                <a href="<?= base_url('barang_jadi/stok_awal_jadi/edit/'); ?><?= $row->id_stok_awal_jadi; ?>"><i class="fas fa-edit text-success"></i></a>
+                                                <a href="<?= $this->session->userdata('level') == 'Admin' ? base_url('barang_jadi/stok_awal_jadi/edit/') : "javascript:void(0)"; ?><?= $row->id_stok_awal_jadi; ?>"><i class="fas fa-edit text-success"></i></a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

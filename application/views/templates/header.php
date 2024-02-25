@@ -9,11 +9,13 @@
     <meta name="author" content="" />
     <link href="<?= base_url() ?>assets/img/logo.png" rel="icon">
     <title>AMDK | <?= $title ?></title>
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+    <!-- <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" /> -->
+    <link href="<?= base_url() ?>assets/css/datatables.css" rel="stylesheet" />
     <link href="<?= base_url() ?>assets/css/styles.css" rel="stylesheet" />
     <link href="<?= base_url() ?>assets/css/latar.css" rel="stylesheet" />
     <link href="<?= base_url() ?>assets/css/style_dashboard.css" rel="stylesheet" />
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="<?= base_url('assets/js/fontawesome.js') ?>" crossorigin="anonymous"></script>
+    <!-- <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script> -->
     <!-- select2 bootstrap5 -->
     <!-- Styles -->
     <link rel="stylesheet" href="<?= base_url() ?>assets/select2/bootstrap.min.css" />

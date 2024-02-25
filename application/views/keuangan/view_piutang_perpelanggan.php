@@ -4,12 +4,14 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('keuangan/piutang'); ?>" method="get">
-                            <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
-                                <input type="submit" value="Data Perbulan" style="margin-left: 10px;" class="neumorphic-button">
-                            </div>
-                        </form>
+                        <div class="navbar-nav ms-2">
+                            <form action="<?= base_url('keuangan/piutang'); ?>" method="get">
+                                <div style="display: flex; align-items: center;">
+                                    <input type="date" name="tanggal" class="form-control">
+                                    <input type="submit" value="Data per bulan" style="margin-left: 10px;" class="neumorphic-button">
+                                </div>
+                            </form>
+                        </div>
                         <div class="navbar-nav me-auto ms-2">
                             <form action="<?= base_url('keuangan/piutang/pertanggal'); ?>" method="get">
                                 <div style="display: flex; align-items: center;">
@@ -18,7 +20,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="navbar-nav ms-auto">
+                        <div class="navbar-nav me-auto ms-2">
                             <a href="<?= base_url('keuangan/piutang') ?>"><button class="float-end neumorphic-button"> Semua Piutang</button></a>
                         </div>
                         <div class="navbar-nav ms-2">
@@ -77,7 +79,6 @@
                                         '11' => 'November',
                                         '12' => 'Desember',
                                     ];
-
                                     $bulan_lap = strtr($bulan_lap, $bulan);
                                     ?>
                             <h5>Bulan : <?= $bulan_lap . ' ' . $tahun_lap; ?></h5> -->
@@ -89,7 +90,6 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>
-                                        <!-- <th class="text-center">Tgl Bayar</th> -->
                                         <th class="text-center">Tgl Order</th>
                                         <th class="text-center">Jenis Barang</th>
                                         <th class="text-center">Nama Pelanggan</th>
@@ -105,7 +105,7 @@
                                     <?php
                                     $no = 1;
                                     $total_piutang = 0;
-                                    foreach ($pesan as $row) :
+                                    foreach ($nama_pelanggan as $row) :
                                         $tanggal_bayar = date('d-m-y', strtotime($row->tanggal_bayar));
                                         $total_piutang = $row->total_piutang;
                                     ?>
@@ -140,10 +140,7 @@
                                                 ?>
                                                 <a href="<?= $url; ?>" style="text-decoration: none;">
                                                     <span class="btn btn-secondary btn-sm" style="font-size: 0.7rem;">Klik Lunas</span>
-                                                    <!-- <i class="fas fa-rupiah-sign text-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk bayar"></i> -->
                                                 </a>
-
-                                                <!-- <a href="<?= base_url('keuangan/piutang/detail/') ?><?= $row->id_pemesanan ?>"><i class="fa-solid fa-circle-info text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk melihat detail penjualan"></i></a> -->
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

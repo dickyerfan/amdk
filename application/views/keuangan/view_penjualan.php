@@ -10,11 +10,11 @@
                                 <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
                             </div>
                         </form>
-                        <div class="navbar-nav ms-auto">
+                        <!-- <div class="navbar-nav ms-auto">
                             <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
                                 <a href="<?= base_url('keuangan/pelanggan') ?>"><button class="float-end neumorphic-button"><i class="fas fa-users"></i> Daftar Pelanggan</button></a>
                             <?php endif; ?>
-                        </div>
+                        </div> -->
                     </nav>
                 </div>
                 <div class="p-2">
@@ -151,7 +151,7 @@
                                                     // Ambil waktu saat ini
                                                     $current_time = strtotime(date('H:i'));
                                                     // Tentukan batas waktu jam 14:00
-                                                    $deadline_time = strtotime('22:00');
+                                                    $deadline_time = strtotime('23:00');
                                                     // Cek apakah sudah lewat jam 14:00 
                                                     $can_click = $current_time < $deadline_time;
                                                     if ($row->status_bayar == 1 && $row->status_nota == 1) {

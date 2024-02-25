@@ -85,7 +85,7 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
                             <div class="table-responsive">
-                                <table class="table table-sm table-bordered" id="example2" style="font-size: 0.8rem;">
+                                <table class="table table-sm table-bordered" id="example" style="font-size: 0.8rem;">
                                     <thead>
                                         <tr>
                                             <th class="text-center">No</th>
@@ -140,7 +140,7 @@
                                                 </td> -->
                                                 <td>
                                                     <a href="<?= ($row->id_mobil != null) ? "javascript:void(0);" : base_url('pemasaran/pemesanan/pilih_mobil/') . $row->id_pemesanan; ?>" onclick="<?= ($row->id_mobil != null) ? "Swal.fire('Mobil Sudah Dipilih', '', 'warning'); return false;" : '' ?>"><i class="fas fa-truck text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk pilih Mobil"></i></a>
-                                                    <a href="<?= ($row->status_nota == 1 || $row->id_mobil == null) ? "javascript:void(0);" : base_url('pemasaran/pemesanan/upload_nota/') . $row->id_pemesanan . '/' . $row->id_pelanggan . '/' . $row->tanggal_pesan; ?>" onclick="<?= ($row->status_nota == 1 || $row->id_mobil == null) ? "Swal.fire('Nota tidak bisa di input', '', 'warning'); return false;" : '' ?>"><i class="fa-solid fa-square-poll-horizontal text-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk upload nota"></i></a>
+                                                    <a href="<?= ($row->status_nota == 1 || $row->id_mobil == null) ? "javascript:void(0);" : base_url('pemasaran/pemesanan/upload_nota/') . $row->id_pemesanan . '/' . $row->id_pelanggan . '/' . $row->tanggal_pesan; ?>" onclick="<?= ($row->status_nota == 1 || $row->id_mobil == null) ? "Swal.fire('Nota sudah di input', '', 'warning'); return false;" : '' ?>"><i class="fa-solid fa-square-poll-horizontal text-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk upload nota"></i></a>
                                                     <a href="<?= base_url('pemasaran/pemesanan/detail/') . $row->id_pemesanan ?>"><i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="klik lihat detail pemesanan"></i></a>
                                                 </td>
 

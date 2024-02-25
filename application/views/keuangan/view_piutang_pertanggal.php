@@ -4,12 +4,14 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('keuangan/piutang'); ?>" method="get">
-                            <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
-                                <input type="submit" value="Data Perbulan" style="margin-left: 10px;" class="neumorphic-button">
-                            </div>
-                        </form>
+                        <div class="navbar-nav ms-2">
+                            <form action="<?= base_url('keuangan/piutang'); ?>" method="get">
+                                <div style="display: flex; align-items: center;">
+                                    <input type="date" name="tanggal" class="form-control">
+                                    <input type="submit" value="Data per bulan" style="margin-left: 10px;" class="neumorphic-button">
+                                </div>
+                            </form>
+                        </div>
                         <div class="navbar-nav me-auto ms-2">
                             <form action="<?= base_url('keuangan/piutang/pertanggal'); ?>" method="get">
                                 <div style="display: flex; align-items: center;">
@@ -18,7 +20,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="navbar-nav ms-auto">
+                        <div class="navbar-nav me-auto ms-2">
                             <a href="<?= base_url('keuangan/piutang') ?>"><button class="float-end neumorphic-button"> Semua Piutang</button></a>
                         </div>
                         <div class="navbar-nav ms-2">
@@ -57,30 +59,33 @@
                     <div class="row justify-content-center mb-2">
                         <div class="col-lg-6 text-center">
                             <h5><?= strtoupper($title); ?></h5>
-                            <!-- <?php
-                                    if (empty($bulan_lap)) {
-                                        $bulan_lap = date('m');
-                                        $tahun_lap = date('Y');
-                                    }
+                            <?php if (empty($tanggal_hari_ini)) {
+                                // Jika kosong atau null, atur nilainya menjadi tanggal hari ini
+                                $tanggal_hari_ini = date("Y-m-d"); // Format tanggal "YYYY-MM-DD"
+                            }
+                            // Ubah format tanggal ke bahasa Indonesia
+                            setlocale(LC_TIME, 'id_ID');
+                            $tanggal_hari_ini = strftime('%e %B %Y', strtotime($tanggal_hari_ini));
+                            // Ubah nama bulan menjadi bahasa Indonesia
+                            $bulan = [
+                                'January' => 'Januari',
+                                'February' => 'Februari',
+                                'March' => 'Maret',
+                                'April' => 'April',
+                                'May' => 'Mei',
+                                'June' => 'Juni',
+                                'July' => 'Juli',
+                                'August' => 'Agustus',
+                                'September' => 'September',
+                                'October' => 'Oktober',
+                                'November' => 'November',
+                                'December' => 'Desember',
+                            ];
 
-                                    $bulan = [
-                                        '01' => 'Januari',
-                                        '02' => 'Februari',
-                                        '03' => 'Maret',
-                                        '04' => 'April',
-                                        '05' => 'Mei',
-                                        '06' => 'Juni',
-                                        '07' => 'Juli',
-                                        '08' => 'Agustus',
-                                        '09' => 'September',
-                                        '10' => 'Oktober',
-                                        '11' => 'November',
-                                        '12' => 'Desember',
-                                    ];
+                            $tanggal_hari_ini = strtr($tanggal_hari_ini, $bulan);
 
-                                    $bulan_lap = strtr($bulan_lap, $bulan);
-                                    ?>
-                            <h5>Bulan : <?= $bulan_lap . ' ' . $tahun_lap; ?></h5> -->
+                            ?>
+                            <h5><?= $tanggal_hari_ini; ?></h5>
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -89,7 +94,6 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>
-                                        <!-- <th class="text-center">Tgl Bayar</th> -->
                                         <th class="text-center">Tgl Order</th>
                                         <th class="text-center">Jenis Barang</th>
                                         <th class="text-center">Nama Pelanggan</th>
@@ -140,10 +144,7 @@
                                                 ?>
                                                 <a href="<?= $url; ?>" style="text-decoration: none;">
                                                     <span class="btn btn-secondary btn-sm" style="font-size: 0.7rem;">Klik Lunas</span>
-                                                    <!-- <i class="fas fa-rupiah-sign text-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk bayar"></i> -->
                                                 </a>
-
-                                                <!-- <a href="<?= base_url('keuangan/piutang/detail/') ?><?= $row->id_pemesanan ?>"><i class="fa-solid fa-circle-info text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk melihat detail penjualan"></i></a> -->
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
