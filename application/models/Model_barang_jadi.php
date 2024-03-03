@@ -133,6 +133,7 @@ class Model_barang_jadi extends CI_Model
         $this->db->from('keluar_jadi');
         $this->db->join('jenis_produk', 'keluar_jadi.id_jenis_barang = jenis_produk.id_produk', 'left');
         $this->db->join('mobil', 'keluar_jadi.id_mobil = mobil.id_mobil', 'left');
+        $this->db->join('pelanggan', 'keluar_jadi.id_pelanggan = pelanggan.id_pelanggan', 'left');
         $this->db->where('DATE(keluar_jadi.tanggal_keluar)', $tanggal);
         // $this->db->where('MONTH(keluar_jadi.tanggal_keluar)', $bulan);
         // $this->db->where('YEAR(keluar_jadi.tanggal_keluar)', $tahun);

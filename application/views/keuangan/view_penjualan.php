@@ -4,10 +4,10 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('keuangan/penjualan'); ?>" method="get">
+                        <form id="form_tanggal" action="<?= base_url('keuangan/penjualan'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
-                                <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
+                                <input type="submit" value="Pilih Tanggal" class="neumorphic-button">
+                                <input type="date" id="tanggal" name="tanggal" class="form-control" style="margin-left: 5px;">
                             </div>
                         </form>
                         <!-- <div class="navbar-nav ms-auto">
@@ -151,7 +151,7 @@
                                                     // Ambil waktu saat ini
                                                     $current_time = strtotime(date('H:i'));
                                                     // Tentukan batas waktu jam 14:00
-                                                    $deadline_time = strtotime('23:00');
+                                                    $deadline_time = strtotime('14:00');
                                                     // Cek apakah sudah lewat jam 14:00 
                                                     $can_click = $current_time < $deadline_time;
                                                     if ($row->status_bayar == 1 && $row->status_nota == 1) {

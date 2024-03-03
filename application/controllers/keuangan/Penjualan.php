@@ -91,9 +91,9 @@ class Penjualan extends CI_Controller
             $data['status_pesan'] = 0;
             $data['input_bayar'] = $this->session->userdata('nama_lengkap');
             // ini untuk production
-            // $data['tanggal_bayar'] = date('Y-m-d H:i:s');  
+            $data['tanggal_bayar'] = date('Y-m-d H:i:s');
             // ini hanya untuk input data
-            $data['tanggal_bayar'] = $this->input->post('tanggal_bayar');
+            // $data['tanggal_bayar'] = $this->input->post('tanggal_bayar');
 
             // Periksa bulan dan tahun antara tanggal_pesan dan tanggal_bayar
             $bulan_tahun_pesan = date('Y-m', strtotime($this->db->get_where('pemesanan', ['id_pemesanan' => $id_pemesanan])->row()->tanggal_pesan));

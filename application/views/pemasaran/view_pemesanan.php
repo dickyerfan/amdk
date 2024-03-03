@@ -4,10 +4,10 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('pemasaran/pemesanan'); ?>" method="get">
+                        <form id="form_tanggal" action="<?= base_url('pemasaran/pemesanan'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
-                                <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
+                                <input type="submit" value="Pilih Tanggal" class="neumorphic-button">
+                                <input type="date" name="tanggal" id="tanggal" class="form-control" style="margin-left: 5px;">
                             </div>
                         </form>
                         <div class="navbar-nav ms-auto">

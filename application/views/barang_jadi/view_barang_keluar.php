@@ -4,10 +4,10 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('barang_jadi/barang_keluar'); ?>" method="get">
+                        <form id="form_tanggal" action="<?= base_url('barang_jadi/barang_keluar'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
-                                <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
+                                <input type="submit" value="Pilih Tanggal" class="neumorphic-button">
+                                <input type="date" name="tanggal" id="tanggal" class="form-control" style="margin-left: 5px;">
                             </div>
                         </form>
                         <!-- <div class="navbar-nav ms-auto">
@@ -68,7 +68,7 @@
                                             <th class="text-center">No</th>
                                             <th class="text-center">Tanggal</th>
                                             <th class="text-center">Nama Barang</th>
-                                            <!-- <th class="text-center">Jenis Barang</th> -->
+                                            <th class="text-center">Pelanggan</th>
                                             <th class="text-center">Jml Keluar</th>
                                             <th class="text-center">Jml Kembali</th>
                                             <th class="text-center">Jml Akhir</th>
@@ -88,7 +88,7 @@
                                                 <td><?= $no++ ?></td>
                                                 <td><?= date('d-m-y', strtotime($row->tanggal_keluar)); ?></td>
                                                 <td class="text-start"><?= $row->nama_produk; ?></td>
-                                                <!-- <td class="text-start"><?= $row->jenis_produk; ?></td> -->
+                                                <td class="text-start"><?= $row->nama_pelanggan; ?></td>
                                                 <td><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
                                                 <td><?= number_format($row->jumlah_kembali, 0, ',', '.'); ?></td>
                                                 <td><?= number_format($row->jumlah_akhir, 0, ',', '.'); ?></td>

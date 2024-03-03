@@ -215,11 +215,13 @@ class Pemesanan extends CI_Controller
     public function edit_jumlah_barang($id_pemesanan)
     {
         $tanggal = $this->session->userdata('tanggal');
-        $this->form_validation->set_rules('id_mobil', 'Nama Mobil', 'required|trim');
+        $this->form_validation->set_rules('jumlah_pesan', 'Jumlah Pesanan', 'required|trim|numeric|greater_than[0]');
+        $this->form_validation->set_message('numeric', '%s harus berupa angka');
+        $this->form_validation->set_message('greater_than', '%s harus lebih besar dari 0');
         $this->form_validation->set_message('required', '%s masih kosong');
 
         if ($this->form_validation->run() == false) {
-            $data['mobil'] = $this->Model_pemesanan->get_mobil();
+            $data['edit_jumlah_pesanan'] = $this->Model_pemesanan->get_detail_pemesanan($id_pemesanan);
             $data['title'] = 'Form Edit Jumlah Barang';
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_pasar');
@@ -228,37 +230,30 @@ class Pemesanan extends CI_Controller
             $this->load->view('templates/pengguna/footer');
         } else {
 
+            $id_jenis_barang = $this->input->post('id_jenis_barang');
+            $id_pelanggan = $this->input->post('id_pelanggan');
             $jumlah_pesan = $this->input->post('jumlah_pesan');
 
-            $data_pesanan = array();
-            $total_harga = 0;
+            // Ambil harga dari jenis barang yang dipilih
+            $tarif = $this->Model_pemesanan->getTarifByIdPelanggan($id_pelanggan);
+            $harga_barang = $this->Model_pemesanan->getHargaByJenisBarang($id_jenis_barang, $tarif);
+            $harga = $harga_barang->harga;
 
-            foreach ($jenis_barang as $id_jenis_barang) {
-                $jumlah = $jumlah_pesan[$id_jenis_barang];
+            // Hitung total harga per barang
+            $total_harga_barang = $harga * $jumlah_pesan;
 
-                // Ambil harga dari jenis barang yang dipilih
-                $tarif = $this->Model_pemesanan->getTarifByIdPelanggan($id_pelanggan);
-                $harga_barang = $this->Model_pemesanan->getHargaByJenisBarang($id_jenis_barang, $tarif);
-                $harga = $harga_barang->harga;
+            $data_edit = array(
+                'jumlah_pesan' => $jumlah_pesan,
+                'harga_barang' => $harga,
+                'total_harga' => $total_harga_barang,
+                'status_kembali' => 1
+            );
 
-                // Hitung total harga per barang
-                $total_harga_barang = $harga * $jumlah;
-
-                $data_pesanan[] = array(
-                    'jumlah_pesan' => $jumlah,
-                    'harga_barang' => $harga,
-                    'total_harga' => $total_harga_barang,
-                    'status_kembali' => 1
-                );
-            }
-
-
-            $this->Model_pemesanan->update('pemesanan', $data, $id_pemesanan);
-
+            $this->Model_pemesanan->update('pemesanan', $data_edit, $id_pemesanan);
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-primary alert-dismissible fade show" role="alert">
-                        <strong>Sukses,</strong> data Mobil berhasil di tambah
+                        <strong>Sukses,</strong> data pesanan berhasil di update
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                         </button>
                       </div>'
@@ -295,6 +290,7 @@ class Pemesanan extends CI_Controller
             $data_keluar_jadi = array(
                 'id_jenis_barang' => $data_pemesanan->id_jenis_barang,
                 'id_mobil' => $data_pemesanan->id_mobil,
+                'id_pelanggan' => $data_pemesanan->id_pelanggan,
                 'jumlah_keluar' => $data_pemesanan->jumlah_pesan,
                 'tanggal_keluar' => $data_pemesanan->tanggal_pesan,
                 'jumlah_akhir' => $data_pemesanan->jumlah_pesan,
