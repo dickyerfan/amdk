@@ -4,17 +4,17 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('keuangan/piutang'); ?>" method="get">
+                        <form id="form_bulan" action="<?= base_url('keuangan/piutang'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
-                                <input type="submit" value="Data Perbulan" style="margin-left: 10px;" class="neumorphic-button">
+                                <input type="submit" value="Per bulan" class="neumorphic-button">
+                                <input type="month" id="bulan" name="tanggal" class="form-control" style="margin-left: 5px;">
                             </div>
                         </form>
                         <div class="navbar-nav me-auto ms-2">
-                            <form action="<?= base_url('keuangan/piutang/pertanggal'); ?>" method="get">
+                            <form id="form_tanggal" action="<?= base_url('keuangan/piutang/pertanggal'); ?>" method="get">
                                 <div style="display: flex; align-items: center;">
-                                    <input type="date" name="tanggal" class="form-control">
-                                    <input type="submit" value="Data per tanggal" style="margin-left: 10px;" class="neumorphic-button">
+                                    <input type="submit" value="per tanggal" class="neumorphic-button">
+                                    <input type="date" id="tanggal" name="tanggal" class="form-control" style="margin-left: 5px;">
                                 </div>
                             </form>
                         </div>
@@ -22,7 +22,7 @@
                             <a href="<?= base_url('keuangan/piutang') ?>"><button class="float-end neumorphic-button"> Semua Piutang</button></a>
                         </div>
                         <div class="navbar-nav ms-2">
-                            <form action="<?= base_url('keuangan/piutang/nama_produk'); ?>" method="post">
+                            <form id="form_produk" action="<?= base_url('keuangan/piutang/nama_produk'); ?>" method="post">
                                 <div style="display: flex; align-items: center;">
                                     <select name="id_produk" id="id_produk" class="form-control select2" style="width:150px;">
                                         <option value="">Jenis Produk</option>
@@ -30,12 +30,12 @@
                                             <option value="<?= $row->id_produk ?>"><?= $row->nama_produk; ?></option>
                                         <?php endforeach;  ?>
                                     </select>
-                                    <input type="submit" value="Pilih" style="margin-left: 10px;" class="neumorphic-button">
+                                    <!-- <input type="submit" value="Pilih" style="margin-left: 10px;" class="neumorphic-button"> -->
                                 </div>
                             </form>
                         </div>
                         <div class="navbar-nav ms-2">
-                            <form action="<?= base_url('keuangan/piutang/nama_pelanggan'); ?>" method="post">
+                            <form id="form_pelanggan" action="<?= base_url('keuangan/piutang/nama_pelanggan'); ?>" method="post">
                                 <div style="display: flex; align-items: center;">
                                     <select name="id_pelanggan" id="id_pelanggan" class="form-control select2" style="width:150px;">
                                         <option value="">Pelanggan</option>
@@ -43,7 +43,7 @@
                                             <option value="<?= $row->id_pelanggan ?>"><?= $row->nama_pelanggan; ?></option>
                                         <?php endforeach;  ?>
                                     </select>
-                                    <input type="submit" value="Pilih" style="margin-left: 10px;" class="neumorphic-button">
+                                    <!-- <input type="submit" value="Pilih" style="margin-left: 10px;" class="neumorphic-button"> -->
                                 </div>
                             </form>
                         </div>
@@ -129,21 +129,18 @@
                                                 // Cek apakah sudah lewat jam 14:00 
                                                 $can_click = $current_time < $deadline_time;
                                                 if ($row->status_bayar == 1 && $row->status_nota == 1) {
-                                                    $url = "javascript:Swal.fire('Peringatan', 'Barang sudah lunas.', 'warning');";
+                                                    $onclick = "Swal.fire('Peringatan', 'Barang sudah lunas.', 'warning');";
                                                 } else if ($row->status_nota == 0) {
-                                                    $url = "javascript:Swal.fire('Peringatan', 'Maaf, Bagian pemasaran belum setor uangnya.', 'warning');";
+                                                    $onclick = "Swal.fire('Peringatan', 'Maaf, Bagian pemasaran belum setor uangnya.', 'warning');";
                                                 } else if (!$can_click) {
-                                                    $url = "javascript:Swal.fire('Peringatan', 'Maaf, waktu pelunasan sudah lewat jam 14:00 WIB', 'warning');";
+                                                    $onclick = "Swal.fire('Peringatan', 'Maaf, waktu pelunasan sudah lewat jam 14:00 WIB', 'warning');";
+                                                } else if ($this->session->userdata('level') == "Admin") {
+                                                    $onclick = "Swal.fire('Peringatan', 'Admin tidak bisa proses.', 'warning');";
                                                 } else {
-                                                    $url = base_url('keuangan/piutang/pilih_lunas/') . $row->id_pemesanan;
+                                                    $onclick = "window.location.href='" . base_url('keuangan/piutang/pilih_lunas/') . $row->id_pemesanan . "';";
                                                 }
                                                 ?>
-                                                <a href="<?= $url; ?>" style="text-decoration: none;">
-                                                    <span class="btn btn-secondary btn-sm" style="font-size: 0.7rem;">Klik Lunas</span>
-                                                    <!-- <i class="fas fa-rupiah-sign text-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk bayar"></i> -->
-                                                </a>
-
-                                                <!-- <a href="<?= base_url('keuangan/piutang/detail/') ?><?= $row->id_pemesanan ?>"><i class="fa-solid fa-circle-info text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk melihat detail penjualan"></i></a> -->
+                                                <button onclick="<?= $onclick; ?>" class="btn btn-secondary btn-sm" style="font-size: 0.7rem;">Klik Lunas</button>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

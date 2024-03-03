@@ -91,7 +91,7 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <table class="table table-sm table-bordered" id="example" style="font-size: 0.8rem;">
+                            <table class="table table-sm table-bordered" id="example2" style="font-size: 0.8rem;">
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>

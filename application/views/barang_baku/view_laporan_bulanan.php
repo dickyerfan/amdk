@@ -4,7 +4,7 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('barang_baku/laporan_bulanan'); ?>" method="get">
+                        <form id="form_tanggal" action="<?= base_url('barang_baku/laporan_bulanan'); ?>" method="get">
                             <!-- <div style="display: flex; align-items: center;">
                                 <?php $bulan = date('m'); ?>
                                 <select name="bulan" class="form-select me-2" required style="width: auto;">
@@ -33,8 +33,8 @@
                                 <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
                             </div> -->
                             <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
-                                <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
+                                <input type="date" id="tanggal" name="tanggal" class="form-control" value="<?= date('Y-m-d') ?>">
+                                <!-- <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button"> -->
                             </div>
                         </form>
                         <div class="navbar-nav ms-auto">

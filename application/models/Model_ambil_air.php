@@ -10,6 +10,7 @@ class model_ambil_air extends CI_Model
         $this->db->join('karyawan', 'truk_tangki.id_karyawan = karyawan.id_karyawan');
         $this->db->where('MONTH(truk_tangki.tanggal_ambil_air)', $bulan);
         $this->db->where('YEAR(truk_tangki.tanggal_ambil_air)', $tahun);
+        $this->db->order_by('id_truk', 'ASC');
         $query = $this->db->get();
         return $query->result();
     }

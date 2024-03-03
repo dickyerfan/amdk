@@ -16,10 +16,10 @@
                                 <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
                             </div>
                         </form> -->
-                        <form action="<?= base_url('barang_baku/barang_keluar'); ?>" method="get">
+                        <form id="form_bulan" action="<?= base_url('barang_baku/barang_keluar'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
-                                <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
+                                <input type="submit" value="Pilih bulan-tahun" class="neumorphic-button">
+                                <input type="month" id="bulan" name="tanggal" class="form-control" style="margin-left: 5px;">
                             </div>
                         </form>
                     </nav>
@@ -60,18 +60,19 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <table class="table table-sm table-bordered" id="example">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Tgl Transaksi</th>
-                                        <th class="text-center">No Nota</th>
-                                        <th class="text-center">Pemohon</th>
-                                        <th class="text-center">Status</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <!-- <thead>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered" id="example">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Tgl Transaksi</th>
+                                            <th class="text-center">No Nota</th>
+                                            <th class="text-center">Pemohon</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <!-- <thead>
                                     <tr>
                                         <th class="text-center">No</th>
                                         <th class="text-center">Tgl Transaksi</th>
@@ -84,44 +85,45 @@
                                         <th class="text-center">Action</th>
                                     </tr>
                                 </thead> -->
-                                <!-- <tbody id="show_data"> -->
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    $prev_tanggal = null;
-                                    $prev_bagian = null;
-                                    foreach ($barang_keluar as $row) :
-                                        if ($prev_tanggal !== $row->tanggal_keluar || $prev_bagian !== $row->bagian) {
-                                    ?>
-                                            <tr class="text-center">
-                                                <td><?= $no++ ?></td>
-                                                <td><?= date('d-m-Y', strtotime($row->tanggal_keluar)); ?></td>
-                                                <td><?= $row->no_nota; ?></td>
-                                                <td><?= $row->input_status_keluar; ?></td>
-                                                <td class="text-center">
-                                                    <?= $row->status_keluar == 0 ? '<span class="btn btn-primary btn-sm">Menunggu</span>'  : ($row->bagian === 'produksi' ? '<span class="btn btn-success btn-sm">Stok Produksi</span>' : '<span class="btn btn-warning btn-sm">Stok Brg Jadi</span>'); ?>
-                                                </td>
-                                                <td class="text-center">
-                                                    <?php
-                                                    if ($row->status_keluar == 0) {
-                                                        $updateUrl = base_url('barang_baku/barang_keluar/update_status_keluar/') . $row->tanggal_keluar . '/' . $row->bagian;
-                                                        $tolakUrl = base_url('barang_produksi/permintaan_barang_baku/tolak_pesanan/') . $row->tanggal_keluar . '/' . $row->bagian;
-                                                        echo '<a href="' . $updateUrl . '" style="text-decoration: none;"><span class="btn btn-primary btn-sm">Terima</span></a>' . ' <a href="' . $tolakUrl . '" style="text-decoration: none;"><span class="btn btn-success btn-sm">Tolak</span></a>';
-                                                    } else {
-                                                        $detailUrl = base_url('barang_baku/barang_keluar/detail_status_keluar/') . $row->tanggal_keluar . '/' . $row->bagian;
-                                                        echo '<a href="' . $detailUrl . '"><span class="neumorphic-button btn-sm">Detail</span></a>';
-                                                    }
-                                                    ?>
-                                                </td>
-                                            </tr>
-                                    <?php
-                                            $prev_tanggal = $row->tanggal_keluar;
-                                            $prev_bagian = $row->bagian;
-                                        }
-                                    endforeach;
-                                    ?>
-                                </tbody>
-                            </table>
+                                    <!-- <tbody id="show_data"> -->
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        $prev_tanggal = null;
+                                        $prev_bagian = null;
+                                        foreach ($barang_keluar as $row) :
+                                            if ($prev_tanggal !== $row->tanggal_keluar || $prev_bagian !== $row->bagian) {
+                                        ?>
+                                                <tr class="text-center">
+                                                    <td><?= $no++ ?></td>
+                                                    <td><?= date('d-m-Y', strtotime($row->tanggal_keluar)); ?></td>
+                                                    <td><?= $row->no_nota; ?></td>
+                                                    <td><?= $row->input_status_keluar; ?></td>
+                                                    <td class="text-center">
+                                                        <?= $row->status_keluar == 0 ? '<span class="btn btn-primary btn-sm">Menunggu</span>'  : ($row->bagian === 'produksi' ? '<span class="btn btn-success btn-sm">Stok Produksi</span>' : '<span class="btn btn-warning btn-sm">Stok Brg Jadi</span>'); ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <?php
+                                                        if ($row->status_keluar == 0) {
+                                                            $updateUrl = base_url('barang_baku/barang_keluar/update_status_keluar/') . $row->tanggal_keluar . '/' . $row->bagian;
+                                                            $tolakUrl = base_url('barang_produksi/permintaan_barang_baku/tolak_pesanan/') . $row->tanggal_keluar . '/' . $row->bagian;
+                                                            echo '<a href="' . $updateUrl . '" style="text-decoration: none;"><span class="btn btn-primary btn-sm">Terima</span></a>' . ' <a href="' . $tolakUrl . '" style="text-decoration: none;"><span class="btn btn-success btn-sm">Tolak</span></a>';
+                                                        } else {
+                                                            $detailUrl = base_url('barang_baku/barang_keluar/detail_status_keluar/') . $row->tanggal_keluar . '/' . $row->bagian;
+                                                            echo '<a href="' . $detailUrl . '"><span class="neumorphic-button btn-sm">Detail</span></a>';
+                                                        }
+                                                        ?>
+                                                    </td>
+                                                </tr>
+                                        <?php
+                                                $prev_tanggal = $row->tanggal_keluar;
+                                                $prev_bagian = $row->bagian;
+                                            }
+                                        endforeach;
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

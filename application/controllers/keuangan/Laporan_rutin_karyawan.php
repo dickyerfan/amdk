@@ -155,11 +155,11 @@ class Laporan_rutin_karyawan extends CI_Controller
                 $upload_data = $this->upload->data();
                 $nota_setor = $upload_data['file_name'];
 
-                $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 695, $tanggal, 3, $galon, 11000, $rupiah_galon, $tanggal, $nota_setor, $tanggal, 1, $input_setor, 1, 0, 1);
-                $this->Model_lap_rutin_karyawan->insert_pemesanan(2, 695, $tanggal, 3, $gelas, 15000, $rupiah_gelas, $tanggal, $nota_setor, $tanggal, 1, $input_setor, 1, 0, 1);
-                $this->Model_lap_rutin_karyawan->insert_pemesanan(8, 695, $tanggal, 3, $btl330, 33000, $rupiah_btl330, $tanggal, $nota_setor, $tanggal, 1, $input_setor, 1, 0, 1);
-                $this->Model_lap_rutin_karyawan->insert_pemesanan(9, 695, $tanggal, 3, $btl500, 35000, $rupiah_btl500, $tanggal, $nota_setor, $tanggal, 1, $input_setor, 1, 0, 1);
-                $this->Model_lap_rutin_karyawan->insert_pemesanan(11, 695, $tanggal, 3, $btl1500, 38000, $rupiah_btl1500, $tanggal, $nota_setor, $tanggal, 1, $input_setor, 1, 0, 1);
+                $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 1, 695, $tanggal, 3, $galon, 11000, $rupiah_galon, $tanggal, $nota_setor, $tanggal, 1, $input_setor, 1, 0, 1);
+                $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 2, 695, $tanggal, 3, $gelas, 15000, $rupiah_gelas, $tanggal, $nota_setor, $tanggal, 1, $input_setor, 1, 0, 1);
+                $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 8, 695, $tanggal, 3, $btl330, 33000, $rupiah_btl330, $tanggal, $nota_setor, $tanggal, 1, $input_setor, 1, 0, 1);
+                $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 9, 695, $tanggal, 3, $btl500, 35000, $rupiah_btl500, $tanggal, $nota_setor, $tanggal, 1, $input_setor, 1, 0, 1);
+                $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 11, 695, $tanggal, 3, $btl1500, 38000, $rupiah_btl1500, $tanggal, $nota_setor, $tanggal, 1, $input_setor, 1, 0, 1);
 
                 $this->session->set_flashdata(
                     'info',

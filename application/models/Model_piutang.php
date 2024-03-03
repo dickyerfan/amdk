@@ -17,7 +17,8 @@ class Model_piutang extends CI_Model
         $this->db->where('status_bayar', 0);
         $this->db->where('jenis_pesanan !=', 1);
         // $this->db->or_where('jenis_pesanan', 4);
-        $this->db->order_by('pemesanan.id_pemesanan', 'DESC');
+        // $this->db->order_by('pemesanan.id_pemesanan', 'DESC');
+        $this->db->order_by('pemesanan.tanggal_pesan', 'DESC');
         return $this->db->get()->result();
     }
     public function get_bulan_tahun($bulan, $tahun)
@@ -35,7 +36,8 @@ class Model_piutang extends CI_Model
         $this->db->where('status_bayar', 0);
         $this->db->where('jenis_pesanan !=', 1);
         // $this->db->or_where('jenis_pesanan', 4);
-        $this->db->order_by('pemesanan.id_pemesanan', 'DESC');
+        // $this->db->order_by('pemesanan.id_pemesanan', 'DESC');
+        $this->db->order_by('pemesanan.tanggal_pesan', 'DESC');
         return $this->db->get()->result();
     }
 
@@ -53,7 +55,8 @@ class Model_piutang extends CI_Model
         $this->db->where('status_bayar', 0);
         $this->db->where('jenis_pesanan !=', 1);
         // $this->db->or_where('jenis_pesanan', 4);
-        $this->db->order_by('pemesanan.id_pemesanan', 'DESC');
+        // $this->db->order_by('pemesanan.id_pemesanan', 'DESC');
+        $this->db->order_by('pemesanan.tanggal_pesan', 'DESC');
         return $this->db->get()->result();
     }
 

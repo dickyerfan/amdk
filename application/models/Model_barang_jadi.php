@@ -33,17 +33,14 @@ class Model_barang_jadi extends CI_Model
     // kode ini memakan banyak memory
     public function getdata($tanggal)
     {
-        $this->db->select('jenis_barang.*, 
-            (SELECT IFNULL(SUM(jumlah_stok_awal_jadi), 0) FROM stok_awal_jadi WHERE stok_awal_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_stok_awal_jadi) <= DATE("' . $tanggal . '")) AS jumlah_stok_awal,
+        $this->db->select('jenis_barang.id_jenis_barang, jenis_barang.nama_barang_jadi, 
+            (SELECT IFNULL(SUM(jumlah_stok_awal_jadi), 0) FROM stok_awal_jadi WHERE stok_awal_jadi.id_jenis_barang = jenis_barang.id_jenis_barang) AS jumlah_stok_awal,
             (SELECT IFNULL(SUM(jumlah_barang_jadi), 0) FROM barang_jadi WHERE barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_barang_jadi) < DATE("' . $tanggal . '") AND barang_jadi.status_barang_jadi = 1) AS jumlah_masuk_kemaren,
             (SELECT IFNULL(SUM(jumlah_barang_jadi), 0) FROM barang_jadi WHERE barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_barang_jadi) = DATE("' . $tanggal . '") AND barang_jadi.status_barang_jadi = 1) AS jumlah_masuk_sekarang,
-            (SELECT IFNULL(SUM(jumlah_barang_jadi), 0) FROM barang_jadi WHERE barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_barang_jadi) <= DATE("' . $tanggal . '") AND barang_jadi.status_barang_jadi = 1) AS jumlah_masuk,
             (SELECT IFNULL(SUM(jumlah_akhir), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND keluar_jadi.status_keluar = 1 AND DATE(tanggal_keluar) < DATE("' . $tanggal . '")) AS jumlah_akhir_kemaren,
             (SELECT IFNULL(SUM(jumlah_akhir), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND keluar_jadi.status_keluar = 1 AND DATE(tanggal_keluar) = DATE("' . $tanggal . '")) AS jumlah_akhir_sekarang,
-            (SELECT IFNULL(SUM(jumlah_akhir), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND keluar_jadi.status_keluar = 1 AND DATE(tanggal_keluar) <= DATE("' . $tanggal . '")) AS jumlah_akhir,
             (SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) = DATE("' . $tanggal . '") AND rusak_jadi.status_rusak_jadi = 1) AS jumlah_rusak_sekarang,
-            (SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) < DATE("' . $tanggal . '") AND rusak_jadi.status_rusak_jadi = 1) AS jumlah_rusak_kemaren,
-            (SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) <= DATE("' . $tanggal . '")) AS jumlah_rusak', FALSE);
+            (SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) < DATE("' . $tanggal . '")) AS jumlah_rusak_kemaren', FALSE);
 
         $this->db->from('jenis_barang');
         $this->db->join('stok_awal_jadi', 'stok_awal_jadi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
@@ -52,6 +49,28 @@ class Model_barang_jadi extends CI_Model
         $this->db->join('rusak_jadi', 'rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
         return $this->db->get()->result();
     }
+
+    // public function getdata($tanggal)
+    // {
+    //     $this->db->select('jenis_barang.*, 
+    //         (SELECT IFNULL(SUM(jumlah_stok_awal_jadi), 0) FROM stok_awal_jadi WHERE stok_awal_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_stok_awal_jadi) <= DATE("' . $tanggal . '")) AS jumlah_stok_awal,
+    //         (SELECT IFNULL(SUM(jumlah_barang_jadi), 0) FROM barang_jadi WHERE barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_barang_jadi) < DATE("' . $tanggal . '") AND barang_jadi.status_barang_jadi = 1) AS jumlah_masuk_kemaren,
+    //         (SELECT IFNULL(SUM(jumlah_barang_jadi), 0) FROM barang_jadi WHERE barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_barang_jadi) = DATE("' . $tanggal . '") AND barang_jadi.status_barang_jadi = 1) AS jumlah_masuk_sekarang,
+    //         (SELECT IFNULL(SUM(jumlah_barang_jadi), 0) FROM barang_jadi WHERE barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_barang_jadi) <= DATE("' . $tanggal . '") AND barang_jadi.status_barang_jadi = 1) AS jumlah_masuk,
+    //         (SELECT IFNULL(SUM(jumlah_akhir), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND keluar_jadi.status_keluar = 1 AND DATE(tanggal_keluar) < DATE("' . $tanggal . '")) AS jumlah_akhir_kemaren,
+    //         (SELECT IFNULL(SUM(jumlah_akhir), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND keluar_jadi.status_keluar = 1 AND DATE(tanggal_keluar) = DATE("' . $tanggal . '")) AS jumlah_akhir_sekarang,
+    //         (SELECT IFNULL(SUM(jumlah_akhir), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND keluar_jadi.status_keluar = 1 AND DATE(tanggal_keluar) <= DATE("' . $tanggal . '")) AS jumlah_akhir,
+    //         (SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) = DATE("' . $tanggal . '") AND rusak_jadi.status_rusak_jadi = 1) AS jumlah_rusak_sekarang,
+    //         (SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) < DATE("' . $tanggal . '") AND rusak_jadi.status_rusak_jadi = 1) AS jumlah_rusak_kemaren,
+    //         (SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) <= DATE("' . $tanggal . '")) AS jumlah_rusak', FALSE);
+
+    //     $this->db->from('jenis_barang');
+    //     $this->db->join('stok_awal_jadi', 'stok_awal_jadi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
+    //     $this->db->join('barang_jadi', 'barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
+    //     $this->db->join('keluar_jadi', 'keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
+    //     $this->db->join('rusak_jadi', 'rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
+    //     return $this->db->get()->result();
+    // }
 
     //awal upload stok awal
     public function getstok_awal()
@@ -184,16 +203,16 @@ class Model_barang_jadi extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('barang_baku');
-        $this->db->where('id_barang_baku', 8);
-        // $this->db->or_where_in('id_barang_baku', 8);
-        $this->db->or_where_in('id_barang_baku', 9);
-        $this->db->or_where_in('id_barang_baku', 10);
-        $this->db->or_where_in('id_barang_baku', 11);
-        $this->db->or_where_in('id_barang_baku', 12);
-        $this->db->or_where_in('id_barang_baku', 13);
-        $this->db->or_where_in('id_barang_baku', 27);
-        $this->db->or_where_in('id_barang_baku', 32);
-        $this->db->or_where_in('id_barang_baku', 34);
+        $this->db->where('status_jadi', 1);
+        // $this->db->where('id_barang_baku', 8);
+        // $this->db->or_where_in('id_barang_baku', 9);
+        // $this->db->or_where_in('id_barang_baku', 10);
+        // $this->db->or_where_in('id_barang_baku', 11);
+        // $this->db->or_where_in('id_barang_baku', 12);
+        // $this->db->or_where_in('id_barang_baku', 13);
+        // $this->db->or_where_in('id_barang_baku', 27);
+        // $this->db->or_where_in('id_barang_baku', 32);
+        // $this->db->or_where_in('id_barang_baku', 34);
 
         return $this->db->get()->result();
     }
@@ -214,15 +233,17 @@ class Model_barang_jadi extends CI_Model
         $this->db->from('barang_baku');
         $this->db->join('barang_baku_jadi_masuk', 'barang_baku_jadi_masuk.id_barang_baku = barang_baku.id_barang_baku', 'left');
         $this->db->join('barang_baku_jadi_keluar', 'barang_baku_jadi_keluar.id_barang_baku = barang_baku.id_barang_baku', 'left');
-        $this->db->where('barang_baku.id_barang_baku', 8);
-        $this->db->or_where_in('barang_baku.id_barang_baku', 9);
-        $this->db->or_where_in('barang_baku.id_barang_baku', 10);
-        $this->db->or_where_in('barang_baku.id_barang_baku', 11);
-        $this->db->or_where_in('barang_baku.id_barang_baku', 12);
-        $this->db->or_where_in('barang_baku.id_barang_baku', 13);
-        $this->db->or_where_in('barang_baku.id_barang_baku', 27);
-        $this->db->or_where_in('barang_baku.id_barang_baku', 32);
-        $this->db->or_where_in('barang_baku.id_barang_baku', 34);
+        $this->db->where('barang_baku.status_jadi', 1);
+        // $this->db->where('barang_baku.id_barang_baku', 8);
+        // $this->db->or_where_in('barang_baku.id_barang_baku', 9);
+        // $this->db->or_where_in('barang_baku.id_barang_baku', 10);
+        // $this->db->or_where_in('barang_baku.id_barang_baku', 11);
+        // $this->db->or_where_in('barang_baku.id_barang_baku', 12);
+        // $this->db->or_where_in('barang_baku.id_barang_baku', 13);
+        // $this->db->or_where_in('barang_baku.id_barang_baku', 27);
+        // $this->db->or_where_in('barang_baku.id_barang_baku', 32);
+        // $this->db->or_where_in('barang_baku.id_barang_baku', 34);
+        $this->db->order_by('barang_baku.id_barang_baku', 'asc');
         return $this->db->get()->result();
     }
 

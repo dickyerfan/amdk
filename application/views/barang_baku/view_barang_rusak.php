@@ -4,10 +4,10 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('barang_baku/barang_rusak'); ?>" method="get">
+                        <form id="form_bulan" action="<?= base_url('barang_baku/barang_rusak'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
-                                <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
+                                <input type="submit" value="Pilih bulan-tahun" class="neumorphic-button">
+                                <input type="month" id="bulan" name="tanggal" class="form-control" style="margin-left: 5px;">
                             </div>
                         </form>
                         <div class="navbar-nav ms-auto">
@@ -54,36 +54,38 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <table class="table table-sm table-bordered" id="example">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Tanggal Rusak</th>
-                                        <th class="text-center">Nama Barang</th>
-                                        <th class="text-center">Jumlah</th>
-                                        <th class="text-center">Keterangan</th>
-                                        <th class="text-center">Input Oleh</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($barang_rusak as $row) : ?>
-                                        <tr class="text-center">
-                                            <td><?= $no++ ?></td>
-                                            <td><?= $row->tanggal_rusak_baku; ?></td>
-                                            <td class="text-start"><?= $row->nama_barang_baku; ?></td>
-                                            <td><?= number_format($row->jumlah_rusak_baku, 0, ',', '.'); ?></td>
-                                            <td><?= $row->keterangan; ?></td>
-                                            <td><?= $row->input_status_rusak_baku; ?></td>
-                                            <td>
-                                                <a href="<?= base_url('barang_baku/barang_rusak/detail_rusak/') ?><?= $row->id_rusak_baku ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Detail</span></a>
-                                            </td>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered" id="example">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Tanggal Rusak</th>
+                                            <th class="text-center">Nama Barang</th>
+                                            <th class="text-center">Jumlah</th>
+                                            <th class="text-center">Keterangan</th>
+                                            <th class="text-center">Input Oleh</th>
+                                            <th class="text-center">Action</th>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        foreach ($barang_rusak as $row) : ?>
+                                            <tr class="text-center">
+                                                <td><?= $no++ ?></td>
+                                                <td><?= $row->tanggal_rusak_baku; ?></td>
+                                                <td class="text-start"><?= $row->nama_barang_baku; ?></td>
+                                                <td><?= number_format($row->jumlah_rusak_baku, 0, ',', '.'); ?></td>
+                                                <td><?= $row->keterangan; ?></td>
+                                                <td><?= $row->input_status_rusak_baku; ?></td>
+                                                <td>
+                                                    <a href="<?= base_url('barang_baku/barang_rusak/detail_rusak/') ?><?= $row->id_rusak_baku ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Detail</span></a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

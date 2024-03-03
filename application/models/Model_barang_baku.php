@@ -147,7 +147,7 @@ class Model_barang_baku extends CI_Model
         $this->db->where('MONTH(keluar_baku.tanggal_keluar)', $bulan);
         $this->db->where('YEAR(keluar_baku.tanggal_keluar)', $tahun);
         $this->db->group_by('keluar_baku.id_keluar_baku');
-        $this->db->order_by('keluar_baku.tanggal_keluar', 'DESC');
+        $this->db->order_by('keluar_baku.id_keluar_baku', 'DESC');
         return $this->db->get()->result();
     }
 

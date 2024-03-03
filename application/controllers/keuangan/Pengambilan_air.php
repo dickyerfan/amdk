@@ -98,7 +98,7 @@ class Pengambilan_air extends CI_Controller
         }
 
         $this->db->select('stand_meter');
-        $this->db->order_by('tanggal_ambil_air', 'DESC');
+        $this->db->order_by('id_truk', 'DESC');
         $this->db->limit(1);
         $query = $this->db->get('truk_tangki');
 
