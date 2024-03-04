@@ -203,9 +203,9 @@ class Piutang extends CI_Controller
                             </button>
                           </div>'
                 );
-                $alamat = 'keuangan/piutang?tanggal=' . $tanggal;
-                redirect($alamat);
-                // redirect('keuangan/piutang');
+                // $alamat = 'keuangan/piutang?tanggal=' . $tanggal;
+                // redirect($alamat);
+                redirect('keuangan/piutang');
             } else {
                 $this->session->set_flashdata(
                     'info',
@@ -215,9 +215,9 @@ class Piutang extends CI_Controller
                             </button>
                           </div>'
                 );
-                $alamat = 'keuangan/piutang?tanggal=' . $tanggal;
-                redirect($alamat);
-                // redirect('keuangan/piutang');
+                // $alamat = 'keuangan/piutang?tanggal=' . $tanggal;
+                // redirect($alamat);
+                redirect('keuangan/piutang');
             }
         }
     }

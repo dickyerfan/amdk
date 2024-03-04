@@ -208,9 +208,9 @@ class Piutang extends CI_Controller
                     </button>
                 </div>'
             );
-            $alamat = 'pemasaran/piutang?tanggal=' . $tanggal;
-            redirect($alamat);
-            // redirect('pemasaran/piutang');
+            // $alamat = 'pemasaran/piutang/pertanggal?tanggal=' . $tanggal;
+            // redirect($alamat);
+            redirect('pemasaran/piutang');
         } else {
             // Tampilkan pesan kesalahan jika tidak ada file yang diunggah
             $this->session->set_flashdata(
@@ -221,9 +221,9 @@ class Piutang extends CI_Controller
                     </button>
                 </div>'
             );
-            $alamat = 'pemasaran/piutang?tanggal=' . $tanggal;
-            redirect($alamat);
-            // redirect('pemasaran/piutang');
+            // $alamat = 'pemasaran/piutang/pertanggal?tanggal=' . $tanggal;
+            // redirect($alamat);
+            redirect('pemasaran/piutang');
         }
     }
 }

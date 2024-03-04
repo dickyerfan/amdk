@@ -14,3 +14,11 @@ SELECT SUM(total_harga) as total FROM pemesanan WHERE status_bayar = 1 AND DATE(
 
 pilih lunas untuk bantuan/operasional
 UPDATE pemesanan SET status_bayar = 1, input_bayar = 'Putra Raga Adityamala', tanggal_bayar = '2024-01-02 10:22:58', status_pesan = 0, status_piutang = 0 WHERE pemesanan.jenis_pesanan = 4 AND MONTH(tanggal_pesan) = 11 AND YEAR(tanggal_pesan) = 2023; 
+
+
+
+INSERT INTO `truk_tangki` (`id_truk`, `tanggal_ambil_air`, `id_karyawan`, `waktu`, `stand_meter`, `bbm`, `ket`, `input_truk_tangki`, `tanggal_input`) 
+VALUES  
+        (NULL, '2023-12-08', '4', '12:10', '6400.5', '', '', 'Putra Raga Adityamala', current_timestamp()),
+	    (NULL, '2023-12-08', '4', '14:05', '6404.6', '', '', 'Putra Raga Adityamala', current_timestamp());
+

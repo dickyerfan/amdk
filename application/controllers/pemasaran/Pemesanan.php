@@ -140,58 +140,77 @@ class Pemesanan extends CI_Controller
         }
     }
 
-    // public function upload()
-    // {
-    //     $this->form_validation->set_rules('id_jenis_barang', 'Nama Barang', 'required|trim');
-    //     $this->form_validation->set_rules('jumlah_pesan', 'Jumlah Pesan', 'required|trim|numeric');
-    //     $this->form_validation->set_rules('id_pelanggan', 'Nama Pelanggan', 'required|trim');
-    //     $this->form_validation->set_rules('tanggal_pesan', 'Tanggal Pesan', 'required|trim');
-    //     $this->form_validation->set_rules('jenis_pesanan', 'Jenis Pesanan', 'required|trim');
-    //     $this->form_validation->set_message('required', '%s masih kosong');
-    //     $this->form_validation->set_message('numeric', '%s harus berupa angka');
+    public function upload_admin()
+    {
+        $tanggal = $this->session->userdata('tanggal');
+        $this->form_validation->set_rules('id_pelanggan', 'Nama Pelanggan', 'required|trim');
+        $this->form_validation->set_rules('tanggal_pesan', 'Tanggal Pesan', 'required|trim');
+        $this->form_validation->set_rules('jenis_pesanan', 'Jenis Pesanan', 'required|trim');
+        $this->form_validation->set_message('required', '%s masih kosong');
+        $this->form_validation->set_message('numeric', '%s harus berupa angka');
 
 
-    //     if ($this->form_validation->run() == false) {
-    //         $data['title'] = 'Transaksi Pemesanan Barang';
-    //         $data['nama_barang'] = $this->Model_pemesanan->get_produk();
-    //         $data['pelanggan'] = $this->Model_pemesanan->get_pelanggan();
+        if ($this->form_validation->run() == false) {
+            $data['title'] = 'Transaksi Pemesanan Barang';
+            $data['nama_barang'] = $this->Model_pemesanan->get_produk();
+            $data['pelanggan'] = $this->Model_pemesanan->get_pelanggan();
 
-    //         $this->load->view('templates/pengguna/header', $data);
-    //         $this->load->view('templates/pengguna/navbar_pasar');
-    //         $this->load->view('templates/pengguna/sidebar_pasar');
-    //         $this->load->view('pemasaran/view_tambah_pemesanan', $data);
-    //         $this->load->view('templates/pengguna/footer');
-    //     } else {
-    //         $data['id_jenis_barang'] = $this->input->post('id_jenis_barang');
-    //         $data['id_pelanggan'] = $this->input->post('id_pelanggan');
-    //         $data['id_mobil'] = null;
-    //         $data['tanggal_pesan'] = $this->input->post('tanggal_pesan');
-    //         $data['jenis_pesanan'] = $this->input->post('jenis_pesanan');
-    //         $data['jumlah_pesan'] = $this->input->post('jumlah_pesan');
-    //         $data['input_pesan'] = $this->session->userdata('nama_lengkap');
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_pasar');
+            $this->load->view('templates/pengguna/sidebar_pasar');
+            $this->load->view('pemasaran/view_tambah_pemesanan', $data);
+            $this->load->view('templates/pengguna/footer');
+        } else {
+            $jenis_barang = $this->input->post('id_jenis_barang');
+            $id_pelanggan = $this->input->post('id_pelanggan');
+            $id_mobil = 1;
+            $tanggal_pesan = $this->input->post('tanggal_pesan');
+            $jenis_pesanan = $this->input->post('jenis_pesanan');
+            $jumlah_pesan = $this->input->post('jumlah_pesan');
+            $input_pesan = $this->session->userdata('nama_lengkap');
 
-    //         $tarif = $this->Model_pemesanan->getTarifByIdPelanggan($data['id_pelanggan']);
+            $data_pesanan = array();
+            $total_harga = 0;
 
-    //         // Ambil harga dari jenis barang yang dipilih
-    //         $harga_barang = $this->Model_pemesanan->getHargaByJenisBarang($data['id_jenis_barang'], $tarif);
-    //         $harga = $harga_barang->harga;
+            foreach ($jenis_barang as $id_jenis_barang) {
+                $jumlah = $jumlah_pesan[$id_jenis_barang];
 
-    //         // Hitung total harga
-    //         $data['harga_barang'] = $harga;
-    //         $data['total_harga'] = $harga * $data['jumlah_pesan'];
+                // Ambil harga dari jenis barang yang dipilih
+                $tarif = $this->Model_pemesanan->getTarifByIdPelanggan($id_pelanggan);
+                $harga_barang = $this->Model_pemesanan->getHargaByJenisBarang($id_jenis_barang, $tarif);
+                $harga = $harga_barang->harga;
 
-    //         $this->Model_pemesanan->upload('pemesanan', $data);
-    //         $this->session->set_flashdata(
-    //             'info',
-    //             '<div class="alert alert-primary alert-dismissible fade show" role="alert">
-    //                     <strong>Sukses,</strong> Data Pesanan baru berhasil di tambah
-    //                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-    //                     </button>
-    //                   </div>'
-    //         );
-    //         redirect('pemasaran/pemesanan');
-    //     }
-    // }
+                // Hitung total harga per barang
+                $total_harga_barang = $harga * $jumlah;
+
+                $data_pesanan[] = array(
+                    'id_jenis_barang' => $id_jenis_barang,
+                    'jumlah_pesan' => $jumlah,
+                    'tanggal_pesan' => $tanggal_pesan,
+                    'id_pelanggan' => $id_pelanggan,
+                    'id_mobil' => $id_mobil,
+                    'jenis_pesanan' => $jenis_pesanan,
+                    'input_pesan' => $input_pesan,
+                    'harga_barang' => $harga,
+                    'total_harga' => $total_harga_barang
+                );
+            }
+
+            $this->Model_pemesanan->upload('pemesanan', $data_pesanan);
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+                        <strong>Sukses,</strong> Data Pesanan baru berhasil di tambah
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        </button>
+                      </div>'
+            );
+            $alamat = 'pemasaran/pemesanan?tanggal=' . $tanggal;
+            redirect($alamat);
+            // redirect('pemasaran/pemesanan');
+        }
+    }
+
 
     public function pilih_mobil($id_pemesanan)
     {

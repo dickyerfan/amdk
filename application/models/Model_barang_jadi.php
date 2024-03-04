@@ -223,6 +223,7 @@ class Model_barang_jadi extends CI_Model
         $this->db->or_where_in('barang_baku.id_barang_baku', 27);
         $this->db->or_where_in('barang_baku.id_barang_baku', 32);
         $this->db->or_where_in('barang_baku.id_barang_baku', 34);
+        $this->db->order_by('barang_baku.id_barang_baku', 'asc');
         return $this->db->get()->result();
     }
 
