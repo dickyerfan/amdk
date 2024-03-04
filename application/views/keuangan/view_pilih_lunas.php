@@ -25,13 +25,13 @@
                                         </div>
                                     </div>
                                     <!-- input tanggal hanya untuk input sementara selanjutnya di komentar jika sudah production -->
-                                    <div class="row mb-2">
+                                    <!-- <div class="row mb-2">
                                         <div class="col">
                                             <label for="nota_beli">Tanggal Bayar :</label>
                                             <input type="datetime-local" class="form-control" id="tanggal_bayar" name="tanggal_bayar" value="<?= set_value('tanggal_bayar'); ?>">
                                             <small class="form-text text-danger pl-3"><?= form_error('tanggal_bayar'); ?></small>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="row">
                                         <div class="col">
                                             <select name="status_bayar" id="status_bayar" class="form-control select2">

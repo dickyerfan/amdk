@@ -4,10 +4,10 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('pemasaran/pemesanan'); ?>" method="get">
+                        <form id="form_tanggal" action="<?= base_url('pemasaran/pemesanan'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
-                                <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
+                                <input type="submit" value="Pilih Tanggal" class="neumorphic-button">
+                                <input type="date" name="tanggal" id="tanggal" class="form-control" style="margin-left: 5px;">
                             </div>
                         </form>
                         <div class="navbar-nav ms-auto">
@@ -140,6 +140,7 @@
                                                     <a href="<?= base_url('pemasaran/pemesanan/detail/') ?><?= $row->id_pemesanan ?>"><i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="klik lihat detail pemesanan"></i></a>
                                                 </td> -->
                                                 <td>
+                                                    <a href="<?= ($row->status_nota == 1 || $row->status_kembali == 1) ? "javascript:void(0);" : base_url('pemasaran/pemesanan/edit_jumlah_barang/') . $row->id_pemesanan; ?>" onclick="<?= ($row->status_nota == 1 || $row->status_kembali == 1) ? "Swal.fire('Jumlah barang sudah pernah di edit', '', 'warning'); return false;" : '' ?>"><i class="fas fa-edit text-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk edit jumlah barang"></i></a>
                                                     <a href="<?= ($row->id_mobil != null) ? "javascript:void(0);" : base_url('pemasaran/pemesanan/pilih_mobil/') . $row->id_pemesanan; ?>" onclick="<?= ($row->id_mobil != null) ? "Swal.fire('Mobil Sudah Dipilih', '', 'warning'); return false;" : '' ?>"><i class="fas fa-truck text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk pilih Mobil"></i></a>
                                                     <a href="<?= ($row->status_nota == 1 || $row->id_mobil == null) ? "javascript:void(0);" : base_url('pemasaran/pemesanan/upload_nota/') . $row->id_pemesanan . '/' . $row->id_pelanggan . '/' . $row->tanggal_pesan; ?>" onclick="<?= ($row->status_nota == 1 || $row->id_mobil == null) ? "Swal.fire('Nota sudah/tidak bisa di input', '', 'warning'); return false;" : '' ?>"><i class="fa-solid fa-square-poll-horizontal text-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk upload nota"></i></a>
                                                     <a href="<?= base_url('pemasaran/pemesanan/detail/') . $row->id_pemesanan ?>"><i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="klik lihat detail pemesanan"></i></a>

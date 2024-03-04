@@ -76,9 +76,12 @@
                                             // $jumlah_kembali = $row->jumlah_kembali;
                                             // $jumlah_total_keluar = $jumlah_keluar - $jumlah_kembali;
                                             // $stok_akhir = $row->jumlah_stok_awal + $row->jumlah_masuk - $jumlah_total_keluar - $row->jumlah_rusak;
+                                            $jumlah_masuk = $row->jumlah_masuk_kemaren + $row->jumlah_masuk_sekarang;
+                                            $jumlah_akhir = $row->jumlah_akhir_kemaren + $row->jumlah_akhir_sekarang;
+                                            $jumlah_rusak = $row->jumlah_rusak_kemaren + $row->jumlah_rusak_sekarang;
 
                                             $stok_awal = $row->jumlah_stok_awal + $row->jumlah_masuk_kemaren - $row->jumlah_akhir_kemaren - $row->jumlah_rusak_kemaren;
-                                            $stok_akhir = $row->jumlah_stok_awal + $row->jumlah_masuk - $row->jumlah_akhir - $row->jumlah_rusak;
+                                            $stok_akhir = $row->jumlah_stok_awal + $jumlah_masuk - $jumlah_akhir - $jumlah_rusak;
 
 
 

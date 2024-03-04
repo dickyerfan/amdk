@@ -101,8 +101,8 @@ class Penerimaan extends CI_Controller
 
                 // Isi data selain file yang diupload
                 $data['input_setor'] = $this->session->userdata('nama_lengkap');
-                $data['tanggal_setor'] = $this->input->post('tanggal_setor'); // ini untuk entri data saja
-                // $data['tanggal_setor'] = date('Y-m-d H:i:s'); // ini yang akan di gunakan aplikasi real
+                // $data['tanggal_setor'] = $this->input->post('tanggal_setor'); // ini untuk entri data saja
+                $data['tanggal_setor'] = date('Y-m-d H:i:s'); // ini yang akan di gunakan aplikasi real
                 $data['status_setor'] = 1;
                 // Simpan data ke dalam database
                 $this->Model_penerimaan->update_nota($data);

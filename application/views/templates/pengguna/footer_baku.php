@@ -56,7 +56,42 @@
         theme: 'bootstrap-5'
     });
 </script>
+<script>
+    $(document).ready(function() {
+        $('#tanggal').change(function(event) {
+            event.preventDefault();
+            var selectedDate = $(this).val(); // Mengambil nilai tanggal dari elemen #tanggal
+            var currentDate = new Date().toISOString().slice(0, 10); // Mengambil tanggal saat ini
+            if (selectedDate === currentDate) {
+                window.location.href = $('#form_tanggal').attr('action');
+            } else {
+                $('#form_tanggal').submit();
+            }
+        });
+    });
+</script>
 
+<script>
+    $(document).ready(function() {
+        $('#bulan').change(function() {
+            $('#form_bulan').submit();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#id_produk').change(function() {
+            $('#form_produk').submit();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#id_pelanggan').change(function() {
+            $('#form_pelanggan').submit();
+        });
+    });
+</script>
 <script>
     $("#btn-up").click(function() {
         $("html,body").animate({

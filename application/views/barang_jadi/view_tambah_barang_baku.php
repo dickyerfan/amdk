@@ -16,7 +16,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="id_barang_baku">Nama Barang Baku :</label>
-                                    <select name="id_barang_baku" id="id_barang_baku" class="form-select">
+                                    <select name="id_barang_baku" id="id_barang_baku" class="form-select select2">
                                         <option value="">Pilih Barang</option>
                                         <?php foreach ($nama_barang as $row) : ?>
                                             <option value="<?= $row->id_barang_baku ?>"><?= $row->nama_barang_baku ?></option>

@@ -56,15 +56,72 @@
     $('.select2').select2({
         theme: 'bootstrap-5'
     });
-
-    // $(function() {
-    //     $('#datepicker').datepicker({
-    //         format: 'yyyy-mm-dd',
-    //         autoclose: true,
-    //         todayHiglight: true,
-    //     });
-    // });
 </script>
+<!-- <script>
+    $(document).ready(function() {
+        $('#tanggal').change(function() {
+            $('#form_tanggal').submit();
+        });
+    });
+</script> -->
+<script>
+    $(document).ready(function() {
+        $('#tanggal').change(function(event) {
+            event.preventDefault();
+            var selectedDate = $(this).val(); // Mengambil nilai tanggal dari elemen #tanggal
+            var currentDate = new Date().toISOString().slice(0, 10); // Mengambil tanggal saat ini
+            if (selectedDate === currentDate) {
+                window.location.href = $('#form_tanggal').attr('action');
+            } else {
+                $('#form_tanggal').submit();
+            }
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#bulan').change(function() {
+            $('#form_bulan').submit();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#id_produk').change(function() {
+            $('#form_produk').submit();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#id_pelanggan').change(function() {
+            $('#form_pelanggan').submit();
+        });
+    });
+</script>
+<!-- <script>
+    $(document).ready(function() {
+        $('#bulan').change(function() {
+            var selectedDate = $('#bulan').val();
+            var currentDate = new Date();
+            var currentMonth = currentDate.getMonth() + 1; // Ingat, bulan dimulai dari 0
+            var currentYear = currentDate.getFullYear();
+            var currentDateString = currentYear + '-' + (currentMonth < 10 ? '0' + currentMonth : currentMonth);
+
+            // Perbarui action formulir sesuai dengan bulan yang dipilih
+            $('#form_bulan').attr('action');
+
+            // Jika bulan yang dipilih adalah bulan saat ini, langsung arahkan ke halaman yang diinginkan
+            if (selectedDate === currentDateString) {
+                window.location.href = $('#form_bulan').attr('action');
+            } else {
+                // Jika bulan yang dipilih bukan bulan saat ini, kirimkan formulir
+                $('#form_bulan').submit();
+            }
+        });
+    });
+</script> -->
 
 <!-- <script>
     $('.btn-danger').on('click', function(e) {

@@ -4,17 +4,17 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('keuangan/piutang'); ?>" method="get">
+                        <form id="form_bulan" action="<?= base_url('keuangan/piutang'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
-                                <input type="submit" value="Data Perbulan" style="margin-left: 10px;" class="neumorphic-button">
+                                <input type="submit" value="Per bulan" class="neumorphic-button">
+                                <input type="month" id="bulan" name="tanggal" class="form-control" style="margin-left: 5px;">
                             </div>
                         </form>
                         <div class="navbar-nav me-auto ms-2">
-                            <form action="<?= base_url('keuangan/piutang/pertanggal'); ?>" method="get">
+                            <form id="form_tanggal" action="<?= base_url('keuangan/piutang/pertanggal'); ?>" method="get">
                                 <div style="display: flex; align-items: center;">
-                                    <input type="date" name="tanggal" class="form-control">
-                                    <input type="submit" value="Data per tanggal" style="margin-left: 10px;" class="neumorphic-button">
+                                    <input type="submit" value="per tanggal" class="neumorphic-button">
+                                    <input type="date" id="tanggal" name="tanggal" class="form-control" style="margin-left: 5px;">
                                 </div>
                             </form>
                         </div>
@@ -22,7 +22,7 @@
                             <a href="<?= base_url('keuangan/piutang') ?>"><button class="float-end neumorphic-button"> Semua Piutang</button></a>
                         </div>
                         <div class="navbar-nav ms-2">
-                            <form action="<?= base_url('keuangan/piutang/nama_produk'); ?>" method="post">
+                            <form id="form_produk" action="<?= base_url('keuangan/piutang/nama_produk'); ?>" method="post">
                                 <div style="display: flex; align-items: center;">
                                     <select name="id_produk" id="id_produk" class="form-control select2" style="width:150px;">
                                         <option value="">Jenis Produk</option>
@@ -30,12 +30,12 @@
                                             <option value="<?= $row->id_produk ?>"><?= $row->nama_produk; ?></option>
                                         <?php endforeach;  ?>
                                     </select>
-                                    <input type="submit" value="Pilih" style="margin-left: 10px;" class="neumorphic-button">
+                                    <!-- <input type="submit" value="Pilih" style="margin-left: 10px;" class="neumorphic-button"> -->
                                 </div>
                             </form>
                         </div>
                         <div class="navbar-nav ms-2">
-                            <form action="<?= base_url('keuangan/piutang/nama_pelanggan'); ?>" method="post">
+                            <form id="form_pelanggan" action="<?= base_url('keuangan/piutang/nama_pelanggan'); ?>" method="post">
                                 <div style="display: flex; align-items: center;">
                                     <select name="id_pelanggan" id="id_pelanggan" class="form-control select2" style="width:150px;">
                                         <option value="">Pelanggan</option>
@@ -43,7 +43,7 @@
                                             <option value="<?= $row->id_pelanggan ?>"><?= $row->nama_pelanggan; ?></option>
                                         <?php endforeach;  ?>
                                     </select>
-                                    <input type="submit" value="Pilih" style="margin-left: 10px;" class="neumorphic-button">
+                                    <!-- <input type="submit" value="Pilih" style="margin-left: 10px;" class="neumorphic-button"> -->
                                 </div>
                             </form>
                         </div>
