@@ -32,12 +32,12 @@
                     <form class="user" action="<?= base_url('keuangan/penerimaan/update_nota_setor') ?>" method="POST" enctype="multipart/form-data">
                         <div class="row justify-content-center">
                             <div class="col-md-5">
-                                <!-- <div class="form-group mb-4">
+                                <div class="form-group mb-4">
                                     <label for="tanggal_setor" class="mb-3">Tanggal Setor :</label>
                                     <input type="hidden" class="form-control" id="tanggal_bayar" name="tanggal_bayar" value="<?= $tanggal_setor ?>">
                                     <input type="datetime-local" class="form-control" id="tanggal_setor" name="tanggal_setor" value="<?= set_value('tanggal_setor', date('Y-m-d')); ?>">
                                     <small class="form-text text-danger pl-3"><?= form_error('tanggal_setor'); ?></small>
-                                </div> -->
+                                </div>
                                 <div class="form-group mb-5">
                                     <label for="nota_setor" class="mb-3">Bukti Transaksi :</label>
                                     <input type="file" class="form-control" id="nota_setor" name="nota_setor" value="<?= set_value('nota_setor'); ?>">

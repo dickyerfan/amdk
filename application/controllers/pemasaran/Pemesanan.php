@@ -179,40 +179,6 @@ class Pemesanan extends CI_Controller
                 $tarif = $this->Model_pemesanan->getTarifByIdPelanggan($id_pelanggan);
                 $harga_barang = $this->Model_pemesanan->getHargaByJenisBarang($id_jenis_barang, $tarif);
                 $harga = $harga_barang->harga;
-<<<<<<< HEAD
-
-                // Hitung total harga per barang
-                $total_harga_barang = $harga * $jumlah;
-
-                $data_pesanan[] = array(
-                    'id_jenis_barang' => $id_jenis_barang,
-                    'jumlah_pesan' => $jumlah,
-                    'tanggal_pesan' => $tanggal_pesan,
-                    'id_pelanggan' => $id_pelanggan,
-                    'id_mobil' => $id_mobil,
-                    'jenis_pesanan' => $jenis_pesanan,
-                    'input_pesan' => $input_pesan,
-                    'harga_barang' => $harga,
-                    'total_harga' => $total_harga_barang
-                );
-            }
-
-            $this->Model_pemesanan->upload('pemesanan', $data_pesanan);
-            $this->session->set_flashdata(
-                'info',
-                '<div class="alert alert-primary alert-dismissible fade show" role="alert">
-                        <strong>Sukses,</strong> Data Pesanan baru berhasil di tambah
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                        </button>
-                      </div>'
-            );
-            $alamat = 'pemasaran/pemesanan?tanggal=' . $tanggal;
-            redirect($alamat);
-            // redirect('pemasaran/pemesanan');
-        }
-    }
-
-=======
 
                 // Hitung total harga per barang
                 $total_harga_barang = $harga * $jumlah;
@@ -297,7 +263,6 @@ class Pemesanan extends CI_Controller
             // redirect('pemasaran/pemesanan');
         }
     }
->>>>>>> a0e1ff20c39f4d1529e0e1ada173763f817beae5
 
     public function pilih_mobil($id_pemesanan)
     {
@@ -317,6 +282,7 @@ class Pemesanan extends CI_Controller
         } else {
 
             $data['id_mobil'] = $this->input->post('id_mobil');
+            $data['jam_mobil'] = $this->input->post('jam_mobil');
             $this->Model_pemesanan->update('pemesanan', $data, $id_pemesanan);
 
 
@@ -463,6 +429,21 @@ class Pemesanan extends CI_Controller
             $this->load->view('pemasaran/view_daftar_pengiriman', $data);
             $this->load->view('templates/pengguna/footer');
         }
+    }
+
+    public function exportpdf()
+    {
+        $tanggal = $this->session->userdata('tanggal_exportpdf');
+        $data['tanggal_hari_ini'] = $tanggal;
+        $data['daftar_kiriman'] = $this->Model_pemesanan->get_daftar_kiriman($tanggal);
+        $data['total_pesanan'] = $this->Model_pemesanan->get_all_pesanan($tanggal);
+        $data['title'] = 'Daftar Pengiriman Barang';
+        // Set paper size and orientation
+        $this->pdf->setPaper('folio', 'portrait');
+
+        // $this->pdf->filename = "Potensi Sr.pdf";
+        $this->pdf->filename = "daftar_kiriman.pdf";
+        $this->pdf->generate('pemasaran/daftar_kiriman_pdf', $data);
     }
 
     // awal penjualan rutin karyawan

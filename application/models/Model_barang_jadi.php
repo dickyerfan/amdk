@@ -234,17 +234,6 @@ class Model_barang_jadi extends CI_Model
         $this->db->from('barang_baku');
         $this->db->join('barang_baku_jadi_masuk', 'barang_baku_jadi_masuk.id_barang_baku = barang_baku.id_barang_baku', 'left');
         $this->db->join('barang_baku_jadi_keluar', 'barang_baku_jadi_keluar.id_barang_baku = barang_baku.id_barang_baku', 'left');
-<<<<<<< HEAD
-        $this->db->where('barang_baku.id_barang_baku', 8);
-        $this->db->or_where_in('barang_baku.id_barang_baku', 9);
-        $this->db->or_where_in('barang_baku.id_barang_baku', 10);
-        $this->db->or_where_in('barang_baku.id_barang_baku', 11);
-        $this->db->or_where_in('barang_baku.id_barang_baku', 12);
-        $this->db->or_where_in('barang_baku.id_barang_baku', 13);
-        $this->db->or_where_in('barang_baku.id_barang_baku', 27);
-        $this->db->or_where_in('barang_baku.id_barang_baku', 32);
-        $this->db->or_where_in('barang_baku.id_barang_baku', 34);
-=======
         $this->db->where('barang_baku.status_jadi', 1);
         // $this->db->where('barang_baku.id_barang_baku', 8);
         // $this->db->or_where_in('barang_baku.id_barang_baku', 9);
@@ -255,7 +244,6 @@ class Model_barang_jadi extends CI_Model
         // $this->db->or_where_in('barang_baku.id_barang_baku', 27);
         // $this->db->or_where_in('barang_baku.id_barang_baku', 32);
         // $this->db->or_where_in('barang_baku.id_barang_baku', 34);
->>>>>>> a0e1ff20c39f4d1529e0e1ada173763f817beae5
         $this->db->order_by('barang_baku.id_barang_baku', 'asc');
         return $this->db->get()->result();
     }

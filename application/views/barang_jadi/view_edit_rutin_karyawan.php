@@ -18,7 +18,7 @@
                             </div>
                             <div class="col-md-5 mb-3">
                                 <div class="form-group">
-                                    <select name="id_bagian" id="id_bagian" class="form-select">
+                                    <select name="id_bagian" id="id_bagian" class="form-select select2">
                                         <?php foreach ($bagian as $row) :  ?>
                                             <option value="<?= $row->id_bagian ?>" <?= ($row->id_bagian == $edit_rutin->id_bagian) ? 'selected' : ''; ?>><?= $row->nama_bagian; ?></option>
                                         <?php endforeach;  ?>
@@ -34,6 +34,16 @@
                             <div class="col-md-5 mb-3">
                                 <div class="form-group">
                                     <input type="number" class="form-control" id="no_hp" name="no_hp" placeholder="Masukan Telpon Karyawan" value="<?= $edit_rutin->no_hp; ?>">
+                                    <small class="form-text text-danger pl-3"><?= form_error('no_hp'); ?></small>
+                                </div>
+                            </div>
+                            <div class="col-md-5 mb-3">
+                                <div class="form-group">
+                                    <label for="aktif">Fitur Non aktif</label>
+                                        <select name="aktif" id="aktif" class="form-select select2">
+                                            <option value="1" <?= $edit_rutin->aktif == '1' ? 'selected' : '' ?>>Aktif</option>
+                                            <option value="0" <?= $edit_rutin->aktif == '0' ? 'selected' : '' ?>>Non Aktif</option>
+                                        </select>
                                     <small class="form-text text-danger pl-3"><?= form_error('no_hp'); ?></small>
                                 </div>
                             </div>

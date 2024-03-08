@@ -4,10 +4,10 @@
             <div class="card">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('barang_jadi/ambil_rutin_karyawan'); ?>" method="get">
+                        <form id="form_tanggal" action="<?= base_url('barang_jadi/ambil_rutin_karyawan'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
-                                <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
+                                <input type="submit" value="Tampilkan Data"  class="neumorphic-button">
+                                <input type="month" id="tanggal" name="tanggal" class="form-control" style="margin-left: 5px;">
                             </div>
                         </form>
                         <div class="navbar-nav ms-2">
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table id="example2" class="table table-hover table-striped table-bordered table-sm" width="100%" cellspacing="0" style="font-size: 0.8rem;">
+                        <table id="example" class="table table-hover table-striped table-bordered table-sm" width="100%" cellspacing="0" style="font-size: 0.8rem;">
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>

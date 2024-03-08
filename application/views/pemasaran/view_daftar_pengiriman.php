@@ -10,6 +10,9 @@
                                 <input type="date" id="tanggal" name="tanggal" class="form-control" style="margin-left: 10px;">
                             </div>
                         </form>
+                        <div class="navbar-nav ms-auto">
+                            <a href="<?= base_url('pemasaran/pemesanan/exportpdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
+                        </div>
                     </nav>
                 </div>
                 <div class="p-2">
@@ -51,7 +54,7 @@
                     </div>
 
                     <div class="row justify-content-center mb-2">
-                        <div class="col-lg-6">
+                        <div class="col-lg-7">
                             <?php foreach ($total_pesanan as $row) : ?>
                                 <div class="card">
                                     <div class="card-header text-center">
@@ -65,16 +68,24 @@
                     <div class="row justify-content-center">
                         <?php if ($daftar_kiriman) : ?>
                             <?php foreach ($daftar_kiriman as $mobil) : ?>
-                                <div class="col-lg-6">
+                                <div class="col-lg-7">
                                     <div class="card mb-2">
                                         <div class="card-header">
                                             <h5>Mobil : <?= $mobil->nama_mobil; ?> / <?= $mobil->plat_nomor; ?></h5>
                                         </div>
                                         <div class="card-body">
-                                            <!-- <h5 class="card-text">Total Jumlah Barang : <?= $mobil->total_pemesanan; ?></h5> -->
                                             <h5 class="card-text">Daftar Barang :</h5>
                                             <div class="table-responsive">
                                                 <table class="table table-borderless table-sm">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nama Barang</th>
+                                                            <th></th>
+                                                            <th>Jumlah</th>
+                                                            <th>Jenis</th>
+                                                            <th>Jam</th>
+                                                        </tr>
+                                                    </thead>
                                                     <tbody>
                                                         <?php foreach ($mobil->jenis_barang as $barang) : ?>
                                                             <tr>
@@ -107,19 +118,38 @@
                                                                     $barang->jenis_pesanan;
                                                                     ?>
                                                                 </td>
+                                                                <td><?= $barang->jam_mobil; ?></td>
                                                             </tr>
                                                         <?php endforeach; ?>
+                                                    </tbody>
+                                                </table>
+                                                <hr>
+                                                <table>
+                                                    <tbody>
                                                         <tr class="fw-bold">
-                                                            <td>Total Barang</td>
+                                                            <td width="40%">Total Barang pengiriman Jam 1</td>
+                                                            <td> :</td>
+                                                            <td width="20%"><?= $mobil->total_jam_1; ?></td>
+                                                        </tr>
+                                                        <tr class="fw-bold">
+                                                            <td width="40%">Total Barang pengiriman Jam 2</td>
+                                                            <td> :</td>
+                                                            <td width="20%"><?= $mobil->total_jam_2; ?></td>
+                                                        </tr>
+                                                        <tr class="fw-bold">
+                                                            <td width="40%">Total Barang pengiriman Jam 3</td>
+                                                            <td> :</td>
+                                                            <td width="20%"><?= $mobil->total_jam_3; ?></td>
+                                                        </tr>
+
+                                                        <tr class="fw-bold">
+                                                            <td>Total semua Barang</td>
                                                             <td>:</td>
                                                             <td><?= $mobil->total_pemesanan; ?></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <!-- <li class="list-group-item">
-                                                    - <?= $barang->nama_barang_jadi; ?> - <?= $barang->jumlah_pesan; ?> buah
-                                                </li> -->
                                         </div>
                                         <div class="card-footer text-muted">
                                             Tanggal Pesan : <?= date('d-m-Y', strtotime($mobil->tanggal_pesan)); ?>

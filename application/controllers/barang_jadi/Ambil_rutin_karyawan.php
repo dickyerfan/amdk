@@ -126,7 +126,7 @@ class Ambil_rutin_karyawan extends CI_Controller
             redirect('barang_jadi/ambil_rutin_karyawan');
         } else {
 
-            $this->db->query("INSERT INTO ambil_rutin_pegawai (id_bagian,nama,alamat,no_hp,aktif,tarif,tgl_lap,galon,gelas,btl330,btl500,btl1500,nominal)SELECT id_bagian,nama,alamat,no_hp,aktif,tarif,now(),galon,gelas,btl330,btl500,btl1500,nominal FROM rutin_pegawai");
+            $this->db->query("INSERT INTO ambil_rutin_pegawai (id_bagian,nama,alamat,no_hp,aktif,tarif,tgl_lap,galon,gelas,btl330,btl500,btl1500,nominal)SELECT id_bagian,nama,alamat,no_hp,aktif,tarif,now(),galon,gelas,btl330,btl500,btl1500,nominal FROM rutin_pegawai WHERE aktif = 1");
 
             $this->session->set_flashdata('info', '<div class="alert alert-success" role="alert">
             Download Data sukses! <br> Daftar Rutin Karyawan tersedia
@@ -185,6 +185,8 @@ class Ambil_rutin_karyawan extends CI_Controller
             $bulan = date('m');
             $tahun = date('Y');
         }
+        $data['rutin'] = $this->Model_ambil_rutin_karyawan->get_sudah_ambil($bulan, $tahun);
+
         $data['bulan_lap'] = $bulan;
         $data['tahun_lap'] = $tahun;
 
@@ -193,7 +195,7 @@ class Ambil_rutin_karyawan extends CI_Controller
         }
 
         $data['title'] = 'Daftar Sudah Ambil Air Karyawan PDAM';
-        $data['rutin'] = $this->Model_ambil_rutin_karyawan->get_sudah_ambil($bulan, $tahun);
+
 
         if ($this->session->userdata('upk_bagian') == 'admin') {
             $this->load->view('templates/header', $data);
@@ -206,6 +208,43 @@ class Ambil_rutin_karyawan extends CI_Controller
             $this->load->view('templates/pengguna/navbar_jadi');
             $this->load->view('templates/pengguna/sidebar_jadi');
             $this->load->view('barang_jadi/view_sudah_rutin_karyawan', $data);
+            $this->load->view('templates/pengguna/footer_jadi');
+        }
+    }
+    public function sudah_ambil_pertgl()
+    {
+        $tanggal = $this->input->get('tanggal');
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+        $data['rutin'] = $this->Model_ambil_rutin_karyawan->get_sudah_ambil_pertgl($tanggal);
+
+        $data['bulan_lap'] = $bulan;
+        $data['tahun_lap'] = $tahun;
+
+        if (!empty($tanggal)) {
+            $this->session->set_userdata('tanggal', $tanggal);
+        }
+
+        $data['title'] = 'Daftar Sudah Ambil Air Karyawan PDAM';
+
+
+        if ($this->session->userdata('upk_bagian') == 'admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('barang_jadi/view_sudah_rutin_karyawan_pertgl', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_jadi');
+            $this->load->view('templates/pengguna/sidebar_jadi');
+            $this->load->view('barang_jadi/view_sudah_rutin_karyawan_pertgl', $data);
             $this->load->view('templates/pengguna/footer_jadi');
         }
     }

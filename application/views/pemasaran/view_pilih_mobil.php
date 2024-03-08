@@ -20,6 +20,18 @@
                                     <small class="form-text text-danger pl-3"><?= form_error('id_mobil'); ?></small>
                                 </div>
                             </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <select name="jam_mobil" id="jam_mobil" class="form-control select2">
+                                        <option value="">Pilih Jam Mobil</option>
+                                        <option value="1">Kiriman Pertama</option>
+                                        <option value="2">Kiriman Ke dua</option>
+                                        <option value="3">Kiriman ke tiga</option>
+                                        <option value="4">Kiriman ke empat</option>
+                                    </select>
+                                    <small class="form-text text-danger pl-3"><?= form_error('jam_mobil'); ?></small>
+                                </div>
+                            </div>
                         </div>
                         <button class=" neumorphic-button mt-2" name="tambah" type="submit"><i class="fas fa-save"></i> Simpan</button>
                     </form>
