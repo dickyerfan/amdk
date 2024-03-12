@@ -90,6 +90,9 @@ class Auth extends CI_Controller
             case 'pasar':
                 redirect('pemasaran/pasar');
                 break;
+            case 'kas':
+                redirect('keuangan/kas');
+                break;
             case 'kontrol':
                 redirect('Q_control/kontrol');
                 break;

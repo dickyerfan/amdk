@@ -80,8 +80,10 @@ class Barang_keluar extends CI_Controller
         }
         $data['tanggal_hari_ini'] = $this->input->get('tanggal');
         $data['title'] = 'Transaksi Keluar Barang Jadi';
+        $data['tanggal_modal'] = $this->session->userdata('tanggal');
 
         $data['barang_keluar'] = $this->Model_barang_jadi->getbarang_keluar($tanggal);
+        $data['rekap_barang_keluar'] = $this->Model_barang_jadi->get_rekap_barang_keluar($tanggal);
         if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');

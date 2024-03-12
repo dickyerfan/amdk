@@ -174,6 +174,25 @@ class Model_pemesanan extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function get_jumlah_pesan_lama($id_pemesanan)
+    {
+        $this->db->select('jumlah_pesan');
+        $this->db->from('pemesanan');
+        $this->db->where('id_pemesanan', $id_pemesanan);
+        $query = $this->db->get();
+
+        // Periksa apakah query berhasil dieksekusi
+        if ($query->num_rows() == 1) {
+            // Ambil baris hasil query dan kembalikan nilai jumlah_pesan
+            $result = $query->row();
+            return $result->jumlah_pesan;
+        } else {
+            // Jika tidak ada hasil atau lebih dari satu hasil, kembalikan false
+            return false;
+        }
+    }
+
+
     // awal daftar barang karyawan
     // public function get_pegawai()
     // {

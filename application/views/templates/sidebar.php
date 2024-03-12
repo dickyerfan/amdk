@@ -100,6 +100,7 @@
                             <a class="nav-link" href="<?= base_url('keuangan/penjualan') ?>" style="font-size: 0.8rem;">Daftar Penjualan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/penerimaan') ?>" style="font-size: 0.8rem;">Daftar Penerimaan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/piutang') ?>" style="font-size: 0.8rem;">Daftar Piutang</a>
+                            <a class="nav-link" href="<?= base_url('keuangan/penerimaan_kas') ?>" style="font-size: 0.8rem;">Rekap Penerimaan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/ban_ops') ?>" style="font-size: 0.8rem;">Bantuan/Operasional</a>
                             <a class="nav-link" href="<?= base_url('keuangan/pengambilan_air') ?>" style="font-size: 0.8rem;">Pengambilan Air</a>
                             <a class="nav-link" href="<?= base_url('keuangan/karyawan_produksi') ?>" style="font-size: 0.8rem;">Daftar Karyawan Produksi</a>

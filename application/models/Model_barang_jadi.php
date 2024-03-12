@@ -3,66 +3,49 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Model_barang_jadi extends CI_Model
 {
-    // public function getdata($tanggal)
-    // {
-    //     $this->db->select('*,jenis_barang.*,
-    //     (SELECT IFNULL(SUM(jumlah_stok_awal_jadi), 0) FROM stok_awal_jadi WHERE stok_awal_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_stok_awal_jadi) <= DATE("' . $tanggal . '")) AS jumlah_stok_awal,
-    //     COALESCE(SUM(IF(DATE(barang_jadi.tanggal_barang_jadi) < DATE("' . $tanggal . '") AND barang_jadi.status_barang_jadi = 1, barang_jadi.jumlah_barang_jadi, 0)), 0) AS jumlah_masuk_kemaren,
-    //     COALESCE(SUM(IF(DATE(barang_jadi.tanggal_barang_jadi) = DATE("' . $tanggal . '") AND barang_jadi.status_barang_jadi = 1, barang_jadi.jumlah_barang_jadi, 0)), 0) AS jumlah_masuk_sekarang,
-    //     COALESCE(SUM(IF(DATE(barang_jadi.tanggal_barang_jadi) <= DATE("' . $tanggal . '") AND barang_jadi.status_barang_jadi = 1, barang_jadi.jumlah_barang_jadi, 0)), 0) AS jumlah_masuk,
-    //     COALESCE(SUM(IF(DATE(keluar_jadi.tanggal_keluar) < DATE("' . $tanggal . '"), keluar_jadi.jumlah_keluar, 0)), 0) AS jumlah_keluar_kemaren,
-    //     COALESCE(SUM(IF(DATE(keluar_jadi.tanggal_keluar) = DATE("' . $tanggal . '"), keluar_jadi.jumlah_keluar, 0)), 0) AS jumlah_keluar_sekarang,
-    //     COALESCE(SUM(IF(DATE(keluar_jadi.tanggal_keluar) <= DATE("' . $tanggal . '"), keluar_jadi.jumlah_keluar, 0)), 0) AS jumlah_keluar,
-    //     COALESCE(SUM(IF(keluar_jadi.status_keluar = 1 AND DATE(keluar_jadi.tanggal_keluar) < DATE("' . $tanggal . '"), keluar_jadi.jumlah_akhir, 0)), 0) AS jumlah_akhir_kemaren,
-    //     COALESCE(SUM(IF(keluar_jadi.status_keluar = 1 AND DATE(keluar_jadi.tanggal_keluar) = DATE("' . $tanggal . '"), keluar_jadi.jumlah_akhir, 0)), 0) AS jumlah_akhir_sekarang,
-    //     COALESCE(SUM(IF(keluar_jadi.status_keluar = 1 AND DATE(keluar_jadi.tanggal_keluar) <= DATE("' . $tanggal . '"), keluar_jadi.jumlah_akhir, 0)), 0) AS jumlah_akhir,
-    //     COALESCE(SUM(IF(DATE(rusak_jadi.tanggal_rusak_jadi) = DATE("' . $tanggal . '") AND rusak_jadi.status_rusak_jadi = 1, rusak_jadi.jumlah_rusak_akhir, 0)), 0) AS jumlah_rusak_sekarang,
-    //     COALESCE(SUM(IF(DATE(rusak_jadi.tanggal_rusak_jadi) < DATE("' . $tanggal . '") AND rusak_jadi.status_rusak_jadi = 1, rusak_jadi.jumlah_rusak_akhir, 0)), 0) AS jumlah_rusak_kemaren,
-    //     COALESCE(SUM(IF(DATE(rusak_jadi.tanggal_rusak_jadi) <= DATE("' . $tanggal . '") AND rusak_jadi.status_rusak_jadi = 1, rusak_jadi.jumlah_rusak_akhir, 0)), 0) AS jumlah_rusak');
-    //     $this->db->from('jenis_barang');
-    //     $this->db->join('stok_awal_jadi', 'stok_awal_jadi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
-    //     $this->db->join('barang_jadi', 'barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
-    //     $this->db->join('keluar_jadi', 'keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
-    //     $this->db->join('rusak_jadi', 'rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
-    //     $this->db->group_by('jenis_barang.id_jenis_barang');
-    //     return $this->db->get()->result();
-    // }
 
-
-
-    // kode ini memakan banyak memory
     public function getdata($tanggal)
     {
-        $this->db->select('jenis_barang.id_jenis_barang, jenis_barang.nama_barang_jadi, 
-            (SELECT IFNULL(SUM(jumlah_stok_awal_jadi), 0) FROM stok_awal_jadi WHERE stok_awal_jadi.id_jenis_barang = jenis_barang.id_jenis_barang) AS jumlah_stok_awal,
-            (SELECT IFNULL(SUM(jumlah_barang_jadi), 0) FROM barang_jadi WHERE barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_barang_jadi) < DATE("' . $tanggal . '") AND barang_jadi.status_barang_jadi = 1) AS jumlah_masuk_kemaren,
-            (SELECT IFNULL(SUM(jumlah_barang_jadi), 0) FROM barang_jadi WHERE barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_barang_jadi) = DATE("' . $tanggal . '") AND barang_jadi.status_barang_jadi = 1) AS jumlah_masuk_sekarang,
-            (SELECT IFNULL(SUM(jumlah_akhir), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND keluar_jadi.status_keluar = 1 AND DATE(tanggal_keluar) < DATE("' . $tanggal . '")) AS jumlah_akhir_kemaren,
-            (SELECT IFNULL(SUM(jumlah_akhir), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND keluar_jadi.status_keluar = 1 AND DATE(tanggal_keluar) = DATE("' . $tanggal . '")) AS jumlah_akhir_sekarang,
-            (SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) = DATE("' . $tanggal . '") AND rusak_jadi.status_rusak_jadi = 1) AS jumlah_rusak_sekarang,
-            (SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) < DATE("' . $tanggal . '")) AS jumlah_rusak_kemaren', FALSE);
-
+        $this->db->select('jenis_barang.id_jenis_barang, jenis_barang.nama_barang_jadi');
+        $this->db->select('(SELECT IFNULL(SUM(jumlah_stok_awal_jadi), 0) FROM stok_awal_jadi WHERE stok_awal_jadi.id_jenis_barang = jenis_barang.id_jenis_barang) AS jumlah_stok_awal', FALSE);
+        $this->db->select('(SELECT IFNULL(SUM(jumlah_barang_jadi), 0) FROM barang_jadi WHERE barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_barang_jadi) < "' . $tanggal . '" AND status_barang_jadi = 1) AS jumlah_masuk_kemaren', FALSE);
+        $this->db->select('(SELECT IFNULL(SUM(jumlah_barang_jadi), 0) FROM barang_jadi WHERE barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_barang_jadi) = "' . $tanggal . '" AND status_barang_jadi = 1) AS jumlah_masuk_sekarang', FALSE);
+        $this->db->select('(SELECT IFNULL(SUM(jumlah_keluar), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_keluar) < "' . $tanggal . '" AND status_keluar = 1) AS jumlah_keluar_kemaren', FALSE);
+        $this->db->select('(SELECT IFNULL(SUM(jumlah_keluar), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_keluar) = "' . $tanggal . '" AND status_keluar = 1) AS jumlah_keluar_sekarang', FALSE);
+        $this->db->select('(SELECT IFNULL(SUM(jumlah_kembali), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_keluar) < "' . $tanggal . '" AND status_keluar = 1) AS jumlah_kembali_kemaren', FALSE);
+        $this->db->select('(SELECT IFNULL(SUM(jumlah_kembali), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_keluar) = "' . $tanggal . '" AND status_keluar = 1) AS jumlah_kembali_sekarang', FALSE);
+        $this->db->select('(SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) < "' . $tanggal . '" AND status_rusak_jadi = 1) AS jumlah_rusak_kemaren', FALSE);
+        $this->db->select('(SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) = "' . $tanggal . '" AND status_rusak_jadi = 1) AS jumlah_rusak_sekarang', FALSE);
         $this->db->from('jenis_barang');
-        $this->db->join('stok_awal_jadi', 'stok_awal_jadi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
-        $this->db->join('barang_jadi', 'barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
-        $this->db->join('keluar_jadi', 'keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
-        $this->db->join('rusak_jadi', 'rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
         return $this->db->get()->result();
     }
 
+    // kode ini tidak memakan banyak memory
     // public function getdata($tanggal)
     // {
-    //     $this->db->select('jenis_barang.*, 
-    //         (SELECT IFNULL(SUM(jumlah_stok_awal_jadi), 0) FROM stok_awal_jadi WHERE stok_awal_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_stok_awal_jadi) <= DATE("' . $tanggal . '")) AS jumlah_stok_awal,
+    //     $this->db->select('jenis_barang.id_jenis_barang, jenis_barang.nama_barang_jadi');
+    //     $this->db->select('(SELECT IFNULL(SUM(jumlah_stok_awal_jadi), 0) FROM stok_awal_jadi WHERE stok_awal_jadi.id_jenis_barang = jenis_barang.id_jenis_barang) AS jumlah_stok_awal', FALSE);
+    //     $this->db->select('(SELECT IFNULL(SUM(jumlah_barang_jadi), 0) FROM barang_jadi WHERE barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_barang_jadi) < "' . $tanggal . '" AND status_barang_jadi = 1) AS jumlah_masuk_kemaren', FALSE);
+    //     $this->db->select('(SELECT IFNULL(SUM(jumlah_barang_jadi), 0) FROM barang_jadi WHERE barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_barang_jadi) = "' . $tanggal . '" AND status_barang_jadi = 1) AS jumlah_masuk_sekarang', FALSE);
+    //     $this->db->select('(SELECT IFNULL(SUM(jumlah_akhir), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_keluar) < "' . $tanggal . '" AND status_keluar = 1) AS jumlah_akhir_kemaren', FALSE);
+    //     $this->db->select('(SELECT IFNULL(SUM(jumlah_akhir), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_keluar) = "' . $tanggal . '" AND status_keluar = 1) AS jumlah_akhir_sekarang', FALSE);
+    //     $this->db->select('(SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) < "' . $tanggal . '" AND status_rusak_jadi = 1) AS jumlah_rusak_kemaren', FALSE);
+    //     $this->db->select('(SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) = "' . $tanggal . '" AND status_rusak_jadi = 1) AS jumlah_rusak_sekarang', FALSE);
+    //     $this->db->from('jenis_barang');
+    //     return $this->db->get()->result();
+    // }
+
+    // kode ini memakan banyak memory
+    // public function getdata($tanggal)
+    // {
+    //     $this->db->select('jenis_barang.id_jenis_barang, jenis_barang.nama_barang_jadi, 
+    //         (SELECT IFNULL(SUM(jumlah_stok_awal_jadi), 0) FROM stok_awal_jadi WHERE stok_awal_jadi.id_jenis_barang = jenis_barang.id_jenis_barang) AS jumlah_stok_awal,
     //         (SELECT IFNULL(SUM(jumlah_barang_jadi), 0) FROM barang_jadi WHERE barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_barang_jadi) < DATE("' . $tanggal . '") AND barang_jadi.status_barang_jadi = 1) AS jumlah_masuk_kemaren,
     //         (SELECT IFNULL(SUM(jumlah_barang_jadi), 0) FROM barang_jadi WHERE barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_barang_jadi) = DATE("' . $tanggal . '") AND barang_jadi.status_barang_jadi = 1) AS jumlah_masuk_sekarang,
-    //         (SELECT IFNULL(SUM(jumlah_barang_jadi), 0) FROM barang_jadi WHERE barang_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_barang_jadi) <= DATE("' . $tanggal . '") AND barang_jadi.status_barang_jadi = 1) AS jumlah_masuk,
     //         (SELECT IFNULL(SUM(jumlah_akhir), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND keluar_jadi.status_keluar = 1 AND DATE(tanggal_keluar) < DATE("' . $tanggal . '")) AS jumlah_akhir_kemaren,
     //         (SELECT IFNULL(SUM(jumlah_akhir), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND keluar_jadi.status_keluar = 1 AND DATE(tanggal_keluar) = DATE("' . $tanggal . '")) AS jumlah_akhir_sekarang,
-    //         (SELECT IFNULL(SUM(jumlah_akhir), 0) FROM keluar_jadi WHERE keluar_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND keluar_jadi.status_keluar = 1 AND DATE(tanggal_keluar) <= DATE("' . $tanggal . '")) AS jumlah_akhir,
     //         (SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) = DATE("' . $tanggal . '") AND rusak_jadi.status_rusak_jadi = 1) AS jumlah_rusak_sekarang,
-    //         (SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) < DATE("' . $tanggal . '") AND rusak_jadi.status_rusak_jadi = 1) AS jumlah_rusak_kemaren,
-    //         (SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) <= DATE("' . $tanggal . '")) AS jumlah_rusak', FALSE);
+    //         (SELECT IFNULL(SUM(jumlah_rusak_akhir), 0) FROM rusak_jadi WHERE rusak_jadi.id_jenis_barang = jenis_barang.id_jenis_barang AND DATE(tanggal_rusak_jadi) < DATE("' . $tanggal . '")) AS jumlah_rusak_kemaren', FALSE);
 
     //     $this->db->from('jenis_barang');
     //     $this->db->join('stok_awal_jadi', 'stok_awal_jadi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
@@ -142,6 +125,18 @@ class Model_barang_jadi extends CI_Model
         $this->db->order_by('keluar_jadi.id_keluar_jadi', 'DESC');
         return $this->db->get()->result();
     }
+
+    public function get_rekap_barang_keluar($tanggal)
+    {
+        $this->db->select('*, SUM(jumlah_keluar) AS jumlah_keluar, SUM(jumlah_kembali) AS jumlah_kembali');
+        $this->db->from('keluar_jadi');
+        $this->db->join('jenis_produk', 'keluar_jadi.id_jenis_barang = jenis_produk.id_produk', 'left');
+        $this->db->where('DATE(keluar_jadi.tanggal_keluar)', $tanggal);
+        $this->db->group_by('jenis_produk.nama_produk');
+        $this->db->order_by('keluar_jadi.id_keluar_jadi', 'DESC');
+        return $this->db->get()->result();
+    }
+
 
     public function get_detail_barang_keluar($id_keluar_baku)
     {

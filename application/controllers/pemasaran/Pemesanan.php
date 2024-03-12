@@ -249,18 +249,46 @@ class Pemesanan extends CI_Controller
                 'status_kembali' => 1
             );
 
-            $this->Model_pemesanan->update('pemesanan', $data_edit, $id_pemesanan);
-            $this->session->set_flashdata(
-                'info',
-                '<div class="alert alert-primary alert-dismissible fade show" role="alert">
-                        <strong>Sukses,</strong> data pesanan berhasil di update
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                        </button>
-                      </div>'
-            );
-            $alamat = 'pemasaran/pemesanan?tanggal=' . $tanggal;
-            redirect($alamat);
-            // redirect('pemasaran/pemesanan');
+            $jumlah_pesan_baru = intval($jumlah_pesan);
+            $jumlah_pesan_lama = $this->Model_pemesanan->get_jumlah_pesan_lama($id_pemesanan);
+            $jumlah_pesan_lama = intval($jumlah_pesan_lama);
+
+            if ($jumlah_pesan_baru < $jumlah_pesan_lama) {
+                $this->Model_pemesanan->update('pemesanan', $data_edit, $id_pemesanan);
+                $this->session->set_flashdata(
+                    'info',
+                    '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+                            <strong>Sukses,</strong> Jumlah barang berhasil di update
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            </button>
+                          </div>'
+                );
+                $alamat = 'pemasaran/pemesanan?tanggal=' . $tanggal;
+                redirect($alamat);
+                // redirect('pemasaran/pemesanan');
+            } else if ($jumlah_pesan_baru > $jumlah_pesan_lama) {
+                $this->session->set_flashdata(
+                    'info',
+                    '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Gagal,</strong> Jumlah barang harus lebih kecil 
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            </button>
+                          </div>'
+                );
+                $alamat = 'pemasaran/pemesanan?tanggal=' . $tanggal;
+                redirect($alamat);
+            } else {
+                $this->session->set_flashdata(
+                    'info',
+                    '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Maaf,</strong> tidak ada perubahan di jumlah pesanan barang
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            </button>
+                          </div>'
+                );
+                $alamat = 'pemasaran/pemesanan?tanggal=' . $tanggal;
+                redirect($alamat);
+            }
         }
     }
 

@@ -72,15 +72,14 @@
                                         $no = 1;
                                         $produk_sebelumnya = null;
                                         foreach ($stok_barang as $row) :
-                                            // $jumlah_keluar = $row->jumlah_keluar;
-                                            // $jumlah_kembali = $row->jumlah_kembali;
-                                            // $jumlah_total_keluar = $jumlah_keluar - $jumlah_kembali;
-                                            // $stok_akhir = $row->jumlah_stok_awal + $row->jumlah_masuk - $jumlah_total_keluar - $row->jumlah_rusak;
+
+                                            $jumlah_akhir_kemaren = $row->jumlah_keluar_kemaren - $row->jumlah_kembali_kemaren;
+                                            $jumlah_akhir_sekarang = $row->jumlah_keluar_sekarang - $row->jumlah_kembali_sekarang;
                                             $jumlah_masuk = $row->jumlah_masuk_kemaren + $row->jumlah_masuk_sekarang;
-                                            $jumlah_akhir = $row->jumlah_akhir_kemaren + $row->jumlah_akhir_sekarang;
+                                            $jumlah_akhir = $jumlah_akhir_kemaren + $jumlah_akhir_sekarang;
                                             $jumlah_rusak = $row->jumlah_rusak_kemaren + $row->jumlah_rusak_sekarang;
 
-                                            $stok_awal = $row->jumlah_stok_awal + $row->jumlah_masuk_kemaren - $row->jumlah_akhir_kemaren - $row->jumlah_rusak_kemaren;
+                                            $stok_awal = $row->jumlah_stok_awal + $row->jumlah_masuk_kemaren - $jumlah_akhir_kemaren - $row->jumlah_rusak_kemaren;
                                             $stok_akhir = $row->jumlah_stok_awal + $jumlah_masuk - $jumlah_akhir - $jumlah_rusak;
 
 
@@ -93,7 +92,7 @@
                                                     <td><?= ucwords($row->nama_barang_jadi); ?></td>
                                                     <td class="text-end"><?= number_format($stok_awal, 0, ',', '.'); ?></td>
                                                     <td class="text-end"><?= number_format($row->jumlah_masuk_sekarang, 0, ',', '.'); ?></td>
-                                                    <td class="text-end"><?= number_format($row->jumlah_akhir_sekarang, 0, ',', '.'); ?></td>
+                                                    <td class="text-end"><?= number_format($jumlah_akhir_sekarang, 0, ',', '.'); ?></td>
                                                     <td class="text-end"><?= number_format($row->jumlah_rusak_sekarang, 0, ',', '.'); ?></td>
                                                     <td class="text-end"><?= number_format($stok_akhir, 0, ',', '.'); ?></td>
                                                 </tr>

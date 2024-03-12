@@ -10,11 +10,9 @@
                                 <input type="date" name="tanggal" id="tanggal" class="form-control" style="margin-left: 5px;">
                             </div>
                         </form>
-                        <!-- <div class="navbar-nav ms-auto">
-                            <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
-                                <a href="<?= base_url('barang_jadi/barang_masuk/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Proses Barang Jadi</button></a>
-                            <?php endif; ?>
-                        </div> -->
+                        <div class="navbar-nav ms-auto">
+                            <a href="#rekap_barang_keluar" data-bs-toggle="modal"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Rekap Barang Keluar</button></a>
+                        </div>
                     </nav>
                 </div>
                 <div class="p-2">
@@ -120,6 +118,79 @@
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="rekap_barang_keluar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning">
+                        <!-- <h5 class="modal-title">Rekap Barang Keluar</h5> -->
+                    </div>
+                    <div class="modal-body">
+                        <div class="row justify-content-center mb-2">
+                            <div class="col-lg-6 text-center">
+                                <h5>Rekap Barang Keluar</h5>
+                                <?php if (empty($tanggal_modal)) {
+                                    $tanggal_modal = date("Y-m-d");
+                                }
+                                setlocale(LC_TIME, 'id_ID');
+                                $tanggal_modal = strftime('%e %B %Y', strtotime($tanggal_modal));
+                                $bulan = [
+                                    'January' => 'Januari',
+                                    'February' => 'Februari',
+                                    'March' => 'Maret',
+                                    'April' => 'April',
+                                    'May' => 'Mei',
+                                    'June' => 'Juni',
+                                    'July' => 'Juli',
+                                    'August' => 'Agustus',
+                                    'September' => 'September',
+                                    'October' => 'Oktober',
+                                    'November' => 'November',
+                                    'December' => 'Desember',
+                                ];
+                                $tanggal_modal = strtr($tanggal_modal, $bulan);
+                                ?>
+                                <h5><?= $tanggal_modal; ?></h5>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered" id="example" style="font-size: 0.8rem;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th class="text-center">Nama Barang</th>
+                                        <th class="text-center">Jumlah</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $no = 1;
+                                    $total_barang = 0;
+                                    foreach ($rekap_barang_keluar as $row) :
+                                        $jumlah_barang = $row->jumlah_keluar - $row->jumlah_kembali;
+                                        $total_barang += $jumlah_barang;
+                                        // $total_barang += $row->jumlah_keluar;
+                                    ?>
+                                        <tr>
+                                            <td class="text-center"><?= $no++ ?></td>
+                                            <td class="text-start"><?= $row->nama_produk; ?></td>
+                                            <!-- <td class="text-end"><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td> -->
+                                            <td class="text-end"><?= number_format($jumlah_barang, 0, ',', '.'); ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="2" class="text-end">Total</th>
+                                        <th class="text-end"><?= number_format($total_barang, 0, ',', '.'); ?></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
                 </div>
