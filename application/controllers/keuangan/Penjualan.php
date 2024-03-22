@@ -74,7 +74,7 @@ class Penjualan extends CI_Controller
         date_default_timezone_set('Asia/Jakarta');
         $tanggal = $this->session->userdata('tanggal');
         $this->form_validation->set_rules('status_bayar', 'Status bayar', 'required|trim');
-        $this->form_validation->set_rules('tanggal_bayar', 'Tanggal bayar', 'required|trim');
+        // $this->form_validation->set_rules('tanggal_bayar', 'Tanggal bayar', 'required|trim');
         $this->form_validation->set_message('required', '%s harus pilih');
 
         if ($this->form_validation->run() == false) {

@@ -5,36 +5,9 @@
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
                         <form id="form_tanggal" action="<?= base_url('barang_baku/laporan_bulanan'); ?>" method="get">
-                            <!-- <div style="display: flex; align-items: center;">
-                                <?php $bulan = date('m'); ?>
-                                <select name="bulan" class="form-select me-2" required style="width: auto;">
-                                    <option value="01" <?= $bulan == '01' ? 'selected' : '' ?>>Januari</option>
-                                    <option value="02" <?= $bulan == '02' ? 'selected' : '' ?>>Februari</option>
-                                    <option value="03" <?= $bulan == '03' ? 'selected' : '' ?>>Maret</option>
-                                    <option value="04" <?= $bulan == '04' ? 'selected' : '' ?>>April</option>
-                                    <option value="05" <?= $bulan == '05' ? 'selected' : '' ?>>Mei</option>
-                                    <option value="06" <?= $bulan == '06' ? 'selected' : '' ?>>Juni</option>
-                                    <option value="07" <?= $bulan == '07' ? 'selected' : '' ?>>Juli</option>
-                                    <option value="08" <?= $bulan == '08' ? 'selected' : '' ?>>Agustus</option>
-                                    <option value="09" <?= $bulan == '09' ? 'selected' : '' ?>>September</option>
-                                    <option value="10" <?= $bulan == '10' ? 'selected' : '' ?>>Oktober</option>
-                                    <option value="11" <?= $bulan == '11' ? 'selected' : '' ?>>November</option>
-                                    <option value="12" <?= $bulan == '12' ? 'selected' : '' ?>>Desember</option>
-                                </select>
-                                <select name="tahun" class="form-select">
-                                    <?php
-                                    $mulai = date('Y') - 2;
-                                    for ($i = $mulai; $i < $mulai + 11; $i++) {
-                                        $sel = $i == date('Y') ? ' selected="selected"' : '';
-                                        echo '<option value="' . $i . '"' . $sel . '>' . $i . '</option>';
-                                    }
-                                    ?>
-                                </select>
-                                <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
-                            </div> -->
                             <div style="display: flex; align-items: center;">
-                                <input type="date" id="tanggal" name="tanggal" class="form-control" value="<?= date('Y-m-d') ?>">
-                                <!-- <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button"> -->
+                                <input type="submit" value="Pilih Bulan" class="neumorphic-button">
+                                <input type="date" id="tanggal" name="tanggal" class="form-control" style="margin-left: 5px;">
                             </div>
                         </form>
                         <div class="navbar-nav ms-auto">

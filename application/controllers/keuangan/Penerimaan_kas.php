@@ -43,7 +43,7 @@ class Penerimaan_kas extends CI_Controller
         $tanggal_array = array();
         foreach ($data['lap_terima'] as $row) {
             $id_jenis_barang = $row->id_jenis_barang;
-            $tanggal_lengkap = $row->tanggal_bayar;
+            $tanggal_lengkap = $row->tanggal_setor;
             $tanggal = date("Y-m-d", strtotime($tanggal_lengkap));
             $lap_terima[$id_jenis_barang]['nama_produk'] = $row->nama_produk;
 
@@ -107,7 +107,7 @@ class Penerimaan_kas extends CI_Controller
         $tanggal_array = array();
         foreach ($data['lap_terima'] as $row) {
             $id_jenis_barang = $row->id_jenis_barang;
-            $tanggal_lengkap = $row->tanggal_bayar;
+            $tanggal_lengkap = $row->tanggal_setor;
             $tanggal = date("Y-m-d", strtotime($tanggal_lengkap));
             $lap_terima[$id_jenis_barang]['nama_produk'] = $row->nama_produk;
 

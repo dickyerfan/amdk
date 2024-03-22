@@ -4,27 +4,25 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <div class="navbar-nav ms-2">
-                            <form action="<?= base_url('pemasaran/piutang'); ?>" method="get">
+                        <form id="form_bulan" action="<?= base_url('pemasaran/piutang'); ?>" method="get">
+                            <div style="display: flex; align-items: center;">
+                                <input type="submit" value="Per bulan" class="neumorphic-button">
+                                <input type="month" id="bulan" name="tanggal" class="form-control" style="margin-left: 5px;">
+                            </div>
+                        </form>
+                        <div class="navbar-nav me-auto ms-2">
+                            <form id="form_tanggal" action="<?= base_url('pemasaran/piutang/pertanggal'); ?>" method="get">
                                 <div style="display: flex; align-items: center;">
-                                    <input type="date" name="tanggal" class="form-control">
-                                    <input type="submit" value="Data per bulan" style="margin-left: 10px;" class="neumorphic-button">
+                                    <input type="submit" value="per tanggal" class="neumorphic-button">
+                                    <input type="date" id="tanggal" name="tanggal" class="form-control" style="margin-left: 5px;">
                                 </div>
                             </form>
                         </div>
-                        <div class="navbar-nav me-auto ms-2">
-                            <form action="<?= base_url('pemasaran/piutang/pertanggal'); ?>" method="get">
-                                <div style="display: flex; align-items: center;">
-                                    <input type="date" name="tanggal" class="form-control">
-                                    <input type="submit" value="Data per tanggal" style="margin-left: 10px;" class="neumorphic-button">
-                                </div>
-                            </form>
-                        </div>
-                        <div class="navbar-nav me-auto ms-2">
+                        <div class="navbar-nav ms-auto">
                             <a href="<?= base_url('pemasaran/piutang') ?>"><button class="float-end neumorphic-button"> Semua Piutang</button></a>
                         </div>
                         <div class="navbar-nav ms-2">
-                            <form action="<?= base_url('pemasaran/piutang/nama_produk'); ?>" method="post">
+                            <form id="form_produk" action="<?= base_url('pemasaran/piutang/nama_produk'); ?>" method="post">
                                 <div style="display: flex; align-items: center;">
                                     <select name="id_produk" id="id_produk" class="form-control select2" style="width:150px;">
                                         <option value="">Jenis Produk</option>
@@ -32,12 +30,12 @@
                                             <option value="<?= $row->id_produk ?>"><?= $row->nama_produk; ?></option>
                                         <?php endforeach;  ?>
                                     </select>
-                                    <input type="submit" value="Pilih" style="margin-left: 10px;" class="neumorphic-button">
+                                    <!-- <input type="submit" value="Pilih" style="margin-left: 10px;" class="neumorphic-button"> -->
                                 </div>
                             </form>
                         </div>
                         <div class="navbar-nav ms-2">
-                            <form action="<?= base_url('pemasaran/piutang/nama_pelanggan'); ?>" method="post">
+                            <form id="form_pelanggan" action="<?= base_url('pemasaran/piutang/nama_pelanggan'); ?>" method="post">
                                 <div style="display: flex; align-items: center;">
                                     <select name="id_pelanggan" id="id_pelanggan" class="form-control select2" style="width:150px;">
                                         <option value="">Pelanggan</option>
@@ -45,7 +43,7 @@
                                             <option value="<?= $row->id_pelanggan ?>"><?= $row->nama_pelanggan; ?></option>
                                         <?php endforeach;  ?>
                                     </select>
-                                    <input type="submit" value="Pilih" style="margin-left: 10px;" class="neumorphic-button">
+                                    <!-- <input type="submit" value="Pilih" style="margin-left: 10px;" class="neumorphic-button"> -->
                                 </div>
                             </form>
                         </div>
@@ -86,56 +84,58 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <table class="table table-sm table-bordered" id="example" style="font-size: 0.8rem;">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Tgl Order</th>
-                                        <th class="text-center">Jenis Barang</th>
-                                        <th class="text-center">Nama Pelanggan</th>
-                                        <th class="text-center">Mobil</th>
-                                        <th class="text-center">Jumlah</th>
-                                        <th class="text-center">Harga</th>
-                                        <th class="text-center">Total</th>
-                                        <th class="text-center">Nota</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    $total_piutang = 0;
-                                    foreach ($nama_produk as $row) :
-                                        $tanggal_bayar = date('d-m-y', strtotime($row->tanggal_bayar));
-                                        $total_piutang = $row->total_piutang;
-                                    ?>
-                                        <tr class="text-center">
-                                            <td><?= $no++ ?></td>
-                                            <!-- <td><?= $row->status_bayar == 0  ? '-' : $tanggal_bayar; ?></td> -->
-                                            <td><?= date('d-m-y', strtotime($row->tanggal_pesan)); ?></td>
-                                            <td class="text-start"><?= $row->nama_produk; ?></td>
-                                            <td class="text-start"><?= ucwords(strtolower($row->nama_pelanggan)); ?></td>
-                                            <td class="text-start"><?= ucwords(strtolower($row->nama_mobil)); ?></td>
-                                            <td class="text-end"><?= number_format($row->jumlah_pesan, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($row->harga_barang, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></td>
-                                            <td><?= $row->status_nota == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Sudah</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?></td>
-                                            <td>
-                                                <a href="<?= ($row->status_nota == 1 || $row->id_mobil == null) ? "javascript:void(0);" : base_url('pemasaran/piutang/upload_nota/') . $row->id_pemesanan . '/' . $row->id_pelanggan . '/' . $row->tanggal_pesan; ?>" onclick="<?= ($row->status_nota == 1 || $row->id_mobil == null) ? "Swal.fire('Nota sudah di input', '', 'warning'); return false;" : '' ?>">
-                                                    <!-- <i class="fa-solid fa-square-poll-horizontal text-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk upload nota"></i> -->
-                                                    <span class="btn btn-secondary btn-sm" style="font-size: 0.7rem;">Setor</span>
-                                                </a>
-                                            </td>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered" id="example" style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Tgl Order</th>
+                                            <th class="text-center">Jenis Barang</th>
+                                            <th class="text-center">Nama Pelanggan</th>
+                                            <th class="text-center">Mobil</th>
+                                            <th class="text-center">Jumlah</th>
+                                            <th class="text-center">Harga</th>
+                                            <th class="text-center">Total</th>
+                                            <th class="text-center">Nota</th>
+                                            <th class="text-center">Action</th>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="9" class="text-end">Jumlah</th>
-                                        <th class="text-end"><?= number_format($total_piutang, 0, ',', '.'); ?></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        $total_piutang = 0;
+                                        foreach ($nama_produk as $row) :
+                                            $tanggal_bayar = date('d-m-y', strtotime($row->tanggal_bayar));
+                                            $total_piutang = $row->total_piutang;
+                                        ?>
+                                            <tr class="text-center">
+                                                <td><?= $no++ ?></td>
+                                                <!-- <td><?= $row->status_bayar == 0  ? '-' : $tanggal_bayar; ?></td> -->
+                                                <td><?= date('d-m-y', strtotime($row->tanggal_pesan)); ?></td>
+                                                <td class="text-start"><?= $row->nama_produk; ?></td>
+                                                <td class="text-start"><?= ucwords(strtolower($row->nama_pelanggan)); ?></td>
+                                                <td class="text-start"><?= ucwords(strtolower($row->nama_mobil)); ?></td>
+                                                <td class="text-end"><?= number_format($row->jumlah_pesan, 0, ',', '.'); ?></td>
+                                                <td class="text-end"><?= number_format($row->harga_barang, 0, ',', '.'); ?></td>
+                                                <td class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></td>
+                                                <td><?= $row->status_nota == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Sudah</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?></td>
+                                                <td>
+                                                    <a href="<?= ($row->status_nota == 1 || $row->id_mobil == null) ? "javascript:void(0);" : base_url('pemasaran/piutang/upload_nota/') . $row->id_pemesanan . '/' . $row->id_pelanggan . '/' . $row->tanggal_pesan; ?>" onclick="<?= ($row->status_nota == 1 || $row->id_mobil == null) ? "Swal.fire('Nota sudah di input', '', 'warning'); return false;" : '' ?>">
+                                                        <!-- <i class="fa-solid fa-square-poll-horizontal text-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk upload nota"></i> -->
+                                                        <span class="btn btn-secondary btn-sm" style="font-size: 0.7rem;">Setor</span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="9" class="text-end">Jumlah</th>
+                                            <th class="text-end"><?= number_format($total_piutang, 0, ',', '.'); ?></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -42,7 +42,7 @@ class Laporan_penerimaan extends CI_Controller
         $tanggal_array = array();
         foreach ($data['lap_terima'] as $row) {
             $id_jenis_barang = $row->id_jenis_barang;
-            $tanggal_lengkap = $row->tanggal_bayar;
+            $tanggal_lengkap = $row->tanggal_setor;
             $tanggal = date("Y-m-d", strtotime($tanggal_lengkap));
             $lap_terima[$id_jenis_barang]['nama_produk'] = $row->nama_produk;
 
@@ -62,7 +62,7 @@ class Laporan_penerimaan extends CI_Controller
         $tanggal_array = array();
         foreach ($data['jml_barang'] as $row) {
             $id_jenis_barang = $row->id_jenis_barang;
-            $tanggal = $row->tanggal_bayar;
+            $tanggal = $row->tanggal_setor;
             $tanggal = date("Y-m-d", strtotime($tanggal));
             $jml_barang[$id_jenis_barang]['nama_produk'] = $row->nama_produk;
             // $jml_barang[$id_jenis_barang]['pemesanan'][$tanggal] = $row->total_barang;

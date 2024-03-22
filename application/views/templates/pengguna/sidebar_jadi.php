@@ -41,6 +41,8 @@
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="<?= base_url('barang_jadi/rutin_karyawan') ?>" style="font-size: 0.8rem;">Daftar Rutin Karyawan</a>
                             <a class="nav-link" href="<?= base_url('barang_jadi/ambil_rutin_karyawan') ?>" style="font-size: 0.8rem;">Ambil Rutin Karyawan</a>
+                            <a class="nav-link" href="<?= base_url('barang_jadi/data_karyawan_keu') ?>" style="font-size: 0.8rem;">Data Kyw untuk Keuangan</a>
+                            <a class="nav-link" href="#" style="font-size: 0.8rem;">Tanda Terima Karyawan</a>
                         </nav>
                     </div>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#laporan" aria-expanded="false" aria-controls="laporan">

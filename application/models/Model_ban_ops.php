@@ -63,6 +63,7 @@ class model_ban_ops extends CI_Model
             $data_keluar_jadi = array(
                 'id_jenis_barang' => $id_jenis_barang,
                 'id_mobil' => $this->input->post('id_mobil', true),
+                'id_pelanggan' => $this->input->post('id_pelanggan', true),
                 'jumlah_keluar' => $jumlah,
                 'tanggal_keluar' => $this->input->post('tanggal_ban_ops', true),
                 'jumlah_akhir' => $jumlah,

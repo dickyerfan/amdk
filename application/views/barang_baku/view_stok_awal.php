@@ -24,36 +24,38 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <table class="table table-sm table-bordered" id="example2">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Tanggal Stok Awal</th>
-                                        <th class="text-center">Nama Barang</th>
-                                        <th class="text-center">Jumlah Stok</th>
-                                        <th class="text-center">Petugas Input</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($stok_barang as $row) : ?>
-                                        <tr class="text-center">
-                                            <td><?= $no++ ?></td>
-                                            <td><?= date('d-m-Y', strtotime($row->tanggal_stok_awal_baku)); ?></td>
-                                            <td class="text-start"><?= $row->nama_barang_baku; ?></td>
-                                            <td><?= number_format($row->jumlah_stok_awal_baku, 0, ',', '.'); ?></td>
-                                            <td><?= $row->input_status_stok_awal_baku; ?></td>
-                                            <td>
-                                                <a href="<?= $this->session->userdata('level') == 'Admin' ? base_url('barang_baku/stok_awal/edit/') : "javascript:void(0)" ?><?= $row->id_stok_awal_baku; ?>"><i class="fas fa-edit text-success"></i></a>
-                                                <!-- <a href="<?= base_url('barang_baku/barang_masuk/detail_masuk/') ?><?= $row->id_masuk_baku ?>"><i class="fa-solid fa-circle-info text-primary"></i></a>
-                                                <a href="<?= base_url('barang_baku/barang_masuk/hapus/') ?><?= $row->id_masuk_baku ?>" class="hapus-link"><i class="fas fa-trash text-danger"></i></a> -->
-                                            </td>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered" id="example2">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Tanggal Stok Awal</th>
+                                            <th class="text-center">Nama Barang</th>
+                                            <th class="text-center">Jumlah Stok</th>
+                                            <th class="text-center">Petugas Input</th>
+                                            <th class="text-center">Action</th>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        foreach ($stok_barang as $row) : ?>
+                                            <tr class="text-center">
+                                                <td><?= $no++ ?></td>
+                                                <td><?= date('d-m-Y', strtotime($row->tanggal_stok_awal_baku)); ?></td>
+                                                <td class="text-start"><?= $row->nama_barang_baku; ?></td>
+                                                <td><?= number_format($row->jumlah_stok_awal_baku, 0, ',', '.'); ?></td>
+                                                <td><?= $row->input_status_stok_awal_baku; ?></td>
+                                                <td>
+                                                    <a href="<?= $this->session->userdata('level') == 'Admin' ? base_url('barang_baku/stok_awal/edit/') : "javascript:void(0)" ?><?= $row->id_stok_awal_baku; ?>"><i class="fas fa-edit text-success"></i></a>
+                                                    <!-- <a href="<?= base_url('barang_baku/barang_masuk/detail_masuk/') ?><?= $row->id_masuk_baku ?>"><i class="fa-solid fa-circle-info text-primary"></i></a>
+                                                <a href="<?= base_url('barang_baku/barang_masuk/hapus/') ?><?= $row->id_masuk_baku ?>" class="hapus-link"><i class="fas fa-trash text-danger"></i></a> -->
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

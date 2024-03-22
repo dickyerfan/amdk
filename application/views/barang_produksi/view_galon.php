@@ -59,40 +59,42 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <table class="table table-sm table-bordered" id="example">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Tanggal</th>
-                                        <th class="text-center">Jmlh Kembali</th>
-                                        <th class="text-center">Jmlh Baru</th>
-                                        <th class="text-center">Jmlh Produksi</th>
-                                        <th class="text-center">Jmlh Rusak</th>
-                                        <th class="text-center">Jmlh Akhir</th>
-                                        <th class="text-center">Input Oleh</th>
-                                        <!-- <th class="text-center">Action</th> -->
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($galon as $row) : ?>
-                                        <tr class="text-center">
-                                            <td><?= $no++ ?></td>
-                                            <td><?= date('d-m-Y', strtotime($row->tanggal_kembali)); ?></td>
-                                            <td><?= number_format($row->jumlah_kembali, 0, ',', '.'); ?></td>
-                                            <td><?= number_format($row->jumlah_baru, 0, ',', '.'); ?></td>
-                                            <td><?= number_format($row->jumlah_produksi, 0, ',', '.'); ?></td>
-                                            <td><?= number_format($row->jumlah_rusak, 0, ',', '.'); ?></td>
-                                            <td><?= number_format($row->jumlah_akhir, 0, ',', '.'); ?></td>
-                                            <td><?= $row->input_status_kembali; ?></td>
-                                            <!-- <td>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered" id="example">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Tanggal</th>
+                                            <th class="text-center">Jmlh Kembali</th>
+                                            <th class="text-center">Jmlh Baru</th>
+                                            <th class="text-center">Jmlh Produksi</th>
+                                            <th class="text-center">Jmlh Rusak</th>
+                                            <th class="text-center">Jmlh Akhir</th>
+                                            <th class="text-center">Input Oleh</th>
+                                            <!-- <th class="text-center">Action</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        foreach ($galon as $row) : ?>
+                                            <tr class="text-center">
+                                                <td><?= $no++ ?></td>
+                                                <td><?= date('d-m-Y', strtotime($row->tanggal_kembali)); ?></td>
+                                                <td><?= number_format($row->jumlah_kembali, 0, ',', '.'); ?></td>
+                                                <td><?= number_format($row->jumlah_baru, 0, ',', '.'); ?></td>
+                                                <td><?= number_format($row->jumlah_produksi, 0, ',', '.'); ?></td>
+                                                <td><?= number_format($row->jumlah_rusak, 0, ',', '.'); ?></td>
+                                                <td><?= number_format($row->jumlah_akhir, 0, ',', '.'); ?></td>
+                                                <td><?= $row->input_status_kembali; ?></td>
+                                                <!-- <td>
                                                 <a href="<?= base_url('barang_produksi/pengembalian_galon/detail/') ?><?= $row->id_galon_kembali ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Detail</span></a>
                                             </td> -->
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

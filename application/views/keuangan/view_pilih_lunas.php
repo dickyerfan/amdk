@@ -24,6 +24,7 @@
                                             <div class="form-control fs-2">Rp. <?= number_format($lunas[0]->total_harga, 0, ',', '.'); ?> ,-</div>
                                         </div>
                                     </div>
+                                    <input type="hidden" class="form-control" id="tanggal_bayar" name="tanggal_bayar" value="<?= set_value('tanggal_bayar'); ?>">
                                     <!-- input tanggal hanya untuk input sementara selanjutnya di komentar jika sudah production -->
                                     <!-- <div class="row mb-2">
                                         <div class="col">

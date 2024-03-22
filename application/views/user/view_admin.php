@@ -41,7 +41,7 @@
                                         <td class="text-center">
                                             <?php if ($row->nama_pengguna !== 'administrator') : ?>
                                                 <a href="<?= base_url(); ?>user/admin/edit/<?= $row->id; ?>"><span class="btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i> Edit</span></a>
-                                                <a href="<?= base_url(); ?>user/admin/hapus/<?= $row->id; ?>" class="btn btn-danger btn-sm tombolHapus"><i class="fas fa-fw fa-trash"></i> Hapus</a>
+                                                <a href="<?= base_url(); ?>user/admin/hapus/<?= $row->id; ?>" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i> Hapus</a>
                                             <?php endif; ?>
                                         </td>
                                     </tr>

@@ -24,32 +24,34 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <table class="table table-sm table-bordered" id="example">
-                                <thead>
-                                    <tr class="text-center">
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Tgl Transaksi</th>
-                                        <th class="text-center">No Nota</th>
-                                        <th class="text-center">Kode Barang</th>
-                                        <th class="text-center">Nama Barang</th>
-                                        <th class="text-center">Jumlah</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($detail_barang_keluar as $row) : ?>
-                                        <tr>
-                                            <td class="text-center"><?= $no++; ?></td>
-                                            <td class="text-center"><?= date('d-m-Y', strtotime($row->tanggal_keluar)); ?></td>
-                                            <td><?= $row->no_nota; ?></td>
-                                            <td><?= $row->kode_barang; ?></td>
-                                            <td><?= $row->nama_barang_baku; ?></td>
-                                            <td class="text-end"><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered" id="example">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Tgl Transaksi</th>
+                                            <th class="text-center">No Nota</th>
+                                            <th class="text-center">Kode Barang</th>
+                                            <th class="text-center">Nama Barang</th>
+                                            <th class="text-center">Jumlah</th>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        foreach ($detail_barang_keluar as $row) : ?>
+                                            <tr>
+                                                <td class="text-center"><?= $no++; ?></td>
+                                                <td class="text-center"><?= date('d-m-Y', strtotime($row->tanggal_keluar)); ?></td>
+                                                <td><?= $row->no_nota; ?></td>
+                                                <td><?= $row->kode_barang; ?></td>
+                                                <td><?= $row->nama_barang_baku; ?></td>
+                                                <td class="text-end"><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

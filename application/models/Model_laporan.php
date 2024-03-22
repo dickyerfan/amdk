@@ -224,22 +224,22 @@ class Model_laporan extends CI_Model
 
     public function get_penerimaan()
     {
-        $this->db->select('jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_bayar, SUM(pemesanan.total_harga) as total_harga');
+        $this->db->select('jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_setor, SUM(pemesanan.total_harga) as total_harga');
         $this->db->from('pemesanan');
         $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
         $this->db->where('status_setor', 1);
-        $this->db->group_by('jenis_produk.id_produk, jenis_produk.nama_produk, pemesanan.id_jenis_barang, pemesanan.tanggal_bayar');
-        $this->db->order_by('pemesanan.tanggal_bayar', 'asc');
+        $this->db->group_by('jenis_produk.id_produk, jenis_produk.nama_produk, pemesanan.id_jenis_barang, pemesanan.tanggal_setor');
+        $this->db->order_by('pemesanan.tanggal_setor', 'asc');
         return $this->db->get()->result();
     }
 
     public function get_jumlah_barang()
     {
-        $this->db->select('jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_bayar, pemesanan.jumlah_pesan, SUM(pemesanan.jumlah_pesan) as total_barang');
+        $this->db->select('jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_setor, pemesanan.jumlah_pesan, SUM(pemesanan.jumlah_pesan) as total_barang');
         $this->db->from('pemesanan');
         $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
-        $this->db->where('status_bayar', 1);
-        $this->db->group_by('jenis_produk.id_produk, jenis_produk.nama_produk, pemesanan.id_jenis_barang, pemesanan.tanggal_bayar');
+        $this->db->where('status_setor', 1);
+        $this->db->group_by('jenis_produk.id_produk, jenis_produk.nama_produk, pemesanan.id_jenis_barang, pemesanan.tanggal_setor');
         return $this->db->get()->result();
     }
 

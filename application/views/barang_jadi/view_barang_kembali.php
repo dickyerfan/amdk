@@ -27,10 +27,10 @@
                                                     echo "Pesanan Langsung";
                                                     break;
                                                 case 3:
-                                                    echo "Bantuan/operasional";
+                                                    echo "Karyawan";
                                                     break;
                                                 case 4:
-                                                    echo "Karyawan";
+                                                    echo "Bantuan/operasional";
                                                     break;
                                                 default:
                                                     echo "Tidak ada jenis pesanan";

@@ -54,36 +54,38 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <table class="table table-sm table-bordered" id="example">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Tanggal Rusak</th>
-                                        <th class="text-center">Nama Barang</th>
-                                        <th class="text-center">Jumlah</th>
-                                        <th class="text-center">Keterangan</th>
-                                        <th class="text-center">Input Oleh</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($barang_rusak as $row) : ?>
-                                        <tr class="text-center">
-                                            <td><?= $no++ ?></td>
-                                            <td><?= date('d-m-Y', strtotime($row->tanggal_rusak_produksi)); ?></td>
-                                            <td class="text-start"><?= $row->nama_barang_baku; ?></td>
-                                            <td><?= number_format($row->jumlah_rusak_produksi, 0, ',', '.'); ?></td>
-                                            <td>Rusak <?= $row->jenis_rusak_produksi; ?></td>
-                                            <td><?= $row->input_status_rusak_produksi; ?></td>
-                                            <td>
-                                                <a href="<?= base_url('barang_produksi/barang_rusak/detail_rusak/') ?><?= $row->id_rusak_produksi ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Detail</span></a>
-                                            </td>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered" id="example">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Tanggal Rusak</th>
+                                            <th class="text-center">Nama Barang</th>
+                                            <th class="text-center">Jumlah</th>
+                                            <th class="text-center">Keterangan</th>
+                                            <th class="text-center">Input Oleh</th>
+                                            <th class="text-center">Action</th>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        foreach ($barang_rusak as $row) : ?>
+                                            <tr class="text-center">
+                                                <td><?= $no++ ?></td>
+                                                <td><?= date('d-m-Y', strtotime($row->tanggal_rusak_produksi)); ?></td>
+                                                <td class="text-start"><?= $row->nama_barang_baku; ?></td>
+                                                <td><?= number_format($row->jumlah_rusak_produksi, 0, ',', '.'); ?></td>
+                                                <td>Rusak <?= $row->jenis_rusak_produksi; ?></td>
+                                                <td><?= $row->input_status_rusak_produksi; ?></td>
+                                                <td>
+                                                    <a href="<?= base_url('barang_produksi/barang_rusak/detail_rusak/') ?><?= $row->id_rusak_produksi ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Detail</span></a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

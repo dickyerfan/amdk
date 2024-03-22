@@ -24,61 +24,63 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <table class="table table-sm table-bordered" id="example">
-                                <thead>
-                                    <tr class="text-center">
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Tgl Transaksi</th>
-                                        <th class="text-center">Kode Barang</th>
-                                        <th class="text-center">Nama Barang</th>
-                                        <th class="text-center">Jumlah</th>
-                                        <th class="text-center">Status</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($detail_barang_keluar as $row) : ?>
-                                        <tr>
-                                            <td class="text-center"><?= $no++; ?></td>
-                                            <td class="text-center"><?= date('d-m-Y', strtotime($row->tanggal_keluar)); ?></td>
-                                            <td><?= $row->kode_barang; ?></td>
-                                            <td><?= $row->nama_barang_baku; ?></td>
-                                            <td class="text-end"><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
-                                            <td class="text-center"><?= $row->status_keluar == 0 ? 'Belum' : 'Sudah' ?></td>
-                                            <td class="text-center">
-                                                <?php if ($row->status_keluar == 0) : ?>
-                                                    <a href="<?= base_url('barang_baku/barang_keluar/update_status_keluar_tanggal_sama/' . $row->tanggal_keluar . '/' . $row->bagian) ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Proses</span></a>
-                                                    <!-- <a href="#" onclick="showAlert(<?= $row->id_keluar_baku ?>)"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Proses</span></a> -->
-                                                <?php endif; ?>
-                                                <?php if ($row->status_keluar == 1) : ?>
-                                                    <a href="#"><span class="neumorphic-button text-success btn-sm"><i class="fa-solid fa-circle-info text-success"></i> Selesai</span></a>
-                                                <?php endif; ?>
-
-                                                <script>
-                                                    function showAlert(id_keluar_baku) {
-                                                        Swal.fire({
-                                                            title: 'Konfirmasi',
-                                                            text: 'Apakah Anda yakin ingin memproses?',
-                                                            icon: 'warning',
-                                                            showCancelButton: true,
-                                                            confirmButtonColor: '#3085d6',
-                                                            cancelButtonColor: '#d33',
-                                                            confirmButtonText: 'Ya, Proses!'
-                                                        }).then((result) => {
-                                                            if (result.isConfirmed) {
-                                                                // Redirect atau jalankan proses sesuai kebutuhan
-                                                                window.location.href = '<?= base_url('barang_baku/barang_keluar/update_status_keluar_tanggal_sama/') ?>' + id_keluar_baku;
-                                                            }
-                                                        });
-                                                    }
-                                                </script>
-                                            </td>
+                            <div class="responsive">
+                                <table class="table table-sm table-bordered" id="example">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Tgl Transaksi</th>
+                                            <th class="text-center">Kode Barang</th>
+                                            <th class="text-center">Nama Barang</th>
+                                            <th class="text-center">Jumlah</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Action</th>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        foreach ($detail_barang_keluar as $row) : ?>
+                                            <tr>
+                                                <td class="text-center"><?= $no++; ?></td>
+                                                <td class="text-center"><?= date('d-m-Y', strtotime($row->tanggal_keluar)); ?></td>
+                                                <td><?= $row->kode_barang; ?></td>
+                                                <td><?= $row->nama_barang_baku; ?></td>
+                                                <td class="text-end"><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
+                                                <td class="text-center"><?= $row->status_keluar == 0 ? 'Belum' : 'Sudah' ?></td>
+                                                <td class="text-center">
+                                                    <?php if ($row->status_keluar == 0) : ?>
+                                                        <a href="<?= base_url('barang_baku/barang_keluar/update_status_keluar_tanggal_sama/' . $row->tanggal_keluar . '/' . $row->bagian) ?>"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Proses</span></a>
+                                                        <!-- <a href="#" onclick="showAlert(<?= $row->id_keluar_baku ?>)"><span class="neumorphic-button text-primary btn-sm"><i class="fa-solid fa-circle-info text-primary"></i> Proses</span></a> -->
+                                                    <?php endif; ?>
+                                                    <?php if ($row->status_keluar == 1) : ?>
+                                                        <a href="#"><span class="neumorphic-button text-success btn-sm"><i class="fa-solid fa-circle-info text-success"></i> Selesai</span></a>
+                                                    <?php endif; ?>
+
+                                                    <script>
+                                                        function showAlert(id_keluar_baku) {
+                                                            Swal.fire({
+                                                                title: 'Konfirmasi',
+                                                                text: 'Apakah Anda yakin ingin memproses?',
+                                                                icon: 'warning',
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: '#3085d6',
+                                                                cancelButtonColor: '#d33',
+                                                                confirmButtonText: 'Ya, Proses!'
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    // Redirect atau jalankan proses sesuai kebutuhan
+                                                                    window.location.href = '<?= base_url('barang_baku/barang_keluar/update_status_keluar_tanggal_sama/') ?>' + id_keluar_baku;
+                                                                }
+                                                            });
+                                                        }
+                                                    </script>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                             <form class="user" action="<?= base_url('barang_baku/barang_keluar/terima_barang/') . $row->tanggal_keluar . '/' . $row->bagian ?>" method="POST" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-md-6 mb-3">

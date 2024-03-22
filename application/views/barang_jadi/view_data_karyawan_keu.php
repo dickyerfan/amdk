@@ -4,27 +4,14 @@
             <div class="card">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('keuangan/laporan_rutin_karyawan'); ?>" method="get">
+                        <form id="form_tanggal" action="<?= base_url('barang_jadi/data_karyawan_keu'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
-                                <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
+                                <input type="submit" value="Tampilkan Data" class="neumorphic-button">
+                                <input type="month" id="tanggal" name="tanggal" class="form-control" style="margin-left: 5px;">
                             </div>
                         </form>
                         <div class="navbar-nav ms-2">
-                            <a href="<?= base_url('keuangan/laporan_rutin_karyawan/exportpdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
-                        </div>
-                        <div class="navbar-nav ms-2">
-                            <a href="<?= base_url('keuangan/laporan_rutin_karyawan/input_terima_karyawan') ?>" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-rupiah-sign"></i> Input Penerimaan Karyawan</button></a>
-                        </div>
-                        <div class="navbar-nav ms-auto">
-                            <!-- <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
-                                <a href="<?= base_url('keuangan/laporan_rutin_karyawan/download'); ?>"><button class=" neumorphic-button float-end"><i class="fas fa-plus"></i> Download Daftar Rutin Karyawan</button></a>
-                            <?php endif; ?> -->
-                            <form action="<?= base_url('keuangan/laporan_rutin_karyawan/download'); ?>" method="post">
-                                <input type="hidden" name="tanggal" value="<?= date('Y-m-d'); ?>" />
-                                <button class="neumorphic-button float-end" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Klik Untuk Download Daftar Rutin Karyawan" id="ambil_data" type="submit" name="ambil_data"><i class="fas fa-fw fa-download"></i>
-                                    Download Daftar Rutin Karyawan</button>
-                            </form>
+                            <a href="<?= base_url('barang_jadi/data_karyawan_keu/exportpdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div>
                     </nav>
 
@@ -83,6 +70,11 @@
                                 <?php
                                 $no = 1;
                                 $total_galon = $total_gelas = $total_btl330 = $total_btl500 = $total_btl1500 = $total_nominal = 0;
+                                $harga_galon = 11000;
+                                $harga_220 = 15000;
+                                $harga_330 = 33000;
+                                $harga_500 = 35000;
+                                $harga_1500 = 38000;
                                 foreach ($rutin as $row) :
                                     $total_galon += $row->galon;
                                     $total_gelas += $row->gelas;
@@ -115,6 +107,43 @@
                                     <td class="text-end fw-bold"><?= number_format($total_nominal, 0, ',', '.'); ?></td>
                                 </tr>
                             </tfoot>
+                        </table>
+
+                        <table class="table table-hover table-striped table-bordered table-sm" width="50%" cellspacing="0" style="font-size: 0.8rem; width:50%;">
+                            <tr>
+                                <td>Galon</td>
+                                <td class="text-end fw-bold"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Air Galon</td>
+                                <td class="text-end fw-bold"><?= $total_galon; ?></td>
+                                <td class="text-end fw-bold"><?= number_format($total_galon * $harga_galon, 0, ',', '.'); ?></td>
+                            </tr>
+                            <tr>
+                                <td>Gelas 220 ml</td>
+                                <td class="text-end fw-bold"><?= $total_gelas; ?></td>
+                                <td class="text-end fw-bold"><?= number_format($total_gelas * $harga_220, 0, ',', '.'); ?></td>
+                            </tr>
+                            <tr>
+                                <td>Botol 330 ml</td>
+                                <td class="text-end fw-bold"><?= $total_btl330; ?></td>
+                                <td class="text-end fw-bold"><?= number_format($total_btl330 * $harga_330, 0, ',', '.'); ?></td>
+                            </tr>
+                            <tr>
+                                <td>Botol 500 ml</td>
+                                <td class="text-end fw-bold"><?= $total_btl500; ?></td>
+                                <td class="text-end fw-bold"><?= number_format($total_btl500 * $harga_500, 0, ',', '.'); ?></td>
+                            </tr>
+                            <tr>
+                                <td>Botol 1500 ml</td>
+                                <td class="text-end fw-bold"><?= $total_btl1500; ?></td>
+                                <td class="text-end fw-bold"><?= number_format($total_btl1500 * $harga_1500, 0, ',', '.'); ?></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Jumlah Total</td>
+                                <td class="text-end fw-bold"><?= number_format($total_nominal, 0, ',', '.'); ?></td>
+                            </tr>
                         </table>
                     </div>
                 </div>

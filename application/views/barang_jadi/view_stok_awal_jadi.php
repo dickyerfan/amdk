@@ -24,34 +24,36 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <table class="table table-sm table-bordered" id="example">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Tanggal Stok Awal</th>
-                                        <th class="text-center">Nama Barang</th>
-                                        <th class="text-center">Jumlah Stok</th>
-                                        <th class="text-center">Petugas Input/Update</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($stok_barang as $row) : ?>
-                                        <tr class="text-center">
-                                            <td><?= $no++ ?></td>
-                                            <td><?= date('d-m-Y', strtotime($row->tanggal_stok_awal_jadi)); ?></td>
-                                            <td class="text-start"><?= $row->nama_barang_jadi; ?></td>
-                                            <td><?= $row->jumlah_stok_awal_jadi; ?></td>
-                                            <td><?= $row->input_status_stok_awal_jadi; ?></td>
-                                            <td>
-                                                <a href="<?= $this->session->userdata('level') == 'Admin' ? base_url('barang_jadi/stok_awal_jadi/edit/') : "javascript:void(0)"; ?><?= $row->id_stok_awal_jadi; ?>"><i class="fas fa-edit text-success"></i></a>
-                                            </td>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered" id="example">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Tanggal Stok Awal</th>
+                                            <th class="text-center">Nama Barang</th>
+                                            <th class="text-center">Jumlah Stok</th>
+                                            <th class="text-center">Petugas Input/Update</th>
+                                            <th class="text-center">Action</th>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        foreach ($stok_barang as $row) : ?>
+                                            <tr class="text-center">
+                                                <td><?= $no++ ?></td>
+                                                <td><?= date('d-m-Y', strtotime($row->tanggal_stok_awal_jadi)); ?></td>
+                                                <td class="text-start"><?= $row->nama_barang_jadi; ?></td>
+                                                <td><?= $row->jumlah_stok_awal_jadi; ?></td>
+                                                <td><?= $row->input_status_stok_awal_jadi; ?></td>
+                                                <td>
+                                                    <a href="<?= $this->session->userdata('level') == 'Admin' ? base_url('barang_jadi/stok_awal_jadi/edit/') : "javascript:void(0)"; ?><?= $row->id_stok_awal_jadi; ?>"><i class="fas fa-edit text-success"></i></a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

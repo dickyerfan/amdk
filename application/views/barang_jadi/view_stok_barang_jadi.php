@@ -4,10 +4,10 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('barang_jadi/stok_barang_jadi'); ?>" method="get">
+                        <form id="form_tanggal" action="<?= base_url('barang_jadi/stok_barang_jadi'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
-                                <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
+                                <input type="submit" value="Pilih Tanggal" class="neumorphic-button">
+                                <input type="date" name="tanggal" id="tanggal" class="form-control" style="margin-left: 10px;">
                             </div>
                         </form>
                         <!-- <div class="navbar-nav ms-auto">
@@ -73,6 +73,39 @@
                                         $produk_sebelumnya = null;
                                         foreach ($stok_barang as $row) :
 
+                                            $jumlah_masuk = $row->jumlah_masuk_kemaren + $row->jumlah_masuk_sekarang;
+                                            $jumlah_akhir = $row->jumlah_akhir_kemaren + $row->jumlah_akhir_sekarang;
+                                            $jumlah_rusak = $row->jumlah_rusak_kemaren + $row->jumlah_rusak_sekarang;
+
+                                            $stok_awal = $row->jumlah_stok_awal + $row->jumlah_masuk_kemaren - $row->jumlah_akhir_kemaren - $row->jumlah_rusak_kemaren;
+                                            $stok_akhir = $row->jumlah_stok_awal + $jumlah_masuk - $jumlah_akhir - $jumlah_rusak;
+
+
+
+                                            if ($produk_sebelumnya !== $row->nama_barang_jadi) :
+                                        ?>
+
+                                                <tr>
+                                                    <td class="text-center"><?= $no++ ?></td>
+                                                    <td><?= ucwords($row->nama_barang_jadi); ?></td>
+                                                    <td class="text-end"><?= number_format($stok_awal, 0, ',', '.'); ?></td>
+                                                    <td class="text-end"><?= number_format($row->jumlah_masuk_sekarang, 0, ',', '.'); ?></td>
+                                                    <td class="text-end"><?= number_format($row->jumlah_akhir_sekarang, 0, ',', '.'); ?></td>
+                                                    <td class="text-end"><?= number_format($row->jumlah_rusak_sekarang, 0, ',', '.'); ?></td>
+                                                    <td class="text-end"><?= number_format($stok_akhir, 0, ',', '.'); ?></td>
+                                                </tr>
+                                        <?php
+                                                $produk_sebelumnya = $row->nama_barang_jadi;
+                                            endif;
+                                        endforeach;
+                                        ?>
+                                    </tbody>
+                                    <!-- <tbody>
+                                        <?php
+                                        $no = 1;
+                                        $produk_sebelumnya = null;
+                                        foreach ($stok_barang as $row) :
+
                                             $jumlah_akhir_kemaren = $row->jumlah_keluar_kemaren - $row->jumlah_kembali_kemaren;
                                             $jumlah_akhir_sekarang = $row->jumlah_keluar_sekarang - $row->jumlah_kembali_sekarang;
                                             $jumlah_masuk = $row->jumlah_masuk_kemaren + $row->jumlah_masuk_sekarang;
@@ -101,7 +134,7 @@
                                             endif;
                                         endforeach;
                                         ?>
-                                    </tbody>
+                                    </tbody> -->
                                 </table>
                             </div>
                         </div>

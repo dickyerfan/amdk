@@ -107,44 +107,65 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <table class="table table-sm table-bordered" id="example" style="font-size: 0.8rem;">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Tgl Bayar</th>
-                                        <th class="text-center">Tgl Order</th>
-                                        <th class="text-center">Jenis Barang</th>
-                                        <th class="text-center">Nama Pelanggan</th>
-                                        <th class="text-center">Jumlah</th>
-                                        <th class="text-center">Harga</th>
-                                        <th class="text-center">Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    $total_penerimaan = 0;
-                                    foreach ($pesan as $row) :
-                                        $total_penerimaan = $row->total_penerimaan;
-                                    ?>
-                                        <tr class="text-center">
-                                            <td><?= $no++ ?></td>
-                                            <td><?= date('d-m-y', strtotime($row->tanggal_bayar)); ?></td>
-                                            <td><?= date('d-m-y', strtotime($row->tanggal_pesan)); ?></td>
-                                            <td class="text-start"><?= $row->nama_produk; ?></td>
-                                            <td class="text-start"><?= ucwords(strtolower($row->nama_pelanggan)); ?></td>
-                                            <td class="text-end"><?= number_format($row->jumlah_pesan, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($row->harga_barang, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></td>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered" id="example" style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Tgl Bayar</th>
+                                            <th class="text-center">Tgl Order</th>
+                                            <th class="text-center">Jenis Barang</th>
+                                            <th class="text-center">Nama Pelanggan</th>
+                                            <th class="text-center">Jumlah</th>
+                                            <th class="text-center">Harga</th>
+                                            <th class="text-center">Total</th>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="7" class="text-end">Jumlah</th>
-                                        <th class="text-end"><?= number_format($total_penerimaan, 0, ',', '.'); ?></th>
-                                    </tr>
-                                </tfoot>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        $total_penerimaan = 0;
+                                        foreach ($pesan as $row) :
+                                            $total_penerimaan = $row->total_penerimaan;
+                                        ?>
+                                            <tr class="text-center">
+                                                <td><?= $no++ ?></td>
+                                                <td><?= date('d-m-y', strtotime($row->tanggal_bayar)); ?></td>
+                                                <td><?= date('d-m-y', strtotime($row->tanggal_pesan)); ?></td>
+                                                <td class="text-start"><?= $row->nama_produk; ?></td>
+                                                <td class="text-start"><?= ucwords(strtolower($row->nama_pelanggan)); ?></td>
+                                                <td class="text-end"><?= number_format($row->jumlah_pesan, 0, ',', '.'); ?></td>
+                                                <td class="text-end"><?= number_format($row->harga_barang, 0, ',', '.'); ?></td>
+                                                <td class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="7" class="text-end">Jumlah</th>
+                                            <th class="text-end"><?= number_format($total_penerimaan, 0, ',', '.'); ?></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td class="text-center">Bukti Setor Penerimaan</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">
+                                        <?php
+                                        if (!empty($row) && $row->nota_setor !== null) {
+                                            echo '<img src="' . base_url('uploads/uang/nota/' . $row->nota_setor) . '" alt="" style="width:50%;">';
+                                        }
+                                        ?>
+                                    </td>
+
+                                </tr>
                             </table>
                         </div>
                     </div>

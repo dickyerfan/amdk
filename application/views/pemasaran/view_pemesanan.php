@@ -6,8 +6,8 @@
                     <nav class="navbar navbar-light bg-light">
                         <form id="form_tanggal" action="<?= base_url('pemasaran/pemesanan'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
-                                <input type="submit" value="Pilih Tanggal" class="neumorphic-button">
-                                <input type="date" name="tanggal" id="tanggal" class="form-control" style="margin-left: 5px;">
+                                <input type="submit" value="Tampilkan Data" class="neumorphic-button">
+                                <input type="date" id="tanggal" name="tanggal" class="form-control" style="margin-left: 10px;">
                             </div>
                         </form>
                         <div class="navbar-nav ms-auto">
@@ -86,6 +86,13 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
+                            <div class="form-group mb-1">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <input type="text" id="searchInput" class="form-control" placeholder="Cari data pelanggan...">
+                                    </div>
+                                </div>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table table-sm table-bordered" id="example2" style="font-size: 0.8rem;">
                                     <thead>
@@ -100,7 +107,6 @@
                                             <th class="text-center">Total</th>
                                             <th class="text-center">Jenis pesanan</th>
                                             <th class="text-center">Mobil</th>
-                                            <th class="text-center">Jam</th>
                                             <th class="text-center">Nota</th>
                                             <th class="text-center">Status</th>
                                             <th class="text-center">Action</th>
@@ -133,7 +139,6 @@
                                                     <!-- <?= $row->jenis_pesanan == 1 ? 'Kunjungan Rutin' : 'Pesanan Langsung'; ?> -->
                                                 </td>
                                                 <td><?= $row->nama_mobil; ?></td>
-                                                <td><?= $row->jam_mobil; ?></td>
                                                 <td><?= $row->status_nota == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Setor</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?></td>
                                                 <td><?= $row->status_bayar == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Lunas</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?></td>
                                                 <!-- <td>

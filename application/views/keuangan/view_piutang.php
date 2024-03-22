@@ -85,73 +85,75 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <table class="table table-sm table-bordered" id="example" style="font-size: 0.8rem;">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <!-- <th class="text-center">Tgl Bayar</th> -->
-                                        <th class="text-center">Tgl Order</th>
-                                        <th class="text-center">Jenis Barang</th>
-                                        <th class="text-center">Nama Pelanggan</th>
-                                        <th class="text-center">Mobil</th>
-                                        <th class="text-center">Jumlah</th>
-                                        <th class="text-center">Harga</th>
-                                        <th class="text-center">Total</th>
-                                        <th class="text-center">Nota</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    $total_piutang = 0;
-                                    foreach ($pesan as $row) :
-                                        $tanggal_bayar = date('d-m-y', strtotime($row->tanggal_bayar));
-                                        $total_piutang = $row->total_piutang;
-                                    ?>
-                                        <tr class="text-center">
-                                            <td><?= $no++ ?></td>
-                                            <!-- <td><?= $row->status_bayar == 0  ? '-' : $tanggal_bayar; ?></td> -->
-                                            <td><?= date('d-m-y', strtotime($row->tanggal_pesan)); ?></td>
-                                            <td class="text-start"><?= $row->nama_produk; ?></td>
-                                            <td class="text-start"><?= ucwords(strtolower($row->nama_pelanggan)); ?></td>
-                                            <td class="text-start"><?= ucwords(strtolower($row->nama_mobil)); ?></td>
-                                            <td class="text-end"><?= number_format($row->jumlah_pesan, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($row->harga_barang, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></td>
-                                            <td><?= $row->status_nota == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Ada</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?></td>
-                                            <td>
-                                                <?php
-                                                // Ambil waktu saat ini
-                                                $current_time = strtotime(date('H:i'));
-                                                // Tentukan batas waktu jam 14:00
-                                                $deadline_time = strtotime('23:00');
-                                                // Cek apakah sudah lewat jam 14:00 
-                                                $can_click = $current_time < $deadline_time;
-                                                if ($row->status_bayar == 1 && $row->status_nota == 1) {
-                                                    $onclick = "Swal.fire('Peringatan', 'Barang sudah lunas.', 'warning');";
-                                                } else if ($row->status_nota == 0) {
-                                                    $onclick = "Swal.fire('Peringatan', 'Maaf, Bagian pemasaran belum setor uangnya.', 'warning');";
-                                                } else if (!$can_click) {
-                                                    $onclick = "Swal.fire('Peringatan', 'Maaf, waktu pelunasan sudah lewat jam 14:00 WIB', 'warning');";
-                                                } else if ($this->session->userdata('level') == "Admin") {
-                                                    $onclick = "Swal.fire('Peringatan', 'Admin tidak bisa proses.', 'warning');";
-                                                } else {
-                                                    $onclick = "window.location.href='" . base_url('keuangan/piutang/pilih_lunas/') . $row->id_pemesanan . "';";
-                                                }
-                                                ?>
-                                                <button onclick="<?= $onclick; ?>" class="btn btn-secondary btn-sm" style="font-size: 0.7rem;">Klik Lunas</button>
-                                            </td>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered" id="example" style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <!-- <th class="text-center">Tgl Bayar</th> -->
+                                            <th class="text-center">Tgl Order</th>
+                                            <th class="text-center">Jenis Barang</th>
+                                            <th class="text-center">Nama Pelanggan</th>
+                                            <th class="text-center">Mobil</th>
+                                            <th class="text-center">Jumlah</th>
+                                            <th class="text-center">Harga</th>
+                                            <th class="text-center">Total</th>
+                                            <th class="text-center">Nota</th>
+                                            <th class="text-center">Action</th>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="9" class="text-end">Jumlah</th>
-                                        <th class="text-end"><?= number_format($total_piutang, 0, ',', '.'); ?></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        $total_piutang = 0;
+                                        foreach ($pesan as $row) :
+                                            $tanggal_bayar = date('d-m-y', strtotime($row->tanggal_bayar));
+                                            $total_piutang = $row->total_piutang;
+                                        ?>
+                                            <tr class="text-center">
+                                                <td><?= $no++ ?></td>
+                                                <!-- <td><?= $row->status_bayar == 0  ? '-' : $tanggal_bayar; ?></td> -->
+                                                <td><?= date('d-m-y', strtotime($row->tanggal_pesan)); ?></td>
+                                                <td class="text-start"><?= $row->nama_produk; ?></td>
+                                                <td class="text-start"><?= ucwords(strtolower($row->nama_pelanggan)); ?></td>
+                                                <td class="text-start"><?= ucwords(strtolower($row->nama_mobil)); ?></td>
+                                                <td class="text-end"><?= number_format($row->jumlah_pesan, 0, ',', '.'); ?></td>
+                                                <td class="text-end"><?= number_format($row->harga_barang, 0, ',', '.'); ?></td>
+                                                <td class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></td>
+                                                <td><?= $row->status_nota == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Ada</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?></td>
+                                                <td>
+                                                    <?php
+                                                    // Ambil waktu saat ini
+                                                    $current_time = strtotime(date('H:i'));
+                                                    // Tentukan batas waktu jam 14:00
+                                                    $deadline_time = strtotime('14:00');
+                                                    // Cek apakah sudah lewat jam 14:00 
+                                                    $can_click = $current_time < $deadline_time;
+                                                    if ($row->status_bayar == 1 && $row->status_nota == 1) {
+                                                        $onclick = "Swal.fire('Peringatan', 'Barang sudah lunas.', 'warning');";
+                                                    } else if ($row->status_nota == 0) {
+                                                        $onclick = "Swal.fire('Peringatan', 'Maaf, Bagian pemasaran belum setor uangnya.', 'warning');";
+                                                    } else if (!$can_click) {
+                                                        $onclick = "Swal.fire('Peringatan', 'Maaf, waktu pelunasan sudah lewat jam 14:00 WIB', 'warning');";
+                                                    } else if ($this->session->userdata('level') == "Admin") {
+                                                        $onclick = "Swal.fire('Peringatan', 'Admin tidak bisa proses.', 'warning');";
+                                                    } else {
+                                                        $onclick = "window.location.href='" . base_url('keuangan/piutang/pilih_lunas/') . $row->id_pemesanan . "';";
+                                                    }
+                                                    ?>
+                                                    <button onclick="<?= $onclick; ?>" class="btn btn-secondary btn-sm" style="font-size: 0.7rem;">Klik Lunas</button>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="9" class="text-end">Jumlah</th>
+                                            <th class="text-end"><?= number_format($total_piutang, 0, ',', '.'); ?></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

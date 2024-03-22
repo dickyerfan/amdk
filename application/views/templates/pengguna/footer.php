@@ -63,7 +63,7 @@
         });
     });
 </script>
-<script>
+<!-- <script>
     $(document).ready(function() {
         $('#tanggal').change(function(event) {
             event.preventDefault();
@@ -74,6 +74,13 @@
             } else {
                 $('#form_tanggal').submit();
             }
+        });
+    });
+</script> -->
+<script>
+    $(document).ready(function() {
+        $('#tanggal').change(function() {
+            $('#form_tanggal').submit();
         });
     });
 </script>

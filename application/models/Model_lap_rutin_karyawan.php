@@ -29,7 +29,7 @@ class Model_lap_rutin_karyawan extends CI_Model
         return $this->db->get()->result();
     }
 
-    public function insert_pemesanan($id_mobil, $id_jenis_barang, $id_pelanggan, $tanggal_pesan, $jenis_pesanan, $jumlah_pesan, $harga_barang, $total_harga, $tanggal_bayar, $nota_setor, $tanggal_setor, $status_setor, $input_setor, $status_nota, $status_piutang, $status_bayar)
+    public function insert_pemesanan($id_mobil, $id_jenis_barang, $id_pelanggan, $tanggal_pesan, $jenis_pesanan, $jumlah_pesan, $harga_barang, $total_harga, $tanggal_bayar, $status_nota, $status_piutang, $status_bayar)
     {
         $data = array(
             'id_mobil' => $id_mobil,
@@ -41,10 +41,6 @@ class Model_lap_rutin_karyawan extends CI_Model
             'harga_barang' => $harga_barang,
             'total_harga' => $total_harga,
             'tanggal_bayar' => $tanggal_bayar,
-            'nota_setor' => $nota_setor,
-            'tanggal_setor' => $tanggal_setor,
-            'status_setor' => $status_setor,
-            'input_setor' => $input_setor,
             'status_nota' => $status_nota,
             'status_piutang' => $status_piutang,
             'status_bayar' => $status_bayar

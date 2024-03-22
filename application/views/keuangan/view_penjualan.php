@@ -84,6 +84,13 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
+                            <div class="form-group mb-1">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <input type="text" id="searchInput" class="form-control" placeholder="Cari data pelanggan...">
+                                    </div>
+                                </div>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table table-sm table-bordered" id="example2" style="font-size: 0.8rem;">
                                     <thead>
@@ -148,8 +155,10 @@
                                                     </a> -->
 
                                                     <?php
+                                                    date_default_timezone_set('Asia/Jakarta');
                                                     // Ambil waktu saat ini
-                                                    $current_time = strtotime(date('H:i'));
+                                                    $jam = time();
+                                                    $current_time = date('H:i', $jam);
                                                     // Tentukan batas waktu jam 14:00
                                                     $deadline_time = strtotime('14:00');
                                                     // Cek apakah sudah lewat jam 14:00 
