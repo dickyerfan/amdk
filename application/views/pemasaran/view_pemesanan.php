@@ -133,8 +133,10 @@
                                                         echo 'Pesanan Langsung';
                                                     } elseif ($row->jenis_pesanan == 3) {
                                                         echo 'Karyawan';
-                                                    } else {
+                                                    } elseif ($row->jenis_pesanan == 4) {
                                                         echo 'Bantuan / Operasional';
+                                                    } else {
+                                                        echo 'Bingkisan Lebaran';
                                                     } ?>
                                                     <!-- <?= $row->jenis_pesanan == 1 ? 'Kunjungan Rutin' : 'Pesanan Langsung'; ?> -->
                                                 </td>

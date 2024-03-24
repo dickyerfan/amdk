@@ -131,8 +131,10 @@
                                                         echo 'Pesanan Langsung';
                                                     } elseif ($row->jenis_pesanan == 3) {
                                                         echo 'Karyawan';
-                                                    } else {
+                                                    } elseif ($row->jenis_pesanan == 4) {
                                                         echo 'Bantuan / Operasional';
+                                                    } else {
+                                                        echo 'Bingkisan Lebaran';
                                                     } ?>
                                                 </td>
                                                 <td><?= $row->nama_mobil; ?></td>

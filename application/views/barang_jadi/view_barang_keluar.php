@@ -100,8 +100,10 @@
                                                         echo 'Pesanan Langsung';
                                                     } elseif ($row->jenis_pesanan == 3) {
                                                         echo 'Karyawan';
-                                                    } else {
+                                                    } elseif ($row->jenis_pesanan == 4) {
                                                         echo 'Operasional/Bantuan';
+                                                    } else {
+                                                        echo 'Bingkisan Lebaran';
                                                     } ?>
                                                 </td>
                                                 <td><?= $row->status_keluar == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Keluar</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?>
