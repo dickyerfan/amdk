@@ -24,57 +24,59 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <table class="table table-sm table-bordered" id="example2" style="font-size: 1rem;">
-                                <thead>
-                                    <tr class="text-center">
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Nama Barang</th>
-                                        <th class="text-center">Satuan</th>
-                                        <!-- <th class="text-center">Kode Barang</th>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered" id="example2" style="font-size: 1rem;">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Nama Barang</th>
+                                            <th class="text-center">Satuan</th>
+                                            <!-- <th class="text-center">Kode Barang</th>
                                         <th class="text-center">Tanggal Stok Awal</th> -->
-                                        <th class="text-center">Stok Awal</th>
-                                        <th class="text-center">Barang Masuk</th>
-                                        <th class="text-center">Barang Keluar</th>
-                                        <th class="text-center">Barang Rusak</th>
-                                        <th class="text-center">Stok Akhir</th>
-                                        <th class="text-center">Stok / Pak</th>
-                                        <th class="text-center">Minim Stok</th>
-                                        <th class="text-center">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($stok_barang as $row) :
-                                        $stok_akhir = $row->jumlah_stok_awal + $row->jumlah_masuk - $row->jumlah_keluar - $row->jumlah_rusak;
-                                        // $sisa_stok = $stok_akhir / $row->isi_stok_minimum;
-                                        if ($row->isi_stok_minimum > 0) {
-                                            $sisa_stok = $stok_akhir / $row->isi_stok_minimum;
-                                        } else {
-                                            // Handle jika isi_stok_minimum adalah 0 atau negatif
-                                            $sisa_stok = 0; // Atau atur ke nilai default lainnya
-                                        }
-                                        $stok_minimum = $row->jumlah_stok_minimum;
-                                    ?>
-
-                                        <tr>
-                                            <td class="text-center"><?= $no++ ?></td>
-                                            <td><?= ucwords($row->nama_barang_baku); ?></td>
-                                            <td><?= $row->satuan; ?></td>
-                                            <!-- <td><?= $row->kode_barang; ?></td>
-                                            <td class="text-center"><?= $row->tanggal_stok_awal_baku; ?></td> -->
-                                            <td class="text-end"><?= number_format($row->jumlah_stok_awal, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($row->jumlah_masuk, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= number_format($row->jumlah_rusak, 0, ',', '.'); ?></td>
-                                            <td class="text-end fw-bold"><?= number_format($stok_akhir, 0, ',', '.'); ?></td>
-                                            <td class="text-end"><?= round($sisa_stok); ?></td>
-                                            <td class="text-end"><?= $stok_minimum; ?></td>
-                                            <td class="text-center"><?= $stok_minimum < $sisa_stok ? '<span class="btn btn-success btn-sm">Cukup</span>' : '<span class="btn btn-danger btn-sm">Kurang</span>'; ?></td>
+                                            <th class="text-center">Stok Awal</th>
+                                            <th class="text-center">Barang Masuk</th>
+                                            <th class="text-center">Barang Keluar</th>
+                                            <th class="text-center">Barang Rusak</th>
+                                            <th class="text-center">Stok Akhir</th>
+                                            <th class="text-center">Stok / Pak</th>
+                                            <th class="text-center">Minim Stok</th>
+                                            <th class="text-center">Status</th>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        foreach ($stok_barang as $row) :
+                                            $stok_akhir = $row->jumlah_stok_awal + $row->jumlah_masuk - $row->jumlah_keluar - $row->jumlah_rusak;
+                                            // $sisa_stok = $stok_akhir / $row->isi_stok_minimum;
+                                            if ($row->isi_stok_minimum > 0) {
+                                                $sisa_stok = $stok_akhir / $row->isi_stok_minimum;
+                                            } else {
+                                                // Handle jika isi_stok_minimum adalah 0 atau negatif
+                                                $sisa_stok = 0; // Atau atur ke nilai default lainnya
+                                            }
+                                            $stok_minimum = $row->jumlah_stok_minimum;
+                                        ?>
+
+                                            <tr>
+                                                <td class="text-center"><?= $no++ ?></td>
+                                                <td><?= ucwords($row->nama_barang_baku); ?></td>
+                                                <td><?= $row->satuan; ?></td>
+                                                <!-- <td><?= $row->kode_barang; ?></td>
+                                            <td class="text-center"><?= $row->tanggal_stok_awal_baku; ?></td> -->
+                                                <td class="text-end"><?= number_format($row->jumlah_stok_awal, 0, ',', '.'); ?></td>
+                                                <td class="text-end"><?= number_format($row->jumlah_masuk, 0, ',', '.'); ?></td>
+                                                <td class="text-end"><?= number_format($row->jumlah_keluar, 0, ',', '.'); ?></td>
+                                                <td class="text-end"><?= number_format($row->jumlah_rusak, 0, ',', '.'); ?></td>
+                                                <td class="text-end fw-bold"><?= number_format($stok_akhir, 0, ',', '.'); ?></td>
+                                                <td class="text-end"><?= round($sisa_stok); ?></td>
+                                                <td class="text-end"><?= $stok_minimum; ?></td>
+                                                <td class="text-center"><?= $stok_minimum < $sisa_stok ? '<span class="btn btn-success btn-sm">Cukup</span>' : '<span class="btn btn-danger btn-sm">Kurang</span>'; ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

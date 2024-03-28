@@ -131,6 +131,12 @@ class Laporan_rutin_karyawan extends CI_Controller
         $rupiah_btl500 = $total_btl500 * 35000;
         $rupiah_btl1500 = $total_btl1500 * 38000;
 
+        $no_per_galon = "88.02.01.01";
+        $no_per_220 = "88.02.02.01";
+        $no_per_330 = "88.02.03.01";
+        $no_per_500 = "88.02.04.01";
+        $no_per_1500 = "88.02.06.01";
+
         if ($total_pesanan == $nominal) {
             $this->session->set_flashdata(
                 'info',
@@ -142,11 +148,11 @@ class Laporan_rutin_karyawan extends CI_Controller
             );
             redirect('keuangan/laporan_rutin_karyawan');
         } else {
-            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 1, 695, $tanggal, 3, $galon, 11000, $rupiah_galon, $tanggal, 1, 0, 1);
-            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 2, 695, $tanggal, 3, $gelas, 15000, $rupiah_gelas, $tanggal, 1, 0, 1);
-            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 8, 695, $tanggal, 3, $btl330, 33000, $rupiah_btl330, $tanggal, 1, 0, 1);
-            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 9, 695, $tanggal, 3, $btl500, 35000, $rupiah_btl500, $tanggal, 1, 0, 1);
-            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 11, 695, $tanggal, 3, $btl1500, 38000, $rupiah_btl1500, $tanggal, 1, 0, 1);
+            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 1, 695, $no_per_galon, $tanggal, 3, $galon, 11000, $rupiah_galon, $tanggal, 1, 0, 1);
+            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 2, 695, $no_per_220, $tanggal, 3, $gelas, 15000, $rupiah_gelas, $tanggal, 1, 0, 1);
+            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 8, 695, $no_per_330, $tanggal, 3, $btl330, 33000, $rupiah_btl330, $tanggal, 1, 0, 1);
+            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 9, 695, $no_per_500, $tanggal, 3, $btl500, 35000, $rupiah_btl500, $tanggal, 1, 0, 1);
+            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 11, 695, $no_per_1500, $tanggal, 3, $btl1500, 38000, $rupiah_btl1500, $tanggal, 1, 0, 1);
 
             $this->session->set_flashdata(
                 'info',
@@ -263,7 +269,7 @@ class Laporan_rutin_karyawan extends CI_Controller
             redirect('keuangan/laporan_rutin_karyawan');
         } else {
 
-            $this->db->query("INSERT INTO lap_rutin_pegawai (id_bagian,nama,alamat,no_hp,aktif,tarif,tgl_lap,galon,gelas,btl330,btl500,btl1500,nominal)SELECT id_bagian,nama,alamat,no_hp,aktif,tarif,now(),galon,gelas,btl330,btl500,btl1500,nominal FROM rutin_pegawai");
+            $this->db->query("INSERT INTO lap_rutin_pegawai (id_bagian,nama,alamat,no_hp,aktif,tarif,tgl_lap,galon,gelas,btl330,btl500,btl1500,nominal)SELECT id_bagian,nama,alamat,no_hp,aktif,tarif,now(),galon,gelas,btl330,btl500,btl1500,nominal FROM rutin_pegawai WHERE aktif = 1");
 
             $this->session->set_flashdata('info', '<div class="alert alert-success" role="alert">
             Download Data sukses! <br> Daftar Rutin Karyawan tersedia

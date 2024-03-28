@@ -82,7 +82,7 @@ class Model_pemesanan extends CI_Model
 
     public function getHargaByJenisBarang($id_jenis_barang, $tarif)
     {
-        $this->db->select('harga');
+        $this->db->select('harga, no_perkiraan');
         $this->db->from('harga');
         $this->db->join('pelanggan', 'harga.jenis_harga = pelanggan.tarif', 'left');
         $this->db->join('jenis_barang', 'harga.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');

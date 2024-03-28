@@ -55,6 +55,8 @@
                             <a class="nav-link" href="<?= base_url('barang_produksi/barang_rusak') ?>" style="font-size: 0.8rem;">Barang Baku Rusak</a>
                             <a class="nav-link" href="<?= base_url('barang_produksi/pengembalian_galon') ?>" style="font-size: 0.8rem;">Pengembalian Galon</a>
                             <a class="nav-link" href="<?= base_url('barang_produksi/barang_jadi') ?>" style="font-size: 0.8rem;">Produksi Barang Jadi</a>
+                            <a class="nav-link" href="<?= base_url('barang_produksi/karyawan_produksi/absensi_karyawan') ?>" style="font-size: 0.8rem;">Absensi Karyawan</a>
+                            <a class="nav-link" href="<?= base_url('barang_produksi/karyawan_produksi/honor_karyawan') ?>" style="font-size: 0.8rem;">Honor Karyawan</a>
                             <a class="nav-link" href="<?= base_url('barang_produksi/laporan_produksi') ?>" style="font-size: 0.8rem;">Laporan Produksi</a>
 
                         </nav>
@@ -74,6 +76,9 @@
                             <a class="nav-link" href="<?= base_url('barang_jadi/bon_barang_baku') ?>" style="font-size: 0.8rem;">Bon Barang Baku</a>
                             <a class="nav-link" href="<?= base_url('barang_jadi/rutin_karyawan') ?>" style="font-size: 0.8rem;">Daftar Rutin Karyawan</a>
                             <a class="nav-link" href="<?= base_url('barang_jadi/ambil_rutin_karyawan') ?>" style="font-size: 0.8rem;">Ambil Rutin Karyawan</a>
+                            <a class="nav-link" href="<?= base_url('barang_jadi/data_karyawan_keu') ?>" style="font-size: 0.8rem;">Data Kyw untuk Keuangan</a>
+                            <a class="nav-link" href="#" style="font-size: 0.8rem;">Tanda Terima Karyawan</a>
+                            <a class="nav-link" href="<?= base_url('barang_jadi/lebaran') ?>" style="font-size: 0.8rem;">Bingkisan Lebaran</a>
                             <a class="nav-link" href="<?= base_url('barang_jadi/laporan_barang_jadi') ?>" style="font-size: 0.8rem;">Laporan Barang Jadi</a>
                         </nav>
                     </div>
@@ -87,6 +92,7 @@
                             <a class="nav-link" href="<?= base_url('pemasaran/pelanggan') ?>" style="font-size: 0.8rem;">Daftar Pelanggan</a>
                             <a class="nav-link" href="<?= base_url('pemasaran/pemesanan') ?>" style="font-size: 0.8rem;">Pemesanan</a>
                             <a class="nav-link" href="<?= base_url('pemasaran/pemesanan/daftar_kiriman') ?>" style="font-size: 0.8rem;">Daftar Pengiriman</a>
+                            <a class="nav-link" href="<?= base_url('pemasaran/piutang') ?>" style="font-size: 0.8rem;">Daftar Piutang</a>
                             <a class="nav-link" href="<?= base_url('pemasaran/laporan_penjualan') ?>" style="font-size: 0.8rem;">Laporan Penjualan</a>
                         </nav>
                     </div>
@@ -102,14 +108,17 @@
                             <a class="nav-link" href="<?= base_url('keuangan/piutang') ?>" style="font-size: 0.8rem;">Daftar Piutang</a>
                             <a class="nav-link" href="<?= base_url('keuangan/penerimaan_kas') ?>" style="font-size: 0.8rem;">Rekap Penerimaan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/ban_ops') ?>" style="font-size: 0.8rem;">Bantuan/Operasional</a>
+                            <a class="nav-link" href="<?= base_url('keuangan/lebaran') ?>" style="font-size: 0.8rem;">Bingkisan Lebaran</a>
                             <a class="nav-link" href="<?= base_url('keuangan/pengambilan_air') ?>" style="font-size: 0.8rem;">Pengambilan Air</a>
                             <a class="nav-link" href="<?= base_url('keuangan/karyawan_produksi') ?>" style="font-size: 0.8rem;">Daftar Karyawan Produksi</a>
                             <a class="nav-link" href="<?= base_url('keuangan/karyawan_produksi/absensi_karyawan') ?>" style="font-size: 0.8rem;">Absensi Karyawan Produksi</a>
                             <a class="nav-link" href="<?= base_url('keuangan/karyawan_produksi/honor_karyawan') ?>" style="font-size: 0.8rem;">Honor Karyawan Produksi</a>
+                            <a class="nav-link" href="<?= base_url('keuangan/laporan_total_harian') ?>" style="font-size: 0.8rem;">Laporan Total Harian</a>
                             <a class="nav-link" href="<?= base_url('keuangan/laporan_penerimaan') ?>" style="font-size: 0.8rem;">Laporan Penerimaan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/laporan_keuangan') ?>" style="font-size: 0.8rem;">Laporan Keuangan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/laporan_rutin_karyawan') ?>" style="font-size: 0.8rem;">Laporan Pembelian Karyawan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/laporan_ban_ops') ?>" style="font-size: 0.8rem;">Laporan Bantuan/Operasional</a>
+                            <a class="nav-link" href="<?= base_url('keuangan/laporan_pemakaian_air') ?>" style="font-size: 0.8rem;">Laporan Pemakaian Air</a>
                         </nav>
                     </div>
                     <a class="nav-link" href="<?= base_url('backup') ?>">

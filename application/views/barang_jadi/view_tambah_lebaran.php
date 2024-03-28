@@ -22,7 +22,7 @@
                                 </div>
                                 <div class="form-group mb-3">
                                     <div class="mb-2">Jumlah Orang :</div>
-                                    <input type="text" class="form-control" id="jumlah_orang" name="jumlah_orang" placeholder="Masukan Jumlah" value="<?= set_value('jumlah_orang'); ?>">
+                                    <input type="number" class="form-control" id="jumlah_orang" name="jumlah_orang" placeholder="Masukan Jumlah" value="<?= set_value('jumlah_orang'); ?>">
                                     <small class="form-text text-danger pl-3"><?= form_error('jumlah_orang'); ?></small>
                                 </div>
                                 <div class="form-group mb-3">

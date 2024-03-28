@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Model_lebaran extends CI_Model
 {
-    public function get_lebaran($bulan, $tahun)
+    public function get_lebaran($tahun)
     {
         $this->db->select(
             '*, jenis_produk.id_produk, jenis_produk.nama_produk,
@@ -13,7 +13,6 @@ class Model_lebaran extends CI_Model
         $this->db->from('lebaran');
         $this->db->join('jenis_produk', 'lebaran.id_jenis_barang=jenis_produk.id_produk');
         $this->db->join('pelanggan', 'lebaran.id_pelanggan=pelanggan.id_pelanggan');
-        $this->db->where('MONTH(lebaran.tanggal_lebaran)', $bulan);
         $this->db->where('YEAR(lebaran.tanggal_lebaran)', $tahun);
         $this->db->order_by('lebaran.id_lebaran', 'desc');
         $query = $this->db->get();
@@ -33,6 +32,7 @@ class Model_lebaran extends CI_Model
         $this->db->select('id_pelanggan, nama_pelanggan, alamat_pelanggan, tarif');
         $this->db->from('pelanggan');
         $this->db->where('aktif', 1);
+        $this->db->where('ket', 'BINGKISAN LEBARAN');
         return $this->db->get()->result();
     }
 
@@ -50,6 +50,8 @@ class Model_lebaran extends CI_Model
 
             $tarif = $this->getTarifByIdPelanggan($id_pelanggan);
             $harga_barang = $this->getHargaByJenisBarang($id_jenis_barang, $tarif);
+            $no_per = $this->getHargaByJenisBarang($id_jenis_barang, $tarif);
+            $no_perkiraan = $no_per->no_perkiraan;
             $harga = $harga_barang->harga;
             $total = $harga * $jumlah * $jumlah_orang;
             $total_barang = $jumlah * $jumlah_orang;
@@ -82,6 +84,7 @@ class Model_lebaran extends CI_Model
                 'id_jenis_barang' => $id_jenis_barang,
                 'id_mobil' => 1,
                 'id_pelanggan' => $id_pelanggan,
+                'no_perkiraan' => $no_perkiraan,
                 'tanggal_pesan' => date('Y-m-d'),
                 'jenis_pesanan' => 5,
                 'jumlah_pesan' => $total_barang,
@@ -108,12 +111,14 @@ class Model_lebaran extends CI_Model
         return $this->db->get()->row()->tarif;
     }
 
-    public function getHargaByJenisBarang($id_jenis_barang)
+    public function getHargaByJenisBarang($id_jenis_barang, $tarif)
     {
-        $this->db->select('harga');
+        $this->db->select('harga, no_perkiraan');
         $this->db->from('harga');
+        $this->db->join('pelanggan', 'harga.jenis_harga = pelanggan.tarif', 'left');
         $this->db->join('jenis_produk', 'harga.id_jenis_barang = jenis_produk.id_produk', 'left');
         $this->db->where('harga.id_jenis_barang', $id_jenis_barang);
+        $this->db->where('pelanggan.tarif', $tarif);
         return $this->db->get()->row();
     }
 
@@ -128,6 +133,21 @@ class Model_lebaran extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function get_lebaran_lunas($tahun)
+    {
+        $this->db->select(
+            '*,
+        (SELECT SUM(total_harga) FROM pemesanan WHERE YEAR(pemesanan.tanggal_bayar) = "' . $tahun . '" AND jenis_pesanan = 5 AND status_bayar = 1 ) AS total_bayar'
+        );
+        $this->db->from('pemesanan');
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang', 'left');
+        $this->db->join('pelanggan', 'pelanggan.id_pelanggan = pemesanan.id_pelanggan', 'left');
+        $this->db->where('YEAR(pemesanan.tanggal_bayar)', $tahun);
+        $this->db->where('jenis_pesanan', 5);
+        $this->db->order_by('pemesanan.id_pemesanan', 'DESC');
+        return  $this->db->get()->result();
+    }
+
     // public function hapusData($id_pelanggan)
     // {
     //     $this->db->where('id_pelanggan', $id_pelanggan);
@@ -139,22 +159,20 @@ class Model_lebaran extends CI_Model
     //     return $this->db->get_where('pelanggan', ['id_pelanggan' => $id_pelanggan])->row();
     // }
 
-    // public function updateData()
-    // {
+    public function update_lunas($tahun)
+    {
 
-    //     $data = [
-    //         'area_pelanggan' => strtoupper($this->input->post('area_pelanggan', true)),
-    //         'gol_pelanggan' => strtoupper($this->input->post('gol_pelanggan', true)),
-    //         'nama_pelanggan' => strtoupper($this->input->post('nama_pelanggan', true)),
-    //         'alamat_pelanggan' => strtoupper($this->input->post('alamat_pelanggan', true)),
-    //         'telpon_pelanggan' => $this->input->post('telpon_pelanggan', true),
-    //         'ket' => $this->input->post('ket', true),
-    //         'tarif' => $this->input->post('tarif', true),
-    //         'aktif' => $this->input->post('aktif', true)
-    //     ];
-    //     $this->db->where('id_pelanggan', $this->input->post('id_pelanggan'));
-    //     $this->db->update('pelanggan', $data);
-    // }
+        $data = [
+            'status_bayar' => 1,
+            'tanggal_bayar' => date('Y-m-d H:i:s'),
+            'input_bayar' => $this->session->userdata('nama_lengkap')
+        ];
+        $this->db->where('jenis_pesanan', 5);
+        $this->db->where('status_bayar', 0);
+        $this->db->where('YEAR(pemesanan.tanggal_pesan)', $tahun);
+        $this->db->update('pemesanan', $data);
+    }
+
 
     // public function lebaran($bulan, $tahun)
     // {

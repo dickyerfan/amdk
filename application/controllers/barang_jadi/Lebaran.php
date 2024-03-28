@@ -50,7 +50,7 @@ class Lebaran extends CI_Controller
         }
 
         $data['title'] = 'Daftar Bingkisan Hari Raya';
-        $data['lebaran'] = $this->Model_lebaran->get_lebaran($bulan, $tahun);
+        $data['lebaran'] = $this->Model_lebaran->get_lebaran($tahun);
         if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');

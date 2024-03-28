@@ -28,6 +28,7 @@ class model_harga extends CI_Model
             'id_jenis_barang' => $this->input->post('id_jenis_barang', true),
             'jenis_harga' => $this->input->post('jenis_harga', true),
             'harga' => $this->input->post('harga', true),
+            'no_perkiraan' => $this->input->post('no_perkiraan', true),
             'input_harga' => $this->session->userdata('nama_lengkap')
         ];
         $this->db->insert('harga', $data);
@@ -50,7 +51,8 @@ class model_harga extends CI_Model
         $data = [
             'id_jenis_barang' => $this->input->post('id_jenis_barang', true),
             'jenis_harga' => $this->input->post('jenis_harga', true),
-            'harga' => $this->input->post('harga', true)
+            'harga' => $this->input->post('harga', true),
+            'no_perkiraan' => $this->input->post('no_perkiraan', true)
         ];
         $this->db->where('id_harga', $this->input->post('id_harga'));
         $this->db->update('harga', $data);

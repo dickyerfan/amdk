@@ -5,10 +5,10 @@
                 <div class="card-header shadow">
 
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('barang_produksi/karyawan_produksi/honor_karyawan'); ?>" method="get">
+                        <form id="form_tanggal" action="<?= base_url('barang_produksi/karyawan_produksi/honor_karyawan'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal_honor" class="form-control">
-                                <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
+                                <input type="submit" value="Pilih Bulan" class="neumorphic-button">
+                                <input type="date" id="tanggal" name="tanggal_honor" class="form-control" style="margin-left: 5px;">
                             </div>
                         </form>
                         <div class="navbar-nav me-2">

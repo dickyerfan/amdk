@@ -8,6 +8,7 @@ class Ban_ops extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Model_ban_ops');
+        date_default_timezone_set('Asia/Jakarta');
         if (!$this->session->userdata('nama_pengguna')) {
             $this->session->set_flashdata(
                 'info',
@@ -68,6 +69,7 @@ class Ban_ops extends CI_Controller
 
     public function tambah()
     {
+
         $data['title'] = "Tambah Data Bantuan / Operasional";
         $tanggal = $this->session->userdata('tanggal');
         // $this->form_validation->set_rules('id_jenis_barang', 'Jenis Barang', 'required|trim');

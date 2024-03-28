@@ -103,13 +103,50 @@ class Lebaran extends CI_Controller
         $data['bulan_lap'] = $bulan;
         $data['tahun_lap'] = $tahun;
         $data['title'] = 'Input Penerimaaan Bingkisan Lebaran';
-        $data['rutin'] = $this->Model_lap_rutin_karyawan->get_all($bulan, $tahun);
-        $data['pesan_karyawan'] = $this->Model_lap_rutin_karyawan->get_pemesanan_karyawan($bulan, $tahun);
+        $data['lebaran'] = $this->Model_lebaran->get_lebaran($tahun);
+        $data['lunas_bayar'] = $this->Model_lebaran->get_lebaran_lunas($tahun);
 
         $this->load->view('templates/pengguna/header', $data);
         $this->load->view('templates/pengguna/navbar_uang');
         $this->load->view('templates/pengguna/sidebar_uang');
         $this->load->view('keuangan/view_input_terima_lebaran', $data);
         $this->load->view('templates/pengguna/footer_uang');
+    }
+
+    public function bayar()
+    {
+        $tanggal = $this->session->userdata('tanggal');
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $tahun = date('Y');
+        }
+        $total_bayar = $this->Model_lebaran->get_lebaran($tahun)[0]->total_harga;
+        $total_lunas = $this->Model_lebaran->get_lebaran_lunas($tahun)[0]->total_bayar;
+
+        if ($total_bayar == $total_lunas) {
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Maaf,</strong> Total lebaran sudah dibayar. Anda tidak dapat melakukan pelunasan lagi
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        </button>
+                      </div>'
+            );
+            redirect('keuangan/lebaran');
+        } else {
+            $this->Model_lebaran->update_lunas($tahun);
+
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+                            <strong>Sukses,</strong> Data bingkisan lebaran berhasil di bayar
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            </button>
+                          </div>'
+            );
+            redirect('keuangan/lebaran');
+        }
     }
 }

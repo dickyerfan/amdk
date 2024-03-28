@@ -210,10 +210,10 @@
                             <div class="card mb-1">
                                 <div class="card-header text-center">
                                     <form action="<?= base_url('keuangan/laporan_rutin_karyawan/setor') ?>" method="post" enctype="multipart/form-data">
-                                        <div class="form-group">
+                                        <!-- <div class="form-group">
                                             <label for="nota_setor">Nota Setor (Upload Nota):</label>
                                             <input type="file" class="form-control" name="nota_setor">
-                                        </div>
+                                        </div> -->
                                         <button type="submit" class="btn btn-secondary btn-sm mt-2">Setor Rutin Karyawan</button>
                                     </form>
                                 </div>

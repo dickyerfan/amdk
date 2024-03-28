@@ -4,10 +4,10 @@
             <div class="card mb-1">
                 <div class="card-header shadow">
                     <nav class="navbar navbar-light bg-light">
-                        <form action="<?= base_url('barang_jadi/lebaran'); ?>" method="get">
+                        <form id="form_tanggal" action="<?= base_url('barang_jadi/lebaran'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
-                                <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
+                                <input type="submit" value="Pilih Tahun" class="neumorphic-button">
+                                <input type="date" id="tanggal" name="tanggal" class="form-control" style="margin-left: 10px;">
                             </div>
                         </form>
                         <div class="navbar-nav ms-auto">
@@ -27,29 +27,10 @@
                             <h5><?= strtoupper($title); ?></h5>
                             <?php
                             if (empty($bulan_lap)) {
-                                $bulan_lap = date('m');
                                 $tahun_lap = date('Y');
                             }
-
-                            $bulan = [
-                                '01' => 'Januari',
-                                '02' => 'Februari',
-                                '03' => 'Maret',
-                                '04' => 'April',
-                                '05' => 'Mei',
-                                '06' => 'Juni',
-                                '07' => 'Juli',
-                                '08' => 'Agustus',
-                                '09' => 'September',
-                                '10' => 'Oktober',
-                                '11' => 'November',
-                                '12' => 'Desember',
-                            ];
-
-                            $bulan_lap = strtr($bulan_lap, $bulan);
-
                             ?>
-                            <h5>Bulan : <?= $bulan_lap . ' ' . $tahun_lap; ?></h5>
+                            <h5>Tahun : <?= $tahun_lap; ?></h5>
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -89,13 +70,39 @@
                                         <?php endforeach; ?>
                                     </tbody>
                                     <tfoot>
-                                        <tr>
+                                        <!-- <tr>
                                             <th colspan="4" class="text-center">Total</th>
                                             <th class="text-center"><?= $row->total_barang; ?></th>
                                             <th class="text-center"><?= $total; ?></th>
                                             <th class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></th>
                                             <th></th>
-                                        </tr>
+                                        </tr> -->
+
+                                        <?php if (empty($lebaran)) : ?>
+                                            <tr>
+                                                <td colspan="8" class="text-center"></td>
+                                            </tr>
+                                        <?php else : ?>
+                                            <?php foreach ($lebaran as $row) :
+                                            ?>
+                                            <?php endforeach; ?>
+                                            <tr>
+                                                <th colspan="4" class="text-center">Total</th>
+                                                <?php if (!empty($row->total_barang)) : ?>
+                                                    <th class="text-center"><?= $row->total_barang; ?></th>
+                                                <?php else : ?>
+                                                    <th class="text-center">0</th>
+                                                <?php endif; ?>
+                                                <th class="text-center"><?= $total; ?></th>
+                                                <?php if (!empty($row->total_harga)) : ?>
+                                                    <th class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></th>
+                                                <?php else : ?>
+                                                    <th class="text-end">0</th>
+                                                <?php endif; ?>
+                                                <th></th>
+                                            </tr>
+                                        <?php endif; ?>
+
                                     </tfoot>
                                 </table>
                             </div>

@@ -39,6 +39,12 @@
                                     <small class="form-text text-danger pl-3"><?= form_error('harga'); ?></small>
                                 </div>
                             </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <input type="text" set="100" class="form-control" id="no_perkiraan" name="no_perkiraan" placeholder="Masukan no_perkiraan" value="<?= set_value('no_perkiraan'); ?>">
+                                    <small class="form-text text-danger pl-3"><?= form_error('no_perkiraan'); ?></small>
+                                </div>
+                            </div>
                         </div>
                         <button class=" neumorphic-button mt-2" name="tambah" type="submit"><i class="fas fa-save"></i> Simpan</button>
                     </form>

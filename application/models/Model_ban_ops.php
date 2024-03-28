@@ -34,6 +34,7 @@ class model_ban_ops extends CI_Model
 
     public function tambahData()
     {
+        date_default_timezone_set('Asia/Jakarta');
         $jumlah_ban_ops = ($this->input->post('jumlah_ban_ops', true));
         $jenis_barang = $this->input->post('id_jenis_barang');
         $id_pelanggan = $this->input->post('id_pelanggan');
@@ -44,6 +45,8 @@ class model_ban_ops extends CI_Model
 
             $tarif = $this->getTarifByIdPelanggan($id_pelanggan);
             $harga_barang = $this->getHargaByJenisBarang($id_jenis_barang, $tarif);
+            $no_per = $this->getHargaByJenisBarang($id_jenis_barang, $tarif);
+            $no_perkiraan = $no_per->no_perkiraan;
             $harga = $harga_barang->harga;
             $total = $harga * $jumlah;
 
@@ -76,6 +79,7 @@ class model_ban_ops extends CI_Model
                 'id_jenis_barang' => $id_jenis_barang,
                 'id_mobil' => $this->input->post('id_mobil', true),
                 'id_pelanggan' => $this->input->post('id_pelanggan', true),
+                'no_perkiraan' => $no_perkiraan,
                 'tanggal_pesan' => $this->input->post('tanggal_ban_ops', true),
                 'jenis_pesanan' => 4,
                 'jumlah_pesan' => $jumlah,
@@ -106,7 +110,7 @@ class model_ban_ops extends CI_Model
 
     public function getHargaByJenisBarang($id_jenis_barang, $tarif)
     {
-        $this->db->select('harga');
+        $this->db->select('harga, no_perkiraan');
         $this->db->from('harga');
         $this->db->join('pelanggan', 'harga.jenis_harga = pelanggan.tarif', 'left');
         $this->db->join('jenis_produk', 'harga.id_jenis_barang = jenis_produk.id_produk', 'left');

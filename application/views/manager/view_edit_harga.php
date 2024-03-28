@@ -13,6 +13,7 @@
                                 <div class="form-group">
                                     <div class="form-group">
                                         <input type="hidden" class="form-control" id="id_harga" name="id_harga" value="<?= $edit_harga->id_harga; ?>">
+                                        <label for="id_jenis_barang" class="mb-2">Jenis Barang :</label>
                                         <select name="id_jenis_barang" id="id_jenis_barang" class="form-control select2">
                                             <option value="">Pilih Produk</option>
                                             <?php foreach ($barang as $row) :  ?>
@@ -25,6 +26,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
+                                    <label for="jenis_harga" class="mb-2">Jenis Tarif :</label>
                                     <select name="jenis_harga" id="jenis_harga" class="form-control">
                                         <option value="">Pilih Jenis Harga</option>
                                         <option value="UMUM" <?= $edit_harga->jenis_harga == 'UMUM' ? 'selected' : '' ?>>Umum</option>
@@ -37,8 +39,16 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
+                                    <label for="harga" class="mb-2">Harga :</label>
                                     <input type="number" class="form-control" id="harga" name="harga" placeholder="Masukan Harga" value="<?= $edit_harga->harga; ?>">
                                     <small class="form-text text-danger pl-3"><?= form_error('harga'); ?></small>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="no_perkiraan" class="mb-2">No Perkiraan :</label>
+                                    <input type="text" class="form-control" id="no_perkiraan" name="no_perkiraan" placeholder="Masukan no_perkiraan" value="<?= isset($edit_harga->no_perkiraan) ? $edit_harga->no_perkiraan : ''; ?>">
+                                    <small class="form-text text-danger pl-3"><?= form_error('no_perkiraan'); ?></small>
                                 </div>
                             </div>
                         </div>

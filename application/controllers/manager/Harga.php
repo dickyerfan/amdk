@@ -47,6 +47,7 @@ class Harga extends CI_Controller
         $this->form_validation->set_rules('id_jenis_barang', 'Jenis Barang', 'required|trim');
         $this->form_validation->set_rules('jenis_harga', 'Jenis Harga', 'required|trim');
         $this->form_validation->set_rules('harga', 'harga', 'required|trim');
+        $this->form_validation->set_rules('no_perkiraan', 'no_perkiraan', 'required|trim');
 
         $this->form_validation->set_message('required', '%s masih kosong');
         // $this->form_validation->set_message('is_unique', '%s Sudah terdaftar, Ganti yang lain');

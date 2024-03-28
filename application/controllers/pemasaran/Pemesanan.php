@@ -8,6 +8,7 @@ class Pemesanan extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Model_pemesanan');
+        date_default_timezone_set('Asia/Jakarta');
         if (!$this->session->userdata('nama_pengguna')) {
             $this->session->set_flashdata(
                 'info',
@@ -108,6 +109,8 @@ class Pemesanan extends CI_Controller
                 $tarif = $this->Model_pemesanan->getTarifByIdPelanggan($id_pelanggan);
                 $harga_barang = $this->Model_pemesanan->getHargaByJenisBarang($id_jenis_barang, $tarif);
                 $harga = $harga_barang->harga;
+                $no_per = $this->Model_pemesanan->getHargaByJenisBarang($id_jenis_barang, $tarif);
+                $no_perkiraan = $no_per->no_perkiraan;
 
                 // Hitung total harga per barang
                 $total_harga_barang = $harga * $jumlah;
@@ -118,6 +121,7 @@ class Pemesanan extends CI_Controller
                     'tanggal_pesan' => $tanggal_pesan,
                     'id_pelanggan' => $id_pelanggan,
                     'id_mobil' => null,
+                    'no_perkiraan' => $no_perkiraan,
                     'jenis_pesanan' => $jenis_pesanan,
                     'input_pesan' => $input_pesan,
                     'harga_barang' => $harga,
@@ -178,7 +182,9 @@ class Pemesanan extends CI_Controller
                 // Ambil harga dari jenis barang yang dipilih
                 $tarif = $this->Model_pemesanan->getTarifByIdPelanggan($id_pelanggan);
                 $harga_barang = $this->Model_pemesanan->getHargaByJenisBarang($id_jenis_barang, $tarif);
+                $no_per = $this->Model_pemesanan->getHargaByJenisBarang($id_jenis_barang, $tarif);
                 $harga = $harga_barang->harga;
+                $no_perkiraan = $no_per->no_perkiraan;
 
                 // Hitung total harga per barang
                 $total_harga_barang = $harga * $jumlah;
@@ -189,6 +195,7 @@ class Pemesanan extends CI_Controller
                     'tanggal_pesan' => $tanggal_pesan,
                     'id_pelanggan' => $id_pelanggan,
                     'id_mobil' => $id_mobil,
+                    'no_perkiraan' => $no_perkiraan,
                     'jenis_pesanan' => $jenis_pesanan,
                     'input_pesan' => $input_pesan,
                     'harga_barang' => $harga,

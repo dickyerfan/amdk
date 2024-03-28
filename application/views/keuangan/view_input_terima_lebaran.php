@@ -25,49 +25,29 @@
                             <h5><?= strtoupper($title); ?></h5>
                             <?php
                             if (empty($bulan_lap)) {
-                                $bulan_lap = date('m');
                                 $tahun_lap = date('Y');
                             }
 
-                            $bulan = [
-                                '01' => 'Januari',
-                                '02' => 'Februari',
-                                '03' => 'Maret',
-                                '04' => 'April',
-                                '05' => 'Mei',
-                                '06' => 'Juni',
-                                '07' => 'Juli',
-                                '08' => 'Agustus',
-                                '09' => 'September',
-                                '10' => 'Oktober',
-                                '11' => 'November',
-                                '12' => 'Desember',
-                            ];
-
-                            $bulan_lap = strtr($bulan_lap, $bulan);
-
                             ?>
-                            <h5>Bulan : <?= $bulan_lap . ' ' . $tahun_lap; ?></h5>
+                            <h5>Tahun : <?= $tahun_lap; ?></h5>
                         </div>
                     </div>
                     <div class="row justify-content-center mb-2">
                         <div class="col-lg-3">
                             <?php
-                            $total_galon = $total_gelas = $total_btl330 = $total_btl500 = $total_btl1500 = 0;
-                            foreach ($rutin as $row) {
-                                $total_galon += $row->galon;
-                                $total_gelas += $row->gelas;
-                                $total_btl330 += $row->btl330;
-                                $total_btl500 += $row->btl500;
-                                $total_btl1500 += $row->btl1500;
+                            $total_harga = 0;
+                            $total_barang = 0;
+                            foreach ($lebaran as $row) {
+                                $total_harga += $row->harga_lebaran;
+                                $total_barang += $row->jumlah_barang * $row->jumlah_orang;
                             }; ?>
 
                             <div class="card mb-1">
                                 <div class="card-header text-center">
                                     <table class="table table-borderless table-sm">
                                         <tr>
-                                            <td class="text-start">Jumlah Galon 19l</td>
-                                            <td class="text-end"><?= $total_galon; ?></td>
+                                            <td class="text-start">Jumlah Barang</td>
+                                            <td class="text-end"><?= $total_barang; ?> Dus</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -76,116 +56,11 @@
                                 <div class="card-header text-center">
                                     <table class="table table-borderless table-sm">
                                         <tr>
-                                            <td class="text-start">Jumlah Gelas 220ml</td>
-                                            <td class="text-end"><?= $total_gelas; ?></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="card mb-1">
-                                <div class="card-header text-center">
-                                    <table class="table table-borderless table-sm">
-                                        <tr>
-                                            <td class="text-start">Jumlah Botol 330ml</td>
-                                            <td class="text-end"><?= $total_btl330; ?></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="card mb-1">
-                                <div class="card-header text-center">
-                                    <table class="table table-borderless table-sm">
-                                        <tr>
-                                            <td class="text-start">Jumlah Botol 500ml</td>
-                                            <td class="text-end"><?= $total_btl500; ?></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="card mb-1">
-                                <div class="card-header text-center">
-                                    <table class="table table-borderless table-sm">
-                                        <tr>
-                                            <td class="text-start">Jumlah Botol 1500ml</td>
-                                            <td class="text-end"><?= $total_btl1500; ?></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2">
-                            <?php
-                            $total_galon = $total_gelas = $total_btl330 = $total_btl500 = $total_btl1500 = $total_nominal = 0;
-                            foreach ($rutin as $row) {
-                                $total_galon += $row->galon * 11000; //jika ada perubahan tarif harus di setting manual
-                                $total_gelas += $row->gelas * 15000;
-                                $total_btl330 += $row->btl330 * 33000;
-                                $total_btl500 += $row->btl500 * 35000;
-                                $total_btl1500 += $row->btl1500 * 38000;
-                                $total_nominal += $row->nominal;
-                            }; ?>
-
-                            <div class="card mb-1">
-                                <div class="card-header text-center">
-                                    <table class="table table-borderless table-sm">
-                                        <tr>
-                                            <td>Rp. </td>
-                                            <td class="text-end"><?= number_format($total_galon, 0, ',', '.'); ?></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="card mb-1">
-                                <div class="card-header text-center">
-                                    <table class="table table-borderless table-sm">
-                                        <tr>
-                                            <td>Rp. </td>
-                                            <td class="text-end"><?= number_format($total_gelas, 0, ',', '.'); ?></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="card mb-1">
-                                <div class="card-header text-center">
-                                    <table class="table table-borderless table-sm">
-                                        <tr>
-                                            <td>Rp. </td>
-                                            <td class="text-end"><?= number_format($total_btl330, 0, ',', '.'); ?></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="card mb-1">
-                                <div class="card-header text-center">
-                                    <table class="table table-borderless table-sm">
-                                        <tr>
-                                            <td>Rp. </td>
-                                            <td class="text-end"><?= number_format($total_btl500, 0, ',', '.'); ?></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="card mb-1">
-                                <div class="card-header text-center">
-                                    <table class="table table-borderless table-sm">
-                                        <tr>
-                                            <td>Rp. </td>
-                                            <td class="text-end"><?= number_format($total_btl1500, 0, ',', '.'); ?></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="card mb-1">
-                                <div class="card-header text-center">
-                                    <table class="table table-borderless table-sm">
-                                        <tr>
-                                            <td class="text-start">Total Harus Disetor </td>
+                                            <td class="text-start">Total Harus Dibayar </td>
                                             <td>
                                                 Rp.
                                             </td>
-                                            <td class="text-end"><?= number_format($total_nominal, 0, ',', '.'); ?></td>
+                                            <td class="text-end"><?= number_format($total_harga, 0, ',', '.'); ?></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -194,12 +69,12 @@
                                 <div class="card-header text-center">
                                     <table class="table table-borderless table-sm">
                                         <tr>
-                                            <td class="text-start">Total Penerimaan</td>
+                                            <td class="text-start">Total Sudah Dibayar </td>
                                             <td>
                                                 Rp.
                                             </td>
-                                            <?php if (!empty($pesan_karyawan) && isset($pesan_karyawan[0]->total_penerimaan)) : ?>
-                                                <td class="text-end"><?= number_format($pesan_karyawan[0]->total_penerimaan, 0, ',', '.'); ?></td>
+                                            <?php if (!empty($lunas_bayar) && isset($lunas_bayar[0]->total_bayar)) : ?>
+                                                <td class="text-end"><?= number_format($lunas_bayar[0]->total_bayar, 0, ',', '.'); ?></td>
                                             <?php else : ?>
                                                 <td class="text-end">Data tidak tersedia</td>
                                             <?php endif; ?>
@@ -209,12 +84,8 @@
                             </div>
                             <div class="card mb-1">
                                 <div class="card-header text-center">
-                                    <form action="<?= base_url('keuangan/laporan_rutin_karyawan/setor') ?>" method="post" enctype="multipart/form-data">
-                                        <div class="form-group">
-                                            <label for="nota_setor">Nota Setor (Upload Nota):</label>
-                                            <input type="file" class="form-control" name="nota_setor">
-                                        </div>
-                                        <button type="submit" class="btn btn-secondary btn-sm mt-2">Setor Rutin Karyawan</button>
+                                    <form action="<?= base_url('keuangan/lebaran/bayar') ?>" method="post">
+                                        <button type="submit" class="btn btn-secondary btn-sm mt-2">Pelunasan Lebaran</button>
                                     </form>
                                 </div>
                             </div>

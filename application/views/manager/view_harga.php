@@ -16,6 +16,7 @@
                             <thead>
                                 <tr class="bg-secondary text-center">
                                     <th>No</th>
+                                    <th>No Perkiraan</th>
                                     <th>Nama Barang</th>
                                     <th>Jenis Harga</th>
                                     <th>Harga</th>
@@ -30,6 +31,7 @@
                                 ?>
                                     <tr>
                                         <td class="text-center"><?= $no++; ?></td>
+                                        <td class="text-center"><?= $row->no_perkiraan; ?></td>
                                         <td><?= $row->nama_produk; ?></td>
                                         <td><?= $row->jenis_harga; ?></td>
                                         <td class="text-end"><?= number_format($row->harga, 0, ',', '.'); ?></td>

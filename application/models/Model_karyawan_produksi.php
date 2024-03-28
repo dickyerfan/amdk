@@ -57,11 +57,13 @@ class model_karyawan_produksi extends CI_Model
         $this->db->update('karyawan_produksi', $data);
     }
 
-    public function get_absen_karprod()
+    public function get_absen_karprod($bulan, $tahun)
     {
         $this->db->select('id_absen_karprod, absen_karyawan_produksi.id_karyawan_produksi, karyawan_produksi.nama_karyawan_produksi, absen_karyawan_produksi.status_absen,absen_karyawan_produksi.tanggal');
         $this->db->from('absen_karyawan_produksi');
         $this->db->join('karyawan_produksi', 'karyawan_produksi.id_karyawan_produksi = absen_karyawan_produksi.id_karyawan_produksi');
+        $this->db->where('MONTH(absen_karyawan_produksi.tanggal)', $bulan);
+        $this->db->where('YEAR(absen_karyawan_produksi.tanggal)', $tahun);
         // $this->db->where('karyawan_produksi.status', 1);
         return $this->db->get()->result();
     }
@@ -71,12 +73,15 @@ class model_karyawan_produksi extends CI_Model
         $this->db->insert('absen_karyawan_produksi', $data);
     }
 
-    public function get_jenis_barang()
+    public function get_jenis_barang($bulan, $tahun)
     {
         $this->db->select('barang_jadi.jumlah_barang_jadi,barang_jadi.id_jenis_barang,barang_jadi.tanggal_barang_jadi, jenis_barang.nama_barang_jadi,ongkos_produksi.ongkos_per_unit');
         $this->db->from('barang_jadi');
         $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = barang_jadi.id_jenis_barang');
         $this->db->join('ongkos_produksi', 'barang_jadi.id_jenis_barang = ongkos_produksi.id_jenis_barang');
+        $this->db->where('MONTH(barang_jadi.tanggal_barang_jadi)', $bulan);
+        $this->db->where('YEAR(barang_jadi.tanggal_barang_jadi)', $tahun);
+        // $this->db->where('status_barang', 1);
         return $this->db->get()->result();
     }
 
