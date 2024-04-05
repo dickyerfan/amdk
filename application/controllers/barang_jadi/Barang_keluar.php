@@ -149,6 +149,7 @@ class Barang_keluar extends CI_Controller
 
     public function terima_barang($id_keluar_jadi)
     {
+        $tanggal = $this->session->userdata('tanggal');
         date_default_timezone_set('Asia/Jakarta');
         $data_terima_barang = [
             'status_keluar' => 1,
@@ -156,7 +157,10 @@ class Barang_keluar extends CI_Controller
             'tanggal_barang_keluar' => date('Y-m-d H:i:s')
         ];
         $this->Model_barang_jadi->terima_barang($data_terima_barang, $id_keluar_jadi);
-        redirect('barang_jadi/barang_keluar');
+
+        $alamat = 'barang_jadi/barang_keluar?tanggal=' . $tanggal;
+        redirect($alamat);
+        // redirect('barang_jadi/barang_keluar');
     }
 
     public function check_permintaan_barang_jadi()

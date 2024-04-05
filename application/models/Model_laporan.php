@@ -377,7 +377,59 @@ class Model_laporan extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function get_baku_terima_lap($bulan, $tahun)
+    {
+        $this->db->select('masuk_baku.id_masuk_baku, masuk_baku.jumlah_masuk,masuk_baku.tanggal_masuk, barang_baku.id_barang_baku, barang_baku.nama_barang_baku, barang_baku.status_laporan,
+        SUM(masuk_baku.jumlah_masuk) as total_masuk');
+        $this->db->from('barang_baku');
+        $this->db->join('masuk_baku', 'masuk_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->join('satuan', 'satuan.id_satuan = barang_baku.id_satuan', 'left');
+        $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = barang_baku.id_jenis_barang', 'left');
+        $this->db->where('barang_baku.status_barang_baku', 1);
+        $this->db->where('MONTH(tanggal_masuk)', $bulan);
+        $this->db->where('YEAR(tanggal_masuk)', $tahun);
+        $this->db->group_by('barang_baku.id_barang_baku');
 
+        return $this->db->get()->result();
+    }
+
+    public function get_baku_pakai_lap($bulan, $tahun)
+    {
+        $this->db->select('keluar_baku.id_keluar_baku, keluar_baku.jumlah_keluar,keluar_baku.tanggal_keluar, barang_baku.id_barang_baku, barang_baku.nama_barang_baku, barang_baku.status_laporan,
+        SUM(keluar_baku.jumlah_keluar) as total_keluar');
+        $this->db->from('barang_baku');
+        $this->db->join('keluar_baku', 'keluar_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->join('satuan', 'satuan.id_satuan = barang_baku.id_satuan', 'left');
+        $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = barang_baku.id_jenis_barang', 'left');
+        $this->db->where('barang_baku.status_barang_baku', 1);
+        $this->db->where('MONTH(tanggal_keluar)', $bulan);
+        $this->db->where('YEAR(tanggal_keluar)', $tahun);
+        $this->db->group_by('barang_baku.id_barang_baku');
+
+        return $this->db->get()->result();
+    }
+
+    public function get_air_produksi_lap($bulan, $tahun)
+    {
+        $this->db->select('*, SUM(jumlah) as jumlah_air');
+        $this->db->from('truk_tangki');
+        $this->db->where('MONTH(tanggal_ambil_air)', $bulan);
+        $this->db->where('YEAR(tanggal_ambil_air)', $tahun);
+        // $this->db->group_by('tanggal_ambil_air');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function get_air_pakai_lap($bulan, $tahun)
+    {
+        $this->db->select('*, SUM(jumlah_liter) as jumlah_liter');
+        $this->db->from('barang_jadi');
+        $this->db->where('MONTH(tanggal_barang_jadi)', $bulan);
+        $this->db->where('YEAR(tanggal_barang_jadi)', $tahun);
+        // $this->db->group_by('tanggal_barang_jadi');
+        $query = $this->db->get();
+        return $query->result();
+    }
 
     // tanda tangan laporan
     public function get_manager()

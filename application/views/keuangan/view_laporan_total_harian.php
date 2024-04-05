@@ -65,6 +65,60 @@
                                             <td>keterangan</td>
                                         </tr>
                                         <tr class="text-center fw-bold">
+                                            <td colspan="3">Air Produksi</td>
+                                            <td>Terima</td>
+                                            <td>Di pakai</td>
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        foreach ($data_air_produksi_lap as $produksi) :
+                                            foreach ($data_air_pakai_lap as $pakai) {
+                                            }
+                                        ?>
+                                            <tr>
+                                                <td class="text-center"><?= $no++ ?></td>
+                                                <td>Air Produksi</td>
+                                                <td class="text-center">liter</td>
+                                                <td class="text-center"><?= number_format($produksi->jumlah_air, 0, ',', '.'); ?></td>
+                                                <td class="text-center"><?= number_format($pakai->jumlah_liter, 0, ',', '.'); ?></td>
+                                                <td></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                    <thead>
+                                        <tr class="text-center fw-bold">
+                                            <td colspan="3">Persedian Barang</td>
+                                            <td>Terima</td>
+                                            <td>Di pakai</td>
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        foreach ($data_baku_terima as $row) :
+                                            $dipakai = 0;
+                                            foreach ($data_baku_pakai as $pakai) {
+                                                if ($pakai->id_barang_baku == $row->id_barang_baku) {
+                                                    $dipakai += $pakai->total_keluar;
+                                                }
+                                            }
+                                        ?>
+                                            <tr>
+                                                <td class="text-center"><?= $no++ ?></td>
+                                                <td><?= $row->nama_barang_baku; ?></td>
+                                                <td class="text-center">Dus</td>
+                                                <td class="text-center"><?= number_format($row->total_masuk, 0, ',', '.'); ?></td>
+                                                <td class="text-center"><?= number_format($dipakai, 0, ',', '.'); ?></td>
+                                                <td></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                    <thead>
+                                        <tr class="text-center fw-bold">
                                             <td colspan="3">Barang Produksi</td>
                                             <td>Terima</td>
                                             <td>Terjual</td>

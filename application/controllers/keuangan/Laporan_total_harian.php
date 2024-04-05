@@ -1,4 +1,7 @@
 <?php
+
+use PhpParser\Node\Stmt\Foreach_;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Laporan_total_harian extends CI_Controller
@@ -63,6 +66,13 @@ class Laporan_total_harian extends CI_Controller
         $data['data_piutang'] = $this->Model_laporan->get_piutang_lap($bulan, $tahun);
         $data['data_penerimaan'] = $this->Model_laporan->get_penerimaan_lap($bulan, $tahun);
         $data['data_penerimaan_lalu'] = $this->Model_laporan->get_penerimaan_lap_lalu($bulan_lalu, $tahun_lalu);
+        $data['data_baku_terima'] = $this->Model_laporan->get_baku_terima_lap($bulan, $tahun);
+        $data['data_baku_pakai'] = $this->Model_laporan->get_baku_pakai_lap($bulan, $tahun);
+        $data['data_air_produksi_lap'] = $this->Model_laporan->get_air_produksi_lap($bulan, $tahun);
+        $data['data_air_pakai_lap'] = $this->Model_laporan->get_air_pakai_lap($bulan, $tahun);
+
+        // $data_barang = array_merge($data['data_baku_terima'], $data['data_baku_pakai']);
+        // $data['data_barang'] = $data_barang;
 
         // $jumlah_total = 0;
         // foreach ($data['data_penerimaan'] as $row) {
@@ -93,8 +103,12 @@ class Laporan_total_harian extends CI_Controller
 
     public function exportpdf()
     {
+
         $tanggal = $this->session->userdata('tanggal_total_harian');
-        $tanggal = $this->input->get('tanggal');
+
+        if (empty($tanggal)) {
+            $tanggal = $this->input->get('tanggal');
+        }
         $bulan = substr($tanggal, 5, 2);
         $tahun = substr($tanggal, 0, 4);
 
@@ -120,6 +134,13 @@ class Laporan_total_harian extends CI_Controller
         $data['data_piutang'] = $this->Model_laporan->get_piutang_lap($bulan, $tahun);
         $data['data_penerimaan'] = $this->Model_laporan->get_penerimaan_lap($bulan, $tahun);
         $data['data_penerimaan_lalu'] = $this->Model_laporan->get_penerimaan_lap_lalu($bulan_lalu, $tahun_lalu);
+        $data['data_baku_terima'] = $this->Model_laporan->get_baku_terima_lap($bulan, $tahun);
+        $data['data_baku_pakai'] = $this->Model_laporan->get_baku_pakai_lap($bulan, $tahun);
+        $data['data_air_produksi_lap'] = $this->Model_laporan->get_air_produksi_lap($bulan, $tahun);
+        $data['data_air_pakai_lap'] = $this->Model_laporan->get_air_pakai_lap($bulan, $tahun);
+
+        // $data_barang = array_merge($data['data_baku_terima'], $data['data_baku_pakai']);
+        // $data['data_barang'] = $data_barang;
 
         $data['bulan_lap'] = $bulan;
         $data['tahun_lap'] = $tahun;
