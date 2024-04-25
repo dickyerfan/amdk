@@ -50,7 +50,8 @@ class Lebaran extends CI_Controller
         }
 
         $data['title'] = 'Daftar Bingkisan Lebaran';
-        $lebaran = $this->Model_lebaran->get_lebaran_keu($bulan, $tahun);
+        // $lebaran = $this->Model_lebaran->get_lebaran_keu($bulan, $tahun);
+        $lebaran = $this->Model_lebaran->get_lebaran_keu($tahun);
         $jenis_produk = $this->Model_lebaran->get_nama_barang();
 
         // Mengelompokkan data berdasarkan nama dan tanggal
@@ -129,7 +130,7 @@ class Lebaran extends CI_Controller
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Maaf,</strong> Total lebaran sudah dibayar. Anda tidak dapat melakukan pelunasan lagi
+                        <strong>Maaf,</strong> Total tagihan lebaran sudah dibayar. Anda tidak dapat melakukan pelunasan lagi
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                         </button>
                       </div>'

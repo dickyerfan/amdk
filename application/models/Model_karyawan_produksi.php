@@ -28,7 +28,8 @@ class model_karyawan_produksi extends CI_Model
         $data = [
             'nama_karyawan_produksi' => $this->input->post('nama_karyawan_produksi', true),
             'jenkel' => $this->input->post('jenkel', true),
-            'input_karyawan_produksi' => $this->session->userdata('nama_lengkap')
+            'input_karyawan_produksi' => $this->session->userdata('nama_lengkap'),
+            'tgl_input' => date('Y-m-d H:i:s')
         ];
         $this->db->insert('karyawan_produksi', $data);
     }
@@ -51,7 +52,8 @@ class model_karyawan_produksi extends CI_Model
             'nama_karyawan_produksi' => $this->input->post('nama_karyawan_produksi', true),
             'jenkel' => $this->input->post('jenkel', true),
             'status' => $this->input->post('status', true),
-            'input_karyawan_produksi' => $this->session->userdata('nama_lengkap')
+            'input_karyawan_produksi' => $this->session->userdata('nama_lengkap'),
+            'tgl_update' => date('Y-m-d H:i:s')
         ];
         $this->db->where('id_karyawan_produksi', $this->input->post('id_karyawan_produksi'));
         $this->db->update('karyawan_produksi', $data);

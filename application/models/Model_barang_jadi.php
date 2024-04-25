@@ -174,6 +174,7 @@ class Model_barang_jadi extends CI_Model
         $this->db->where('MONTH(rusak_jadi.tanggal_rusak_jadi)', $bulan);
         $this->db->where('YEAR(rusak_jadi.tanggal_rusak_jadi)', $tahun);
         $this->db->group_by('rusak_jadi.id_rusak_jadi');
+        $this->db->order_by('tanggal_rusak_jadi', 'DESC');
         return $this->db->get()->result();
     }
 

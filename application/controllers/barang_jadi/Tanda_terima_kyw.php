@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Data_karyawan_keu extends CI_Controller
+class Tanda_terima_kyw extends CI_Controller
 {
     public function __construct()
     {
@@ -50,20 +50,20 @@ class Data_karyawan_keu extends CI_Controller
             $this->session->set_userdata('tanggal', $tanggal);
         }
 
-        $data['title'] = 'Daftar Pembelian Karyawan PDAM';
+        $data['title'] = 'Data Pembelian Karyawan PDAM';
         $data['rutin'] = $this->Model_ambil_rutin_karyawan->get_data_karyawan($bulan, $tahun);
 
         if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');
-            $this->load->view('barang_jadi/view_data_karyawan_keu', $data);
+            $this->load->view('barang_jadi/view_tanda_terima_kyw', $data);
             $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_jadi');
             $this->load->view('templates/pengguna/sidebar_jadi');
-            $this->load->view('barang_jadi/view_data_karyawan_keu', $data);
+            $this->load->view('barang_jadi/view_tanda_terima_kyw', $data);
             $this->load->view('templates/pengguna/footer_jadi');
         }
     }
@@ -81,7 +81,7 @@ class Data_karyawan_keu extends CI_Controller
         }
         $data['bulan_lap'] = $bulan;
         $data['tahun_lap'] = $tahun;
-        $data['title'] = 'Daftar Pembelian Karyawan PDAM';
+        $data['title'] = 'Data Pembelian Karyawan PDAM';
         $data['rutin'] = $this->Model_ambil_rutin_karyawan->get_data_karyawan($bulan, $tahun);
 
         $data['bulan_lap'] = $bulan;
@@ -93,7 +93,7 @@ class Data_karyawan_keu extends CI_Controller
         $this->pdf->setPaper('folio', 'landscape');
 
         // $this->pdf->filename = "Potensi Sr.pdf";
-        $this->pdf->filename = "Lap_data_karyawan_keu-{$bulan}-{$tahun}.pdf";
-        $this->pdf->generate('barang_jadi/laporan_data_karyawan_keu_pdf', $data);
+        $this->pdf->filename = "Lap_tanda_terima_kyw-{$bulan}-{$tahun}.pdf";
+        $this->pdf->generate('barang_jadi/laporan_tanda_terima_kyw_pdf', $data);
     }
 }

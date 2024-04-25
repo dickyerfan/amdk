@@ -88,6 +88,93 @@ class Laporan_ban_ops extends CI_Controller
         }
     }
 
+    public function input_terima_ban_ops()
+    {
+        $tanggal = $this->session->userdata('tanggal_ops');
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+
+        $data['bulan_lap'] = $bulan;
+        $data['tahun_lap'] = $tahun;
+        $data['title'] = 'Input Penerimaaan Operasional/Bantuan';
+        $ban_ops = $this->Model_laporan->get_ban_ops($bulan, $tahun);
+
+        $jenis_produk = $this->Model_laporan->get_jenis_produk();
+
+        $data['ban_ops'] = $this->Model_laporan->get_ban_ops($bulan, $tahun);
+        $data['pesan_ban_ops'] = $this->Model_laporan->get_pemesanan_ban_ops($bulan, $tahun);
+
+        $this->load->view('templates/pengguna/header', $data);
+        $this->load->view('templates/pengguna/navbar_uang');
+        $this->load->view('templates/pengguna/sidebar_uang');
+        $this->load->view('keuangan/view_input_terima_ban_ops', $data);
+        $this->load->view('templates/pengguna/footer_uang');
+    }
+
+    public function setor()
+    {
+        $tanggal = $this->session->userdata('tanggal_ops');
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+
+
+        $ban_ops = $this->Model_laporan->get_ban_ops($bulan, $tahun);
+        $total_ban_ops = 0;
+        foreach ($ban_ops as $row) {
+            $total_ban_ops = $row->total_ban_ops;
+        }
+
+        $pesan_ban_ops = $this->Model_laporan->get_pemesanan_ban_ops($bulan, $tahun);
+        $total_pesan_ban_ops = 0;
+        foreach ($pesan_ban_ops as $row) {
+            $total_pesan_ban_ops = $row->total_pesan_ban_ops;
+        }
+
+        if ($total_ban_ops == $total_pesan_ban_ops) {
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Maaf,</strong> Total penerimaan operasional sudah disetor. Anda tidak dapat melakukan setoran lagi
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        </button>
+                      </div>'
+            );
+            redirect('keuangan/laporan_ban_ops');
+        } else {
+            $data = [
+                'status_bayar' => 1,
+                'input_bayar' => $this->session->userdata('namaLengkap'),
+                'tanggal_bayar' => date('Y-m-d H:i:s'),
+                'status_pesan' => 0,
+                'status_piutang' => 0
+            ];
+
+            $this->Model_laporan->update_pemesanan($bulan, $tahun, $data);
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+                            <strong>Sukses,</strong> Data penerimaan operasional/bantuan berhasil di bayar
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            </button>
+                          </div>'
+            );
+            redirect('keuangan/laporan_ban_ops');
+        }
+    }
+
+
     public function exportpdf_ops()
     {
         $tanggal = $this->session->userdata('tanggal_ops');

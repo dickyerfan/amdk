@@ -122,13 +122,13 @@ class Model_lebaran extends CI_Model
         return $this->db->get()->row();
     }
 
-    public function get_lebaran_keu($bulan, $tahun)
+    public function get_lebaran_keu($tahun)
     {
         $this->db->select('*,jenis_produk.id_produk, jenis_produk.nama_produk, pelanggan.nama_pelanggan,lebaran.jumlah_orang');
         $this->db->from('lebaran');
         $this->db->join('jenis_produk', 'lebaran.id_jenis_barang=jenis_produk.id_produk');
         $this->db->join('pelanggan', 'lebaran.id_pelanggan=pelanggan.id_pelanggan', 'left');
-        $this->db->where('MONTH(lebaran.tanggal_lebaran)', $bulan);
+        // $this->db->where('MONTH(lebaran.tanggal_lebaran)', $bulan);
         $this->db->where('YEAR(lebaran.tanggal_lebaran)', $tahun);
         return $this->db->get()->result();
     }

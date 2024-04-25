@@ -243,6 +243,45 @@ class Model_laporan extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function get_ban_ops($bulan, $tahun)
+    {
+        $this->db->select('*,jenis_barang.id_jenis_barang, jenis_barang.nama_barang_jadi,
+        (SELECT SUM(harga_ban_ops) FROM ban_ops WHERE MONTH(ban_ops.tanggal_ban_ops) = "' . $bulan . '" AND YEAR(ban_ops.tanggal_ban_ops) = "' . $tahun . '" ) AS total_ban_ops
+        ');
+        $this->db->from('ban_ops');
+        $this->db->join('jenis_barang', 'ban_ops.id_jenis_barang=jenis_barang.id_jenis_barang');
+        $this->db->where('MONTH(ban_ops.tanggal_ban_ops)', $bulan);
+        $this->db->where('YEAR(ban_ops.tanggal_ban_ops)', $tahun);
+        $this->db->order_by('tanggal_ban_ops', 'esc');
+        return $this->db->get()->result();
+    }
+
+    public function get_pemesanan_ban_ops($bulan, $tahun)
+    {
+        $this->db->select(
+            '*,
+        (SELECT SUM(total_harga) FROM pemesanan WHERE MONTH(pemesanan.tanggal_pesan) = "' . $bulan . '" AND YEAR(pemesanan.tanggal_pesan) = "' . $tahun . '" AND jenis_pesanan = 4 AND pemesanan.status_bayar = 1) AS total_penerimaan,
+        (SELECT SUM(total_harga) FROM pemesanan WHERE MONTH(pemesanan.tanggal_pesan) = "' . $bulan . '" AND YEAR(pemesanan.tanggal_pesan) = "' . $tahun . '" AND jenis_pesanan = 4 ) AS total_pesan_ban_ops'
+        );
+        $this->db->from('pemesanan');
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang', 'left');
+        // $this->db->join('pelanggan', 'pelanggan.id_pelanggan = pemesanan.id_pelanggan', 'left');
+        $this->db->where('MONTH(pemesanan.tanggal_pesan)', $bulan);
+        $this->db->where('YEAR(pemesanan.tanggal_pesan)', $tahun);
+        $this->db->where('jenis_pesanan', 4);
+        $this->db->where('status_bayar', 1);
+        $this->db->order_by('pemesanan.id_pemesanan', 'DESC');
+        return  $this->db->get()->result();
+    }
+
+    public function update_pemesanan($bulan, $tahun, $data)
+    {
+        $this->db->where('MONTH(pemesanan.tanggal_pesan)', $bulan);
+        $this->db->where('YEAR(pemesanan.tanggal_pesan)', $tahun);
+        $this->db->where('jenis_pesanan', 4);
+        $this->db->update('pemesanan', $data);
+    }
+
     public function get_ops($bulan, $tahun)
     {
         $this->db->select('*,jenis_barang.id_jenis_barang, jenis_barang.nama_barang_jadi, pelanggan.nama_pelanggan');

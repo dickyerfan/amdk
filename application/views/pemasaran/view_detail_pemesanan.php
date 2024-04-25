@@ -85,7 +85,11 @@
                                                     <td> : </td>
                                                     <td><?= $row->tanggal_pesan; ?></td>
                                                 </tr>
-
+                                                <tr>
+                                                    <td>Tanggal Input</td>
+                                                    <td> : </td>
+                                                    <td><?= $row->tanggal_input; ?></td>
+                                                </tr>
                                                 <tr>
                                                     <td>Petugas Input</td>
                                                     <td> : </td>

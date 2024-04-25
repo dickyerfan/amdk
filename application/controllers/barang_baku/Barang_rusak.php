@@ -104,6 +104,7 @@ class Barang_rusak extends CI_Controller
                     $data['input_status_rusak_baku'] = $this->session->userdata('nama_lengkap');
                     $data['bukti_rusak_baku'] = $file_name; // Simpan nama file dalam database
                     $data['keterangan'] = $this->input->post('keterangan', true);
+                    $data['tgl_input_rusak_baku'] = date('Y-m-d H:i:s');
 
 
                     // Simpan data ke dalam database

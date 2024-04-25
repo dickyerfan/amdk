@@ -44,7 +44,7 @@
         .tableUtama td {
             border: 1px solid black;
             font-size: 1rem;
-            padding: 4px 3px;
+            padding: 12px 3px;
         }
 
         .judul p {
@@ -60,8 +60,8 @@
         .tableKedua td {
             width: 50%;
             border: 1px solid black;
-            font-size: 1rem;
-            padding: 3px 3px;
+            font-size: 0.8rem;
+            padding: 1.5px 3px;
         }
     </style>
 
@@ -123,12 +123,14 @@
                 <th class="text-center">Botol 330</th>
                 <th class="text-center">Botol 500</th>
                 <th class="text-center">Botol 1500</th>
-                <th class="text-center">Nominal</th>
+                <th class="text-center">Tanggal</th>
+                <th class="text-center">Tanda Tangan</th>
             </tr>
         </thead>
         <tbody>
             <?php
             $no = 1;
+            $no_absen = 1;
             $total_galon = $total_gelas = $total_btl330 = $total_btl500 = $total_btl1500 = $total_nominal = 0;
             $harga_galon = 11000;
             $harga_220 = 15000;
@@ -152,7 +154,8 @@
                     <td class="text-center"><?= $row->btl330 == 0 ? '' : $row->btl330; ?></td>
                     <td class="text-center"><?= $row->btl500 == 0 ? '' : $row->btl500; ?></td>
                     <td class="text-center"><?= $row->btl1500 == 0 ? '' : $row->btl1500; ?></td>
-                    <td class="text-end"><?= number_format($row->nominal, 0, ',', '.'); ?></td>
+                    <td class="text-end"></td>
+                    <td class="text-start"><?= $no_absen++; ?>.</td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
@@ -164,47 +167,11 @@
                 <td class="text-center fw-bold"><?= $total_btl330; ?></td>
                 <td class="text-center fw-bold"><?= $total_btl500; ?></td>
                 <td class="text-center fw-bold"><?= $total_btl1500; ?></td>
-                <td class="text-end fw-bold"><?= number_format($total_nominal, 0, ',', '.'); ?></td>
+                <td class="text-end fw-bold"></td>
+                <td class="text-end fw-bold"></td>
             </tr>
         </tfoot>
     </table>
-    <table class="table tableKedua">
-        <tr>
-            <td>Galon</td>
-            <td class="text-end fw-bold"></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Air Galon</td>
-            <td class="text-end fw-bold"><?= $total_galon; ?></td>
-            <td class="text-end fw-bold"><?= number_format($total_galon * $harga_galon, 0, ',', '.'); ?></td>
-        </tr>
-        <tr>
-            <td>Gelas 220 ml</td>
-            <td class="text-end fw-bold"><?= $total_gelas; ?></td>
-            <td class="text-end fw-bold"><?= number_format($total_gelas * $harga_220, 0, ',', '.'); ?></td>
-        </tr>
-        <tr>
-            <td>Botol 330 ml</td>
-            <td class="text-end fw-bold"><?= $total_btl330; ?></td>
-            <td class="text-end fw-bold"><?= number_format($total_btl330 * $harga_330, 0, ',', '.'); ?></td>
-        </tr>
-        <tr>
-            <td>Botol 500 ml</td>
-            <td class="text-end fw-bold"><?= $total_btl500; ?></td>
-            <td class="text-end fw-bold"><?= number_format($total_btl500 * $harga_500, 0, ',', '.'); ?></td>
-        </tr>
-        <tr>
-            <td>Botol 1500 ml</td>
-            <td class="text-end fw-bold"><?= $total_btl1500; ?></td>
-            <td class="text-end fw-bold"><?= number_format($total_btl1500 * $harga_1500, 0, ',', '.'); ?></td>
-        </tr>
-        <tr>
-            <td colspan="2" class="text-center fw-bold">Jumlah Total</td>
-            <td class="text-end fw-bold"><?= number_format($total_nominal, 0, ',', '.'); ?></td>
-        </tr>
-    </table>
-
     <?php
     $nik_manager = $manager->nik_karyawan;
     if ($nik_manager) {

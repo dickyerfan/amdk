@@ -104,6 +104,7 @@ class Model_barang_produksi extends CI_Model
         $this->db->where('MONTH(rusak_produksi.tanggal_rusak_produksi)', $bulan);
         $this->db->where('YEAR(rusak_produksi.tanggal_rusak_produksi)', $tahun);
         $this->db->group_by('rusak_produksi.id_rusak_produksi');
+        $this->db->order_by('id_rusak_produksi', 'DESC');
         return $this->db->get()->result();
     }
 

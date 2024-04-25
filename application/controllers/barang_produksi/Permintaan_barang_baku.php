@@ -128,7 +128,8 @@ class Permintaan_barang_baku extends CI_Controller
                         'jumlah_keluar' => $jumlah,
                         'input_status_keluar' => $this->session->userdata('nama_lengkap'),
                         'bagian' => $this->session->userdata('upk_bagian'),
-                        'kode_barang' => $kode_barang
+                        'kode_barang' => $kode_barang,
+                        'tgl_input_keluar' => date('Y-m-d H:i:s')
                     );
                 } else {
                     $kode_barang = null;

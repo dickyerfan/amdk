@@ -221,7 +221,8 @@ class Karyawan_produksi extends CI_Controller
                     $data = array(
                         'id_karyawan_produksi' => $karyawan_produksi['id_karyawan_produksi'],
                         'tanggal' => $tanggal,
-                        'status_absen' => 0 // Kode status absen 0 untuk "tidak hadir"
+                        'status_absen' => 0, // Kode status absen 0 untuk "tidak hadir"
+                        'tgl_input_absen' => date('Y-m-d H:i:s')
                     );
                     $this->Model_karyawan_produksi->tambah_absen_karProd($data);
                 }
@@ -231,7 +232,8 @@ class Karyawan_produksi extends CI_Controller
                     $data = array(
                         'id_karyawan_produksi' => $id_karyawan_produksi,
                         'tanggal' => $tanggal,
-                        'status_absen' => 1 // Kode status absen 1 untuk "hadir"
+                        'status_absen' => 1, // Kode status absen 1 untuk "hadir"
+                        'tgl_input_absen' => date('Y-m-d H:i:s')
                     );
                     $this->Model_karyawan_produksi->tambah_absen_karProd($data);
                 }

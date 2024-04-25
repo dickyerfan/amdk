@@ -70,6 +70,7 @@ class Pemesanan extends CI_Controller
 
     public function upload()
     {
+        date_default_timezone_set('Asia/Jakarta');
         $tanggal = $this->session->userdata('tanggal');
         // $this->form_validation->set_rules('id_jenis_barang', 'Nama Barang', 'required|trim');
         // $this->form_validation->set_rules('jumlah_pesan', 'Jumlah Pesan', 'required|trim|numeric');
@@ -125,7 +126,8 @@ class Pemesanan extends CI_Controller
                     'jenis_pesanan' => $jenis_pesanan,
                     'input_pesan' => $input_pesan,
                     'harga_barang' => $harga,
-                    'total_harga' => $total_harga_barang
+                    'total_harga' => $total_harga_barang,
+                    'tanggal_input' => date('Y-m-d H:i:s')
                 );
             }
 
@@ -199,7 +201,8 @@ class Pemesanan extends CI_Controller
                     'jenis_pesanan' => $jenis_pesanan,
                     'input_pesan' => $input_pesan,
                     'harga_barang' => $harga,
-                    'total_harga' => $total_harga_barang
+                    'total_harga' => $total_harga_barang,
+                    'tanggal_input' => date('Y-m-d H:i:s')
                 );
             }
 
@@ -303,6 +306,7 @@ class Pemesanan extends CI_Controller
     {
         $tanggal = $this->session->userdata('tanggal');
         $this->form_validation->set_rules('id_mobil', 'Nama Mobil', 'required|trim');
+        $this->form_validation->set_rules('jam_mobil', 'Jam Mobil', 'required|trim');
         $this->form_validation->set_message('required', '%s masih kosong');
 
         if ($this->form_validation->run() == false) {
@@ -331,7 +335,8 @@ class Pemesanan extends CI_Controller
                 'tanggal_keluar' => $data_pemesanan->tanggal_pesan,
                 'jumlah_akhir' => $data_pemesanan->jumlah_pesan,
                 'jenis_pesanan' => $data_pemesanan->jenis_pesanan,
-                'input_status_keluar' => $this->session->userdata('nama_lengkap')
+                'input_status_keluar' => $this->session->userdata('nama_lengkap'),
+                'tgl_input_keluar' => date('Y-m-d H:i:s')
             );
 
             // insert data ke dalam tabel keluar_jadi

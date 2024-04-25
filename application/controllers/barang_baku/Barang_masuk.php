@@ -105,6 +105,7 @@ class Barang_masuk extends CI_Controller
                     $data['tanggal_masuk'] = $tanggal_masuk;
                     $data['input_status_masuk'] = $this->session->userdata('nama_lengkap');
                     $data['bukti_masuk_sj'] = $file_name; // Simpan nama file dalam database
+                    $data['tgl_input_masuk'] = date('Y-m-d H:i:s');
 
 
                     // Simpan data ke dalam database

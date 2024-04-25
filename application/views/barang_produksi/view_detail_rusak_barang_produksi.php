@@ -37,7 +37,7 @@
                                                 <tr>
                                                     <td>Tanggal Transaksi</td>
                                                     <td> : </td>
-                                                    <td><?= date('d-m-Y', strtotime($row->tanggal_rusak_produksi)); ?></td>
+                                                    <td><?= date('d-m-Y H:i:s', strtotime($row->tgl_input_rusak_produksi)); ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Jumlah Barang</td>

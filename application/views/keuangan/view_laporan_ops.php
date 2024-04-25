@@ -13,6 +13,9 @@
                         <div class="navbar-nav ms-2">
                             <a href="<?= base_url('keuangan/laporan_ban_ops/lap_ban') ?>" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Lap Bantuan</button></a>
                         </div>
+                        <div class="navbar-nav ms-2">
+                            <a href="<?= base_url('keuangan/laporan_ban_ops/input_terima_ban_ops') ?>" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-rupiah-sign"></i> Input Penerimaan Operasional</button></a>
+                        </div>
                         <div class="navbar-nav ms-auto">
                             <a href="<?= base_url('keuangan/laporan_ban_ops/exportpdf_ops') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div>
