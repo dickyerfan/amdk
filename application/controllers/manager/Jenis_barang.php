@@ -57,6 +57,7 @@ class Jenis_barang extends CI_Controller
             $data['nama_barang_jadi'] = $this->input->post('nama_barang_jadi', true);
             $data['jenis_barang'] = $this->input->post('jenis_barang', true);
             $data['input_jenis_barang'] = $this->session->userdata('nama_lengkap');
+            $data['tgl_input_jenis_barang'] = date('Y-m-d H:i:s');
 
             $this->Model_barang->upload('jenis_barang', $data);
             $this->session->set_flashdata(
@@ -87,7 +88,8 @@ class Jenis_barang extends CI_Controller
         $data = [
             'nama_barang_jadi' => $this->input->post('nama_barang_jadi', true),
             'jenis_barang' => $this->input->post('jenis_barang', true),
-            'input_jenis_barang' => $this->session->userdata('nama_lengkap')
+            'input_jenis_barang' => $this->session->userdata('nama_lengkap'),
+            'tgl_input_jenis_barang' => date('Y-m-d H:i:s')
         ];
         $this->Model_barang->update('jenis_barang', 'id_jenis_barang', $data);
         $this->session->set_flashdata(

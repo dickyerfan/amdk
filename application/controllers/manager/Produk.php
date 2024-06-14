@@ -106,9 +106,9 @@ class Produk extends CI_Controller
         }
     }
 
-    public function hapus($id_produkl)
+    public function hapus($id_produk)
     {
-        $this->Model_produk->hapusData($id_produkl);
+        $this->Model_produk->hapusData($id_produk);
         $this->session->set_flashdata(
             'info',
             '<div class="alert alert-danger alert-dismissible fade show" role="alert">
