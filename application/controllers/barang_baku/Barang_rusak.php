@@ -84,9 +84,9 @@ class Barang_rusak extends CI_Controller
             if (!empty($_FILES['bukti_rusak_baku']['name'])) {
                 // Mendapatkan tanggal dari input form
                 $tanggal_rusak_baku = $this->input->post('tanggal_rusak_baku', true);
-
                 // Membuat nama file sesuai dengan tanggal
-                $file_name = date('Y-m-d', strtotime($tanggal_rusak_baku)) . '.jpg';
+                // $file_name = date('Y-m-d', strtotime($tanggal_rusak_baku)) . '.jpg';
+                $file_name = $_FILES['bukti_rusak_baku']['name'];
 
                 // Menyimpan file dengan nama yang sesuai
                 $config['upload_path']   = './uploads/baku/rusak/';
@@ -94,6 +94,7 @@ class Barang_rusak extends CI_Controller
                 $config['max_size']      = 1000;
                 $config['file_name']     = $file_name;
                 $config['overwrite']     = true; // Mengizinkan penggantian file yang ada dengan nama yang sama
+                $config['encrypt_name']  = false; // Menonaktifkan enkripsi nama file
 
                 $this->load->library('upload', $config);
                 if ($this->upload->do_upload('bukti_rusak_baku')) {
@@ -102,8 +103,10 @@ class Barang_rusak extends CI_Controller
                     $data['jumlah_rusak_baku'] = $this->input->post('jumlah_rusak_baku', true);
                     $data['tanggal_rusak_baku'] = $tanggal_rusak_baku;
                     $data['input_status_rusak_baku'] = $this->session->userdata('nama_lengkap');
-                    $data['bukti_rusak_baku'] = $file_name; // Simpan nama file dalam database
+                    // $data['bukti_rusak_baku'] = $file_name; // Simpan nama file dalam database
+                    $data['bukti_rusak_baku'] = str_replace(' ', '_', $file_name); // Ganti spasi dengan underscore
                     $data['keterangan'] = $this->input->post('keterangan', true);
+                    $data['tgl_input_rusak_baku'] = date('Y-m-d H:i:s');
 
 
                     // Simpan data ke dalam database

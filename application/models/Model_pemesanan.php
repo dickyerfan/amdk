@@ -128,10 +128,14 @@ class Model_pemesanan extends CI_Model
     {
         $this->db->select('mobil.id_mobil, mobil.nama_mobil, mobil.plat_nomor, pemesanan.tanggal_pesan, pemesanan.jenis_pesanan, pemesanan.jam_mobil, 
             SUM(pemesanan.jumlah_pesan) as total_pemesanan,
-            SUM(CASE WHEN pemesanan.jam_mobil = 1 THEN pemesanan.jumlah_pesan ELSE 0 END) as total_jam_1,
-            SUM(CASE WHEN pemesanan.jam_mobil = 2 THEN pemesanan.jumlah_pesan ELSE 0 END) as total_jam_2,
-            SUM(CASE WHEN pemesanan.jam_mobil = 3 THEN pemesanan.jumlah_pesan ELSE 0 END) as total_jam_3,
-            SUM(CASE WHEN pemesanan.jam_mobil = 4 THEN pemesanan.jumlah_pesan ELSE 0 END) as total_jam_4');
+            SUM(CASE WHEN pemesanan.jam_mobil = 1 AND pemesanan.jenis_pesanan = 1 THEN pemesanan.jumlah_pesan ELSE 0 END) as total_jam_1_kunjungan,
+            SUM(CASE WHEN pemesanan.jam_mobil = 2 AND pemesanan.jenis_pesanan = 1 THEN pemesanan.jumlah_pesan ELSE 0 END) as total_jam_2_kunjungan,
+            SUM(CASE WHEN pemesanan.jam_mobil = 3 AND pemesanan.jenis_pesanan = 1 THEN pemesanan.jumlah_pesan ELSE 0 END) as total_jam_3_kunjungan,
+            SUM(CASE WHEN pemesanan.jam_mobil = 4 AND pemesanan.jenis_pesanan = 1 THEN pemesanan.jumlah_pesan ELSE 0 END) as total_jam_4_kunjungan,
+            SUM(CASE WHEN pemesanan.jam_mobil = 1 AND pemesanan.jenis_pesanan = 2 THEN pemesanan.jumlah_pesan ELSE 0 END) as total_jam_1_penjualan,
+            SUM(CASE WHEN pemesanan.jam_mobil = 2 AND pemesanan.jenis_pesanan = 2 THEN pemesanan.jumlah_pesan ELSE 0 END) as total_jam_2_penjualan,
+            SUM(CASE WHEN pemesanan.jam_mobil = 3 AND pemesanan.jenis_pesanan = 2 THEN pemesanan.jumlah_pesan ELSE 0 END) as total_jam_3_penjualan,
+            SUM(CASE WHEN pemesanan.jam_mobil = 4 AND pemesanan.jenis_pesanan = 2 THEN pemesanan.jumlah_pesan ELSE 0 END) as total_jam_4_penjualan');
         $this->db->from('pemesanan');
         $this->db->join('mobil', 'pemesanan.id_mobil = mobil.id_mobil');
         $this->db->group_by('pemesanan.id_mobil, pemesanan.tanggal_pesan');
@@ -149,24 +153,42 @@ class Model_pemesanan extends CI_Model
         return $result;
     }
 
-
     private function getJenisBarang($idMobil, $tanggalPesan)
     {
-        $this->db->select('jenis_barang.nama_barang_jadi, pemesanan.jenis_pesanan, pemesanan.jam_mobil, SUM(pemesanan.jumlah_pesan) as jumlah_pesan');
+        $this->db->select('jenis_produk.nama_produk, pemesanan.jenis_pesanan, pemesanan.jam_mobil, SUM(pemesanan.jumlah_pesan) as jumlah_pesan');
+        // $this->db->select('jenis_barang.nama_barang_jadi, pemesanan.jenis_pesanan, pemesanan.jam_mobil, SUM(pemesanan.jumlah_pesan) as jumlah_pesan');
         $this->db->from('pemesanan');
-        $this->db->join('jenis_barang', 'pemesanan.id_jenis_barang = jenis_barang.id_jenis_barang');
+        // $this->db->join('jenis_barang', 'pemesanan.id_jenis_barang = jenis_barang.id_jenis_barang');
+        $this->db->join('jenis_produk', 'pemesanan.id_jenis_barang = jenis_produk.id_produk');
         $this->db->where('pemesanan.id_mobil', $idMobil);
         $this->db->where('pemesanan.tanggal_pesan', $tanggalPesan);
-        $this->db->group_by('pemesanan.id_jenis_barang, pemesanan.jam_mobil');
-        $this->db->order_by('pemesanan.jam_mobil');
+        $this->db->group_by('pemesanan.id_jenis_barang, pemesanan.jenis_pesanan, pemesanan.jam_mobil');
+        $this->db->order_by('pemesanan.jenis_pesanan'); // Menyusun berdasarkan jenis pesanan
+        $this->db->order_by('pemesanan.jam_mobil'); // Kemudian berdasarkan jam mobil
         $query = $this->db->get();
 
         return $query->result();
     }
 
+    // private function getJenisBarang($idMobil, $tanggalPesan)
+    // {
+    //     $this->db->select('jenis_barang.nama_barang_jadi, pemesanan.jenis_pesanan, pemesanan.jam_mobil, SUM(pemesanan.jumlah_pesan) as jumlah_pesan');
+    //     $this->db->from('pemesanan');
+    //     $this->db->join('jenis_barang', 'pemesanan.id_jenis_barang = jenis_barang.id_jenis_barang');
+    //     $this->db->where('pemesanan.id_mobil', $idMobil);
+    //     $this->db->where('pemesanan.tanggal_pesan', $tanggalPesan);
+    //     $this->db->group_by('pemesanan.id_jenis_barang, pemesanan.jam_mobil');
+    //     $this->db->order_by('pemesanan.jam_mobil');
+    //     $query = $this->db->get();
+
+    //     return $query->result();
+    // }
+
     public function get_all_pesanan($tanggal)
     {
         $this->db->select('SUM(pemesanan.jumlah_pesan) as total_pesanan');
+        $this->db->select('SUM(CASE WHEN jenis_pesanan = 1 THEN pemesanan.jumlah_pesan ELSE 0 END) as total_kunjungan');
+        $this->db->select('SUM(CASE WHEN jenis_pesanan = 2 THEN pemesanan.jumlah_pesan ELSE 0 END) as total_penjualan');
         $this->db->from('pemesanan');
         $this->db->where('pemesanan.id_mobil IS NOT NULL');
         $this->db->where('pemesanan.id_mobil !=', 1);

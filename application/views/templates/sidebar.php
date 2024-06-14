@@ -22,10 +22,32 @@
                             <a class="nav-link" href="<?= base_url('manager/produk') ?>" style="font-size: 0.8rem;">Daftar Produk</a>
                             <a class="nav-link" href="<?= base_url('manager/jenis_barang') ?>" style="font-size: 0.8rem;">Daftar Barang</a>
                             <a class="nav-link" href="<?= base_url('manager/harga') ?>" style="font-size: 0.8rem;">Daftar Harga</a>
+                            <a class="nav-link" href="<?= base_url('manager/ongkos_produksi') ?>" style="font-size: 0.8rem;">Daftar Ongkos Produksi</a>
+                            <a class="nav-link" href="<?= base_url('manager/stok_awal_jadi') ?>" style="font-size: 0.8rem;">Stok Awal Jadi</a>
+                            <a class="nav-link" href="<?= base_url('manager/stok_awal_baku_produksi') ?>" style="font-size: 0.8rem;">Stok Awal Baku Produksi </a>
+                            <a class="nav-link" href="<?= base_url('manager/stok_minimum_baku') ?>" style="font-size: 0.8rem;">Stok Minimum Baku </a>
+                            <a class="nav-link" href="<?= base_url('manager/barang_baku_untuk_produksi') ?>" style="font-size: 0.8rem;">Barang Baku Produksi </a>
                             <a class="nav-link" href="<?= base_url('user/admin') ?>" style="font-size: 0.8rem;">Daftar User</a>
-                            <a class="nav-link" href="<?= base_url('manager/pegawai') ?>" style="font-size: 0.8rem;">Daftar Pegawai PDAM</a>
+                            <a class="nav-link" href="<?= base_url('manager/user_log') ?>" style="font-size: 0.8rem;">Daftar Log</a>
+                            <a class="nav-link" href="<?= base_url('manager/jam_lunas') ?>" style="font-size: 0.8rem;">Setting Jam</a>
                         </nav>
                     </div>
+                    <?php if ($this->session->userdata('nama_lengkap') == 'Dicky Erfan Septiono') : ?>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#data_pegawai" aria-expanded="false" aria-controls="data_pegawai">
+                            <div class="sb-nav-link-icon"><i class="fa-fw fa fa-users"></i></div>
+                            <div style="font-size: 0.8rem;"> Data Pegawai PDAM</div>
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="data_pegawai" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="<?= base_url('manager/pegawai_dashboard') ?>" style="font-size: 0.8rem;">Dashboard Pegawai</a>
+                                <a class="nav-link" href="<?= base_url('manager/pegawai') ?>" style="font-size: 0.8rem;">Daftar Pegawai PDAM</a>
+                                <a class="nav-link" href="<?= base_url('manager/pegawai_mutasi') ?>" style="font-size: 0.8rem;">Daftar Pegawai Mutasi</a>
+                                <a class="nav-link" href="<?= base_url('manager/pegawai_purna') ?>" style="font-size: 0.8rem;">Daftar Pegawai Purna</a>
+                                <a class="nav-link" href="<?= base_url('manager/pekerjaan') ?>" style="font-size: 0.8rem;">Data Pekerjaan</a>
+                            </nav>
+                        </div>
+                    <?php endif; ?>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#baku" aria-expanded="false" aria-controls="baku">
                         <div class="sb-nav-link-icon"><i class="fa-fw fa fa-solid fa-box"></i></div>
                         <div style="font-size: 0.8rem;"> Barang Baku</div>
@@ -94,6 +116,8 @@
                             <a class="nav-link" href="<?= base_url('pemasaran/pemesanan/daftar_kiriman') ?>" style="font-size: 0.8rem;">Daftar Pengiriman</a>
                             <a class="nav-link" href="<?= base_url('pemasaran/piutang') ?>" style="font-size: 0.8rem;">Daftar Piutang</a>
                             <a class="nav-link" href="<?= base_url('pemasaran/laporan_penjualan') ?>" style="font-size: 0.8rem;">Laporan Penjualan</a>
+                            <a class="nav-link" href="<?= base_url('pemasaran/setoran') ?>" style="font-size: 0.8rem;">Daftar Setoran</a>
+                            <a class="nav-link" href="<?= base_url('pemasaran/setoran_hutang') ?>" style="font-size: 0.8rem;">Setoran Hutang</a>
                         </nav>
                     </div>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#uang" aria-expanded="false" aria-controls="uang">
@@ -111,14 +135,15 @@
                             <a class="nav-link" href="<?= base_url('keuangan/lebaran') ?>" style="font-size: 0.8rem;">Bingkisan Lebaran</a>
                             <a class="nav-link" href="<?= base_url('keuangan/pengambilan_air') ?>" style="font-size: 0.8rem;">Pengambilan Air</a>
                             <a class="nav-link" href="<?= base_url('keuangan/karyawan_produksi') ?>" style="font-size: 0.8rem;">Daftar Karyawan Produksi</a>
-                            <a class="nav-link" href="<?= base_url('keuangan/karyawan_produksi/absensi_karyawan') ?>" style="font-size: 0.8rem;">Absensi Karyawan Produksi</a>
-                            <a class="nav-link" href="<?= base_url('keuangan/karyawan_produksi/honor_karyawan') ?>" style="font-size: 0.8rem;">Honor Karyawan Produksi</a>
+                            <!-- <a class="nav-link" href="<?= base_url('keuangan/karyawan_produksi/absensi_karyawan') ?>" style="font-size: 0.8rem;">Absensi Karyawan Produksi</a> -->
+                            <!-- <a class="nav-link" href="<?= base_url('keuangan/karyawan_produksi/honor_karyawan') ?>" style="font-size: 0.8rem;">Honor Karyawan Produksi</a> -->
                             <a class="nav-link" href="<?= base_url('keuangan/laporan_total_harian') ?>" style="font-size: 0.8rem;">Laporan Total Harian</a>
                             <a class="nav-link" href="<?= base_url('keuangan/laporan_penerimaan') ?>" style="font-size: 0.8rem;">Laporan Penerimaan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/laporan_keuangan') ?>" style="font-size: 0.8rem;">Laporan Keuangan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/laporan_rutin_karyawan') ?>" style="font-size: 0.8rem;">Laporan Pembelian Karyawan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/laporan_ban_ops') ?>" style="font-size: 0.8rem;">Laporan Bantuan/Operasional</a>
                             <a class="nav-link" href="<?= base_url('keuangan/laporan_pemakaian_air') ?>" style="font-size: 0.8rem;">Laporan Pemakaian Air</a>
+                            <a class="nav-link" href="<?= base_url('keuangan/daftar_penjualan') ?>" style="font-size: 0.8rem;">Daftar Penjualan</a>
                         </nav>
                     </div>
                     <a class="nav-link" href="<?= base_url('backup') ?>">

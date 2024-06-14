@@ -19,6 +19,9 @@
                             </form>
                         </div>
                         <div class="navbar-nav ms-auto">
+                            <a href="<?= base_url('keuangan/piutang/export_pelanggan') ?>" target="_blank"><button class="float-end neumorphic-button"> Cetak Piutang</button></a>
+                        </div>
+                        <div class="navbar-nav ms-auto">
                             <a href="<?= base_url('keuangan/piutang') ?>"><button class="float-end neumorphic-button"> Semua Piutang</button></a>
                         </div>
                         <div class="navbar-nav ms-2">
@@ -56,7 +59,7 @@
                 <div class="card-body">
                     <div class="row justify-content-center mb-2">
                         <div class="col-lg-6 text-center">
-                            <h5><?= strtoupper($title); ?></h5>
+                            <h6 class="fw-bold"><?= strtoupper($title); ?></h6>
                             <!-- <?php
                                     if (empty($bulan_lap)) {
                                         $bulan_lap = date('m');
@@ -80,6 +83,9 @@
                                     $bulan_lap = strtr($bulan_lap, $bulan);
                                     ?>
                             <h5>Bulan : <?= $bulan_lap . ' ' . $tahun_lap; ?></h5> -->
+                            <?php foreach ($nama_pelanggan as $row) {
+                            } ?>
+                            <h6 class="my-0 text-center fw-bold mb-2"><?= $row->nama_pelanggan; ?></h6>
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -121,9 +127,10 @@
                                             <td>
                                                 <?php
                                                 // Ambil waktu saat ini
-                                                $current_time = strtotime(date('H:i'));
+                                                $jam = time();
+                                                $current_time = date('H:i', $jam);
                                                 // Tentukan batas waktu jam 14:00
-                                                $deadline_time = strtotime('14:00');
+                                                // $deadline_time = strtotime('14:00');
                                                 // Cek apakah sudah lewat jam 14:00 
                                                 $can_click = $current_time < $deadline_time;
                                                 if ($row->status_bayar == 1 && $row->status_nota == 1) {

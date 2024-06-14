@@ -241,37 +241,42 @@ class Barang_keluar extends CI_Controller
             $query_keluar = $this->db->get('keluar_baku');
             $data_keluar_baku = $query_keluar->result_array();
 
+            // foreach ($data_keluar_baku as $data_keluar) {
+            //     if ($data_keluar['bagian'] === 'jadi') {
+            //         // Cek apakah data sudah ada di tabel barang_baku_jadi_masuk
+            //         $this->db->where('id_barang_baku', $data_keluar['id_barang_baku']);
+            //         $this->db->where('tanggal_masuk', $data_keluar['tanggal_keluar']);
+            //         $this->db->where('kode_barang', $data_keluar['kode_barang']);
+            //         // $this->db->where('no_nota', $data_keluar['no_nota']);
+            //         $query_baku_jadi = $this->db->get('barang_baku_jadi_masuk');
+
+            //         if ($query_baku_jadi->num_rows() == 0) {
+            //             // Proses masukkan ke tabel barang_baku_jadi_masuk
+            //             $data_baku_jadi = [
+            //                 'id_barang_baku' => $data_keluar['id_barang_baku'],
+            //                 'jumlah_masuk' => $data_keluar['jumlah_keluar'],
+            //                 'tanggal_masuk' => $data_keluar['tanggal_keluar'],
+            //                 'status_masuk' => $data_keluar['status_keluar'],
+            //                 'input_bbj_masuk' => $data_keluar['input_status_keluar'],
+            //                 'kode_barang' => $data_keluar['kode_barang'],
+            //                 'no_nota' => $data_keluar['no_nota']
+            //             ];
+            //             $this->db->insert('barang_baku_jadi_masuk', $data_baku_jadi);
+            //         }
+            //     }
+            // }
+
             foreach ($data_keluar_baku as $data_keluar) {
                 if ($data_keluar['bagian'] === 'jadi') {
-                    // Proses masukkan ke tabel barang_baku_jadi_masuk
                     $data_baku_jadi = [
-                        'id_barang_baku' => $data_keluar['id_barang_baku'],
-                        'jumlah_masuk' => $data_keluar['jumlah_keluar'],
-                        'tanggal_masuk' => $data_keluar['tanggal_keluar'],
-                        'status_masuk' => $data_keluar['status_keluar'],
-                        'input_bbj_masuk' => $data_keluar['input_status_keluar'],
-                        'kode_barang' => $data_keluar['kode_barang'],
+                        'status_masuk' => 1,
                         'no_nota' => $data_keluar['no_nota']
                     ];
-                    $this->db->insert('barang_baku_jadi_masuk', $data_baku_jadi);
+                    $this->db->where('kode_barang', $data_keluar['kode_barang']);
+                    $this->db->where('input_bbj_masuk', $data_keluar['input_status_keluar']);
+                    $this->db->update('barang_baku_jadi_masuk', $data_baku_jadi);
                 }
             }
-
-            // var_dump($data_keluar_baku);
-            // die();
-
-            // if (isset($data_keluar_baku['bagian']) && $data_keluar_baku['bagian'] === 'jadi') {
-            //     $data_baku_jadi = [
-            //         'id_barang_baku' => $data_keluar_baku['id_barang_baku'],
-            //         'jumlah_masuk' => $data_keluar_baku['jumlah_keluar'],
-            //         'tanggal_masuk' => $data_keluar_baku['tanggal_keluar'],
-            //         'status_masuk' => $data_keluar_baku['status_keluar'],
-            //         'input_bbj_masuk' => $data_keluar_baku['input_status_keluar'],
-            //         'kode_barang' => $data_keluar_baku['kode_barang'],
-            //         'no_nota' => $data_keluar_baku['no_nota']
-            //     ];
-            //     $this->db->insert('barang_baku_jadi_masuk', $data_baku_jadi);
-            // }
 
             $this->session->set_flashdata(
                 'info',

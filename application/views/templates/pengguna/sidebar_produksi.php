@@ -39,6 +39,10 @@
                         <div class="sb-nav-link-icon"><i class="fa-fw fas fa-tools"></i></div>
                         <div style="font-size: 0.8rem;"> Produksi Barang Jadi</div>
                     </a>
+                    <a class="nav-link" href="<?= base_url('manager/barang_baku_untuk_produksi') ?>">
+                        <div class="sb-nav-link-icon"><i class="fa-fw fas fa-industry"></i></div>
+                        <div style="font-size: 0.8rem;"> Barang Baku untuk produksi</div>
+                    </a>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#karyawan_produksi" aria-expanded="false" aria-controls="karyawan_produksi">
                         <div class="sb-nav-link-icon"><i class="fa-fw fas fa-users"></i></div>
                         <div style="font-size: 0.8rem;"> Karyawan Produksi</div>

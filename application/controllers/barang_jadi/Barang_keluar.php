@@ -101,6 +101,7 @@ class Barang_keluar extends CI_Controller
 
     public function barang_kembali($id_keluar_jadi)
     {
+        $tanggal = $this->session->userdata('tanggal');
         $this->form_validation->set_rules('jumlah_kembali', 'jumlah barang kembali', 'required|trim|numeric');
         $this->form_validation->set_message('required', '%s masih kosong');
         $this->form_validation->set_message('numeric', '%s harus di isi dengan angka');
@@ -143,7 +144,9 @@ class Barang_keluar extends CI_Controller
                         </button>
                       </div>'
             );
-            redirect('barang_jadi/barang_keluar');
+            $alamat = 'barang_jadi/barang_keluar?tanggal=' . $tanggal;
+            redirect($alamat);
+            // redirect('barang_jadi/barang_keluar');
         }
     }
 

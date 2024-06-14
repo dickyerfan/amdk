@@ -40,10 +40,10 @@ class Karyawan_produksi extends CI_Controller
 
         if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
-            $this->load->view('templates/navbar');
+            $this->load->view('templates/navbar', $data);
             $this->load->view('templates/sidebar');
             $this->load->view('barang_produksi/view_karyawan_produksi', $data);
-            $this->load->view('templates/pengguna/footer_produksi');
+            $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_produksi', $data);
@@ -180,12 +180,12 @@ class Karyawan_produksi extends CI_Controller
         $data['data_jenis_barang'] = $data_jenis_barang;
         $data['absensi_karyawan'] = $absensi_karyawan;
 
-        if ($this->session->userdata('upk_bagian') == 'admin') {
+        if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
-            $this->load->view('templates/navbar');
+            $this->load->view('templates/navbar', $data);
             $this->load->view('templates/sidebar');
             $this->load->view('barang_produksi/karyawan_produksi/view_absen_karprod', $data);
-            $this->load->view('templates/pengguna/footer_produksi');
+            $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_produksi', $data);
@@ -221,7 +221,8 @@ class Karyawan_produksi extends CI_Controller
                     $data = array(
                         'id_karyawan_produksi' => $karyawan_produksi['id_karyawan_produksi'],
                         'tanggal' => $tanggal,
-                        'status_absen' => 0 // Kode status absen 0 untuk "tidak hadir"
+                        'status_absen' => 0, // Kode status absen 0 untuk "tidak hadir"
+                        'tgl_input_absen' => date('Y-m-d H:i:s')
                     );
                     $this->Model_karyawan_produksi->tambah_absen_karProd($data);
                 }
@@ -231,7 +232,8 @@ class Karyawan_produksi extends CI_Controller
                     $data = array(
                         'id_karyawan_produksi' => $id_karyawan_produksi,
                         'tanggal' => $tanggal,
-                        'status_absen' => 1 // Kode status absen 1 untuk "hadir"
+                        'status_absen' => 1, // Kode status absen 1 untuk "hadir"
+                        'tgl_input_absen' => date('Y-m-d H:i:s')
                     );
                     $this->Model_karyawan_produksi->tambah_absen_karProd($data);
                 }
@@ -348,10 +350,10 @@ class Karyawan_produksi extends CI_Controller
 
         if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
-            $this->load->view('templates/navbar');
+            $this->load->view('templates/navbar', $data);
             $this->load->view('templates/sidebar');
             $this->load->view('barang_produksi/karyawan_produksi/view_honor_karprod', $data);
-            $this->load->view('templates/pengguna/footer_produksi');
+            $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_produksi', $data);

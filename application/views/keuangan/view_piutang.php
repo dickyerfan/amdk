@@ -19,6 +19,9 @@
                             </form>
                         </div>
                         <div class="navbar-nav ms-auto">
+                            <a href="<?= base_url('keuangan/piutang/export_bulan_all') ?>" target="_blank"><button class="float-end neumorphic-button"> Cetak Piutang</button></a>
+                        </div>
+                        <div class="navbar-nav ms-auto">
                             <a href="<?= base_url('keuangan/piutang') ?>"><button class="float-end neumorphic-button"> Semua Piutang</button></a>
                         </div>
                         <div class="navbar-nav ms-2">
@@ -124,9 +127,10 @@
                                                 <td>
                                                     <?php
                                                     // Ambil waktu saat ini
-                                                    $current_time = strtotime(date('H:i'));
+                                                    $jam = time();
+                                                    $current_time = date('H:i', $jam);
                                                     // Tentukan batas waktu jam 14:00
-                                                    $deadline_time = strtotime('14:00');
+                                                    // $deadline_time = strtotime('14:00');
                                                     // Cek apakah sudah lewat jam 14:00 
                                                     $can_click = $current_time < $deadline_time;
                                                     if ($row->status_bayar == 1 && $row->status_nota == 1) {

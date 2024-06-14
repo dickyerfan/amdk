@@ -43,8 +43,8 @@
         .tableUtama th,
         .tableUtama td {
             border: 1px solid black;
-            font-size: 0.8rem;
-            padding: 1.5px 3px;
+            font-size: 1rem;
+            padding: 4px 3px;
         }
 
         .judul p {
@@ -60,8 +60,8 @@
         .tableKedua td {
             width: 50%;
             border: 1px solid black;
-            font-size: 0.8rem;
-            padding: 1.5px 3px;
+            font-size: 1rem;
+            padding: 3px 3px;
         }
     </style>
 
@@ -85,7 +85,7 @@
         <hr>
     </div>
     <div class="judul">
-        <p class="fw-bold my-0 text-center"><?= strtoupper($title); ?></p>
+        <p class="fw-bold my-0 text-center" style="font-size: 1rem;"><?= strtoupper($title); ?></p>
         <?php
         if (empty($bulan_lap)) {
             $bulan_lap = date('m');
@@ -110,7 +110,7 @@
         $bulan_lap = strtr($bulan_lap, $bulan);
 
         ?>
-        <p class="mu-0 text-center">Bulan : <?= $bulan_lap . ' ' . $tahun_lap; ?></p>
+        <p class="mu-0 text-center" style="font-size: 1rem;">Bulan : <?= $bulan_lap . ' ' . $tahun_lap; ?></p>
     </div>
     <table class="table tableUtama">
         <thead>

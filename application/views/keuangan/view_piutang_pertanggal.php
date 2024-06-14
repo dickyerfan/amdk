@@ -125,9 +125,10 @@
                                             <td>
                                                 <?php
                                                 // Ambil waktu saat ini
-                                                $current_time = strtotime(date('H:i'));
+                                                $jam = time();
+                                                $current_time = date('H:i', $jam);
                                                 // Tentukan batas waktu jam 14:00
-                                                $deadline_time = strtotime('14:00');
+                                                // $deadline_time = strtotime('14:00');
                                                 // Cek apakah sudah lewat jam 14:00 
                                                 $can_click = $current_time < $deadline_time;
                                                 if ($row->status_bayar == 1 && $row->status_nota == 1) {

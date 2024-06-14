@@ -82,7 +82,7 @@ class Data_karyawan_keu extends CI_Controller
         $data['bulan_lap'] = $bulan;
         $data['tahun_lap'] = $tahun;
         $data['title'] = 'Daftar Pembelian Karyawan PDAM';
-        $data['rutin'] = $this->Model_ambil_rutin_karyawan->get_all($bulan, $tahun);
+        $data['rutin'] = $this->Model_ambil_rutin_karyawan->get_data_karyawan($bulan, $tahun);
 
         $data['bulan_lap'] = $bulan;
         $data['tahun_lap'] = $tahun;
@@ -93,7 +93,7 @@ class Data_karyawan_keu extends CI_Controller
         $this->pdf->setPaper('folio', 'landscape');
 
         // $this->pdf->filename = "Potensi Sr.pdf";
-        $this->pdf->filename = "Lap_rutin_kyw_belum-{$bulan}-{$tahun}.pdf";
+        $this->pdf->filename = "Lap_data_karyawan_keu-{$bulan}-{$tahun}.pdf";
         $this->pdf->generate('barang_jadi/laporan_data_karyawan_keu_pdf', $data);
     }
 }

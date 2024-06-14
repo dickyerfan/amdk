@@ -22,6 +22,8 @@
                                     <th>Bagian</th>
                                     <th>Level</th>
                                     <th>Status</th>
+                                    <th>Ptgs Input</th>
+                                    <th>Tgl Input</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -38,10 +40,14 @@
                                         <!-- <td><?= $row->upk_bagian; ?></td> -->
                                         <td class="text-center"><?= $row->level; ?></td>
                                         <td class="text-center"><?= $row->status == 1 ? 'Aktif' : 'Non Aktif' ?></td>
+                                        <td class="text-center"><?= $row->petugas_input; ?></td>
+                                        <td class="text-center"><?= $row->tgl_input; ?></td>
                                         <td class="text-center">
                                             <?php if ($row->nama_pengguna !== 'administrator') : ?>
                                                 <a href="<?= base_url(); ?>user/admin/edit/<?= $row->id; ?>"><span class="btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i> Edit</span></a>
-                                                <a href="<?= base_url(); ?>user/admin/hapus/<?= $row->id; ?>" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i> Hapus</a>
+                                                <?php if ($this->session->userdata('nama_pengguna') == 'administrator') : ?>
+                                                    <a href="<?= base_url(); ?>user/admin/hapus/<?= $row->id; ?>" class="btn btn-danger btn-sm tombolHapus"><i class="fas fa-fw fa-trash"></i> Hapus</a>
+                                                <?php endif; ?>
                                             <?php endif; ?>
                                         </td>
                                     </tr>

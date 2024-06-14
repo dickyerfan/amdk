@@ -39,11 +39,19 @@
                                         <td><?= $row->nama_karyawan ?></td>
                                         <td class="text-center"><?= $row->status_mobil == 1 ? 'Aktif' : 'Non Aktif' ?></td>
                                         <td><?= $row->petugas_update ?></td>
+<<<<<<< HEAD
                                         <td><?= $row->tanggal_update ?></td>
                                         <td class="text-center">
                                             <a href="<?= base_url(); ?>manager/mobil/edit/<?= $row->id_mobil; ?>"><span class="btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i> Edit</span></a>
                                             <?php if ($this->session->userdata('nama_pengguna') == 'administrator') : ?>
                                                 <a href="<?= base_url(); ?>manager/mobil/hapus/<?= $row->id_mobil; ?>" class="btn btn-danger btn-sm tombolHapus"><i class="fas fa-fw fa-trash"></i> Hapus</a>
+=======
+                                        <td><?= $row->tgl_update ?></td>
+                                        <td class="text-center">
+                                            <a href="<?= base_url(); ?>manager/mobil/edit/<?= $row->id_mobil; ?>"><span class="btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i> Edit</span></a>
+                                            <?php if ($this->session->userdata('nama_pengguna') == 'administrator') : ?>
+                                                <a href="<?= base_url(); ?>manager/mobil/hapus/<?= $row->id_mobil; ?>" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i> Hapus</a>
+>>>>>>> e9c10cc920a48ccd746593ce5035ca967e8640bb
                                             <?php endif; ?>
                                             <!-- <a href="<?= base_url(); ?>manager/mobil/hapus/<?= $row->id_mobil; ?>" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i> Hapus</a> -->
                                         </td>

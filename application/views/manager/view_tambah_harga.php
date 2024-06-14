@@ -23,7 +23,7 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <select name="jenis_harga" id="jenis_harga" class="form-control select2">
-                                        <option value="">Pilih Jenis Barang</option>
+                                        <option value="">Pilih Jenis Tarif</option>
                                         <option value="UMUM">Umum</option>
                                         <option value="RETAIL">Retail</option>
                                         <option value="SEMIGROSIR">Semi Grosir</option>

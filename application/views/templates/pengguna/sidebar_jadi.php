@@ -25,6 +25,7 @@
                             <a class="nav-link" href="<?= base_url('barang_jadi/barang_keluar') ?>" style="font-size: 0.8rem;">Barang Keluar</a>
                             <a class="nav-link" href="<?= base_url('barang_jadi/barang_rusak') ?>" style="font-size: 0.8rem;">Barang Rusak</a>
                             <a class="nav-link" href="<?= base_url('barang_jadi/bon_barang_baku') ?>" style="font-size: 0.8rem;">Bon Barang Baku</a>
+                            <a class="nav-link" href="<?= base_url('barang_jadi/pemesanan') ?>" style="font-size: 0.8rem;">Daftar Pemesanan</a>
                         </nav>
                     </div>
                     <a class="nav-link" href="<?= base_url('barang_jadi/daftar_kiriman') ?>">
@@ -42,7 +43,7 @@
                             <a class="nav-link" href="<?= base_url('barang_jadi/rutin_karyawan') ?>" style="font-size: 0.8rem;">Daftar Rutin Karyawan</a>
                             <a class="nav-link" href="<?= base_url('barang_jadi/ambil_rutin_karyawan') ?>" style="font-size: 0.8rem;">Ambil Rutin Karyawan</a>
                             <a class="nav-link" href="<?= base_url('barang_jadi/data_karyawan_keu') ?>" style="font-size: 0.8rem;">Data Kyw untuk Keuangan</a>
-                            <a class="nav-link" href="#" style="font-size: 0.8rem;">Tanda Terima Karyawan</a>
+                            <a class="nav-link" href="<?= base_url('barang_jadi/tanda_terima_kyw') ?>" style="font-size: 0.8rem;">Tanda Terima Karyawan</a>
                             <a class="nav-link" href="<?= base_url('barang_jadi/lebaran') ?>" style="font-size: 0.8rem;">Bingkisan Lebaran</a>
                         </nav>
                     </div>

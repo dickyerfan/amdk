@@ -49,6 +49,8 @@
 <script>
     $(document).ready(function() {
         $('#example').DataTable();
+        $('#example_2').DataTable();
+        $('#example_3').DataTable();
     });
 </script>
 
@@ -57,6 +59,15 @@
         theme: 'bootstrap-5'
     });
 </script>
+
+<script>
+    $("#btn-up").click(function() {
+        $("html,body").animate({
+            scrollTop: 0
+        }, 500);
+    });
+</script>
+
 <!-- <script>
     $(document).ready(function() {
         $('#tanggal').change(function() {
@@ -104,6 +115,13 @@
     $(document).ready(function() {
         $('#id_pelanggan').change(function() {
             $('#form_pelanggan').submit();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#driver').change(function() {
+            $('#form_driver').submit();
         });
     });
 </script>

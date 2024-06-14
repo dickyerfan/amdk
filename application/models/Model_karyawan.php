@@ -26,7 +26,9 @@ class model_karyawan extends CI_Model
             'bagian' => $this->input->post('bagian', true),
             'jabatan' => $this->input->post('jabatan', true),
             'jenkel' => $this->input->post('jenkel', true),
-            'jenis_kerja' => $this->input->post('jenis_kerja', true)
+            'jenis_kerja' => $this->input->post('jenis_kerja', true),
+            'petugas_input' => $this->session->userdata('nama_lengkap'),
+            'tgl_input' => date('Y-m-d H:i:s')
         ];
         $this->db->insert('karyawan', $data);
     }
@@ -51,7 +53,9 @@ class model_karyawan extends CI_Model
             'bagian' => $this->input->post('bagian', true),
             'jabatan' => $this->input->post('jabatan', true),
             'jenkel' => $this->input->post('jenkel', true),
-            'jenis_kerja' => $this->input->post('jenis_kerja', true)
+            'jenis_kerja' => $this->input->post('jenis_kerja', true),
+            'petugas_input' => $this->session->userdata('nama_lengkap'),
+            'tgl_input' => date('Y-m-d H:i:s')
         ];
         $this->db->where('id_karyawan', $this->input->post('id_karyawan'));
         $this->db->update('karyawan', $data);

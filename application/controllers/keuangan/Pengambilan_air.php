@@ -113,7 +113,8 @@ class Pengambilan_air extends CI_Controller
         $stand_ini = $this->input->post('stand_meter', true);
 
         $kubik = intval($stand_ini) - intval($stand_lalu);
-        $jumlah = $kubik * 1000;
+        // $jumlah = $kubik * 1000;
+        $jumlah = 4000;
 
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/pengguna/header', $data);

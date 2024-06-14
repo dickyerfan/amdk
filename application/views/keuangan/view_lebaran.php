@@ -11,7 +11,10 @@
                             </div>
                         </form>
                         <div class="navbar-nav ms-auto">
-                            <a href="<?= base_url('keuangan/lebaran/pelunasan') ?>" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Pelunasan</button></a>
+                            <?php if ($this->session->userdata('nama_pengguna') == 'administrator') : ?>
+                                <a href="<?= base_url('keuangan/lebaran/pelunasan') ?>" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Pelunasan</button></a>
+                            <?php endif; ?>
+
                         </div>
                         <!-- <div class="navbar-nav ms-auto">
                             <a href="<?= base_url('keuangan/laporan_ban_ops/exportpdf_ops') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>

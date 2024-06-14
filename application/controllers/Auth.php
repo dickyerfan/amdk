@@ -36,6 +36,7 @@ class Auth extends CI_Controller
                     $user_found = true;
 
                     $data_session = [
+                        'user_id' => $user->id,
                         'nama_pengguna' => $user->nama_pengguna,
                         'nik_karyawan' => $user->nik_karyawan,
                         'nama_user' => $user->nama_user,
@@ -47,6 +48,12 @@ class Auth extends CI_Controller
                     ];
 
                     $this->session->set_userdata($data_session);
+
+                    $user_agent = $this->input->user_agent();
+                    $ip_address = $this->input->ip_address();
+                    // $ip_address = $this->get_client_ip();
+                    $this->model_auth->log_activity($user->id, 'login', $user_agent, $ip_address);
+
                     $this->session->set_flashdata('info', '<div class="alert alert-success alert-dismissible fade show" role="alert">
                     <strong>Selamat,</strong> Anda Berhasil Login
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -65,6 +72,31 @@ class Auth extends CI_Controller
                 redirect('auth');
             }
         }
+    }
+
+    public function logout()
+    {
+
+        $user_id = $this->session->userdata('user_id');
+        if ($user_id) {
+            $user_agent = $this->input->user_agent();
+            $ip_address = $this->input->ip_address();
+            // $ip_address = $this->get_client_ip();
+            $this->model_auth->log_activity($user_id, 'logout', $user_agent, $ip_address);
+        }
+
+        $this->session->unset_userdata('nama_pengguna');
+        $this->session->unset_userdata('nama_user');
+        $this->session->unset_userdata('nama_lengkap');
+        $this->session->unset_userdata('email');
+        $this->session->unset_userdata('password');
+        $this->session->unset_userdata('level');
+        $this->session->unset_userdata('tipe');
+
+        $this->session->set_flashdata('info', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Selamat,</strong> Anda Berhasil Logout.!
+        </div>');
+        redirect('auth');
     }
 
     // Fungsi bantuan untuk melakukan redirect berdasarkan 'upk_bagian'
@@ -103,6 +135,26 @@ class Auth extends CI_Controller
         }
     }
 
+    // private function get_client_ip()
+    // {
+    //     $ipaddress = '';
+    //     if ($this->input->server('HTTP_CLIENT_IP'))
+    //         $ipaddress = $this->input->server('HTTP_CLIENT_IP');
+    //     else if ($this->input->server('HTTP_X_FORWARDED_FOR'))
+    //         $ipaddress = $this->input->server('HTTP_X_FORWARDED_FOR');
+    //     else if ($this->input->server('HTTP_X_FORWARDED'))
+    //         $ipaddress = $this->input->server('HTTP_X_FORWARDED');
+    //     else if ($this->input->server('HTTP_FORWARDED_FOR'))
+    //         $ipaddress = $this->input->server('HTTP_FORWARDED_FOR');
+    //     else if ($this->input->server('HTTP_FORWARDED'))
+    //         $ipaddress = $this->input->server('HTTP_FORWARDED');
+    //     else if ($this->input->server('REMOTE_ADDR'))
+    //         $ipaddress = $this->input->server('REMOTE_ADDR');
+    //     else
+    //         $ipaddress = 'UNKNOWN';
+    //     return $ipaddress;
+    // }
+
 
     // public function registrasi()
     // {
@@ -128,20 +180,27 @@ class Auth extends CI_Controller
     //     }
     // }
 
-    public function logout()
-    {
+    // public function logout()
+    // {
 
-        $this->session->unset_userdata('nama_pengguna');
-        $this->session->unset_userdata('nama_user');
-        $this->session->unset_userdata('nama_lengkap');
-        $this->session->unset_userdata('email');
-        $this->session->unset_userdata('password');
-        $this->session->unset_userdata('level');
-        $this->session->unset_userdata('tipe');
+    //     $user_id = $this->session->userdata('user_id');
+    //     if ($user_id) {
+    //         $user_agent = $this->input->user_agent();
+    //         $ip_address = $this->input->ip_address();
+    //         $this->model_auth->log_activity($user_id, 'logout', $user_agent, $ip_address);
+    //     }
 
-        $this->session->set_flashdata('info', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Selamat,</strong> Anda Berhasil Logout.!
-        </div>');
-        redirect('auth');
-    }
+    //     $this->session->unset_userdata('nama_pengguna');
+    //     $this->session->unset_userdata('nama_user');
+    //     $this->session->unset_userdata('nama_lengkap');
+    //     $this->session->unset_userdata('email');
+    //     $this->session->unset_userdata('password');
+    //     $this->session->unset_userdata('level');
+    //     $this->session->unset_userdata('tipe');
+
+    //     $this->session->set_flashdata('info', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    //     <strong>Selamat,</strong> Anda Berhasil Logout.!
+    //     </div>');
+    //     redirect('auth');
+    // }
 }

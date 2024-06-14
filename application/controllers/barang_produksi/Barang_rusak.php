@@ -86,9 +86,9 @@ class Barang_rusak extends CI_Controller
             if (!empty($_FILES['bukti_rusak_produksi']['name'])) {
                 // Mendapatkan tanggal dari input form
                 $tanggal_rusak_produksi = $this->input->post('tanggal_rusak_produksi', true);
-
                 // Membuat nama file sesuai dengan tanggal
-                $file_name = date('Y-m-d', strtotime($tanggal_rusak_produksi)) . '.jpg';
+                // $file_name = date('Y-m-d', strtotime($tanggal_rusak_produksi)) . '.jpg';
+                $file_name = $_FILES['bukti_rusak_produksi']['name'];
 
                 // Menyimpan file dengan nama yang sesuai
                 $config['upload_path']   = './uploads/produksi/rusak/';
@@ -96,6 +96,7 @@ class Barang_rusak extends CI_Controller
                 $config['max_size']      = 1000;
                 $config['file_name']     = $file_name;
                 $config['overwrite']     = true; // Mengizinkan penggantian file yang ada dengan nama yang sama
+                $config['encrypt_name']  = false; // Menonaktifkan enkripsi nama file
 
                 $this->load->library('upload', $config);
                 if ($this->upload->do_upload('bukti_rusak_produksi')) {
@@ -105,8 +106,10 @@ class Barang_rusak extends CI_Controller
                     $data['tanggal_rusak_produksi'] = $tanggal_rusak_produksi;
                     $data['jenis_rusak_produksi'] = $this->input->post('jenis_rusak_produksi', true);
                     $data['input_status_rusak_produksi'] = $this->session->userdata('nama_lengkap');
-                    $data['bukti_rusak_produksi'] = $file_name; // Simpan nama file dalam database
+                    // $data['bukti_rusak_produksi'] = $file_name; // Simpan nama file dalam database
+                    $data['bukti_rusak_produksi'] = str_replace(' ', '_', $file_name); // Ganti spasi dengan underscore
                     $data['keterangan'] = $this->input->post('keterangan', true);
+                    $data['tgl_input_rusak_produksi'] = date('Y-m-d H:i:s');
 
                     // Simpan data ke dalam database
                     $this->db->insert('rusak_produksi', $data);

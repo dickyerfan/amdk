@@ -28,6 +28,7 @@
                                     <select name="bagian" id="bagian" class="form-control select2">
                                         <option value="">Pilih Bagian</option>
                                         <option value="Manager">Manager</option>
+                                        <option value="Wakil Manager">Wakil Manager</option>
                                         <option value="Barang Baku">Barang Baku</option>
                                         <option value="Produksi">Produksi</option>
                                         <option value="Barang Jadi">Barang Jadi</option>
@@ -43,6 +44,7 @@
                                     <select name="jabatan" id="jabatan" class="form-control select2">
                                         <option value="">Pilih Jabatan</option>
                                         <option value="Manager">Manager</option>
+                                        <option value="Wakil Manager">Wakil Manager</option>
                                         <option value="Kabag">Kabag</option>
                                         <option value="Staf">Staf</option>
                                     </select>
@@ -54,6 +56,7 @@
                                     <select name="jenis_kerja" id="jenis_kerja" class="form-control select2">
                                         <option value="">Pilih Jenis Pekerjaan</option>
                                         <option value="Manager">Manager</option>
+                                        <option value="Wakil Manager">Wakil Manager</option>
                                         <option value="Administrasi">Administrasi</option>
                                         <option value="Driver">Driver</option>
                                     </select>

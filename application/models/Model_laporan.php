@@ -145,13 +145,15 @@ class Model_laporan extends CI_Model
 
     public function get_nama_barang()
     {
-        $this->db->select('nama_produk');
+        $this->db->select('id_produk,nama_produk');
         $this->db->from('jenis_produk');
+        $this->db->where('status_laporan', 1);
         $result = $this->db->get()->result();
 
         $nama_barang = [];
         foreach ($result as $row) {
-            $nama_barang[] = $row->nama_produk;
+            // $nama_barang[] = $row->nama_produk;
+            $nama_barang[$row->id_produk] = $row->nama_produk;
         }
         return $nama_barang;
     }
@@ -241,6 +243,45 @@ class Model_laporan extends CI_Model
         $this->db->where('status_setor', 1);
         $this->db->group_by('jenis_produk.id_produk, jenis_produk.nama_produk, pemesanan.id_jenis_barang, pemesanan.tanggal_setor');
         return $this->db->get()->result();
+    }
+
+    public function get_ban_ops($bulan, $tahun)
+    {
+        $this->db->select('*,jenis_barang.id_jenis_barang, jenis_barang.nama_barang_jadi,
+        (SELECT SUM(harga_ban_ops) FROM ban_ops WHERE MONTH(ban_ops.tanggal_ban_ops) = "' . $bulan . '" AND YEAR(ban_ops.tanggal_ban_ops) = "' . $tahun . '" ) AS total_ban_ops
+        ');
+        $this->db->from('ban_ops');
+        $this->db->join('jenis_barang', 'ban_ops.id_jenis_barang=jenis_barang.id_jenis_barang');
+        $this->db->where('MONTH(ban_ops.tanggal_ban_ops)', $bulan);
+        $this->db->where('YEAR(ban_ops.tanggal_ban_ops)', $tahun);
+        $this->db->order_by('tanggal_ban_ops', 'esc');
+        return $this->db->get()->result();
+    }
+
+    public function get_pemesanan_ban_ops($bulan, $tahun)
+    {
+        $this->db->select(
+            '*,
+        (SELECT SUM(total_harga) FROM pemesanan WHERE MONTH(pemesanan.tanggal_pesan) = "' . $bulan . '" AND YEAR(pemesanan.tanggal_pesan) = "' . $tahun . '" AND jenis_pesanan = 4 AND pemesanan.status_bayar = 1) AS total_penerimaan,
+        (SELECT SUM(total_harga) FROM pemesanan WHERE MONTH(pemesanan.tanggal_pesan) = "' . $bulan . '" AND YEAR(pemesanan.tanggal_pesan) = "' . $tahun . '" AND jenis_pesanan = 4 ) AS total_pesan_ban_ops'
+        );
+        $this->db->from('pemesanan');
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang', 'left');
+        // $this->db->join('pelanggan', 'pelanggan.id_pelanggan = pemesanan.id_pelanggan', 'left');
+        $this->db->where('MONTH(pemesanan.tanggal_pesan)', $bulan);
+        $this->db->where('YEAR(pemesanan.tanggal_pesan)', $tahun);
+        $this->db->where('jenis_pesanan', 4);
+        $this->db->where('status_bayar', 1);
+        $this->db->order_by('pemesanan.id_pemesanan', 'DESC');
+        return  $this->db->get()->result();
+    }
+
+    public function update_pemesanan($bulan, $tahun, $data)
+    {
+        $this->db->where('MONTH(pemesanan.tanggal_pesan)', $bulan);
+        $this->db->where('YEAR(pemesanan.tanggal_pesan)', $tahun);
+        $this->db->where('jenis_pesanan', 4);
+        $this->db->update('pemesanan', $data);
     }
 
     public function get_ops($bulan, $tahun)
@@ -430,6 +471,34 @@ class Model_laporan extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+
+    public function get_daftar_penjualan($bulan, $tahun)
+    {
+        $this->db->select('jenis_produk.nama_produk, pemesanan.id_jenis_barang, pemesanan.id_pelanggan, pelanggan.nama_pelanggan, SUM(pemesanan.jumlah_pesan) as total_pesanan');
+        $this->db->from('pemesanan');
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
+        $this->db->join('pelanggan', 'pelanggan.id_pelanggan = pemesanan.id_pelanggan');
+        $this->db->where('pemesanan.id_mobil IS NOT NULL');
+        $this->db->where('pemesanan.jenis_pesanan', 2);
+        $this->db->where('MONTH(pemesanan.tanggal_pesan)', $bulan);
+        $this->db->where('YEAR(pemesanan.tanggal_pesan)', $tahun);
+        $this->db->where('jenis_produk.status_laporan', 1);
+        $this->db->group_by('jenis_produk.id_produk, pemesanan.id_pelanggan, pelanggan.nama_pelanggan');
+        $this->db->order_by('total_pesanan', 'desc');
+        return $this->db->get()->result();
+    }
+
+    public function get_detail_penjualan($id_pelanggan)
+    {
+        $this->db->select('jenis_produk.nama_produk, pemesanan.jumlah_pesan, pemesanan.tanggal_pesan, pemesanan.total_harga, pemesanan.status_bayar, pelanggan.nama_pelanggan');
+        $this->db->from('pemesanan');
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
+        $this->db->join('pelanggan', 'pelanggan.id_pelanggan = pemesanan.id_pelanggan');
+        $this->db->where('pemesanan.id_pelanggan', $id_pelanggan);
+        $this->db->order_by('tanggal_pesan', 'desc');
+        return $this->db->get()->result();
+    }
+
 
     // tanda tangan laporan
     public function get_manager()

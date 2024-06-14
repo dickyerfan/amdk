@@ -14,7 +14,9 @@
                             <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
                                 <a href="<?= base_url('pemasaran/pemesanan/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Input Pemesanan</button></a>
                             <?php else : ?>
-                                <a href="<?= base_url('pemasaran/pemesanan/upload_admin') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Input Pemesanan</button></a>
+                                <?php if ($this->session->userdata('nama_pengguna') == 'administrator') : ?>
+                                    <a href="<?= base_url('pemasaran/pemesanan/upload_admin') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Input Pemesanan</button></a>
+                                <?php endif; ?>
                             <?php endif; ?>
                         </div>
                     </nav>
@@ -107,6 +109,7 @@
                                             <th class="text-center">Total</th>
                                             <th class="text-center">Jenis pesanan</th>
                                             <th class="text-center">Mobil</th>
+                                            <th class="text-center">Input Order</th>
                                             <th class="text-center">Nota</th>
                                             <th class="text-center">Status</th>
                                             <th class="text-center">Action</th>
@@ -141,6 +144,7 @@
                                                     <!-- <?= $row->jenis_pesanan == 1 ? 'Kunjungan Rutin' : 'Pesanan Langsung'; ?> -->
                                                 </td>
                                                 <td><?= $row->nama_mobil; ?></td>
+                                                <td><?= $row->input_pesan; ?></td>
                                                 <td><?= $row->status_nota == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Setor</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?></td>
                                                 <td><?= $row->status_bayar == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Lunas</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?></td>
                                                 <!-- <td>
@@ -149,9 +153,12 @@
                                                     <a href="<?= base_url('pemasaran/pemesanan/detail/') ?><?= $row->id_pemesanan ?>"><i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="klik lihat detail pemesanan"></i></a>
                                                 </td> -->
                                                 <td>
-                                                    <a href="<?= ($row->status_nota == 1 || $row->status_kembali == 1) ? "javascript:void(0);" : base_url('pemasaran/pemesanan/edit_jumlah_barang/') . $row->id_pemesanan; ?>" onclick="<?= ($row->status_nota == 1 || $row->status_kembali == 1) ? "Swal.fire('Jumlah barang sudah pernah di edit', '', 'warning'); return false;" : '' ?>"><i class="fas fa-edit text-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk edit jumlah barang"></i></a>
+                                                    <a href="<?= ($row->status_setoran_driver == 1 || $row->status_kembali == 1 || $row->status_bayar == 1) ? "javascript:void(0);" : base_url('pemasaran/pemesanan/edit_jumlah_barang/') . $row->id_pemesanan; ?>" onclick="<?= ($row->status_setoran_driver == 1 || $row->status_kembali == 1 || $row->status_bayar == 1) ? "Swal.fire('Jumlah barang tidak bisa di edit', '', 'warning'); return false;" : '' ?>"><i class="fas fa-edit text-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk edit jumlah barang"></i></a>
+
                                                     <a href="<?= ($row->id_mobil != null) ? "javascript:void(0);" : base_url('pemasaran/pemesanan/pilih_mobil/') . $row->id_pemesanan; ?>" onclick="<?= ($row->id_mobil != null) ? "Swal.fire('Mobil Sudah Dipilih', '', 'warning'); return false;" : '' ?>"><i class="fas fa-truck text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk pilih Mobil"></i></a>
-                                                    <a href="<?= ($row->status_nota == 1 || $row->id_mobil == null) ? "javascript:void(0);" : base_url('pemasaran/pemesanan/upload_nota/') . $row->id_pemesanan . '/' . $row->id_pelanggan . '/' . $row->tanggal_pesan; ?>" onclick="<?= ($row->status_nota == 1 || $row->id_mobil == null) ? "Swal.fire('Nota sudah/tidak bisa di input', '', 'warning'); return false;" : '' ?>"><i class="fa-solid fa-square-poll-horizontal text-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk upload nota"></i></a>
+
+                                                    <a href="<?= ($row->status_nota == 1 || $row->id_mobil == null || $row->jenis_pesanan == 1) ? "javascript:void(0);" : base_url('pemasaran/pemesanan/upload_nota/') . $row->id_pemesanan . '/' . $row->id_pelanggan . '/' . $row->tanggal_pesan; ?>" onclick="<?= ($row->status_nota == 1 || $row->id_mobil == null || $row->jenis_pesanan == 1) ? "Swal.fire('Nota sudah/tidak bisa di input', '', 'warning'); return false;" : '' ?>"><i class="fa-solid fa-square-poll-horizontal text-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="klik untuk upload nota"></i></a>
+
                                                     <a href="<?= base_url('pemasaran/pemesanan/detail/') . $row->id_pemesanan ?>"><i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="klik lihat detail pemesanan"></i></a>
                                                 </td>
 

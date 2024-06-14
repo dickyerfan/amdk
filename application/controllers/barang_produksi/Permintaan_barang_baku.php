@@ -56,7 +56,7 @@ class Permintaan_barang_baku extends CI_Controller
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');
             $this->load->view('barang_produksi/view_permintaan_baku', $data);
-            $this->load->view('templates/pengguna/footer_produksi');
+            $this->load->view('templates/pengguna/footer');
         } else {
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_produksi', $data);
@@ -128,7 +128,8 @@ class Permintaan_barang_baku extends CI_Controller
                         'jumlah_keluar' => $jumlah,
                         'input_status_keluar' => $this->session->userdata('nama_lengkap'),
                         'bagian' => $this->session->userdata('upk_bagian'),
-                        'kode_barang' => $kode_barang
+                        'kode_barang' => $kode_barang,
+                        'tgl_input_keluar' => date('Y-m-d H:i:s')
                     );
                 } else {
                     $kode_barang = null;

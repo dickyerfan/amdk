@@ -59,4 +59,19 @@ class Daftar_kiriman extends CI_Controller
             $this->load->view('templates/pengguna/footer_jadi');
         }
     }
+
+    public function exportpdf()
+    {
+        $tanggal = $this->session->userdata('tanggal_exportpdf');
+        $data['tanggal_hari_ini'] = $tanggal;
+        $data['daftar_kiriman'] = $this->Model_pemesanan->get_daftar_kiriman($tanggal);
+        $data['total_pesanan'] = $this->Model_pemesanan->get_all_pesanan($tanggal);
+        $data['title'] = 'Daftar Pengiriman Barang';
+        // Set paper size and orientation
+        $this->pdf->setPaper('folio', 'portrait');
+
+        // $this->pdf->filename = "Potensi Sr.pdf";
+        $this->pdf->filename = "daftar_kiriman.pdf";
+        $this->pdf->generate('barang_jadi/daftar_kiriman_pdf', $data);
+    }
 }

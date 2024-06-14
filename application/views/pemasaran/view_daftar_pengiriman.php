@@ -56,9 +56,14 @@
                     <div class="row justify-content-center mb-2">
                         <div class="col-lg-7">
                             <?php foreach ($total_pesanan as $row) : ?>
+                                <div class="card mb-1">
+                                    <div class="card-header text-center">
+                                        <h5>Total Kunjungan rutin hari ini : <?= $row->total_kunjungan == null ? '0' : $row->total_kunjungan; ?> barang</h5>
+                                    </div>
+                                </div>
                                 <div class="card">
                                     <div class="card-header text-center">
-                                        <h5>Total Pengiriman hari ini : <?= $row->total_pesanan == null ? '0' : $row->total_pesanan; ?> barang</h5>
+                                        <h5>Total Penjualan hari ini : <?= $row->total_penjualan == null ? '0' : $row->total_penjualan; ?> barang</h5>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -90,7 +95,7 @@
                                                         <?php foreach ($mobil->jenis_barang as $barang) : ?>
                                                             <tr>
                                                                 <td width="40%">
-                                                                    - <?= ucwords($barang->nama_barang_jadi); ?>
+                                                                    - <?= ucwords($barang->nama_produk); ?>
                                                                 </td>
                                                                 <td>:</td>
                                                                 <td>
@@ -127,26 +132,40 @@
                                                 <table>
                                                     <tbody>
                                                         <tr class="fw-bold">
-                                                            <td width="40%">Total Barang pengiriman Jam 1</td>
+                                                            <td width="50%">Total Kunjungan Rutin Jam 1</td>
                                                             <td> :</td>
-                                                            <td width="20%"><?= $mobil->total_jam_1; ?></td>
+                                                            <td width="30%"><?= $mobil->total_jam_1_kunjungan; ?></td>
                                                         </tr>
                                                         <tr class="fw-bold">
-                                                            <td width="40%">Total Barang pengiriman Jam 2</td>
+                                                            <td width="50%">Total Kunjungan Rutin Jam 2</td>
                                                             <td> :</td>
-                                                            <td width="20%"><?= $mobil->total_jam_2; ?></td>
+                                                            <td width="30%"><?= $mobil->total_jam_2_kunjungan; ?></td>
                                                         </tr>
                                                         <tr class="fw-bold">
-                                                            <td width="40%">Total Barang pengiriman Jam 3</td>
+                                                            <td width="50%">Total Kunjungan Rutin Jam 3</td>
                                                             <td> :</td>
-                                                            <td width="20%"><?= $mobil->total_jam_3; ?></td>
+                                                            <td width="30%"><?= $mobil->total_jam_3_kunjungan; ?></td>
                                                         </tr>
-
                                                         <tr class="fw-bold">
+                                                            <td width="50%">Total Penjualan Jam 1</td>
+                                                            <td> :</td>
+                                                            <td width="30%"><?= $mobil->total_jam_1_penjualan; ?></td>
+                                                        </tr>
+                                                        <tr class="fw-bold">
+                                                            <td width="50%">Total Penjualan Jam 2</td>
+                                                            <td> :</td>
+                                                            <td width="30%"><?= $mobil->total_jam_2_penjualan; ?></td>
+                                                        </tr>
+                                                        <tr class="fw-bold">
+                                                            <td width="50%">Total Penjualan Jam 3</td>
+                                                            <td> :</td>
+                                                            <td width="30%"><?= $mobil->total_jam_3_penjualan; ?></td>
+                                                        </tr>
+                                                        <!-- <tr class="fw-bold">
                                                             <td>Total semua Barang</td>
                                                             <td>:</td>
                                                             <td><?= $mobil->total_pemesanan; ?></td>
-                                                        </tr>
+                                                        </tr> -->
                                                     </tbody>
                                                 </table>
                                             </div>

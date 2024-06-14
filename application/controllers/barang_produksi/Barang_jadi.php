@@ -201,7 +201,8 @@ class Barang_jadi extends CI_Controller
                     'id_jenis_barang' => $id_jenis_barang,
                     'jumlah_barang_jadi' => $jumlah,
                     'tanggal_barang_jadi' => $tanggal_barang_jadi,
-                    'input_status_barang_jadi' => $this->session->userdata('nama_lengkap')
+                    'input_status_barang_jadi' => $this->session->userdata('nama_lengkap'),
+                    'tgl_input_barang_jadi' => date('Y-m-d H:i:s')
                 );
                 // upload barang jadi ke tabel barang jadi
                 $this->Model_barang_produksi->upload_barang_jadi($data);
@@ -237,7 +238,8 @@ class Barang_jadi extends CI_Controller
     {
         $data = [
             'status_barang_produksi' => 1,
-            'status_pesan' => 1
+            'status_pesan' => 1,
+            'tgl_update_barang_jadi' => date('Y-m-d H:i:s')
         ];
         $this->Model_barang_produksi->update_status_barang_jadi($id_barang_jadi, $data);
         $this->session->set_flashdata(
@@ -299,7 +301,8 @@ class Barang_jadi extends CI_Controller
                     'id_jenis_barang' => 1,
                     'jumlah_barang_jadi' => $jumlah_barang_jadi,
                     'tanggal_barang_jadi' => $tanggal_barang_jadi,
-                    'input_status_barang_jadi' => $this->session->userdata('nama_lengkap')
+                    'input_status_barang_jadi' => $this->session->userdata('nama_lengkap'),
+                    'tgl_input_barang_jadi' => date('Y-m-d H:i:s')
                 );
 
                 $jumlah_akhir = $jumlah_galon_kembali - $jumlah_barang_jadi;

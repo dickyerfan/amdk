@@ -9,6 +9,7 @@ class Penjualan extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('Model_penjualan');
         $this->load->model('Model_pemesanan');
+        $this->load->model('Model_setting');
         if (!$this->session->userdata('nama_pengguna')) {
             $this->session->set_flashdata(
                 'info',
@@ -34,6 +35,7 @@ class Penjualan extends CI_Controller
 
     public function index()
     {
+        date_default_timezone_set('Asia/Jakarta');
         $tanggal = $this->input->get('tanggal');
         $bulan = substr($tanggal, 5, 2);
         $tahun = substr($tanggal, 0, 4);
@@ -53,6 +55,11 @@ class Penjualan extends CI_Controller
         $data['tanggal_hari_ini'] = $this->input->get('tanggal');
         $data['title'] = 'Daftar Penjualan Barang';
         $data['pesan'] = $this->Model_penjualan->get_all($tanggal);
+        $deadline_time = $this->Model_setting->get_deadline_time();
+
+        $deadline_timestamp = strtotime($deadline_time);
+        $data['deadline_time'] = date('H:i', $deadline_timestamp);
+
         // $data['pesan'] = $this->Model_penjualan->get_all($bulan, $tahun);
         if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
