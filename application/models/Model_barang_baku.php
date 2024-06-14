@@ -232,4 +232,49 @@ class Model_barang_baku extends CI_Model
         return $this->db->get()->result();
     }
     // akhir barang rusak
+
+    // awal stok minimum
+    public function getstok_minimum_baku()
+    {
+        $this->db->select('*');
+        $this->db->from('stok_minimum');
+        $this->db->join('barang_baku', 'stok_minimum.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->join('satuan', 'stok_minimum.id_satuan = satuan.id_satuan', 'left');
+        return $this->db->get()->result();
+    }
+    public function get_nama_satuan()
+    {
+        $this->db->select('*');
+        $this->db->from('satuan');
+        return $this->db->get()->result();
+    }
+
+    public function get_id_stok_minimum($id_stok_minimum)
+    {
+        $this->db->select('barang_baku.id_barang_baku,barang_baku.nama_barang_baku, isi_stok_minimum, jumlah_stok_minimum, input_status_stok_minimum, id_stok_minimum, satuan.id_satuan, satuan.satuan');
+        $this->db->from('stok_minimum');
+        $this->db->join('barang_baku', 'stok_minimum.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->join('satuan', 'stok_minimum.id_satuan = satuan.id_satuan', 'left');
+        $this->db->where('id_stok_minimum', $id_stok_minimum);
+        return $this->db->get()->row();
+    }
+
+    public function get_all_satuan()
+    {
+        return $this->db->get('satuan')->result();
+    }
+
+    public function update_stok_minimum()
+    {
+        $data = [
+            'id_satuan' => $this->input->post('id_satuan', true),
+            'isi_stok_minimum' => $this->input->post('isi_stok_minimum', true),
+            'jumlah_stok_minimum' => $this->input->post('jumlah_stok_minimum', true),
+            'input_status_stok_minimum' => $this->session->userdata('nama_lengkap'),
+            'tgl_input_stok_minimum' => date('Y-m-d H:i:s')
+        ];
+        $this->db->where('id_stok_minimum', $this->input->post('id_stok_minimum'));
+        $this->db->update('stok_minimum', $data);
+    }
+    // akhir stok minimum
 }

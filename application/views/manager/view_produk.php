@@ -19,6 +19,7 @@
                                     <th class="text-center">Nama Produk</th>
                                     <th class="text-center">Jenis Produk</th>
                                     <th class="text-center">Input/Update Produk</th>
+                                    <th class="text-center">Tgl Input/Update</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -32,9 +33,13 @@
                                         <td><?= $row->nama_produk; ?></td>
                                         <td><?= $row->jenis_produk; ?></td>
                                         <td><?= $row->input_produk; ?></td>
+                                        <td><?= $row->tgl_input_produk; ?></td>
                                         <td class="text-center">
                                             <a href="<?= base_url(); ?>manager/produk/edit/<?= $row->id_produk; ?>"><span class="btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i> Edit</span></a>
-                                            <a href="<?= base_url(); ?>manager/produk/hapus/<?= $row->id_produk; ?>" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i> Hapus</a>
+                                            <?php if ($this->session->userdata('nama_pengguna') == 'administrator') : ?>
+                                                <a href="<?= base_url(); ?>manager/produk/hapus/<?= $row->id_produk; ?>" class="btn btn-danger btn-sm tombolHapus"><i class="fas fa-fw fa-trash"></i> Hapus</a>
+                                            <?php endif; ?>
+                                            <!-- <a href="<?= base_url(); ?>manager/produk/hapus/<?= $row->id_produk; ?>" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i> Hapus</a> -->
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

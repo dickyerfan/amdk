@@ -14,7 +14,9 @@
                             <a href="<?= base_url('keuangan/laporan_ban_ops/lap_ban') ?>" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Lap Bantuan</button></a>
                         </div>
                         <div class="navbar-nav ms-2">
-                            <a href="<?= base_url('keuangan/laporan_ban_ops/input_terima_ban_ops') ?>" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-rupiah-sign"></i> Input Penerimaan Operasional</button></a>
+                            <?php if ($this->session->userdata('nama_pengguna') != 'Wakil Manager' && $this->session->userdata('nama_pengguna') != 'Manager') : ?>
+                                <a href="<?= base_url('keuangan/laporan_ban_ops/input_terima_ban_ops') ?>" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-rupiah-sign"></i> Input Penerimaan Operasional</button></a>
+                            <?php endif; ?>
                         </div>
                         <div class="navbar-nav ms-auto">
                             <a href="<?= base_url('keuangan/laporan_ban_ops/exportpdf_ops') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
@@ -121,14 +123,20 @@
                                                 case 'botol 500ml amalis':
                                                     echo '500 Amalis';
                                                     break;
-                                                case 'botol 1500 ml ijen':
+                                                case 'botol 1500ml ijen':
                                                     echo '1500 Ijen';
                                                     break;
-                                                case 'botol 1500 ml amalis':
+                                                case 'botol 1500ml amalis':
                                                     echo '1500 Amalis';
                                                     break;
                                                 case 'galon kosong':
                                                     echo 'No Air';
+                                                    break;
+                                                case 'botol 330ml genggong':
+                                                    echo '330 Genggong';
+                                                    break;
+                                                case 'botol 500ml genggong':
+                                                    echo '500 Genggong';
                                                     break;
                                                 default:
                                                     echo $jenis->nama_barang_jadi;

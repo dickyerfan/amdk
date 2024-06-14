@@ -9,7 +9,7 @@
                 <div class="card-body">
                     <form class="user" action="" method="POST">
                         <div class="row">
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label for="tanggal_pesan">Tanggal Pesan :</label>
@@ -18,7 +18,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-group">
                                     <label for="id_pelanggan">Nama Pelanggan :</label>
                                     <select name="id_pelanggan" id="id_pelanggan" class="form-control select2">
@@ -33,7 +33,7 @@
                                 <!-- <small class="text-danger">(tambahkan di daftar pelanggan, Jika tidak ditemukan nama pelanggan)</small> -->
                                 <small><a href="<?= base_url('pemasaran/pelanggan/tambah') ?>" style="text-decoration: none;">(tambahkan pelanggan, Jika tidak ditemukan nama pelanggan)</a> </small>
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-group">
                                     <label for="jenis_pesanan">Jenis Pesanan :</label>
                                     <select name="jenis_pesanan" id="jenis_pesanan" class="form-control select2">
@@ -44,6 +44,17 @@
                                         <option value="4 ">Operasional</option> -->
                                     </select>
                                     <small class="form-text text-danger pl-3"><?= form_error('jenis_pesanan'); ?></small>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="form-group">
+                                    <label for="status_setoran_driver">Jenis Pelunasan :</label>
+                                    <select name="status_setoran_driver" id="status_setoran_driver" class="form-control select2">
+                                        <option value="">Pilih Jenis Pelunasan</option>
+                                        <option value="1">Lunas</option>
+                                        <option value="0">Hutang</option>
+                                    </select>
+                                    <small class="form-text text-danger pl-3"><?= form_error('status_setoran_driver'); ?></small>
                                 </div>
                             </div>
                         </div>

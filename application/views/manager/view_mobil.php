@@ -21,6 +21,8 @@
                                     <th>Plat Nomor</th>
                                     <th>Penanggung Jawab</th>
                                     <th>Status</th>
+                                    <th>Ptgs Update</th>
+                                    <th>Tgl Update</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -36,9 +38,14 @@
                                         <td><?= $row->plat_nomor ?></td>
                                         <td><?= $row->nama_karyawan ?></td>
                                         <td class="text-center"><?= $row->status_mobil == 1 ? 'Aktif' : 'Non Aktif' ?></td>
+                                        <td><?= $row->petugas_update ?></td>
+                                        <td><?= $row->tgl_update ?></td>
                                         <td class="text-center">
                                             <a href="<?= base_url(); ?>manager/mobil/edit/<?= $row->id_mobil; ?>"><span class="btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i> Edit</span></a>
-                                            <a href="<?= base_url(); ?>manager/mobil/hapus/<?= $row->id_mobil; ?>" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i> Hapus</a>
+                                            <?php if ($this->session->userdata('nama_pengguna') == 'administrator') : ?>
+                                                <a href="<?= base_url(); ?>manager/mobil/hapus/<?= $row->id_mobil; ?>" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i> Hapus</a>
+                                            <?php endif; ?>
+                                            <!-- <a href="<?= base_url(); ?>manager/mobil/hapus/<?= $row->id_mobil; ?>" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i> Hapus</a> -->
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

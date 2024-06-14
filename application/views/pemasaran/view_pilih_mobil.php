@@ -27,7 +27,7 @@
                                         <option value="1">Kiriman Pertama</option>
                                         <option value="2">Kiriman Ke dua</option>
                                         <option value="3">Kiriman ke tiga</option>
-                                        <option value="4">Kiriman ke empat</option>
+                                        <!-- <option value="4">Kiriman ke empat</option> -->
                                     </select>
                                     <small class="form-text text-danger pl-3"><?= form_error('jam_mobil'); ?></small>
                                 </div>

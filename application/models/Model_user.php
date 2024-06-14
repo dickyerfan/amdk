@@ -32,7 +32,9 @@ class model_user extends CI_Model
             'upk_bagian' => $this->input->post('upk_bagian', true),
             'password' => password_hash($this->input->post('password', true), PASSWORD_DEFAULT),
             // 'level' => $this->input->post('level', true),
-            'nik_karyawan' => $this->input->post('nik_karyawan', true)
+            'nik_karyawan' => $this->input->post('nik_karyawan', true),
+            'petugas_input' => $this->session->userdata('nama_lengkap'),
+            'tgl_input' => date('Y-m-d H:i:s')
         ];
         $this->db->insert('user', $data);
     }
@@ -57,7 +59,9 @@ class model_user extends CI_Model
             'nama_lengkap' => $this->input->post('nama_lengkap', true),
             'upk_bagian' => $this->input->post('upk_bagian', true),
             'level' => $this->input->post('level', true),
-            'nik_karyawan' => $this->input->post('nik_karyawan', true)
+            'nik_karyawan' => $this->input->post('nik_karyawan', true),
+            'petugas_input' => $this->session->userdata('nama_lengkap'),
+            'tgl_input' => date('Y-m-d H:i:s')
         ];
         $this->db->where('id', $this->input->post('id'));
         $this->db->update('user', $data);

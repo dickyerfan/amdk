@@ -86,9 +86,9 @@ class Barang_masuk extends CI_Controller
             if (!empty($_FILES['bukti_masuk_sj']['name'])) {
                 // Mendapatkan tanggal dari input form
                 $tanggal_masuk = $this->input->post('tanggal_masuk', true);
-
                 // Membuat nama file sesuai dengan tanggal
-                $file_name = date('Y-m-d', strtotime($tanggal_masuk)) . '.jpg';
+                // $file_name = date('Y-m-d', strtotime($tanggal_masuk)) . '.jpg';
+                $file_name = $_FILES['bukti_masuk_sj']['name'];
 
                 // Menyimpan file dengan nama yang sesuai
                 $config['upload_path']   = './uploads/baku/masuk/';
@@ -96,6 +96,7 @@ class Barang_masuk extends CI_Controller
                 $config['max_size']      = 1000;
                 $config['file_name']     = $file_name;
                 $config['overwrite']     = true; // Mengizinkan penggantian file yang ada dengan nama yang sama
+                $config['encrypt_name']  = false; // Menonaktifkan enkripsi nama file
 
                 $this->load->library('upload', $config);
                 if ($this->upload->do_upload('bukti_masuk_sj')) {
@@ -104,7 +105,8 @@ class Barang_masuk extends CI_Controller
                     $data['jumlah_masuk'] = $this->input->post('jumlah_masuk', true);
                     $data['tanggal_masuk'] = $tanggal_masuk;
                     $data['input_status_masuk'] = $this->session->userdata('nama_lengkap');
-                    $data['bukti_masuk_sj'] = $file_name; // Simpan nama file dalam database
+                    // $data['bukti_masuk_sj'] = $file_name; // Simpan nama file dalam database
+                    $data['bukti_masuk_sj'] = str_replace(' ', '_', $file_name); // Ganti spasi dengan underscore
                     $data['tgl_input_masuk'] = date('Y-m-d H:i:s');
 
 

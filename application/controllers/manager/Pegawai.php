@@ -30,43 +30,67 @@ class Pegawai extends CI_Controller
 
     public function index()
     {
-        $data['title'] = "Daftar Karyawan AMDK Ijen Water";
-        $data['pegawai'] = $this->Model_pegawai->get_pegawai();
+        $data['title'] = 'Daftar Karyawan PDAM Bondowoso';
+        $data['karyawan'] = $this->Model_pegawai->getAll();
+
+        $data['kartotal'] = $this->db->get_where('pegawai', ['aktif' => '1'])->num_rows();
+        $data['kartetap'] = $this->db->get_where('pegawai', [
+            'status_pegawai' => 'Karyawan Tetap',
+            'aktif' => '1',
+        ])->num_rows();
+        $data['karkontrak'] = $this->db->get_where('pegawai', [
+            'status_pegawai' => 'Karyawan Kontrak',
+            'aktif' => '1',
+        ])->num_rows();
+        $data['karhonorer'] = $this->db->get_where('pegawai', [
+            'status_pegawai' => 'Karyawan Honorer',
+            'aktif' => '1',
+        ])->num_rows();
+        $data['karpurna'] = $this->db->get_where('pegawai', [
+            'aktif' => '0',
+        ])->num_rows();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navbar');
         $this->load->view('templates/sidebar');
-        $this->load->view('manager/view_pegawai', $data);
+        $this->load->view('manager/pegawai/view_pegawai_dashboard', $data);
         $this->load->view('templates/footer');
     }
-
     public function tambah()
     {
-        $data['title'] = "Tambah Data Pegawai PDAM";
-
-        $this->form_validation->set_rules('id_bagian', 'bagian', 'required|trim');
+        $data['title'] = 'Form Tambah Karyawan';
+        $data['bagian'] = $this->db->get('bagian')->result();
+        $data['subag'] = $this->db->get('subag')->result();
+        $data['jabatan'] = $this->db->get('jabatan')->result();
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
         $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim');
+        $this->form_validation->set_rules('nik', 'NIK', 'is_unique[karyawan.nik]');
+        $this->form_validation->set_rules('no_hp', 'NO HP', 'trim|min_length[10]');
         $this->form_validation->set_rules('agama', 'Agama', 'required|trim');
+        $this->form_validation->set_rules('tmp_lahir', 'Tempat Lahir', 'required|trim');
+        $this->form_validation->set_rules('tgl_lahir', 'Tanggal Lahir', 'required|trim');
+        // $this->form_validation->set_rules('tgl_masuk', 'Tanggal Masuk', 'required|trim');
+        $this->form_validation->set_rules('id_bagian', 'Bagian', 'required|trim');
+        $this->form_validation->set_rules('id_subag', 'Sub Bagian', 'required|trim');
+        $this->form_validation->set_rules('id_jabatan', 'Jabatan', 'required|trim');
+        $this->form_validation->set_rules('status_pegawai', 'Status Pegawai', 'required|trim');
         $this->form_validation->set_rules('jenkel', 'Jenis Kelamin', 'required|trim');
-
-        $this->form_validation->set_message('required', '%s masih kosong');
-        // $this->form_validation->set_message('is_unique', '%s Sudah terdaftar, Ganti yang lain');
-        // $this->form_validation->set_message('numeric', '%s harus di input angka');
-
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_message('is_unique', '%s sudah terdaftar');
+        $this->form_validation->set_message('min_length', '%s Minimal 10 digit');
 
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('templates/sidebar');
-            $this->load->view('manager/view_tambah_pegawai', $data);
+            $this->load->view('manager/pegawai/view_tambah_pegawai', $data);
             $this->load->view('templates/footer');
         } else {
-            $data['user'] = $this->Model_pegawai->tambahData();
+            $data['karyawan'] = $this->Model_pegawai->tambahData();
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-primary alert-dismissible fade show" role="alert">
-                        <strong>Sukses,</strong> Data Pegawai Baru berhasil di tambahkan
+                        <strong>Sukses,</strong> Data Karyawan berhasil di tambah
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                         </button>
                       </div>'
@@ -77,15 +101,15 @@ class Pegawai extends CI_Controller
 
     public function edit($id)
     {
-        $data['title'] = "Form Edit User";
-        // $data['edit_pegawai'] = $this->db->get_where('pegawai', ['id' => $id])->row();
-        $data['edit_pegawai'] = $this->Model_pegawai->getIdAdmin($id);
-        $data['bagian'] = $this->Model_pegawai->get_bagian();
-        // $data['data_karyawan'] = $this->Model_karyawan->get_karyawan();
+        $data['title'] = 'Form Edit Karyawan';
+        $data['karyawan'] = $this->Model_pegawai->getIdKaryawan($id);
+        $data['bagian'] = $this->db->get('bagian')->result();
+        $data['subag'] = $this->db->get('subag')->result();
+        $data['jabatan'] = $this->db->get('jabatan')->result();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navbar');
         $this->load->view('templates/sidebar');
-        $this->load->view('manager/view_edit_pegawai', $data);
+        $this->load->view('manager/pegawai/view_edit_pegawai', $data);
         $this->load->view('templates/footer');
     }
 
@@ -106,7 +130,7 @@ class Pegawai extends CI_Controller
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Sukses,</strong> Data Pegawai berhasil di update
+                        <strong>Sukses,</strong> Data Karyawan berhasil di update
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                         </button>
                       </div>'
@@ -121,11 +145,30 @@ class Pegawai extends CI_Controller
         $this->session->set_flashdata(
             'info',
             '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Sukses,</strong> Data Pegawai berhasil di hapus
+                    <strong>Sukses,</strong> Data Karyawan berhasil di hapus
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                     </button>
                   </div>'
         );
         redirect('manager/pegawai');
+    }
+
+    public function detail($id)
+    {
+        $data['title'] = 'Detail Karyawan';
+        $data['karyawan'] = $this->Model_pegawai->getdetail($id);
+        if ($this->session->userdata('level') == 'Admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('manager/pegawai/view_detail_pegawai', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar_pengguna');
+            $this->load->view('manager/pegawai/view_detail_pegawai', $data);
+            $this->load->view('templates/footer');
+        }
     }
 }

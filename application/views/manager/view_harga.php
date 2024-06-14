@@ -21,6 +21,7 @@
                                     <th>Jenis Harga</th>
                                     <th>Harga</th>
                                     <th>Input harga</th>
+                                    <th>Tgl Update</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -35,10 +36,14 @@
                                         <td><?= $row->nama_produk; ?></td>
                                         <td><?= $row->jenis_harga; ?></td>
                                         <td class="text-end"><?= number_format($row->harga, 0, ',', '.'); ?></td>
-                                        <td><?= $row->input_harga; ?></td>
+                                        <td class="text-center"><?= $row->input_harga; ?></td>
+                                        <td class="text-center"><?= $row->tgl_input_harga; ?></td>
                                         <td class="text-center">
                                             <a href="<?= base_url(); ?>manager/harga/edit/<?= $row->id_harga; ?>"><span class="btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i> Edit</span></a>
-                                            <a href="<?= base_url(); ?>manager/harga/hapus/<?= $row->id_harga; ?>" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i> Hapus</a>
+                                            <?php if ($this->session->userdata('nama_pengguna') == 'administrator') : ?>
+                                                <a href="<?= base_url(); ?>manager/harga/hapus/<?= $row->id_harga; ?>" class="btn btn-danger btn-sm tombolHapus"><i class="fas fa-fw fa-trash"></i> Hapus</a>
+                                            <?php endif; ?>
+                                            <!-- <a href="<?= base_url(); ?>manager/harga/hapus/<?= $row->id_harga; ?>" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i> Hapus</a> -->
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

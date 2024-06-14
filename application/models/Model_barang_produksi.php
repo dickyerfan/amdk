@@ -53,14 +53,14 @@ class Model_barang_produksi extends CI_Model
                    (SELECT SUM(jumlah_keluar_baku) FROM keluar_baku_produksi WHERE keluar_baku_produksi.id_barang_baku = barang_baku.id_barang_baku) AS jumlah_keluar,
                    (SELECT SUM(jumlah_rusak_produksi) FROM rusak_produksi WHERE rusak_produksi.id_barang_baku = barang_baku.id_barang_baku) AS jumlah_rusak', FALSE);
         $this->db->from('barang_baku');
-        $this->db->join('keluar_baku', 'keluar_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
-        $this->db->join('keluar_baku_produksi', 'keluar_baku_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
-        $this->db->join('rusak_produksi', 'rusak_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
-        $this->db->join('stok_awal_baku_produksi', 'stok_awal_baku_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        // $this->db->join('keluar_baku', 'keluar_baku.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        // $this->db->join('keluar_baku_produksi', 'keluar_baku_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        // $this->db->join('rusak_produksi', 'rusak_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        // $this->db->join('stok_awal_baku_produksi', 'stok_awal_baku_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
         $this->db->join('satuan', 'satuan.id_satuan = barang_baku.id_satuan', 'left');
         $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = barang_baku.id_jenis_barang', 'left');
         $this->db->where('barang_baku.status_barang_baku', 1);
-        $this->db->group_by('barang_baku.id_barang_baku');
+        // $this->db->group_by('barang_baku.id_barang_baku');
         return $this->db->get()->result();
     }
     // akhir barang baku produksi
@@ -280,5 +280,81 @@ class Model_barang_produksi extends CI_Model
         $this->db->where('id_keluar_baku', $id_keluar_baku);
         $this->db->update('baku_produksi', $data);
         return $this->db->update('keluar_baku', $data);
+    }
+
+    // kode untuk stok awal baku produksi
+    public function getstok_awal_baku_produksi()
+    {
+        $this->db->select('barang_baku.id_barang_baku,barang_baku.nama_barang_baku, jumlah_stok_awal_baku, tanggal_stok_awal_baku,tgl_input_stok_awal_baku, input_status_stok_awal_baku, id_stok_awal_baku_produksi');
+        $this->db->from('stok_awal_baku_produksi');
+        $this->db->join('barang_baku', 'stok_awal_baku_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->group_by('stok_awal_baku_produksi.id_stok_awal_baku_produksi');
+        return $this->db->get()->result();
+    }
+
+    public function get_id_stok_awal($id_stok_awal_baku_produksi)
+    {
+        $this->db->select('barang_baku.id_barang_baku,barang_baku.nama_barang_baku, jumlah_stok_awal_baku, tanggal_stok_awal_baku,tgl_input_stok_awal_baku, input_status_stok_awal_baku, id_stok_awal_baku_produksi');
+        $this->db->from('stok_awal_baku_produksi');
+        $this->db->join('barang_baku', 'stok_awal_baku_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->where('id_stok_awal_baku_produksi', $id_stok_awal_baku_produksi);
+        return $this->db->get()->row();
+    }
+
+    public function update_stok()
+    {
+
+        $data = [
+            'jumlah_stok_awal_baku' => $this->input->post('jumlah_stok_awal_baku', true),
+            // 'tanggal_stok_awal_baku' => $this->input->post('tanggal_stok_awal_baku', true),
+            'input_status_stok_awal_baku' => $this->session->userdata('nama_lengkap'),
+            'tgl_input_stok_awal_baku' => date('Y-m-d H:i:s')
+        ];
+        $this->db->where('id_stok_awal_baku_produksi', $this->input->post('id_stok_awal_baku_produksi'));
+        $this->db->update('stok_awal_baku_produksi', $data);
+    }
+
+    //kode barang baku untuk produksi
+    public function getbarang_baku_produksi()
+    {
+        $this->db->select('*');
+        $this->db->from('barang_baku_produksi');
+        $this->db->join('barang_baku', 'barang_baku_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->join('jenis_barang', 'barang_baku_produksi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
+        return $this->db->get()->result();
+    }
+
+    public function get_nama_barang_jadi()
+    {
+        $this->db->select('*');
+        $this->db->from('jenis_barang');
+        return $this->db->get()->result();
+    }
+
+    public function get_id_barang_baku_produksi($id_barang_baku_produksi)
+    {
+        $this->db->select('*');
+        $this->db->from('barang_baku_produksi');
+        $this->db->join('barang_baku', 'barang_baku_produksi.id_barang_baku = barang_baku.id_barang_baku', 'left');
+        $this->db->join('jenis_barang', 'barang_baku_produksi.id_jenis_barang = jenis_barang.id_jenis_barang', 'left');
+        $this->db->where('id_barang_baku_produksi', $id_barang_baku_produksi);
+        return $this->db->get()->row();
+    }
+
+    public function get_all_barang_baku()
+    {
+        return $this->db->get('barang_baku')->result();
+    }
+
+    public function update_stok_bbp()
+    {
+        $data = [
+            'id_barang_baku' => $this->input->post('id_barang_baku', true),
+            'jumlah_keluar_baku' => $this->input->post('jumlah_keluar_baku', true),
+            'tgl_barang_produksi' => date('Y-m-d H:i:s'),
+            'input_barang_produksi' => $this->session->userdata('nama_lengkap')
+        ];
+        $this->db->where('id_barang_baku_produksi', $this->input->post('id_barang_baku_produksi'));
+        $this->db->update('barang_baku_produksi', $data);
     }
 }

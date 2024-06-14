@@ -30,7 +30,9 @@ class model_mobil extends CI_Model
             'nama_mobil' => $this->input->post('nama_mobil', true),
             'jenis_mobil' => $this->input->post('jenis_mobil', true),
             'plat_nomor' => $this->input->post('plat_nomor', true),
-            'id_karyawan' => $this->input->post('id_karyawan', true)
+            'id_karyawan' => $this->input->post('id_karyawan', true),
+            'tanggal_update' => date('Y-m-d H:i:s'),
+            'petugas_update' => $this->session->userdata('nama_lengkap')
         ];
         $this->db->insert('mobil', $data);
     }
@@ -54,7 +56,9 @@ class model_mobil extends CI_Model
             'jenis_mobil' => $this->input->post('jenis_mobil', true),
             'plat_nomor' => $this->input->post('plat_nomor', true),
             'id_karyawan' => $this->input->post('id_karyawan', true),
-            'status_mobil' => $this->input->post('status_mobil', true)
+            'status_mobil' => $this->input->post('status_mobil', true),
+            'tanggal_update' => date('Y-m-d H:i:s'),
+            'petugas_update' => $this->session->userdata('nama_lengkap')
         ];
         $this->db->where('id_mobil', $this->input->post('id_mobil'));
         $this->db->update('mobil', $data);

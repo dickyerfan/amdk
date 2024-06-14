@@ -29,6 +29,7 @@
                                     <select name="bagian" id="bagian" class="form-control">
                                         <option value="">Pilih Bagian</option>
                                         <option value="Manager" <?= $edit_karyawan->bagian == 'Manager' ? 'selected' : '' ?>>Manager</option>
+                                        <option value="Wakil Manager" <?= $edit_karyawan->bagian == 'Wakil Manager' ? 'selected' : '' ?>>Wakil Manager</option>
                                         <option value="Barang Baku" <?= $edit_karyawan->bagian == 'Barang Baku' ? 'selected' : '' ?>>Barang Baku</option>
                                         <option value="Produksi" <?= $edit_karyawan->bagian == 'Produksi' ? 'selected' : '' ?>>Produksi</option>
                                         <option value="Barang Jadi" <?= $edit_karyawan->bagian == 'Barang Jadi' ? 'selected' : '' ?>>Barang Jadi</option>
@@ -44,6 +45,7 @@
                                     <select name="jabatan" id="jabatan" class="form-control">
                                         <option value="">Pilih Jabatan</option>
                                         <option value="Manager" <?= $edit_karyawan->jabatan == 'Manager' ? 'selected' : '' ?>>Manager</option>
+                                        <option value="Wakil Manager" <?= $edit_karyawan->bagian == 'Wakil Manager' ? 'selected' : '' ?>>Wakil Manager</option>
                                         <option value="Kabag" <?= $edit_karyawan->jabatan == 'Kabag' ? 'selected' : '' ?>>Kabag</option>
                                         <option value="Staf" <?= $edit_karyawan->jabatan == 'Staf' ? 'selected' : '' ?>>Staf</option>
                                     </select>
@@ -55,6 +57,7 @@
                                     <select name="jenis_kerja" id="jenis_kerja" class="form-control">
                                         <option value="">Pilih Jenis Pekerjaan</option>
                                         <option value="Manager" <?= $edit_karyawan->jenis_kerja == 'Manager' ? 'selected' : '' ?>>Manager</option>
+                                        <option value="Wakil Manager" <?= $edit_karyawan->bagian == 'Wakil Manager' ? 'selected' : '' ?>>Wakil Manager</option>
                                         <option value="Administrasi" <?= $edit_karyawan->jenis_kerja == 'Administrasi' ? 'selected' : '' ?>>Administrasi</option>
                                         <option value="Driver" <?= $edit_karyawan->jenis_kerja == 'Driver' ? 'selected' : '' ?>>Driver</option>
                                     </select>

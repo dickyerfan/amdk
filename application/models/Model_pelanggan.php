@@ -21,7 +21,9 @@ class model_pelanggan extends CI_Model
             'alamat_pelanggan' => strtoupper($this->input->post('alamat_pelanggan', true)),
             'telpon_pelanggan' => $this->input->post('telpon_pelanggan', true),
             'ket' => strtoupper($this->input->post('ket', true)),
-            'tarif' => strtoupper($this->input->post('tarif', true))
+            'tarif' => strtoupper($this->input->post('tarif', true)),
+            'input_langgan' => $this->session->userdata('nama_lengkap'),
+            'tgl_input' => date('Y-m-d H:i:s')
         ];
         $this->db->insert('pelanggan', $data);
     }
@@ -48,7 +50,9 @@ class model_pelanggan extends CI_Model
             'telpon_pelanggan' => $this->input->post('telpon_pelanggan', true),
             'ket' => $this->input->post('ket', true),
             'tarif' => $this->input->post('tarif', true),
-            'aktif' => $this->input->post('aktif', true)
+            'aktif' => $this->input->post('aktif', true),
+            'input_langgan' => $this->session->userdata('nama_lengkap'),
+            'tgl_input' => date('Y-m-d H:i:s')
         ];
         $this->db->where('id_pelanggan', $this->input->post('id_pelanggan'));
         $this->db->update('pelanggan', $data);

@@ -31,6 +31,63 @@ class Laporan_ban_ops extends CI_Controller
         }
     }
 
+    // public function index()
+    // {
+    //     $tanggal = $this->input->get('tanggal');
+    //     $bulan = substr($tanggal, 5, 2);
+    //     $tahun = substr($tanggal, 0, 4);
+
+    //     if (empty($tanggal)) {
+    //         $tanggal = date('Y-m-d');
+    //         $bulan = date('m');
+    //         $tahun = date('Y');
+    //     }
+    //     $data['bulan_lap'] = $bulan;
+    //     $data['tahun_lap'] = $tahun;
+
+    //     if (!empty($tanggal)) {
+    //         $this->session->set_userdata('tanggal_ops', $tanggal);
+    //     }
+
+    //     $data['title'] = 'Laporan Operasional AMDK';
+    //     // Ambil data dari model
+    //     $ban_ops = $this->Model_laporan->get_ops($bulan, $tahun);
+
+    //     $jenis_produk = $this->Model_laporan->get_jenis_produk();
+
+    //     // Mengelompokkan data berdasarkan nama dan tanggal
+    //     $grouped_ban_ops = [];
+    //     foreach ($ban_ops as $row) {
+    //         $key = $row->nama_pelanggan . $row->tanggal_ban_ops;
+    //         if (!isset($grouped_ban_ops[$key])) {
+    //             $grouped_ban_ops[$key] = (object)[
+    //                 'nama_pelanggan' => $row->nama_pelanggan,
+    //                 'tanggal_ban_ops' => $row->tanggal_ban_ops,
+    //                 'jumlah' => [],
+    //                 'harga_ban_ops_total' => 0,
+    //                 'keterangan' => $row->keterangan,
+    //             ];
+    //         }
+    //         $grouped_ban_ops[$key]->harga_ban_ops_total += $row->harga_ban_ops; // Menambahkan total harga
+    //         $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] = $row->jumlah_ban_ops;
+    //     }
+    //     $data['grouped_ban_ops'] = $grouped_ban_ops;
+    //     $data['jenis_produk'] = $jenis_produk;
+    //     if ($this->session->userdata('level') == 'Admin') {
+    //         $this->load->view('templates/header', $data);
+    //         $this->load->view('templates/navbar');
+    //         $this->load->view('templates/sidebar');
+    //         $this->load->view('keuangan/view_laporan_ops', $data);
+    //         $this->load->view('templates/footer');
+    //     } else {
+    //         $this->load->view('templates/pengguna/header', $data);
+    //         $this->load->view('templates/pengguna/navbar_uang');
+    //         $this->load->view('templates/pengguna/sidebar_uang');
+    //         $this->load->view('keuangan/view_laporan_ops', $data);
+    //         $this->load->view('templates/pengguna/footer_uang');
+    //     }
+    // }
+
     public function index()
     {
         $tanggal = $this->input->get('tanggal');
@@ -58,7 +115,7 @@ class Laporan_ban_ops extends CI_Controller
         // Mengelompokkan data berdasarkan nama dan tanggal
         $grouped_ban_ops = [];
         foreach ($ban_ops as $row) {
-            $key = $row->nama_pelanggan . $row->tanggal_ban_ops;
+            $key = $row->nama_pelanggan . '_' . $row->tanggal_ban_ops;
             if (!isset($grouped_ban_ops[$key])) {
                 $grouped_ban_ops[$key] = (object)[
                     'nama_pelanggan' => $row->nama_pelanggan,
@@ -68,9 +125,17 @@ class Laporan_ban_ops extends CI_Controller
                     'keterangan' => $row->keterangan,
                 ];
             }
-            $grouped_ban_ops[$key]->harga_ban_ops_total += $row->harga_ban_ops; // Menambahkan total harga
-            $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] = $row->jumlah_ban_ops;
+
+            // Menambahkan total harga
+            $grouped_ban_ops[$key]->harga_ban_ops_total += $row->harga_ban_ops;
+
+            // Menambahkan jumlah barang
+            if (!isset($grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi])) {
+                $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] = 0;
+            }
+            $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] += $row->jumlah_ban_ops;
         }
+
         $data['grouped_ban_ops'] = $grouped_ban_ops;
         $data['jenis_produk'] = $jenis_produk;
         if ($this->session->userdata('level') == 'Admin') {
@@ -87,6 +152,8 @@ class Laporan_ban_ops extends CI_Controller
             $this->load->view('templates/pengguna/footer_uang');
         }
     }
+
+
 
     public function input_terima_ban_ops()
     {
@@ -189,14 +256,16 @@ class Laporan_ban_ops extends CI_Controller
         $data['bulan_lap'] = $bulan;
         $data['tahun_lap'] = $tahun;
         $data['title'] = 'Laporan Operasional AMDK';
+
         // Ambil data dari model
         $ban_ops = $this->Model_laporan->get_ops($bulan, $tahun);
+
         $jenis_produk = $this->Model_laporan->get_jenis_produk();
 
         // Mengelompokkan data berdasarkan nama dan tanggal
         $grouped_ban_ops = [];
         foreach ($ban_ops as $row) {
-            $key = $row->nama_pelanggan . $row->tanggal_ban_ops;
+            $key = $row->nama_pelanggan . '_' . $row->tanggal_ban_ops;
             if (!isset($grouped_ban_ops[$key])) {
                 $grouped_ban_ops[$key] = (object)[
                     'nama_pelanggan' => $row->nama_pelanggan,
@@ -206,9 +275,17 @@ class Laporan_ban_ops extends CI_Controller
                     'keterangan' => $row->keterangan,
                 ];
             }
+
+            // Menambahkan total harga
             $grouped_ban_ops[$key]->harga_ban_ops_total += $row->harga_ban_ops;
-            $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] = $row->jumlah_ban_ops;
+
+            // Menambahkan jumlah barang
+            if (!isset($grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi])) {
+                $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] = 0;
+            }
+            $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] += $row->jumlah_ban_ops;
         }
+
         $data['grouped_ban_ops'] = $grouped_ban_ops;
         $data['jenis_produk'] = $jenis_produk;
 
@@ -259,8 +336,12 @@ class Laporan_ban_ops extends CI_Controller
                 ];
             }
             $grouped_ban_ops[$key]->harga_ban_ops_total += $row->harga_ban_ops; // Menambahkan total harga
-            $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] = $row->jumlah_ban_ops;
+            if (!isset($grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi])) {
+                $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] = 0;
+            }
+            $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] += $row->jumlah_ban_ops;
         }
+
         $data['grouped_ban_ops'] = $grouped_ban_ops;
         $data['jenis_produk'] = $jenis_produk;
         if ($this->session->userdata('level') == 'Admin') {
@@ -309,8 +390,11 @@ class Laporan_ban_ops extends CI_Controller
                     'keterangan' => $row->keterangan,
                 ];
             }
-            $grouped_ban_ops[$key]->harga_ban_ops_total += $row->harga_ban_ops;
-            $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] = $row->jumlah_ban_ops;
+            $grouped_ban_ops[$key]->harga_ban_ops_total += $row->harga_ban_ops; // Menambahkan total harga
+            if (!isset($grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi])) {
+                $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] = 0;
+            }
+            $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] += $row->jumlah_ban_ops;
         }
         $data['grouped_ban_ops'] = $grouped_ban_ops;
         $data['jenis_produk'] = $jenis_produk;

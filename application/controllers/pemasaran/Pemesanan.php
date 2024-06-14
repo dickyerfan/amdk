@@ -77,6 +77,7 @@ class Pemesanan extends CI_Controller
         $this->form_validation->set_rules('id_pelanggan', 'Nama Pelanggan', 'required|trim');
         $this->form_validation->set_rules('tanggal_pesan', 'Tanggal Pesan', 'required|trim');
         $this->form_validation->set_rules('jenis_pesanan', 'Jenis Pesanan', 'required|trim');
+        $this->form_validation->set_rules('status_setoran_driver', 'Jenis Pelunasan', 'required|trim');
         $this->form_validation->set_message('required', '%s masih kosong');
         $this->form_validation->set_message('numeric', '%s harus berupa angka');
 
@@ -99,6 +100,7 @@ class Pemesanan extends CI_Controller
             $jenis_pesanan = $this->input->post('jenis_pesanan');
             $jumlah_pesan = $this->input->post('jumlah_pesan');
             $input_pesan = $this->session->userdata('nama_lengkap');
+            $status_setoran_driver = $this->input->post('status_setoran_driver');
 
             $data_pesanan = array();
             $total_harga = 0;
@@ -127,7 +129,10 @@ class Pemesanan extends CI_Controller
                     'input_pesan' => $input_pesan,
                     'harga_barang' => $harga,
                     'total_harga' => $total_harga_barang,
-                    'tanggal_input' => date('Y-m-d H:i:s')
+                    'tanggal_input' => date('Y-m-d H:i:s'),
+                    'tgl_setoran_driver' => $tanggal_pesan,
+                    'status_setoran_driver' => $status_setoran_driver,
+                    'input_setoran_driver' => $this->session->userdata('nama_lengkap')
                 );
             }
 
@@ -152,6 +157,7 @@ class Pemesanan extends CI_Controller
         $this->form_validation->set_rules('id_pelanggan', 'Nama Pelanggan', 'required|trim');
         $this->form_validation->set_rules('tanggal_pesan', 'Tanggal Pesan', 'required|trim');
         $this->form_validation->set_rules('jenis_pesanan', 'Jenis Pesanan', 'required|trim');
+        $this->form_validation->set_rules('status_setoran_driver', 'Jenis Pelunasan', 'required|trim');
         $this->form_validation->set_message('required', '%s masih kosong');
         $this->form_validation->set_message('numeric', '%s harus berupa angka');
 
@@ -174,6 +180,7 @@ class Pemesanan extends CI_Controller
             $jenis_pesanan = $this->input->post('jenis_pesanan');
             $jumlah_pesan = $this->input->post('jumlah_pesan');
             $input_pesan = $this->session->userdata('nama_lengkap');
+            $status_setoran_driver = $this->input->post('status_setoran_driver');
 
             $data_pesanan = array();
             $total_harga = 0;
@@ -202,7 +209,10 @@ class Pemesanan extends CI_Controller
                     'input_pesan' => $input_pesan,
                     'harga_barang' => $harga,
                     'total_harga' => $total_harga_barang,
-                    'tanggal_input' => date('Y-m-d H:i:s')
+                    'tanggal_input' => date('Y-m-d H:i:s'),
+                    'tgl_setoran_driver' => $tanggal_pesan,
+                    'status_setoran_driver' => $status_setoran_driver,
+                    'input_setoran_driver' => $this->session->userdata('nama_lengkap')
                 );
             }
 
@@ -436,11 +446,19 @@ class Pemesanan extends CI_Controller
     {
         $data['detail_pemesanan'] = $this->Model_pemesanan->get_detail_pemesanan($id_pemesanan);
         $data['title'] = 'Detail Pemesanan Barang';
-        $this->load->view('templates/pengguna/header', $data);
-        $this->load->view('templates/pengguna/navbar_pasar');
-        $this->load->view('templates/pengguna/sidebar_pasar');
-        $this->load->view('pemasaran/view_detail_pemesanan', $data);
-        $this->load->view('templates/pengguna/footer');
+        if ($this->session->userdata('level') == 'Admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('pemasaran/view_detail_pemesanan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_pasar');
+            $this->load->view('templates/pengguna/sidebar_pasar');
+            $this->load->view('pemasaran/view_detail_pemesanan', $data);
+            $this->load->view('templates/pengguna/footer');
+        }
     }
 
     public function daftar_kiriman()

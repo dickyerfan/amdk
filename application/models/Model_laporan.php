@@ -145,13 +145,15 @@ class Model_laporan extends CI_Model
 
     public function get_nama_barang()
     {
-        $this->db->select('nama_produk');
+        $this->db->select('id_produk,nama_produk');
         $this->db->from('jenis_produk');
+        $this->db->where('status_laporan', 1);
         $result = $this->db->get()->result();
 
         $nama_barang = [];
         foreach ($result as $row) {
-            $nama_barang[] = $row->nama_produk;
+            // $nama_barang[] = $row->nama_produk;
+            $nama_barang[$row->id_produk] = $row->nama_produk;
         }
         return $nama_barang;
     }
@@ -469,6 +471,34 @@ class Model_laporan extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+
+    public function get_daftar_penjualan($bulan, $tahun)
+    {
+        $this->db->select('jenis_produk.nama_produk, pemesanan.id_jenis_barang, pemesanan.id_pelanggan, pelanggan.nama_pelanggan, SUM(pemesanan.jumlah_pesan) as total_pesanan');
+        $this->db->from('pemesanan');
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
+        $this->db->join('pelanggan', 'pelanggan.id_pelanggan = pemesanan.id_pelanggan');
+        $this->db->where('pemesanan.id_mobil IS NOT NULL');
+        $this->db->where('pemesanan.jenis_pesanan', 2);
+        $this->db->where('MONTH(pemesanan.tanggal_pesan)', $bulan);
+        $this->db->where('YEAR(pemesanan.tanggal_pesan)', $tahun);
+        $this->db->where('jenis_produk.status_laporan', 1);
+        $this->db->group_by('jenis_produk.id_produk, pemesanan.id_pelanggan, pelanggan.nama_pelanggan');
+        $this->db->order_by('total_pesanan', 'desc');
+        return $this->db->get()->result();
+    }
+
+    public function get_detail_penjualan($id_pelanggan)
+    {
+        $this->db->select('jenis_produk.nama_produk, pemesanan.jumlah_pesan, pemesanan.tanggal_pesan, pemesanan.total_harga, pemesanan.status_bayar, pelanggan.nama_pelanggan');
+        $this->db->from('pemesanan');
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
+        $this->db->join('pelanggan', 'pelanggan.id_pelanggan = pemesanan.id_pelanggan');
+        $this->db->where('pemesanan.id_pelanggan', $id_pelanggan);
+        $this->db->order_by('tanggal_pesan', 'desc');
+        return $this->db->get()->result();
+    }
+
 
     // tanda tangan laporan
     public function get_manager()

@@ -14,16 +14,17 @@
                             <a href="<?= base_url('keuangan/laporan_rutin_karyawan/exportpdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div>
                         <div class="navbar-nav ms-2">
-                            <a href="<?= base_url('keuangan/laporan_rutin_karyawan/input_terima_karyawan') ?>" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-rupiah-sign"></i> Input Penerimaan Karyawan</button></a>
+                            <?php if ($this->session->userdata('nama_pengguna') != 'Wakil Manager' && $this->session->userdata('nama_pengguna') != 'Manager') : ?>
+                                <a href="<?= base_url('keuangan/laporan_rutin_karyawan/input_terima_karyawan') ?>" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-rupiah-sign"></i> Input Penerimaan Karyawan</button></a>
+                            <?php endif; ?>
                         </div>
                         <div class="navbar-nav ms-auto">
-                            <!-- <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
-                                <a href="<?= base_url('keuangan/laporan_rutin_karyawan/download'); ?>"><button class=" neumorphic-button float-end"><i class="fas fa-plus"></i> Download Daftar Rutin Karyawan</button></a>
-                            <?php endif; ?> -->
                             <form action="<?= base_url('keuangan/laporan_rutin_karyawan/download'); ?>" method="post">
                                 <input type="hidden" name="tanggal" value="<?= date('Y-m-d'); ?>" />
-                                <button class="neumorphic-button float-end" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Klik Untuk Download Daftar Rutin Karyawan" id="ambil_data" type="submit" name="ambil_data"><i class="fas fa-fw fa-download"></i>
-                                    Download Daftar Rutin Karyawan</button>
+                                <?php if ($this->session->userdata('nama_pengguna') != 'Wakil Manager' && $this->session->userdata('nama_pengguna') != 'Manager') : ?>
+                                    <button class="neumorphic-button float-end" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Klik Untuk Download Daftar Rutin Karyawan" id="ambil_data" type="submit" name="ambil_data"><i class="fas fa-fw fa-download"></i>
+                                        Download Daftar Rutin Karyawan</button>
+                                <?php endif; ?>
                             </form>
                         </div>
                     </nav>

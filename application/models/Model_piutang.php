@@ -145,4 +145,22 @@ class Model_piutang extends CI_Model
         $this->db->order_by('pemesanan.id_pemesanan', 'DESC');
         return $this->db->get()->result();
     }
+
+    public function get_all_setoran_hutang()
+    {
+        $this->db->select(
+            '*,
+        (SELECT SUM(total_harga) FROM pemesanan WHERE pemesanan.status_bayar = 0 AND pemesanan.jenis_pesanan = 2 AND pemesanan.status_setoran_driver = 0) AS total_piutang'
+        );
+        $this->db->from('pemesanan');
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang', 'left');
+        $this->db->join('pelanggan', 'pelanggan.id_pelanggan = pemesanan.id_pelanggan', 'left');
+        $this->db->join('mobil', 'mobil.id_mobil = pemesanan.id_mobil', 'left');
+        $this->db->where('status_bayar', 0);
+        $this->db->where('jenis_pesanan', 2);
+        $this->db->where('status_setoran_driver', 0);
+        // $this->db->order_by('pemesanan.id_pemesanan', 'DESC');
+        $this->db->order_by('pemesanan.tanggal_pesan', 'DESC');
+        return $this->db->get()->result();
+    }
 }

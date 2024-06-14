@@ -5,9 +5,9 @@ class Model_rutin_karyawan extends CI_Model
 {
     public function get_all()
     {
-        $this->db->select('*,bagian.id_bagian, bagian.nama_bagian');
+        $this->db->select('*,bagian_amdk.id_bagian, bagian_amdk.nama_bagian');
         $this->db->from('rutin_pegawai');
-        $this->db->join('bagian', 'bagian.id_bagian=rutin_pegawai.id_bagian');
+        $this->db->join('bagian_amdk', 'bagian_amdk.id_bagian=rutin_pegawai.id_bagian');
         $this->db->where('rutin_pegawai.aktif', 1);
         // $this->db->where('rutin_pegawai.status_pegawai', 'Karyawan Tetap');
         $this->db->order_by('rutin_pegawai.id_bagian', 'asc');

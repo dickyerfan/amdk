@@ -29,7 +29,8 @@ class model_harga extends CI_Model
             'jenis_harga' => $this->input->post('jenis_harga', true),
             'harga' => $this->input->post('harga', true),
             'no_perkiraan' => $this->input->post('no_perkiraan', true),
-            'input_harga' => $this->session->userdata('nama_lengkap')
+            'input_harga' => $this->session->userdata('nama_lengkap'),
+            'tgl_input_harga' => date('Y-m-d H:i:s')
         ];
         $this->db->insert('harga', $data);
     }
@@ -52,7 +53,9 @@ class model_harga extends CI_Model
             'id_jenis_barang' => $this->input->post('id_jenis_barang', true),
             'jenis_harga' => $this->input->post('jenis_harga', true),
             'harga' => $this->input->post('harga', true),
-            'no_perkiraan' => $this->input->post('no_perkiraan', true)
+            'no_perkiraan' => $this->input->post('no_perkiraan', true),
+            'input_harga' => $this->session->userdata('nama_lengkap'),
+            'tgl_input_harga' => date('Y-m-d H:i:s')
         ];
         $this->db->where('id_harga', $this->input->post('id_harga'));
         $this->db->update('harga', $data);

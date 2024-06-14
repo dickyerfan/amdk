@@ -5,16 +5,16 @@ class Model_ambil_rutin_karyawan extends CI_Model
 {
     public function get_data_karyawan($bulan, $tahun)
     {
-        $this->db->select('*,bagian.id_bagian, bagian.nama_bagian,
-        (SELECT SUM(galon) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_galon,
-        (SELECT SUM(gelas) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_gelas,
-        (SELECT SUM(btl330) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_btl330,
-        (SELECT SUM(btl500) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_btl500,
-        (SELECT SUM(btl1500) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_btl1500,
-        (SELECT SUM(nominal) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_nominal
+        $this->db->select('*,bagian_amdk.id_bagian, bagian_amdk.nama_bagian,
+        (SELECT SUM(galon) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_galon,
+        (SELECT SUM(gelas) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_gelas,
+        (SELECT SUM(btl330) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_btl330,
+        (SELECT SUM(btl500) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_btl500,
+        (SELECT SUM(btl1500) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_btl1500,
+        (SELECT SUM(nominal) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_nominal
         ');
         $this->db->from('ambil_rutin_pegawai');
-        $this->db->join('bagian', 'bagian.id_bagian=ambil_rutin_pegawai.id_bagian');
+        $this->db->join('bagian_amdk', 'bagian_amdk.id_bagian=ambil_rutin_pegawai.id_bagian');
         $this->db->where('MONTH(ambil_rutin_pegawai.tgl_lap)', $bulan);
         $this->db->where('YEAR(ambil_rutin_pegawai.tgl_lap)', $tahun);
         $this->db->order_by('ambil_rutin_pegawai.id_bagian', 'asc');
@@ -23,16 +23,16 @@ class Model_ambil_rutin_karyawan extends CI_Model
     }
     public function get_all($bulan, $tahun)
     {
-        $this->db->select('*,bagian.id_bagian, bagian.nama_bagian,
-        (SELECT SUM(galon) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_galon,
-        (SELECT SUM(gelas) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_gelas,
-        (SELECT SUM(btl330) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_btl330,
-        (SELECT SUM(btl500) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_btl500,
-        (SELECT SUM(btl1500) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_btl1500,
-        (SELECT SUM(nominal) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_nominal
+        $this->db->select('*,bagian_amdk.id_bagian, bagian_amdk.nama_bagian,
+        (SELECT SUM(galon) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_galon,
+        (SELECT SUM(gelas) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_gelas,
+        (SELECT SUM(btl330) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_btl330,
+        (SELECT SUM(btl500) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_btl500,
+        (SELECT SUM(btl1500) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_btl1500,
+        (SELECT SUM(nominal) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_nominal
         ');
         $this->db->from('ambil_rutin_pegawai');
-        $this->db->join('bagian', 'bagian.id_bagian=ambil_rutin_pegawai.id_bagian');
+        $this->db->join('bagian_amdk', 'bagian_amdk.id_bagian=ambil_rutin_pegawai.id_bagian');
         $this->db->where('MONTH(ambil_rutin_pegawai.tgl_lap)', $bulan);
         $this->db->where('YEAR(ambil_rutin_pegawai.tgl_lap)', $tahun);
         $this->db->where('status', 0);
@@ -43,16 +43,16 @@ class Model_ambil_rutin_karyawan extends CI_Model
 
     public function get_sudah_ambil($bulan, $tahun)
     {
-        $this->db->select('*,bagian.id_bagian, bagian.nama_bagian,
-        (SELECT SUM(galon) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_galon,
-        (SELECT SUM(gelas) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_gelas,
-        (SELECT SUM(btl330) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_btl330,
-        (SELECT SUM(btl500) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_btl500,
-        (SELECT SUM(btl1500) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_btl1500,
-        (SELECT SUM(nominal) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_nominal
+        $this->db->select('*,bagian_amdk.id_bagian, bagian_amdk.nama_bagian,
+        (SELECT SUM(galon) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_galon,
+        (SELECT SUM(gelas) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_gelas,
+        (SELECT SUM(btl330) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_btl330,
+        (SELECT SUM(btl500) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_btl500,
+        (SELECT SUM(btl1500) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_btl1500,
+        (SELECT SUM(nominal) FROM ambil_rutin_pegawai WHERE MONTH(ambil_rutin_pegawai.tgl_lap) = "' . $bulan . '" AND YEAR(ambil_rutin_pegawai.tgl_lap) = "' . $tahun . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_nominal
         ');
         $this->db->from('ambil_rutin_pegawai');
-        $this->db->join('bagian', 'bagian.id_bagian=ambil_rutin_pegawai.id_bagian');
+        $this->db->join('bagian_amdk', 'bagian_amdk.id_bagian=ambil_rutin_pegawai.id_bagian');
         $this->db->where('MONTH(ambil_rutin_pegawai.tgl_lap)', $bulan);
         $this->db->where('YEAR(ambil_rutin_pegawai.tgl_lap)', $tahun);
         $this->db->where('status', 1);
@@ -62,16 +62,16 @@ class Model_ambil_rutin_karyawan extends CI_Model
     }
     public function get_sudah_ambil_pertgl($tanggal)
     {
-        $this->db->select('*,bagian.id_bagian, bagian.nama_bagian,
-        (SELECT SUM(galon) FROM ambil_rutin_pegawai WHERE DATE(ambil_rutin_pegawai.tgl_ambil) = "' . $tanggal . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_galon,
-        (SELECT SUM(gelas) FROM ambil_rutin_pegawai WHERE DATE(ambil_rutin_pegawai.tgl_ambil) = "' . $tanggal . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_gelas,
-        (SELECT SUM(btl330) FROM ambil_rutin_pegawai WHERE DATE(ambil_rutin_pegawai.tgl_ambil) = "' . $tanggal . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_btl330,
-        (SELECT SUM(btl500) FROM ambil_rutin_pegawai WHERE DATE(ambil_rutin_pegawai.tgl_ambil) = "' . $tanggal . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_btl500,
-        (SELECT SUM(btl1500) FROM ambil_rutin_pegawai WHERE DATE(ambil_rutin_pegawai.tgl_ambil) = "' . $tanggal . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_btl1500,
-        (SELECT SUM(nominal) FROM ambil_rutin_pegawai WHERE DATE(ambil_rutin_pegawai.tgl_ambil) = "' . $tanggal . '" AND ambil_rutin_pegawai.id_bagian = bagian.id_bagian ) AS jumlah_nominal
+        $this->db->select('*,bagian_amdk.id_bagian, bagian_amdk.nama_bagian,
+        (SELECT SUM(galon) FROM ambil_rutin_pegawai WHERE DATE(ambil_rutin_pegawai.tgl_ambil) = "' . $tanggal . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_galon,
+        (SELECT SUM(gelas) FROM ambil_rutin_pegawai WHERE DATE(ambil_rutin_pegawai.tgl_ambil) = "' . $tanggal . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_gelas,
+        (SELECT SUM(btl330) FROM ambil_rutin_pegawai WHERE DATE(ambil_rutin_pegawai.tgl_ambil) = "' . $tanggal . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_btl330,
+        (SELECT SUM(btl500) FROM ambil_rutin_pegawai WHERE DATE(ambil_rutin_pegawai.tgl_ambil) = "' . $tanggal . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_btl500,
+        (SELECT SUM(btl1500) FROM ambil_rutin_pegawai WHERE DATE(ambil_rutin_pegawai.tgl_ambil) = "' . $tanggal . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_btl1500,
+        (SELECT SUM(nominal) FROM ambil_rutin_pegawai WHERE DATE(ambil_rutin_pegawai.tgl_ambil) = "' . $tanggal . '" AND ambil_rutin_pegawai.id_bagian = bagian_amdk.id_bagian ) AS jumlah_nominal
         ');
         $this->db->from('ambil_rutin_pegawai');
-        $this->db->join('bagian', 'bagian.id_bagian=ambil_rutin_pegawai.id_bagian');
+        $this->db->join('bagian_amdk', 'bagian_amdk.id_bagian=ambil_rutin_pegawai.id_bagian');
         $this->db->where('DATE(ambil_rutin_pegawai.tgl_ambil)', $tanggal);
         $this->db->where('status', 1);
         $this->db->order_by('ambil_rutin_pegawai.id_bagian', 'asc');
@@ -88,9 +88,9 @@ class Model_ambil_rutin_karyawan extends CI_Model
 
     public function ambil_rutin($id_ambil_rutin)
     {
-        $this->db->select('*,bagian.id_bagian, bagian.nama_bagian');
+        $this->db->select('*,bagian_amdk.id_bagian, bagian_amdk.nama_bagian');
         $this->db->from('ambil_rutin_pegawai');
-        $this->db->join('bagian', 'bagian.id_bagian=ambil_rutin_pegawai.id_bagian');
+        $this->db->join('bagian_amdk', 'bagian_amdk.id_bagian=ambil_rutin_pegawai.id_bagian');
         $this->db->where('id_ambil_rutin', $id_ambil_rutin);
         return $this->db->get()->row();
     }

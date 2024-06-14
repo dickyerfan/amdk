@@ -76,7 +76,7 @@
     <div class="card-body">
         <div class="row justify-content-center mb-2">
             <div class="col-lg-6 text-center">
-                <h5><?= strtoupper($title); ?></h5>
+                <p class="fw-bold"><?= strtoupper($title); ?></p>
                 <?php if (empty($tanggal_hari_ini)) {
                     // Jika kosong atau null, atur nilainya menjadi tanggal hari ini
                     $tanggal_hari_ini = date("Y-m-d"); // Format tanggal "YYYY-MM-DD"
@@ -103,16 +103,21 @@
                 $tanggal_hari_ini = strtr($tanggal_hari_ini, $bulan);
 
                 ?>
-                <h5><?= $tanggal_hari_ini; ?></h5>
+                <p class="fw-bold"><?= $tanggal_hari_ini; ?></p>
             </div>
         </div>
 
         <div class="row justify-content-center mb-2">
             <div class="col-lg-7">
                 <?php foreach ($total_pesanan as $row) : ?>
+                    <div class="card mb-1">
+                        <div class="card-header text-center">
+                            <p class="fw-bold">Total Kunjungan rutin hari ini : <?= $row->total_kunjungan == null ? '0' : $row->total_kunjungan; ?> barang</p>
+                        </div>
+                    </div>
                     <div class="card">
                         <div class="card-header text-center">
-                            <h5>Total Pengiriman hari ini : <?= $row->total_pesanan == null ? '0' : $row->total_pesanan; ?> barang</h5>
+                            <p class="fw-bold">Total Penjualan hari ini : <?= $row->total_penjualan == null ? '0' : $row->total_penjualan; ?> barang</p>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -125,10 +130,10 @@
                     <div class="col-lg-7">
                         <div class="card mb-2">
                             <div class="card-header">
-                                <h5>Mobil : <?= $mobil->nama_mobil; ?> / <?= $mobil->plat_nomor; ?></h5>
+                                <p class="fw-bold">Mobil : <?= $mobil->nama_mobil; ?> / <?= $mobil->plat_nomor; ?></p>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-text">Daftar Barang :</h5>
+                                <p class="card-text">Daftar Barang :</p>
                                 <div class="table-responsive">
                                     <table class="table table-borderless table-sm">
                                         <thead>
@@ -144,7 +149,7 @@
                                             <?php foreach ($mobil->jenis_barang as $barang) : ?>
                                                 <tr>
                                                     <td width="40%">
-                                                        - <?= ucwords($barang->nama_barang_jadi); ?>
+                                                        - <?= ucwords($barang->nama_produk); ?>
                                                     </td>
                                                     <td>:</td>
                                                     <td>
@@ -181,19 +186,34 @@
                                     <table>
                                         <tbody>
                                             <tr class="fw-bold">
-                                                <td width="40%">Total Barang pengiriman Jam 1</td>
+                                                <td width="50%">Total Kunjungan Rutin Jam 1</td>
                                                 <td> :</td>
-                                                <td width="20%"><?= $mobil->total_jam_1; ?></td>
+                                                <td width="30%"><?= $mobil->total_jam_1_kunjungan; ?></td>
                                             </tr>
                                             <tr class="fw-bold">
-                                                <td width="40%">Total Barang pengiriman Jam 2</td>
+                                                <td width="50%">Total Kunjungan Rutin Jam 2</td>
                                                 <td> :</td>
-                                                <td width="20%"><?= $mobil->total_jam_2; ?></td>
+                                                <td width="30%"><?= $mobil->total_jam_2_kunjungan; ?></td>
                                             </tr>
                                             <tr class="fw-bold">
-                                                <td width="40%">Total Barang pengiriman Jam 3</td>
+                                                <td width="50%">Total Kunjungan Rutin Jam 3</td>
                                                 <td> :</td>
-                                                <td width="20%"><?= $mobil->total_jam_3; ?></td>
+                                                <td width="30%"><?= $mobil->total_jam_3_kunjungan; ?></td>
+                                            </tr>
+                                            <tr class="fw-bold">
+                                                <td width="50%">Total Penjualan Jam 1</td>
+                                                <td> :</td>
+                                                <td width="30%"><?= $mobil->total_jam_1_penjualan; ?></td>
+                                            </tr>
+                                            <tr class="fw-bold">
+                                                <td width="50%">Total Penjualan Jam 2</td>
+                                                <td> :</td>
+                                                <td width="30%"><?= $mobil->total_jam_2_penjualan; ?></td>
+                                            </tr>
+                                            <tr class="fw-bold">
+                                                <td width="50%">Total Penjualan Jam 3</td>
+                                                <td> :</td>
+                                                <td width="30%"><?= $mobil->total_jam_3_penjualan; ?></td>
                                             </tr>
 
                                             <tr class="fw-bold">
