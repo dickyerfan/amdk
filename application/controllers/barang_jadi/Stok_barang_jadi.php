@@ -8,6 +8,7 @@ class Stok_barang_jadi extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Model_barang_jadi');
+        $this->load->model('Model_laporan');
         if (!$this->session->userdata('nama_pengguna')) {
             $this->session->set_flashdata(
                 'info',
@@ -56,6 +57,40 @@ class Stok_barang_jadi extends CI_Controller
             $this->load->view('barang_jadi/view_stok_barang_jadi', $data);
             $this->load->view('templates/pengguna/footer_jadi');
         }
+    }
+
+    public function exportpdf()
+    {
+        $tanggal = $this->session->userdata('tanggal_exportpdf');
+        $data['title'] = 'Stock Barang Jadi';
+        $data['tanggal_hari_ini'] = $tanggal;
+        $data['stok_barang'] = $this->Model_barang_jadi->getdata($tanggal);
+        $data['manager'] = $this->Model_laporan->get_manager();
+        $data['jadi'] = $this->Model_laporan->get_jadi();
+
+        // Set paper size and orientation
+        $this->pdf->setPaper('A4', 'portrait');
+
+        // $this->pdf->filename = "Potensi Sr.pdf";
+        $this->pdf->filename = "StockBarangJadi-{$tanggal}.pdf";
+        $this->pdf->generate('barang_jadi/laporan_stock_barang_jadi_pdf', $data);
+    }
+
+    public function stock_opname()
+    {
+        $tanggal = $this->session->userdata('tanggal_exportpdf');
+        $data['title'] = 'Stock Opname Barang Jadi';
+        $data['tanggal_hari_ini'] = $tanggal;
+        $data['stok_barang'] = $this->Model_barang_jadi->getdata($tanggal);
+        $data['manager'] = $this->Model_laporan->get_manager();
+        $data['jadi'] = $this->Model_laporan->get_jadi();
+
+        // Set paper size and orientation
+        $this->pdf->setPaper('A4', 'portrait');
+
+        // $this->pdf->filename = "Potensi Sr.pdf";
+        $this->pdf->filename = "StockBarangJadi-{$tanggal}.pdf";
+        $this->pdf->generate('barang_jadi/laporan_stock_opname_pdf', $data);
     }
 
     // public function upload()

@@ -7,6 +7,7 @@ class Pemesanan extends CI_Controller
     {
         parent::__construct();
         $this->load->library('form_validation');
+
         $this->load->model('Model_pemesanan');
         date_default_timezone_set('Asia/Jakarta');
         if (!$this->session->userdata('nama_pengguna')) {
@@ -444,6 +445,9 @@ class Pemesanan extends CI_Controller
 
     public function detail($id_pemesanan)
     {
+        // $this->load->library('googlemaps');
+        // $this->googlemaps->initialize();
+        // $data['map'] = $this->googlemaps->create_map();
         $data['detail_pemesanan'] = $this->Model_pemesanan->get_detail_pemesanan($id_pemesanan);
         $data['title'] = 'Detail Pemesanan Barang';
         if ($this->session->userdata('level') == 'Admin') {

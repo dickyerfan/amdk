@@ -52,7 +52,7 @@ class Barang_baku_untuk_produksi extends CI_Controller
 
     public function upload()
     {
-        $this->form_validation->set_rules('id_jenis_barang', 'Nama Barang Jadi', 'required|trim|is_unique[barang_baku_produksi.id_jenis_barang]');
+        $this->form_validation->set_rules('id_jenis_barang', 'Nama Barang Jadi', 'required|trim');
         $this->form_validation->set_rules('id_barang_baku', 'Nama Barang Baku', 'required|trim');
         $this->form_validation->set_rules('jumlah_keluar_baku', 'Jumlah Barang', 'required|trim');
         $this->form_validation->set_message('required', '%s masih kosong');

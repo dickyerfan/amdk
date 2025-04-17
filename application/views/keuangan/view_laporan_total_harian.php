@@ -181,7 +181,7 @@
                                         ?>
                                             <tr>
                                                 <td class="text-center"><?= $no++ ?></td>
-                                                <td><?= $lunas->nama_barang_jadi; ?></td>
+                                                <td><?= $lunas->nama_produk; ?></td>
                                                 <td class="text-center">Dus</td>
                                                 <td class="text-center"><?= number_format($lunas->total_lunas, 0, ',', '.'); ?></td>
                                                 <td class="text-center"><?= number_format($piutang, 0, ',', '.'); ?></td>

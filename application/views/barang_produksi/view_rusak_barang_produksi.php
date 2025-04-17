@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="form-group mb-2">
                                     <label for="bukti_rusak_produksi">Bukti Transaksi :</label>
-                                    <input type="file" class="form-control" id="bukti_rusak_produksi" name="bukti_rusak_produksi" value="<?= set_value('bukti_rusak_produksi'); ?>">
+                                    <input type="file" accept="image/*" capture="camera" class="form-control" id="bukti_rusak_produksi" name="bukti_rusak_produksi" value="<?= set_value('bukti_rusak_produksi'); ?>">
                                     <small class="form-text text-danger pl-3"><?= form_error('bukti_rusak_produksi'); ?></small>
                                     <!-- <small class="form-text text-danger pl-3">Sertakan foto pendukung jika dibutuhkan</small> -->
                                 </div>

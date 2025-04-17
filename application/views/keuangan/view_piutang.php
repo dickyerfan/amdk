@@ -139,7 +139,7 @@
                                                         $onclick = "Swal.fire('Peringatan', 'Maaf, Bagian pemasaran belum setor uangnya.', 'warning');";
                                                     } else if (!$can_click) {
                                                         $onclick = "Swal.fire('Peringatan', 'Maaf, waktu pelunasan sudah lewat jam 14:00 WIB', 'warning');";
-                                                    } else if ($this->session->userdata('level') == "Admin") {
+                                                    } else if ($this->session->userdata('nama_user') == 'spi' || $this->session->userdata('nama_user') == 'langgan' || $this->session->userdata('nama_user') == 'admin' || $this->session->userdata('nama_pengguna') == "Manager") {
                                                         $onclick = "Swal.fire('Peringatan', 'Admin tidak bisa proses.', 'warning');";
                                                     } else {
                                                         $onclick = "window.location.href='" . base_url('keuangan/piutang/pilih_lunas/') . $row->id_pemesanan . "';";

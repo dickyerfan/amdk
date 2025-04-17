@@ -63,6 +63,7 @@ class Model_pemesanan extends CI_Model
     {
         $this->db->select('id_mobil, nama_mobil');
         $this->db->from('mobil');
+        $this->db->where('status_mobil', 1);
         return $this->db->get()->result();
     }
 

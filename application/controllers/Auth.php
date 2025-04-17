@@ -8,6 +8,10 @@ class Auth extends CI_Controller
         parent::__construct();
         $this->load->model('model_auth');
         $this->load->library('form_validation');
+        header('Access-Control-Allow-Origin: *'); // Allow all origins
+        header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+        header('Access-Control-Allow-Headers: Content-Type, Authorization');
+
     }
 
     public function index()
@@ -135,72 +139,98 @@ class Auth extends CI_Controller
         }
     }
 
-    // private function get_client_ip()
-    // {
-    //     $ipaddress = '';
-    //     if ($this->input->server('HTTP_CLIENT_IP'))
-    //         $ipaddress = $this->input->server('HTTP_CLIENT_IP');
-    //     else if ($this->input->server('HTTP_X_FORWARDED_FOR'))
-    //         $ipaddress = $this->input->server('HTTP_X_FORWARDED_FOR');
-    //     else if ($this->input->server('HTTP_X_FORWARDED'))
-    //         $ipaddress = $this->input->server('HTTP_X_FORWARDED');
-    //     else if ($this->input->server('HTTP_FORWARDED_FOR'))
-    //         $ipaddress = $this->input->server('HTTP_FORWARDED_FOR');
-    //     else if ($this->input->server('HTTP_FORWARDED'))
-    //         $ipaddress = $this->input->server('HTTP_FORWARDED');
-    //     else if ($this->input->server('REMOTE_ADDR'))
-    //         $ipaddress = $this->input->server('REMOTE_ADDR');
-    //     else
-    //         $ipaddress = 'UNKNOWN';
-    //     return $ipaddress;
-    // }
+    public function login_api()
+    {
+        $this->form_validation->set_rules('nama_user', 'Nama User', 'required|trim');
+        $this->form_validation->set_rules('password', 'Password', 'required|trim');
+        $this->form_validation->set_message('required', '%s masih kosong');
+
+        if ($this->form_validation->run() == false) {
+            $error = strip_tags(validation_errors());
+            $response = array('status' => false, 'message'  => $error);
+            echo json_encode($response);
+            return;
+        }
+
+        $nama_user = $this->input->post('nama_user');
+        $password = $this->input->post('password');
+
+        $this->db->from('user');
+        $this->db->where('nama_user', $nama_user);
+        $this->db->where('status', 1);
+        $query = $this->db->get();
+        $users = $query->result();
+
+        $user_found = false;
+
+        foreach ($users as $user) {
+            if (password_verify($password, $user->password)) {
+                $user_found = true;
+
+                $data_session = [
+                    'user_id' => $user->id,
+                    'nama_pengguna' => $user->nama_pengguna,
+                    'nik_karyawan' => $user->nik_karyawan,
+                    'nama_user' => $user->nama_user,
+                    'nama_lengkap' => $user->nama_lengkap,
+                    'upk_bagian' => $user->upk_bagian,
+                    'password' => $user->password,
+                    'level' => $user->level
+                ];
+
+                $this->session->set_userdata($data_session);
+
+                // $user_agent = $this->input->user_agent();
+                // $ip_address = $this->input->ip_address();
+                // $this->model_auth->log_activity($user->id, 'login', $user_agent, $ip_address);
+
+                $response = array('status' => true, 'message' => 'Login successful', 'data' => $data_session);
+                echo json_encode($response);
+                return;
+            } else {
+                $response = array('status' => false, 'message' => 'Password tidak valid.');
+                echo json_encode($response);
+                return;
+            }
+        }
+
+        if (!$user_found) {
+            $response = array('status' => false, 'message' => 'Nama User tidak valid.');
+            echo json_encode($response);
+        }
+    }
 
 
-    // public function registrasi()
-    // {
-    //     if ($this->session->userdata('nama_pengguna')) {
-    //         redirect('dashboard');
-    //     }
-    //     $this->form_validation->set_rules('nama_pengguna', 'Nama Pengguna', 'required|trim|min_length[5]|is_unique[user.nama_pengguna]');
-    //     $this->form_validation->set_rules('nama_lengkap', 'Nama Lengkap', 'required|trim');
-    //     $this->form_validation->set_rules('email', 'email', 'required|trim|valid_email');
-    //     $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[5]');
+    public function api_login()
+    {
+        header('Content-Type: application/json');
 
-    //     $this->form_validation->set_message('required', '%s masih kosong');
-    //     $this->form_validation->set_message('valid_email', '%s Harus Valid');
-    //     $this->form_validation->set_message('is_unique', '%s Sudah terdaftar, Ganti yang lain');
-    //     $this->form_validation->set_message('min_length', '%s Minimal 5 karakter');
+        $nama_user = $this->input->post('nama_user');
+        $password = $this->input->post('password');
 
-    //     if ($this->form_validation->run() == false) {
-    //         $data['title'] = 'Registrasi';
-    //         $this->load->view('auth/view_registrasi', $data);
-    //     } else {
-    //         $this->model_auth->registrasi();
-    //         redirect('auth');
-    //     }
-    // }
+        $this->db->from('user');
+        $this->db->where('nama_user', $nama_user);
+        $this->db->where('status', 1);
+        $query = $this->db->get();
+        $user = $query->row();
 
-    // public function logout()
-    // {
+        if ($user && password_verify($password, $user->password)) {
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Login berhasil',
+                'data' => [
+                    'user_id' => $user->id,
+                    'nama_user' => $user->nama_user,
+                    'nama_lengkap' => $user->nama_lengkap,
+                    'level' => $user->level
+                ]
+            ]);
+        } else {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Nama user atau password salah'
+            ]);
+        }
+    }
 
-    //     $user_id = $this->session->userdata('user_id');
-    //     if ($user_id) {
-    //         $user_agent = $this->input->user_agent();
-    //         $ip_address = $this->input->ip_address();
-    //         $this->model_auth->log_activity($user_id, 'logout', $user_agent, $ip_address);
-    //     }
-
-    //     $this->session->unset_userdata('nama_pengguna');
-    //     $this->session->unset_userdata('nama_user');
-    //     $this->session->unset_userdata('nama_lengkap');
-    //     $this->session->unset_userdata('email');
-    //     $this->session->unset_userdata('password');
-    //     $this->session->unset_userdata('level');
-    //     $this->session->unset_userdata('tipe');
-
-    //     $this->session->set_flashdata('info', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-    //     <strong>Selamat,</strong> Anda Berhasil Logout.!
-    //     </div>');
-    //     redirect('auth');
-    // }
 }

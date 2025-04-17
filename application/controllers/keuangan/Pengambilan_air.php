@@ -34,20 +34,31 @@ class Pengambilan_air extends CI_Controller
 
     public function index()
     {
-        $tanggal = $this->input->get('tanggal');
+        $tanggal_mulai = $this->input->get('tanggal_mulai');
+        $tanggal_selesai = $this->input->get('tanggal_selesai');
 
-        $bulan = substr($tanggal, 5, 2);
-        $tahun = substr($tanggal, 0, 4);
-
-        if (empty($tanggal)) {
-            $tanggal = date('Y-m-d');
-            $bulan = date('m');
-            $tahun = date('Y');
+        if (!$tanggal_mulai || !$tanggal_selesai) {
+            // Beri nilai default sebelum mengambil data
+            $tanggal_mulai = date('Y-m-01'); // tanggal 1 di bulan ini
+            $tanggal_selesai = date('Y-m-t'); // tanggal terakhir di bulan ini
         }
-        $this->session->set_userdata('$tanggal_lap', $tanggal);
+
+        if (!empty($tanggal_mulai) || !empty($tanggal_selesai)) {
+            $this->session->set_userdata('tanggal_mulai', $tanggal_mulai);
+            $this->session->set_userdata('tanggal_selesai', $tanggal_selesai);
+        }
+
+        // Menghitung tanggal mulai dan selesai
+        $start_date = new DateTime($tanggal_mulai);
+        $end_date = new DateTime($tanggal_selesai);
+        $data['start_date'] = $start_date;
+        $data['end_date'] = $end_date;
+
+        // Menghitung jumlah hari
+        // $jumlah_hari = $end_date->diff($start_date)->days + 1; // +1 untuk menghitung hari terakhir
 
         $data['title'] = 'Daftar Pengambilan Air Baku';
-        $data['ambil_air'] = $this->Model_ambil_air->get_ambil_air($bulan, $tahun);
+        $data['ambil_air'] = $this->Model_ambil_air->get_ambil_air($tanggal_mulai, $tanggal_selesai);
         if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
@@ -61,6 +72,39 @@ class Pengambilan_air extends CI_Controller
             $this->load->view('keuangan/view_ambil_air', $data);
             $this->load->view('templates/pengguna/footer_uang');
         }
+    }
+
+    public function exportpdf()
+    {
+        $tanggal_mulai = $this->session->userdata('tanggal_mulai');
+        $tanggal_selesai = $this->session->userdata('tanggal_selesai');
+
+        if (!$tanggal_mulai || !$tanggal_selesai) {
+            // Beri nilai default sebelum mengambil data
+            $tanggal_mulai = date('Y-m-01'); // tanggal 1 di bulan ini
+            $tanggal_selesai = date('Y-m-t'); // tanggal terakhir di bulan ini
+        }
+
+        // Menghitung tanggal mulai dan selesai
+        $start_date = new DateTime($tanggal_mulai);
+        $end_date = new DateTime($tanggal_selesai);
+        $data['start_date'] = $start_date;
+        $data['end_date'] = $end_date;
+
+        // Menghitung jumlah hari
+        // $jumlah_hari = $end_date->diff($start_date)->days + 1; // +1 untuk menghitung hari terakhir
+
+        $data['title'] = 'Daftar Pengambilan Air Baku';
+        $data['ambil_air'] = $this->Model_ambil_air->get_ambil_air($tanggal_mulai, $tanggal_selesai);
+
+        $data['manager'] = $this->Model_laporan->get_manager();
+        $data['uang'] = $this->Model_laporan->get_uang();
+
+        // Set paper size and orientation
+        $this->pdf->setPaper('folio', 'portrait');
+
+        $this->pdf->filename = "Lap_ambil_air.pdf";
+        $this->pdf->generate('keuangan/laporan_pengambilan_air_pdf', $data);
     }
 
     public function tambah()
@@ -196,31 +240,5 @@ class Pengambilan_air extends CI_Controller
                   </div>'
         );
         redirect('keuangan/pengambilan_air');
-    }
-    public function exportpdf()
-    {
-        $tanggal = $this->session->userdata('$tanggal_lap');
-        $bulan = substr($tanggal, 5, 2);
-        $tahun = substr($tanggal, 0, 4);
-
-        if (empty($tanggal)) {
-            $tanggal = date('Y-m-d');
-            $bulan = date('m');
-            $tahun = date('Y');
-        }
-        $data['title'] = 'Laporan Pengambilan Air Baku AMDK';
-        $data['ambil_air'] = $this->Model_ambil_air->get_ambil_air($bulan, $tahun);
-
-        $data['bulan_lap'] = $bulan;
-        $data['tahun_lap'] = $tahun;
-        $data['manager'] = $this->Model_laporan->get_manager();
-        $data['uang'] = $this->Model_laporan->get_uang();
-
-        // Set paper size and orientation
-        $this->pdf->setPaper('folio', 'portrait');
-
-        // $this->pdf->filename = "Potensi Sr.pdf";
-        $this->pdf->filename = "Lap_ambil_air-{$bulan}-{$tahun}.pdf";
-        $this->pdf->generate('keuangan/laporan_pengambilan_air_pdf', $data);
     }
 }

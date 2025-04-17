@@ -57,4 +57,17 @@ class model_pelanggan extends CI_Model
         $this->db->where('id_pelanggan', $this->input->post('id_pelanggan'));
         $this->db->update('pelanggan', $data);
     }
+
+    public function getdetail($id_pelanggan)
+    {
+        return $this->db->get_where('pelanggan', ['id_pelanggan' => $id_pelanggan])->row();
+    }
+
+    public function search_pelanggan($nama)
+    {
+        $this->db->like('nama_pelanggan', $nama);
+        $query = $this->db->get('pelanggan');
+
+        return $query->result_array();
+    }
 }

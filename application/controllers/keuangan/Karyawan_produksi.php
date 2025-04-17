@@ -154,8 +154,8 @@ class Karyawan_produksi extends CI_Controller
         }
 
         $data['title'] = "Absensi Karyawan Produksi & Hasil Produksi AMDK Ijen Water";
-        $data['absen_karProd'] = $this->Model_karyawan_produksi->get_absen_karprod();
-        $data['produksi_barang'] = $this->Model_karyawan_produksi->get_jenis_barang();
+        $data['absen_karProd'] = $this->Model_karyawan_produksi->get_absen_karprod($bulan, $tahun);
+        $data['produksi_barang'] = $this->Model_karyawan_produksi->get_jenis_barang($bulan, $tahun);
 
 
         $absensi_karyawan = array();
@@ -269,8 +269,8 @@ class Karyawan_produksi extends CI_Controller
         $data['uang'] = $this->Model_laporan->get_uang();
 
         $data['title'] = "Absensi Karyawan Produksi & Hasil Produksi AMDK Ijen Water";
-        $data['absen_karProd'] = $this->Model_karyawan_produksi->get_absen_karprod();
-        $data['produksi_barang'] = $this->Model_karyawan_produksi->get_jenis_barang();
+        $data['absen_karProd'] = $this->Model_karyawan_produksi->get_absen_karprod($bulan, $tahun);
+        $data['produksi_barang'] = $this->Model_karyawan_produksi->get_jenis_barang($bulan, $tahun);
 
 
         $absensi_karyawan = array();
@@ -321,8 +321,8 @@ class Karyawan_produksi extends CI_Controller
         }
 
         $data['title'] = "Uraian Biaya Produksi AMDK Ijen Water";
-        $data['absen_karProd'] = $this->Model_karyawan_produksi->get_absen_karprod();
-        $data['produksi_barang'] = $this->Model_karyawan_produksi->get_jenis_barang();
+        $data['absen_karProd'] = $this->Model_karyawan_produksi->get_absen_karprod($bulan, $tahun);
+        $data['produksi_barang'] = $this->Model_karyawan_produksi->get_jenis_barang($bulan, $tahun);
 
         $absensi_karyawan = array();
         foreach ($data['absen_karProd'] as $row) {
@@ -381,8 +381,8 @@ class Karyawan_produksi extends CI_Controller
         $data['uang'] = $this->Model_laporan->get_uang();
 
         $data['title'] = "Uraian Biaya Produksi AMDK Ijen Water";
-        $data['absen_karProd'] = $this->Model_karyawan_produksi->get_absen_karprod();
-        $data['produksi_barang'] = $this->Model_karyawan_produksi->get_jenis_barang();
+        $data['absen_karProd'] = $this->Model_karyawan_produksi->get_absen_karprod($bulan, $tahun);
+        $data['produksi_barang'] = $this->Model_karyawan_produksi->get_jenis_barang($bulan, $tahun);
 
         $absensi_karyawan = array();
         foreach ($data['absen_karProd'] as $row) {

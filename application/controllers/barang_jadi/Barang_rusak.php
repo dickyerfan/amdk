@@ -146,11 +146,20 @@ class Barang_rusak extends CI_Controller
     {
         $data['detail_barang_rusak'] = $this->Model_barang_jadi->get_detail_barang_rusak($id_rusak_jadi);
         $data['title'] = 'Detail Barang Rusak';
-        $this->load->view('templates/pengguna/header', $data);
-        $this->load->view('templates/pengguna/navbar_jadi');
-        $this->load->view('templates/pengguna/sidebar_jadi');
-        $this->load->view('barang_jadi/view_detail_rusak_barang_jadi', $data);
-        $this->load->view('templates/pengguna/footer_jadi');
+
+        if ($this->session->userdata('level') == 'Admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('barang_jadi/view_detail_rusak_barang_jadi', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_jadi');
+            $this->load->view('templates/pengguna/sidebar_jadi');
+            $this->load->view('barang_jadi/view_detail_rusak_barang_jadi', $data);
+            $this->load->view('templates/pengguna/footer_jadi');
+        }
     }
 
     public function perbaikan($id_rusak_jadi)

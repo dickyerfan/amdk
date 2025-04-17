@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMDK | Laporan Bulanan</title>
+    <title>AMDK | <?=$title;?></title>
     <link href="<?= base_url(); ?>assets/datatables/bootstrap5/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -140,14 +140,20 @@
                             case 'botol 500ml amalis':
                                 echo '500 Amalis';
                                 break;
-                            case 'botol 1500 ml ijen':
+                            case 'botol 1500ml ijen':
                                 echo '1500 Ijen';
                                 break;
-                            case 'botol 1500 ml amalis':
+                            case 'botol 1500ml amalis':
                                 echo '1500 Amalis';
                                 break;
                             case 'galon kosong':
                                 echo 'No Air';
+                                break;
+                            case 'botol 330ml genggong':
+                                echo '330 Genggong';
+                                break;
+                            case 'botol 500ml genggong':
+                                echo '500 Genggong';
                                 break;
                             default:
                                 echo $jenis;
@@ -308,7 +314,7 @@
         <p style="width: 50%; float: right;text-align:center; margin-bottom: 1px;">Dibuat Oleh :</p>
         <div style="clear: both;"></div>
         <p style="width: 50%; float: left; text-align:center;">Manager AMDK</p>
-        <p style="width: 50%; float: right;text-align:center;">Kabag Administrasi & Keuangan</p>
+        <p style="width: 50%; float: right;text-align:center;">Bagian Administrasi & Keuangan</p>
         <div style="clear: both; margin-bottom:40px;"></div>
         <u style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"><?= strtoupper($manager->nama_karyawan); ?></u>
         <u style="width: 50%; float: right;text-align:center; margin-bottom: 1px;"><?= strtoupper($uang->nama_karyawan); ?></u>

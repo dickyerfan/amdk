@@ -58,10 +58,15 @@
                                 <div class="form-group">
                                     <select name="tarif" id="tarif" class="form-control select2">
                                         <option value="">Pilih Tarif</option>
-                                        <option value="Umum">Umum</option>
-                                        <option value="Retail">Retail</option>
-                                        <option value="SemiGrosir">SemiGrosir</option>
-                                        <option value="Grosir">Grosir</option>
+                                        <?php if ($this->session->userdata('level') == 'admin') { ?>
+                                            <option value="Umum">Umum</option>
+                                            <option value="Retail">Retail</option>
+                                            <option value="SemiGrosir">SemiGrosir</option>
+                                            <option value="Grosir">Grosir</option>
+                                        <?php } else { ?>
+                                            <option value="Umum">Umum</option>
+                                            <option value="Retail">Retail</option>
+                                        <?php } ?>
                                     </select>
                                     <small class="form-text text-danger pl-3"><?= form_error('tarif'); ?></small>
                                 </div>

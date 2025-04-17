@@ -44,7 +44,7 @@
         .tableUtama td {
             border: 1px solid black;
             font-size: 0.8rem;
-            padding: 0 3px;
+            padding: 5 3px;
         }
 
         .judul p {

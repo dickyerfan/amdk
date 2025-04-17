@@ -448,6 +448,26 @@
     }, 1000);
 </script>
 
+<!-- compress image -->
+<script>
+    document.getElementById('nota_beli').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+
+        new Compressor(file, {
+            quality: 0.2,
+            success(result) {
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(new File([result], file.name));
+                document.getElementById('nota_beli').files = dataTransfer.files;
+            },
+            error(err) {
+                console.log(err.message);
+            },
+        });
+    });
+</script>
+
+
 </body>
 
 </html>

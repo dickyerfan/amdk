@@ -42,6 +42,10 @@ class Model_barang_produksi extends CI_Model
     {
         return $this->db->insert('keluar_baku_produksi', $data);
     }
+    public function upload($table, $data)
+    {
+        $this->db->insert($table, $data);
+    }
     // akhir barang keluar
 
     // awal barang baku produksi

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMDK | Laporan Bulanan</title>
+    <title>AMDK | <?= $title; ?></title>
     <link href="<?= base_url(); ?>assets/datatables/bootstrap5/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -74,19 +74,17 @@
         <hr>
     </div>
     <div class="judul">
-        <p class="my-0 text-center"><?= strtoupper($title) ?></p>
+        <p class="my-0 text-center fw-bold"><?= strtoupper($title) ?></p>
         <?php
-        $tanggal = $this->session->userdata('$tanggal_lap');
-        if (empty($tanggal)) {
-            $bulan = date('m');
-            $tahun = date('Y');
-            $bulanLap = date('m');
-            $tahunLap = date('Y');
-        } else {
-            list($tahun, $bulan, $hari) = explode('-', $tanggal);
-            list($tahunLap, $bulanLap, $hariLap) = explode('-', $tanggal);
-            $bulan = str_pad($bulan, 2, '0', STR_PAD_LEFT);
-        }
+        // Mendapatkan nama bulan untuk tanggal awal dan akhir
+        $tanggalAwal = $start_date->format('d');
+        $bulanAwal = $start_date->format('m');
+        $tahunAwal = $start_date->format('Y');
+        $tanggalAkhir = $end_date->format('d');
+        $bulanAkhir = $end_date->format('m');
+        $tahunAkhir = $end_date->format('Y');
+
+        // Daftar bulan
         $bulanLap = [
             '01' => 'Januari',
             '02' => 'Februari',
@@ -101,8 +99,16 @@
             '11' => 'November',
             '12' => 'Desember',
         ];
+
+        // Menampilkan periode
+        if ($tahunAwal === $tahunAkhir) {
+            // Jika tahun sama, hanya tampilkan tahun sekali
+            echo '<p class="my-0 text-center">Periode : ' . $tanggalAwal . ' ' . $bulanLap[$bulanAwal] . ' - ' . $tanggalAkhir . ' ' . $bulanLap[$bulanAkhir] . ' ' . $tahunAwal . '</p>';
+        } else {
+            // Jika tahun berbeda, tampilkan tahun untuk masing-masing bulan
+            echo '<p class="my-0 text-center">Periode : ' . $tanggalAwal . ' ' . $bulanLap[$bulanAwal] . ' ' . $tahunAwal . ' - ' . $tanggalAkhir . ' ' . $bulanLap[$bulanAkhir] . ' ' . $tahunAkhir . '</p>';
+        }
         ?>
-        <p class="mu-0 text-center">Bulan : <?= $bulanLap[$bulan] . ' ' . $tahunLap ?></p>
     </div>
     <table class="table tableUtama">
         <thead>
@@ -153,7 +159,6 @@
                 ];
                 $tanggal_hari_ini = strtr($tanggal_hari_ini, $bulan);
 
-
                 $hari = date('l', strtotime($row->tanggal_ambil_air));
                 $hari_indo = ganti_hari($hari);
 
@@ -170,58 +175,6 @@
                 </tr>
             <?php endforeach; ?>
         </tbody>
-        <!-- <tfoot>
-            <tr>
-                <td></td>
-                <td>Jumlah Total</td>
-                <?php
-                $total_lunas = 0;
-                $total_piutang = 0;
-                foreach ($nama_barang as $jenis) : ?>
-                    <td class="text-center">
-                        <?php
-                        $totalPerJenis = 0;
-                        foreach ($dateRange as $tanggal) {
-                            $totalPerJenisTanggal = 0;
-                            foreach ($lunas as $barang) {
-                                if ($barang['nama_produk'] == $jenis) {
-                                    if (isset($barang['pemesanan'][$tanggal])) {
-                                        $jumlah_barang = $barang['pemesanan'][$tanggal];
-                                        $totalPerJenisTanggal += $jumlah_barang;
-                                        $total_lunas += $jumlah_barang; // Tambahkan ke total semua di sini
-                                    }
-                                }
-                            }
-                            $totalPerJenis += $totalPerJenisTanggal;
-                        }
-                        echo $totalPerJenis;
-                        ?>
-                    </td>
-                    <td class="text-center">
-                        <?php
-                        $totalPerJenis = 0;
-                        foreach ($dateRange as $tanggal) {
-                            $totalPerJenisTanggal = 0;
-                            foreach ($piutang as $barang) {
-                                if ($barang['nama_produk'] == $jenis) {
-                                    if (isset($barang['pemesanan'][$tanggal])) {
-                                        $jumlah_barang = $barang['pemesanan'][$tanggal];
-                                        $totalPerJenisTanggal += $jumlah_barang;
-                                        $total_piutang += $jumlah_barang; // Tambahkan ke total semua di sini
-                                    }
-                                }
-                            }
-                            $totalPerJenis += $totalPerJenisTanggal;
-                        }
-                        echo $totalPerJenis;
-                        ?>
-                    </td>
-                <?php endforeach; ?>
-
-                <td class='text-center'><?= $total_lunas; ?></td>
-                <td class='text-center'><?= $total_piutang; ?></td>
-            </tr>
-        </tfoot> -->
     </table>
 
     <?php
@@ -245,7 +198,7 @@
         <p style="width: 50%; float: right;text-align:center; margin-bottom: 1px;">Dibuat Oleh :</p>
         <div style="clear: both;"></div>
         <p style="width: 50%; float: left; text-align:center;">Manager AMDK</p>
-        <p style="width: 50%; float: right;text-align:center;">Kabag Administrasi & Keuangan</p>
+        <p style="width: 50%; float: right;text-align:center;">Bagian Administrasi & Keuangan</p>
         <div style="clear: both; margin-bottom:40px;"></div>
         <u style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"><?= strtoupper($manager->nama_karyawan); ?></u>
         <u style="width: 50%; float: right;text-align:center; margin-bottom: 1px;"><?= strtoupper($uang->nama_karyawan); ?></u>

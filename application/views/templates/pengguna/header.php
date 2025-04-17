@@ -25,6 +25,7 @@
     <link href="<?= base_url(); ?>assets/datatables/bootstrap5/bootstrap.min.css" rel="stylesheet">
     <link href="<?= base_url(); ?>assets/datatables/bootstrap5/dataTables.bootstrap5.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('assets/css/datepicker.css') ?>">
+    <script src="https://cdn.jsdelivr.net/npm/compressorjs@1.2.1/dist/compressor.min.js"></script>
 
     <style>
         .cardEffect:hover {

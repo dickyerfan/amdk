@@ -11,8 +11,11 @@
                             </div>
                         </form>
                         <div class="navbar-nav ms-auto">
+                            <a href="<?= base_url('keuangan/penerimaan/ekspor_penerimaan') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
+                        </div>
+                        <div class="navbar-nav ms-auto">
                             <?php if (!empty($pesan) && isset($pesan[0])) : ?>
-                                <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
+                                <?php if ($this->session->userdata('upk_bagian') == 'uang' or $this->session->userdata('nama_pengguna') == 'Wakil Manager') : ?>
                                     <a href="<?= $pesan[0]->status_setor == 0 ? base_url('keuangan/penerimaan/setor_bank') : "javascript:void(0)"; ?>">
                                         <button class="float-end neumorphic-button"><i class="fas fa-bank"></i> Setor Bank</button>
                                     </a>
@@ -29,12 +32,13 @@
 
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class=" neumorphic-button">
                                 <?php
                                 if (!empty($pesan) && isset($pesan[0])) {
+                                    $tanggal_setor = date('d-m-Y H:i:s', strtotime($pesan[0]->tanggal_setor));
                                     if ($pesan[0]->status_setor == 1) {
-                                        echo "<span class='text-center fw-bold text-primary'>Sudah Setor </span>";
+                                        echo "<span class='text-center fw-bold text-primary'>Status : SUDAH SETOR <br>Tgl : " . $tanggal_setor . " <br>Petugas : " . $pesan[0]->input_setor . "</span>";
                                     } else {
                                         echo "<span class='text-center fw-bold text-danger'>Belum Setor </span>";
                                     }
@@ -119,6 +123,7 @@
                                             <th class="text-center">Jumlah</th>
                                             <th class="text-center">Harga</th>
                                             <th class="text-center">Total</th>
+                                            <th class="text-center">Driver</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -137,6 +142,7 @@
                                                 <td class="text-end"><?= number_format($row->jumlah_pesan, 0, ',', '.'); ?></td>
                                                 <td class="text-end"><?= number_format($row->harga_barang, 0, ',', '.'); ?></td>
                                                 <td class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></td>
+                                                <td><?= $row->input_setoran_driver;?></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -144,6 +150,7 @@
                                         <tr>
                                             <th colspan="7" class="text-end">Jumlah</th>
                                             <th class="text-end"><?= number_format($total_penerimaan, 0, ',', '.'); ?></th>
+                                            <th></th>
                                         </tr>
                                     </tfoot>
                                 </table>

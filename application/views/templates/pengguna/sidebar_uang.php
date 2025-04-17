@@ -19,12 +19,16 @@
                     </a>
                     <div class="collapse" id="transaksi" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="<?= base_url('keuangan/riwayat_pembelian') ?>" style="font-size: 0.8rem;">Riwayat Pembelian</a>
                             <a class="nav-link" href="<?= base_url('keuangan/pelanggan') ?>" style="font-size: 0.8rem;">Daftar Pelanggan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/penjualan') ?>" style="font-size: 0.8rem;">Daftar Penjualan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/penerimaan') ?>" style="font-size: 0.8rem;">Daftar Penerimaan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/piutang') ?>" style="font-size: 0.8rem;">Daftar Piutang</a>
                             <a class="nav-link" href="<?= base_url('keuangan/ban_ops') ?>" style="font-size: 0.8rem;">Bantuan / Operasional</a>
                             <a class="nav-link" href="<?= base_url('keuangan/lebaran') ?>" style="font-size: 0.8rem;">Bingkisan Lebaran</a>
+                            <!-- <a class="nav-link" href="<?= base_url('manager/pelunasan') ?>" style="font-size: 0.8rem;">Pelunasan</a> -->
+                            <!-- <a class="nav-link" href="<?= base_url('pemasaran/setoran_hutang') ?>" style="font-size: 0.8rem;">Setoran Hutang</a> -->
+                            <a class="nav-link" href="<?= base_url('pemasaran/setoran') ?>" style="font-size: 0.8rem;">Daftar Setoran</a>
                         </nav>
                     </div>
                     <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#rutin" aria-expanded="false" aria-controls="rutin">
@@ -72,11 +76,13 @@
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="<?= base_url('keuangan/laporan_total_harian') ?>" style="font-size: 0.8rem;">Laporan Total Harian</a>
                             <a class="nav-link" href="<?= base_url('keuangan/laporan_penerimaan') ?>" style="font-size: 0.8rem;">Laporan Penerimaan</a>
-                            <a class="nav-link" href="<?= base_url('keuangan/laporan_keuangan') ?>" style="font-size: 0.8rem;">Laporan Bulanan</a>
+                            <a class="nav-link" href="<?= base_url('keuangan/laporan_keuangan') ?>" style="font-size: 0.8rem;">Laporan Keuangan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/laporan_rutin_karyawan') ?>" style="font-size: 0.8rem;">Laporan Pembelian Karyawan</a>
                             <a class="nav-link" href="<?= base_url('keuangan/laporan_ban_ops') ?>" style="font-size: 0.8rem;">Laporan Bantuan/Operasional</a>
                             <a class="nav-link" href="<?= base_url('keuangan/laporan_pemakaian_air') ?>" style="font-size: 0.8rem;">Laporan Pemakaian Air</a>
+                            <a class="nav-link" href="<?= base_url('keuangan/laporan_piutang') ?>" style="font-size: 0.8rem;">Laporan Piutang</a>
                             <a class="nav-link" href="<?= base_url('keuangan/daftar_penjualan') ?>" style="font-size: 0.8rem;">Daftar Penjualan</a>
+                            <a class="nav-link" href="<?= base_url('keuangan/daftar_gaji_produksi') ?>" style="font-size: 0.8rem;">Daftar Gaji Produksi</a>
                         </nav>
                     </div>
 

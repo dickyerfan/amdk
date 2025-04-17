@@ -26,6 +26,11 @@ class Model_auth extends CI_Model
         return $query->result();
     }
 
+    public function get_user_by_username($nama_user)
+    {
+        return $this->db->get_where('user', array('nama_user' => $nama_user))->row();
+    }
+
     // public function get_user_by_nama_user($nama_user)
     // {
     //     $this->db->from('user');

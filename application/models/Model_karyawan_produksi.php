@@ -87,6 +87,39 @@ class model_karyawan_produksi extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function get_daftar_hadir($tanggal_mulai, $tanggal_selesai)
+    {
+        $this->db->select('id_absen_karprod, absen_karyawan_produksi.id_karyawan_produksi, karyawan_produksi.nama_karyawan_produksi, absen_karyawan_produksi.status_absen,absen_karyawan_produksi.tanggal');
+        $this->db->from('absen_karyawan_produksi');
+        $this->db->join('karyawan_produksi', 'karyawan_produksi.id_karyawan_produksi = absen_karyawan_produksi.id_karyawan_produksi');
+        $this->db->where('absen_karyawan_produksi.tanggal >=', $tanggal_mulai);
+        $this->db->where('absen_karyawan_produksi.tanggal <=', $tanggal_selesai);
+        // $this->db->where('karyawan_produksi.status', 1);
+        return $this->db->get()->result();
+    }
+
+    public function get_gaji_produksi($tanggal_mulai, $tanggal_selesai)
+    {
+        $this->db->select('id_absen_karprod, absen_karyawan_produksi.id_karyawan_produksi, karyawan_produksi.nama_karyawan_produksi, absen_karyawan_produksi.status_absen, absen_karyawan_produksi.tanggal');
+        $this->db->from('absen_karyawan_produksi');
+        $this->db->join('karyawan_produksi', 'karyawan_produksi.id_karyawan_produksi = absen_karyawan_produksi.id_karyawan_produksi');
+        $this->db->where('absen_karyawan_produksi.tanggal >=', $tanggal_mulai);
+        $this->db->where('absen_karyawan_produksi.tanggal <=', $tanggal_selesai);
+        return $this->db->get()->result();
+    }
+    public function get_jenis_barang_gaji($tanggal_mulai, $tanggal_selesai)
+    {
+        $this->db->select('barang_jadi.jumlah_barang_jadi, barang_jadi.id_jenis_barang, barang_jadi.tanggal_barang_jadi, jenis_barang.nama_barang_jadi, ongkos_produksi.ongkos_per_unit');
+        $this->db->from('barang_jadi');
+        $this->db->join('jenis_barang', 'jenis_barang.id_jenis_barang = barang_jadi.id_jenis_barang');
+        $this->db->join('ongkos_produksi', 'barang_jadi.id_jenis_barang = ongkos_produksi.id_jenis_barang');
+        $this->db->where('barang_jadi.tanggal_barang_jadi >=', $tanggal_mulai);
+        $this->db->where('barang_jadi.tanggal_barang_jadi <=', $tanggal_selesai);
+        return $this->db->get()->result();
+    }
+
+
+
     // public function get_ongkos_produksi()
     // {
     //     return $this->db->get('ongkos_produksi')->result();

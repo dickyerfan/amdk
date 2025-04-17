@@ -29,6 +29,8 @@
                             <a class="nav-link" href="<?= base_url('pemasaran/piutang') ?>" style="font-size: 0.8rem;">Daftar Piutang</a>
                             <a class="nav-link" href="<?= base_url('pemasaran/setoran') ?>" style="font-size: 0.8rem;">Daftar Setoran</a>
                             <a class="nav-link" href="<?= base_url('pemasaran/setoran_hutang') ?>" style="font-size: 0.8rem;">Setoran Hutang</a>
+                            <a class="nav-link" href="<?= base_url('keuangan/penerimaan') ?>" style="font-size: 0.8rem;">Daftar Penerimaan</a>
+                            <a class="nav-link" href="<?= base_url('keuangan/riwayat_pembelian') ?>" style="font-size: 0.8rem;">Riwayat Pembelian</a>
                             <!-- <a class="nav-link" href="<?= base_url('pemasaran/pemesanan/barang_karyawan') ?>" style="font-size: 0.8rem;">Daftar Barang Karyawan</a> -->
                         </nav>
                     </div>

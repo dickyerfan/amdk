@@ -80,7 +80,7 @@ class Rutin_karyawan extends CI_Controller
         // $this->form_validation->set_message('is_unique', '%s Sudah terdaftar, Ganti yang lain');
 
         if ($this->form_validation->run() == false) {
-            $data['bagian'] = $this->db->get('bagian')->result();
+            $data['bagian'] = $this->db->get('bagian_amdk')->result();
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_jadi');
             $this->load->view('templates/pengguna/sidebar_jadi');
@@ -104,7 +104,7 @@ class Rutin_karyawan extends CI_Controller
     {
         $data['title'] = "Form Edit Rutin Karyawan";
         $data['edit_rutin'] = $this->db->get_where('rutin_pegawai', ['id_rutin' => $id_rutin])->row();
-        $data['bagian'] = $this->db->get('bagian')->result();
+        $data['bagian'] = $this->db->get('bagian_amdk')->result();
         $this->load->view('templates/pengguna/header', $data);
         $this->load->view('templates/pengguna/navbar_jadi');
         $this->load->view('templates/pengguna/sidebar_jadi');

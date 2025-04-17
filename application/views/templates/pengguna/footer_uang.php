@@ -164,7 +164,20 @@
         });
     });
 </script> -->
-
+<script>
+    $(document).ready(function() {
+        $('#samden').change(function() {
+            $('#form_samden').submit();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#tahun').change(function() {
+            $('#form_tahun').submit();
+        });
+    });
+</script>
 <script>
     $(document).ready(function() {
         $('#tanggal').change(function() {

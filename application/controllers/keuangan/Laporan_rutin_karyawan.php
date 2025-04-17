@@ -86,11 +86,19 @@ class Laporan_rutin_karyawan extends CI_Controller
         $data['rutin'] = $this->Model_lap_rutin_karyawan->get_all($bulan, $tahun);
         $data['pesan_karyawan'] = $this->Model_lap_rutin_karyawan->get_pemesanan_karyawan($bulan, $tahun);
 
-        $this->load->view('templates/pengguna/header', $data);
-        $this->load->view('templates/pengguna/navbar_uang');
-        $this->load->view('templates/pengguna/sidebar_uang');
-        $this->load->view('keuangan/view_input_terima_rutin_karyawan', $data);
-        $this->load->view('templates/pengguna/footer_uang');
+        if ($this->session->userdata('level') == 'Admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('keuangan/view_input_terima_rutin_karyawan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_uang');
+            $this->load->view('templates/pengguna/sidebar_uang');
+            $this->load->view('keuangan/view_input_terima_rutin_karyawan', $data);
+            $this->load->view('templates/pengguna/footer_uang');
+        }
     }
 
     public function setor()
@@ -116,7 +124,8 @@ class Laporan_rutin_karyawan extends CI_Controller
             $total_nominal += $row->nominal;
         };
 
-        $input_setor = $this->session->userdata('nama_lengkap');
+        $tukang_input = $this->session->userdata('nama_lengkap');
+        $tanggal_input = date('Y-m-d H:i:s');
 
         $galon = $total_galon;
         $gelas = $total_gelas;
@@ -148,11 +157,11 @@ class Laporan_rutin_karyawan extends CI_Controller
             );
             redirect('keuangan/laporan_rutin_karyawan');
         } else {
-            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 1, 695, $no_per_galon, $tanggal, 3, $galon, 11000, $rupiah_galon, $tanggal, 1, 0, 1);
-            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 2, 695, $no_per_220, $tanggal, 3, $gelas, 15000, $rupiah_gelas, $tanggal, 1, 0, 1);
-            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 8, 695, $no_per_330, $tanggal, 3, $btl330, 33000, $rupiah_btl330, $tanggal, 1, 0, 1);
-            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 9, 695, $no_per_500, $tanggal, 3, $btl500, 35000, $rupiah_btl500, $tanggal, 1, 0, 1);
-            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 11, 695, $no_per_1500, $tanggal, 3, $btl1500, 38000, $rupiah_btl1500, $tanggal, 1, 0, 1);
+            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 1, 695, $no_per_galon, $tanggal, 3, $galon, 11000, $rupiah_galon, $tanggal, 1, 0, 1, $tukang_input, $tanggal_input, $tukang_input);
+            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 2, 695, $no_per_220, $tanggal, 3, $gelas, 15000, $rupiah_gelas, $tanggal, 1, 0, 1, $tukang_input, $tanggal_input, $tukang_input);
+            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 8, 695, $no_per_330, $tanggal, 3, $btl330, 33000, $rupiah_btl330, $tanggal, 1, 0, 1, $tukang_input, $tanggal_input, $tukang_input);
+            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 9, 695, $no_per_500, $tanggal, 3, $btl500, 35000, $rupiah_btl500, $tanggal, 1, 0, 1, $tukang_input, $tanggal_input, $tukang_input);
+            $this->Model_lap_rutin_karyawan->insert_pemesanan(1, 11, 695, $no_per_1500, $tanggal, 3, $btl1500, 38000, $rupiah_btl1500, $tanggal, 1, 0, 1, $tukang_input, $tanggal_input, $tukang_input);
 
             $this->session->set_flashdata(
                 'info',

@@ -80,11 +80,20 @@ class Lebaran extends CI_Controller
         if ($this->form_validation->run() == false) {
             $data['jenis_barang'] = $this->Model_lebaran->get_nama_barang();
             $data['pelanggan'] = $this->Model_lebaran->get_pelanggan();
-            $this->load->view('templates/pengguna/header', $data);
-            $this->load->view('templates/pengguna/navbar_jadi');
-            $this->load->view('templates/pengguna/sidebar_jadi');
-            $this->load->view('barang_jadi/view_tambah_lebaran', $data);
-            $this->load->view('templates/pengguna/footer_jadi');
+            if ($this->session->userdata('level') == 'Admin') {
+                $this->load->view('templates/header', $data);
+                $this->load->view('templates/navbar');
+                $this->load->view('templates/sidebar');
+                $this->load->view('barang_jadi/view_tambah_lebaran', $data);
+                $this->load->view('templates/footer');
+            } else {
+                $this->load->view('templates/pengguna/header', $data);
+                $this->load->view('templates/pengguna/navbar_jadi');
+                $this->load->view('templates/pengguna/sidebar_jadi');
+                $this->load->view('barang_jadi/view_tambah_lebaran', $data);
+                $this->load->view('templates/pengguna/footer_jadi');
+            }
+
         } else {
             $data['user'] = $this->Model_lebaran->tambahData();
 

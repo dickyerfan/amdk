@@ -245,7 +245,7 @@
         <p style="width: 50%; float: right;text-align:center; margin-bottom: 1px;">Dibuat Oleh :</p>
         <div style="clear: both;"></div>
         <p style="width: 50%; float: left; text-align:center;">Manager AMDK</p>
-        <p style="width: 50%; float: right;text-align:center;">Kabag Administrasi & Keuangan</p>
+        <p style="width: 50%; float: right;text-align:center;">Bagian Administrasi & Keuangan</p>
         <div style="clear: both; margin-bottom:40px;"></div>
         <u style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"><?= strtoupper($manager->nama_karyawan); ?></u>
         <u style="width: 50%; float: right;text-align:center; margin-bottom: 1px;"><?= strtoupper($uang->nama_karyawan); ?></u>

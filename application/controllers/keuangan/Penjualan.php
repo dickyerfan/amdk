@@ -87,11 +87,19 @@ class Penjualan extends CI_Controller
         if ($this->form_validation->run() == false) {
             $data['lunas'] = $this->Model_penjualan->get_lunas($id_pemesanan);
             $data['title'] = 'Form Pelunasan';
+            if ($this->session->userdata('level') == 'Admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('keuangan/view_pilih_lunas', $data);
+            $this->load->view('templates/footer');
+        } else {
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_uang');
             $this->load->view('templates/pengguna/sidebar_uang');
             $this->load->view('keuangan/view_pilih_lunas', $data);
             $this->load->view('templates/pengguna/footer_uang');
+        }
         } else {
 
             $data['status_bayar'] = $this->input->post('status_bayar');
@@ -148,11 +156,19 @@ class Penjualan extends CI_Controller
     {
         $data['detail_pemesanan'] = $this->Model_pemesanan->get_detail_pemesanan($id_pemesanan);
         $data['title'] = 'Detail Penjualan Barang';
-        $this->load->view('templates/pengguna/header', $data);
-        $this->load->view('templates/pengguna/navbar_uang');
-        $this->load->view('templates/pengguna/sidebar_uang');
+        if ($this->session->userdata('level') == 'Admin') {
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar');
+        $this->load->view('templates/sidebar');
         $this->load->view('keuangan/view_detail_pemesanan', $data);
-        $this->load->view('templates/pengguna/footer_uang');
+        $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_uang');
+            $this->load->view('templates/pengguna/sidebar_uang');
+            $this->load->view('keuangan/view_detail_pemesanan', $data);
+            $this->load->view('templates/pengguna/footer_uang');
+        }
     }
 
     public function cek_status_pesanan()

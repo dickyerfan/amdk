@@ -25,6 +25,7 @@
                                         <option value="">Pilih Produk</option>
                                         <option value="galon 19l">galon 19l</option>
                                         <option value="gelas 220ml">gelas 220ml</option>
+                                        <option value="botol 250ml">botol 250ml</option>
                                         <option value="botol 330ml">botol 330ml</option>
                                         <option value="botol 500ml">botol 500ml</option>
                                         <option value="botol 1500ml">botol 1500ml</option>

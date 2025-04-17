@@ -6,11 +6,18 @@
                     <nav class="navbar navbar-light bg-light">
                         <form action="<?= base_url('keuangan/pengambilan_air'); ?>" method="get">
                             <div style="display: flex; align-items: center;">
-                                <input type="date" name="tanggal" class="form-control">
-                                <input type="submit" value="Tampilkan Data" style="margin-left: 10px;" class="neumorphic-button">
+                                <input type="submit" value="Pilih Tanggal" class="neumorphic-button">
+
+                                <!-- Input untuk tanggal mulai -->
+                                <label for="tanggal_mulai" style="margin-left: 10px;">Dari:</label>
+                                <input type="date" id="tanggal_mulai" name="tanggal_mulai" class="form-control" style="margin-left: 5px;">
+
+                                <!-- Input untuk tanggal selesai -->
+                                <label for="tanggal_selesai" style="margin-left: 10px;">Sampai:</label>
+                                <input type="date" id="tanggal_selesai" name="tanggal_selesai" class="form-control" style="margin-left: 5px;">
                             </div>
                         </form>
-                        <div class="navbar-nav">
+                        <div class="navbar-nav ms-2">
                             <a href="<?= base_url('keuangan/pengambilan_air/exportpdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div>
                         <div class="navbar-nav ms-auto">
@@ -31,7 +38,7 @@
                             </div>
                         </div>
                     </div> -->
-                    <div>
+                    <!-- <div>
                         <p class="my-0 text-center"><?= strtoupper($title) ?></p>
                         <?php
                         $tanggal = $this->input->get('tanggal');
@@ -61,6 +68,43 @@
                         ];
                         ?>
                         <p class="mu-0 text-center">Bulan : <?= $bulanLap[$bulan] . ' ' . $tahunLap ?></p>
+                    </div> -->
+                    <div>
+                        <p class="my-0 text-center fw-bold"><?= strtoupper($title) ?></p>
+                        <?php
+                        // Mendapatkan nama bulan untuk tanggal awal dan akhir
+                        $tanggalAwal = $start_date->format('d');
+                        $bulanAwal = $start_date->format('m');
+                        $tahunAwal = $start_date->format('Y');
+                        $tanggalAkhir = $end_date->format('d');
+                        $bulanAkhir = $end_date->format('m');
+                        $tahunAkhir = $end_date->format('Y');
+
+                        // Daftar bulan
+                        $bulanLap = [
+                            '01' => 'Januari',
+                            '02' => 'Februari',
+                            '03' => 'Maret',
+                            '04' => 'April',
+                            '05' => 'Mei',
+                            '06' => 'Juni',
+                            '07' => 'Juli',
+                            '08' => 'Agustus',
+                            '09' => 'September',
+                            '10' => 'Oktober',
+                            '11' => 'November',
+                            '12' => 'Desember',
+                        ];
+
+                        // Menampilkan periode
+                        if ($tahunAwal === $tahunAkhir) {
+                            // Jika tahun sama, hanya tampilkan tahun sekali
+                            echo '<p class="my-0 text-center">Periode : ' . $tanggalAwal . ' ' . $bulanLap[$bulanAwal] . ' - ' . $tanggalAkhir . ' ' . $bulanLap[$bulanAkhir] . ' ' . $tahunAwal . '</p>';
+                        } else {
+                            // Jika tahun berbeda, tampilkan tahun untuk masing-masing bulan
+                            echo '<p class="my-0 text-center">Periode : ' . $tanggalAwal . ' ' . $bulanLap[$bulanAwal] . ' ' . $tahunAwal . ' - ' . $tanggalAkhir . ' ' . $bulanLap[$bulanAkhir] . ' ' . $tahunAkhir . '</p>';
+                        }
+                        ?>
                     </div>
                     <div class="table-responsive">
                         <table id="example2" class="table table-hover table-striped table-bordered table-sm" width="100%" cellspacing="0" style="font-size: 0.8rem;">
@@ -114,7 +158,6 @@
                                         'December' => 'Desember',
                                     ];
                                     $tanggal_hari_ini = strtr($tanggal_hari_ini, $bulan);
-
 
                                     $hari = date('l', strtotime($row->tanggal_ambil_air));
                                     $hari_indo = ganti_hari($hari);

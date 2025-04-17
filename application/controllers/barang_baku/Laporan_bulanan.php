@@ -90,7 +90,7 @@ class Laporan_bulanan extends CI_Controller
         $data['lap_bulanan'] = $this->Model_laporan->getdata_bulanan($tanggal, $bulan, $tahun);
 
         // Set paper size and orientation
-        $this->pdf->setPaper('A4', 'portrait');
+        $this->pdf->setPaper('A4', 'landscape');
 
         // $this->pdf->filename = "Potensi Sr.pdf";
         $this->pdf->filename = "LapBulananBaku-{$bulan}-{$tahun}.pdf";

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMDK | Laporan Bulanan</title>
+    <title>AMDK | <?=$title;?></title>
     <link href="<?= base_url(); ?>assets/datatables/bootstrap5/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -228,7 +228,7 @@
             ?>
                 <tr>
                     <td class="text-center"><?= $no++ ?></td>
-                    <td><?= $lunas->nama_barang_jadi; ?></td>
+                    <td><?= $lunas->nama_produk; ?></td>
                     <td class="text-center">Dus</td>
                     <td class="text-center"><?= number_format($lunas->total_lunas, 0, ',', '.'); ?></td>
                     <td class="text-center"><?= number_format($piutang, 0, ',', '.'); ?></td>
@@ -304,7 +304,7 @@
         <p style="width: 50%; float: right;text-align:center; margin-bottom: 1px;">Dibuat Oleh :</p>
         <div style="clear: both;"></div>
         <p style="width: 50%; float: left; text-align:center;">Manager AMDK</p>
-        <p style="width: 50%; float: right;text-align:center;">Kabag Administrasi & Keuangan</p>
+        <p style="width: 50%; float: right;text-align:center;">Bagian Administrasi & Keuangan</p>
         <div style="clear: both; margin-bottom:40px;"></div>
         <u style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"><?= strtoupper($manager->nama_karyawan); ?></u>
         <u style="width: 50%; float: right;text-align:center; margin-bottom: 1px;"><?= strtoupper($uang->nama_karyawan); ?></u>

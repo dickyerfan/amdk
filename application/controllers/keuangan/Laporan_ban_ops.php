@@ -53,7 +53,7 @@ class Laporan_ban_ops extends CI_Controller
     //     // Ambil data dari model
     //     $ban_ops = $this->Model_laporan->get_ops($bulan, $tahun);
 
-    //     $jenis_produk = $this->Model_laporan->get_jenis_produk();
+    //     $jenis_produk = $this->Model_laporan->get_jenis_produk_ops();
 
     //     // Mengelompokkan data berdasarkan nama dan tanggal
     //     $grouped_ban_ops = [];
@@ -110,7 +110,7 @@ class Laporan_ban_ops extends CI_Controller
         // Ambil data dari model
         $ban_ops = $this->Model_laporan->get_ops($bulan, $tahun);
 
-        $jenis_produk = $this->Model_laporan->get_jenis_produk();
+        $jenis_produk = $this->Model_laporan->get_jenis_produk_ops();
 
         // Mengelompokkan data berdasarkan nama dan tanggal
         $grouped_ban_ops = [];
@@ -130,10 +130,10 @@ class Laporan_ban_ops extends CI_Controller
             $grouped_ban_ops[$key]->harga_ban_ops_total += $row->harga_ban_ops;
 
             // Menambahkan jumlah barang
-            if (!isset($grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi])) {
-                $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] = 0;
+            if (!isset($grouped_ban_ops[$key]->jumlah[$row->nama_produk])) {
+                $grouped_ban_ops[$key]->jumlah[$row->nama_produk] = 0;
             }
-            $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] += $row->jumlah_ban_ops;
+            $grouped_ban_ops[$key]->jumlah[$row->nama_produk] += $row->jumlah_ban_ops;
         }
 
         $data['grouped_ban_ops'] = $grouped_ban_ops;
@@ -172,16 +172,26 @@ class Laporan_ban_ops extends CI_Controller
         $data['title'] = 'Input Penerimaaan Operasional/Bantuan';
         $ban_ops = $this->Model_laporan->get_ban_ops($bulan, $tahun);
 
-        $jenis_produk = $this->Model_laporan->get_jenis_produk();
+        $jenis_produk = $this->Model_laporan->get_jenis_produk_ops();
 
         $data['ban_ops'] = $this->Model_laporan->get_ban_ops($bulan, $tahun);
         $data['pesan_ban_ops'] = $this->Model_laporan->get_pemesanan_ban_ops($bulan, $tahun);
 
-        $this->load->view('templates/pengguna/header', $data);
-        $this->load->view('templates/pengguna/navbar_uang');
-        $this->load->view('templates/pengguna/sidebar_uang');
-        $this->load->view('keuangan/view_input_terima_ban_ops', $data);
-        $this->load->view('templates/pengguna/footer_uang');
+        if ($this->session->userdata('level') == 'Admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('keuangan/view_input_terima_ban_ops', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_uang');
+            $this->load->view('templates/pengguna/sidebar_uang');
+            $this->load->view('keuangan/view_input_terima_ban_ops', $data);
+            $this->load->view('templates/pengguna/footer_uang');
+        }
+
+
     }
 
     public function setor()
@@ -260,7 +270,7 @@ class Laporan_ban_ops extends CI_Controller
         // Ambil data dari model
         $ban_ops = $this->Model_laporan->get_ops($bulan, $tahun);
 
-        $jenis_produk = $this->Model_laporan->get_jenis_produk();
+        $jenis_produk = $this->Model_laporan->get_jenis_produk_ops();
 
         // Mengelompokkan data berdasarkan nama dan tanggal
         $grouped_ban_ops = [];
@@ -280,10 +290,10 @@ class Laporan_ban_ops extends CI_Controller
             $grouped_ban_ops[$key]->harga_ban_ops_total += $row->harga_ban_ops;
 
             // Menambahkan jumlah barang
-            if (!isset($grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi])) {
-                $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] = 0;
+            if (!isset($grouped_ban_ops[$key]->jumlah[$row->nama_produk])) {
+                $grouped_ban_ops[$key]->jumlah[$row->nama_produk] = 0;
             }
-            $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] += $row->jumlah_ban_ops;
+            $grouped_ban_ops[$key]->jumlah[$row->nama_produk] += $row->jumlah_ban_ops;
         }
 
         $data['grouped_ban_ops'] = $grouped_ban_ops;
@@ -293,8 +303,11 @@ class Laporan_ban_ops extends CI_Controller
         $data['tahun_lap'] = $tahun;
         $data['manager'] = $this->Model_laporan->get_manager();
         $data['uang'] = $this->Model_laporan->get_uang();
+        $data['direktur'] = $this->Model_laporan->get_direktur();
+        $data['kabag'] = $this->Model_laporan->get_kabag();
 
-        $this->pdf->setPaper('folio', 'landscape');
+        $this->pdf->setPaper('folio', 'portrait');
+
         $this->pdf->filename = "LapOps-{$bulan}-{$tahun}.pdf";
         $this->pdf->generate('keuangan/laporan_operasional_pdf', $data);
     }
@@ -320,7 +333,7 @@ class Laporan_ban_ops extends CI_Controller
         $data['title'] = 'Laporan Bantuan AMDK';
         // Ambil data dari model
         $ban_ops = $this->Model_laporan->get_ban($bulan, $tahun);
-        $jenis_produk = $this->Model_laporan->get_jenis_produk();
+        $jenis_produk = $this->Model_laporan->get_jenis_produk_ops();
 
         // Mengelompokkan data berdasarkan nama dan tanggal
         $grouped_ban_ops = [];
@@ -336,10 +349,10 @@ class Laporan_ban_ops extends CI_Controller
                 ];
             }
             $grouped_ban_ops[$key]->harga_ban_ops_total += $row->harga_ban_ops; // Menambahkan total harga
-            if (!isset($grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi])) {
-                $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] = 0;
+            if (!isset($grouped_ban_ops[$key]->jumlah[$row->nama_produk])) {
+                $grouped_ban_ops[$key]->jumlah[$row->nama_produk] = 0;
             }
-            $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] += $row->jumlah_ban_ops;
+            $grouped_ban_ops[$key]->jumlah[$row->nama_produk] += $row->jumlah_ban_ops;
         }
 
         $data['grouped_ban_ops'] = $grouped_ban_ops;
@@ -375,7 +388,7 @@ class Laporan_ban_ops extends CI_Controller
         $data['title'] = 'Laporan Bantuan AMDK';
         // Ambil data dari model
         $ban_ops = $this->Model_laporan->get_ban($bulan, $tahun);
-        $jenis_produk = $this->Model_laporan->get_jenis_produk();
+        $jenis_produk = $this->Model_laporan->get_jenis_produk_ops();
 
         // Mengelompokkan data berdasarkan nama dan tanggal
         $grouped_ban_ops = [];
@@ -391,10 +404,10 @@ class Laporan_ban_ops extends CI_Controller
                 ];
             }
             $grouped_ban_ops[$key]->harga_ban_ops_total += $row->harga_ban_ops; // Menambahkan total harga
-            if (!isset($grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi])) {
-                $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] = 0;
+            if (!isset($grouped_ban_ops[$key]->jumlah[$row->nama_produk])) {
+                $grouped_ban_ops[$key]->jumlah[$row->nama_produk] = 0;
             }
-            $grouped_ban_ops[$key]->jumlah[$row->nama_barang_jadi] += $row->jumlah_ban_ops;
+            $grouped_ban_ops[$key]->jumlah[$row->nama_produk] += $row->jumlah_ban_ops;
         }
         $data['grouped_ban_ops'] = $grouped_ban_ops;
         $data['jenis_produk'] = $jenis_produk;
@@ -403,8 +416,10 @@ class Laporan_ban_ops extends CI_Controller
         $data['tahun_lap'] = $tahun;
         $data['manager'] = $this->Model_laporan->get_manager();
         $data['uang'] = $this->Model_laporan->get_uang();
+        $data['direktur'] = $this->Model_laporan->get_direktur();
+        $data['kabag'] = $this->Model_laporan->get_kabag();
 
-        $this->pdf->setPaper('folio', 'landscape');
+        $this->pdf->setPaper('folio', 'portrait');
         $this->pdf->filename = "LapBan-{$bulan}-{$tahun}.pdf";
         $this->pdf->generate('keuangan/laporan_bantuan_pdf', $data);
     }

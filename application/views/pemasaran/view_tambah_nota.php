@@ -15,7 +15,7 @@
                                 <input type="hidden" name="tanggal_pesan" id="tanggal_pesan" value="<?= $upload_nota->tanggal_pesan; ?>">
                                 <div class="form-group">
                                     <label for="nota_beli">Nota Pembelian :</label>
-                                    <input type="file" class="form-control" id="nota_beli" name="nota_beli" value="<?= set_value('nota_beli'); ?>">
+                                    <input type="file" accept="image/*" capture="camera" class="form-control" id="nota_beli" name="nota_beli" value="<?= set_value('nota_beli'); ?>">
                                     <small class="form-text text-danger pl-3"><?= form_error('nota_beli'); ?></small>
                                 </div>
                                 <div class="form-group">

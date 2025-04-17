@@ -97,7 +97,7 @@
                                                 <td class="text-end"><?= number_format($row->harga_barang, 0, ',', '.'); ?></td>
                                                 <td class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></td>
                                                 <td>
-                                                    <?php if ($this->session->userdata('nama_pengguna') != 'Wakil Manager' && $this->session->userdata('nama_pengguna') != 'Manager') : ?>
+                                                    <?php if ($this->session->userdata('nama_user') != 'langgan' && $this->session->userdata('nama_user') != 'spi' && $this->session->userdata('nama_user') != 'admin' && $this->session->userdata('nama_pengguna') != 'Manager') : ?>
                                                         <a href="<?= ($row->status_setoran_driver == 1) ? "javascript:void(0);" : base_url('pemasaran/setoran_hutang/upload_lunas/') . $row->id_pemesanan; ?>" onclick="<?= ($row->status_setoran_driver == 1) ? "Swal.fire('Status Sudah Lunas', '', 'warning'); return false;" : '' ?>">
                                                             <span class="btn btn-secondary btn-sm" style="font-size: 0.7rem;">Lunas</span>
                                                         </a>

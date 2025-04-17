@@ -93,14 +93,20 @@
                                                         case 'botol 500ml amalis':
                                                             echo '500 Amalis';
                                                             break;
-                                                        case 'botol 1500 ml ijen':
+                                                        case 'botol 1500ml ijen':
                                                             echo '1500 Ijen';
                                                             break;
-                                                        case 'botol 1500 ml amalis':
+                                                        case 'botol 1500ml amalis':
                                                             echo '1500 Amalis';
                                                             break;
                                                         case 'galon kosong':
                                                             echo 'No Air';
+                                                            break;
+                                                        case 'botol 330ml genggong':
+                                                            echo '330 Genggong';
+                                                            break;
+                                                        case 'botol 500ml genggong':
+                                                            echo '500 Genggong';
                                                             break;
                                                         default:
                                                             echo $jenis;

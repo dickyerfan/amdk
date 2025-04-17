@@ -38,6 +38,7 @@ class Piutang extends CI_Controller
         $tanggal = $this->input->get('tanggal');
 
         if (empty($tanggal)) {
+            $this->session->unset_userdata('tanggal');
             $data['pesan'] = $this->Model_piutang->get_all();
             $bulan_lap = '';
             $tahun_lap = '';
@@ -47,14 +48,15 @@ class Piutang extends CI_Controller
             $data['pesan'] = $this->Model_piutang->get_bulan_tahun($bulan, $tahun);
             $bulan_lap = $bulan;
             $tahun_lap = $tahun;
+            $this->session->set_userdata('tanggal', $tanggal);
         }
 
         $data['bulan_lap'] = $bulan_lap;
         $data['tahun_lap'] = $tahun_lap;
 
-        if (!empty($tanggal)) {
-            $this->session->set_userdata('tanggal', $tanggal); // Simpan tanggal ke session jika diperlukan
-        }
+        // if (!empty($tanggal)) {
+        //     $this->session->set_userdata('tanggal', $tanggal); // Simpan tanggal ke session jika diperlukan
+        // }
         $data['title'] = 'Daftar Piutang AMDK';
         $data['produk'] = $this->Model_piutang->get_produk();
         $data['pelanggan'] = $this->Model_piutang->get_pelanggan();
@@ -132,6 +134,7 @@ class Piutang extends CI_Controller
         $data['produk'] = $this->Model_piutang->get_produk();
         $data['pelanggan'] = $this->Model_piutang->get_pelanggan();
         $data['manager'] = $this->Model_laporan->get_manager();
+        $data['uang'] = $this->Model_laporan->get_uang();
 
         $this->pdf->setPaper('folio', 'portrait');
         $this->pdf->filename = "daftar_piutang_bulan_all.pdf";
@@ -181,6 +184,34 @@ class Piutang extends CI_Controller
         }
     }
 
+    public function export_tanggal()
+    {
+        $tanggal = $this->session->userdata('tanggal');
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+        $data['bulan_lap'] = $bulan;
+        $data['tahun_lap'] = $tahun;
+
+        $data['title'] = 'Daftar Piutang Pertanggal AMDK';
+        $data['pesan'] = $this->Model_piutang->get_by_date($tanggal);
+        $data['produk'] = $this->Model_piutang->get_produk();
+        $data['pelanggan'] = $this->Model_piutang->get_pelanggan();
+        $data['tanggal_hari_ini'] = $tanggal;
+        $data['manager'] = $this->Model_laporan->get_manager();
+        $data['uang'] = $this->Model_laporan->get_uang();
+
+        $this->pdf->setPaper('folio', 'portrait');
+
+        $this->pdf->filename = "daftar_piutang_tanggal_per {$tanggal}.pdf";
+        $this->pdf->generate('keuangan/daftar_piutang_pertanggal_pdf', $data);
+    }
+
     public function nama_produk()
     {
         $id_produk = $this->input->post('id_produk');
@@ -207,6 +238,8 @@ class Piutang extends CI_Controller
             $this->load->view('templates/pengguna/footer');
         }
     }
+
+    
 
     public function nama_pelanggan()
     {
@@ -259,6 +292,7 @@ class Piutang extends CI_Controller
         $data['produk'] = $this->Model_piutang->get_produk();
         // $data['pelanggan'] = $this->Model_piutang->get_pelanggan();
         $data['manager'] = $this->Model_laporan->get_manager();
+        $data['uang'] = $this->Model_laporan->get_uang();
 
         $this->pdf->setPaper('folio', 'portrait');
 
@@ -271,26 +305,34 @@ class Piutang extends CI_Controller
         date_default_timezone_set('Asia/Jakarta');
         $tanggal = $this->session->userdata('tanggal');
         $this->form_validation->set_rules('status_bayar', 'Status bayar', 'required|trim');
-        $this->form_validation->set_rules('tanggal_bayar', 'Tanggal bayar', 'required|trim');
+        // $this->form_validation->set_rules('tanggal_bayar', 'Tanggal bayar', 'required|trim');
         $this->form_validation->set_message('required', '%s harus pilih');
 
         if ($this->form_validation->run() == false) {
             $data['lunas'] = $this->Model_piutang->get_lunas($id_pemesanan);
             $data['title'] = 'Form Pelunasan';
+            if ($this->session->userdata('level') == 'Admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('keuangan/view_pilih_lunas_piutang', $data);
+            $this->load->view('templates/footer');
+        } else {
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_uang');
             $this->load->view('templates/pengguna/sidebar_uang');
             $this->load->view('keuangan/view_pilih_lunas_piutang', $data);
             $this->load->view('templates/pengguna/footer_uang');
+        }
         } else {
 
             $data['status_bayar'] = $this->input->post('status_bayar');
             $data['status_pesan'] = 0;
             $data['input_bayar'] = $this->session->userdata('nama_lengkap');
             // ini untuk production
-            // $data['tanggal_bayar'] = date('Y-m-d H:i:s');  
+            $data['tanggal_bayar'] = date('Y-m-d H:i:s');  
             // ini hanya untuk input data
-            $data['tanggal_bayar'] = $this->input->post('tanggal_bayar');
+            // $data['tanggal_bayar'] = $this->input->post('tanggal_bayar');
 
             // Periksa bulan dan tahun antara tanggal_pesan dan tanggal_bayar
             $bulan_tahun_pesan = date('Y-m', strtotime($this->db->get_where('pemesanan', ['id_pemesanan' => $id_pemesanan])->row()->tanggal_pesan));

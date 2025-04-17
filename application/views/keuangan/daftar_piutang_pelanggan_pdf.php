@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMDK | Daftar Pengiriman</title>
+    <title>AMDK | Daftar Piutang</title>
     <link href="<?= base_url(); ?>assets/datatables/bootstrap5/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -150,16 +150,27 @@
     } else {
         $nik_manager = '';
     }
+
+    $nik_uang = $uang->nik_karyawan;
+    if ($nik_uang) {
+        $nik_uang = sprintf('%03s %02s %03s', substr($nik_uang, 0, 3), substr($nik_uang, 3, 2), substr($nik_uang, 5));
+    } else {
+        $nik_uang = '';
+    }
     ?>
 
-    <div style="font-size: 0.8rem;" class="tandaTangan">
-        <p style="width: 50%; float: right;text-align:center; margin-bottom: 1px;">Bondowoso, <?= $tanggal_hari_ini;  ?></p>
+    <div style="font-size: 0.8rem;">
+        <p style="width: 50%; float: left; text-align:center; margin-bottom: 1px;">Mengetahui</p>
+        <p style="width: 50%; float: right;text-align:center; margin-bottom: 1px;">Dibuat Oleh :</p>
         <div style="clear: both;"></div>
-        <p style="width: 50%; float: right;text-align:center;">Manager AMDK</p>
-        <div style="clear: both; margin-bottom:30px;"></div>
-        <u style="width: 50%; float: right; text-align:center; margin-bottom: 1px;"><?= $manager->nama_karyawan; ?></u>
+        <p style="width: 50%; float: left; text-align:center;">Manager AMDK</p>
+        <p style="width: 50%; float: right;text-align:center;">Bagian Administrasi & Keuangan</p>
+        <div style="clear: both; margin-bottom:40px;"></div>
+        <u style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"><?= strtoupper($manager->nama_karyawan); ?></u>
+        <u style="width: 50%; float: right;text-align:center; margin-bottom: 1px;"><?= strtoupper($uang->nama_karyawan); ?></u>
         <div style="clear: both;"></div>
-        <p style="width: 50%; float: right; text-align:center;">NIK. <?= $nik_manager; ?></p>
+        <p style="width: 50%; float: left; text-align:center;">NIK. <?= $nik_manager; ?></p>
+        <p style="width: 50%; float: right;text-align:center;">NIK. <?= $nik_uang; ?></p>
         <div style="clear: both;"></div>
     </div>
 

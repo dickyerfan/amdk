@@ -408,6 +408,74 @@
         });
     }, 1000);
 </script>
+<script>
+    document.getElementById('bukti_rusak_baku').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+
+        new Compressor(file, {
+            quality: 0.2,
+            success(result) {
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(new File([result], file.name));
+                document.getElementById('bukti_rusak_baku').files = dataTransfer.files;
+            },
+            error(err) {
+                console.log(err.message);
+            },
+        });
+    });
+</script>
+<script>
+    document.getElementById('bukti_keluar_gd').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+
+        new Compressor(file, {
+            quality: 0.2,
+            success(result) {
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(new File([result], file.name));
+                document.getElementById('bukti_keluar_gd').files = dataTransfer.files;
+            },
+            error(err) {
+                console.log(err.message);
+            },
+        });
+    });
+</script>
+<script>
+    document.getElementById('bukti_masuk_sj').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+
+        new Compressor(file, {
+            quality: 0.2,
+            success(result) {
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(new File([result], file.name));
+                document.getElementById('bukti_masuk_sj').files = dataTransfer.files;
+            },
+            error(err) {
+                console.log(err.message);
+            },
+        });
+    });
+</script>
+<script>
+    document.getElementById('bukti_masuk_gd').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+
+        new Compressor(file, {
+            quality: 0.2,
+            success(result) {
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(new File([result], file.name));
+                document.getElementById('bukti_masuk_gd').files = dataTransfer.files;
+            },
+            error(err) {
+                console.log(err.message);
+            },
+        });
+    });
+</script>
 
 </body>
 

@@ -29,6 +29,7 @@
                                     <select name="id_barang_baku" id="id_barang_baku" class="form-select">
                                         <option value="">Pilih Barang</option>
                                         <!-- <option value="1">Galon Baru</option> -->
+                                        <option value="5">Stiker Galon</option>
                                         <option value="6">Isolasi</option>
                                         <option value="14">Lit Cup Ijen 8 line</option>
                                         <option value="15">Lit Cup Ijen 4 line</option>
@@ -41,6 +42,7 @@
                                         <option value="22">Lit Cup Amalis 4 line</option>
                                         <option value="23">Lit Cup Fatayat 2 line</option>
                                         <option value="41">Liquid Galon</option>
+                                        <option value="46">Plastik PVC / Shrink Packing Botol</option>
                                     </select>
                                     <small class="form-text text-danger pl-3"><?= form_error('id_barang_baku'); ?></small>
                                 </div>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMDK | Laporan Bulanan</title>
+    <title>AMDK | <?=$title;?></title>
     <link href="<?= base_url(); ?>assets/datatables/bootstrap5/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -213,7 +213,7 @@
         <div style="clear: both;"></div>
         <p style="width: 50%; float: left; text-align:center;">Manager</p>
         <p style="width: 50%; float: right;text-align:center;">Petugas Barang Jadi</p>
-        <div style="clear: both; margin-bottom:40px;"></div>
+        <div style="clear: both; margin-bottom:30px;"></div>
         <u style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"><?= $manager->nama_karyawan; ?></u>
         <u style="width: 50%; float: right;text-align:center; margin-bottom: 1px;"><?= $jadi->nama_karyawan; ?></u>
         <div style="clear: both;"></div>

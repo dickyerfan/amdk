@@ -82,6 +82,27 @@ class Laporan_harian extends CI_Controller
         $this->pdf->generate('barang_baku/laporan_harian_pdf', $data);
     }
 
+    public function stock_opname()
+    {
+        $tanggal = $this->session->userdata('tanggal_exportpdf');
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+        }
+
+        $data['title'] = 'Laporan Stock Opname Barang Baku';
+        $data['manager'] = $this->Model_laporan->get_manager();
+        $data['baku'] = $this->Model_laporan->get_baku();
+        $data['tanggal_hari_ini'] = $tanggal;
+        $data['lap_harian'] = $this->Model_laporan->getdata_harian($tanggal);
+
+        // Set paper size and orientation
+        $this->pdf->setPaper('A4', 'portrait');
+
+        // $this->pdf->filename = "Potensi Sr.pdf";
+        $this->pdf->filename = "LapHarianBaku-{$tanggal}.pdf";
+        $this->pdf->generate('barang_baku/laporan_stock_opname_pdf', $data);
+    }
+
     public function stok_awal_harian()
     {
         $stok_awal = $this->Model_laporan->get_stok_akhir_kemaren();

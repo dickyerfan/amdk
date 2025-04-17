@@ -13,6 +13,7 @@ class model_harga extends CI_Model
         return $query->result();
     }
 
+
     public function get_produk()
     {
         $this->db->select('id_produk, nama_produk');
@@ -59,5 +60,54 @@ class model_harga extends CI_Model
         ];
         $this->db->where('id_harga', $this->input->post('id_harga'));
         $this->db->update('harga', $data);
+    }
+
+    public function get_harga_barang_baku()
+    {
+        $this->db->select('*');
+        $this->db->from('harga_barang_baku');
+        $this->db->join('barang_baku', 'barang_baku.id_barang_baku = harga_barang_baku.id_barang_baku');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function get_barang_baku()
+    {
+        $this->db->select('id_barang_baku, nama_barang_baku');
+        $this->db->from('barang_baku');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function tambah_harga_barang_baku()
+    {
+        $data = [
+            'id_barang_baku' => $this->input->post('id_barang_baku', true),
+            'harga' => $this->input->post('harga', true),
+            'tanggal_berlaku' => $this->input->post('tanggal_berlaku', true),
+            'input_harga_barang_baku' => $this->session->userdata('nama_lengkap'),
+            'tanggal_input' => date('Y-m-d H:i:s')
+        ];
+        $this->db->insert('harga_barang_baku', $data);
+    }
+
+    public function update_harga_barang_baku()
+    {
+
+        $data = [
+            'id_barang_baku' => $this->input->post('id_barang_baku', true),
+            'harga' => $this->input->post('harga', true),
+            'tanggal_berlaku' => $this->input->post('tanggal_berlaku', true),
+            'input_harga_barang_baku' => $this->session->userdata('nama_lengkap'),
+            'tanggal_input' => date('Y-m-d H:i:s')
+        ];
+        $this->db->where('id_harga', $this->input->post('id_harga'));
+        $this->db->update('harga_barang_baku', $data);
+    }
+
+    public function hapus_harga_barang_baku($id_harga)
+    {
+        $this->db->where('id_harga', $id_harga);
+        $this->db->delete('harga_barang_baku');
     }
 }

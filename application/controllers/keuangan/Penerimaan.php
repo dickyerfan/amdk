@@ -9,6 +9,7 @@ class Penerimaan extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('Model_penerimaan');
         $this->load->model('Model_pemesanan');
+        $this->load->model('Model_laporan');
         if (!$this->session->userdata('nama_pengguna')) {
             $this->session->set_flashdata(
                 'info',
@@ -21,7 +22,7 @@ class Penerimaan extends CI_Controller
 
         $level_pengguna = $this->session->userdata('level');
         $upk_bagian = $this->session->userdata('upk_bagian');
-        if ($level_pengguna != 'Admin' && $upk_bagian != 'uang') {
+        if ($level_pengguna != 'Admin' && $upk_bagian != 'uang' && $upk_bagian != 'pasar') {
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -34,17 +35,23 @@ class Penerimaan extends CI_Controller
 
     public function index()
     {
+
         $tanggal = $this->input->get('tanggal');
         $bulan = substr($tanggal, 5, 2);
         $tahun = substr($tanggal, 0, 4);
 
         if (empty($tanggal)) {
+            $this->session->unset_userdata('tanggal');
             $tanggal = date('Y-m-d');
             $bulan = date('m');
             $tahun = date('Y');
+        }else{
+            $this->session->set_userdata('tanggal', $tanggal);
         }
-        $data['bulan_lap'] = $bulan;
-        $data['tahun_lap'] = $tahun;
+        $data['tanggal'] = $tanggal;
+
+        // $data['bulan_lap'] = $bulan;
+        // $data['tahun_lap'] = $tahun;
 
         if (!empty($tanggal)) {
             $this->session->set_userdata('tanggal', $tanggal); // Simpan tanggal ke session jika diperlukan
@@ -59,6 +66,12 @@ class Penerimaan extends CI_Controller
             $this->load->view('templates/sidebar');
             $this->load->view('keuangan/view_penerimaan', $data);
             $this->load->view('templates/footer');
+        }elseif($this->session->userdata('upk_bagian') == 'pasar') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/pengguna/navbar_pasar');
+            $this->load->view('templates/pengguna/sidebar_pasar');
+            $this->load->view('keuangan/view_penerimaan', $data);
+            $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_uang');
@@ -66,6 +79,34 @@ class Penerimaan extends CI_Controller
             $this->load->view('keuangan/view_penerimaan', $data);
             $this->load->view('templates/pengguna/footer_uang');
         }
+    }
+
+    public function ekspor_penerimaan()
+    {
+
+        $tanggal = $this->session->userdata('tanggal');
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
+
+        if (empty($tanggal)) {
+            $tanggal = date('Y-m-d');
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+        $data['tanggal_hari_ini'] = $tanggal;
+
+        $data['title'] = 'Daftar Penerimaan Kas AMDK';
+        $data['pesan'] = $this->Model_penerimaan->get_all($tanggal);
+
+        $data['manager'] = $this->Model_laporan->get_manager();
+        $data['uang'] = $this->Model_laporan->get_uang();
+
+        // Set paper size and orientation
+        $this->pdf->setPaper('folio', 'portrait');
+
+        // $this->pdf->filename = "Potensi Sr.pdf";
+        $this->pdf->filename = "daftar_penerimaan-{$tanggal}.pdf";
+        $this->pdf->generate('keuangan/daftar_penerimaan_pdf', $data);
     }
 
     public function setor_bank()
@@ -81,6 +122,7 @@ class Penerimaan extends CI_Controller
         $this->load->view('keuangan/view_setor_bank', $data);
         $this->load->view('templates/pengguna/footer_uang');
     }
+
 
     public function update_nota_setor()
     {
@@ -101,8 +143,8 @@ class Penerimaan extends CI_Controller
 
                 // Isi data selain file yang diupload
                 $data['input_setor'] = $this->session->userdata('nama_lengkap');
-                $data['tanggal_setor'] = $this->input->post('tanggal_setor'); // ini untuk entri data saja
-                // $data['tanggal_setor'] = date('Y-m-d H:i:s'); // ini yang akan di gunakan aplikasi real
+                // $data['tanggal_setor'] = $this->input->post('tanggal_setor'); // ini untuk entri data saja
+                $data['tanggal_setor'] = date('Y-m-d H:i:s'); // ini yang akan di gunakan aplikasi real
                 $data['status_setor'] = 1;
                 // Simpan data ke dalam database
                 $this->Model_penerimaan->update_nota($data);

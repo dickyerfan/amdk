@@ -64,7 +64,7 @@
                                     <?php foreach ($jenis_produk as $jenis) : ?>
                                         <th class="text-center" style="vertical-align: middle;">
                                             <?php
-                                            switch ($jenis->nama_barang_jadi) {
+                                            switch ($jenis->nama_produk) {
                                                 case 'galon 19l':
                                                     echo 'Galon 19l';
                                                     break;
@@ -111,7 +111,7 @@
                                                     echo '500 Genggong';
                                                     break;
                                                 default:
-                                                    echo $jenis->nama_barang_jadi;
+                                                    echo $jenis->nama_produk;
                                                     break;
                                             }
                                             ?>
@@ -132,7 +132,7 @@
                                         <td><?= $row->nama_pelanggan; ?></td>
                                         <?php foreach ($jenis_produk as $barang) : ?>
                                             <?php
-                                            $jumlah_barang = isset($row->jumlah[$barang->nama_barang_jadi]) ? $row->jumlah[$barang->nama_barang_jadi] : ' ';
+                                            $jumlah_barang = isset($row->jumlah[$barang->nama_produk]) ? $row->jumlah[$barang->nama_produk] : ' ';
                                             $total_harga = $row->harga_ban_ops_total;
                                             ?>
                                             <td class="text-center"><?= $jumlah_barang; ?></td>
@@ -151,7 +151,7 @@
                                         $total_semua_harga = 0;
 
                                         foreach ($grouped_ban_ops as $row) {
-                                            $jumlah_barang = isset($row->jumlah[$barang->nama_barang_jadi]) ? $row->jumlah[$barang->nama_barang_jadi] : 0;
+                                            $jumlah_barang = isset($row->jumlah[$barang->nama_produk]) ? $row->jumlah[$barang->nama_produk] : 0;
                                             $total_jumlah_barang += $jumlah_barang;
                                             $total_semua_harga += $row->harga_ban_ops_total;
                                         }

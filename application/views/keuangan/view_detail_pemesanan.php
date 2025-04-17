@@ -25,7 +25,7 @@
                     <div class="card p-2">
                         <div class="row justify-content-center">
                             <?php foreach ($detail_pemesanan as $row) : ?>
-                                <div class="col-lg-6">
+                                <div class="col-lg-7">
                                     <div class="card mb-2">
                                         <div class="card-body">
                                             <table class="table table-borderless">
@@ -135,20 +135,81 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <table class="table table-borderless">
-                                                <tr>
-                                                    <td class="text-center">Bukti Pembayaran</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <img src="<?= base_url('uploads/pasar/nota/' . $row->nota_beli); ?>" alt="" style="width: 100%;">
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
+                                <div class="col-lg-5">
+                                    <div class="card-body">
+                                        <table class="table table-borderless">
+                                            <tr>
+                                                <td class="text-center">Bukti Pembayaran</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <?php if ($row->status_nota == 0 && $row->status_bayar == 1 && $row->input_bayar == 'Administrator') : ?>
+                                                        <div class="card bg-light shadow text-dark">
+                                                            <div class="card-body">
+                                                                <div class="d-flex justify-content-start align-items-center">
+                                                                    <img src="<?= base_url('assets/img/ijen.png'); ?>" alt="Logo" style="width: 50px; height: auto; margin-right: 50px;">
+                                                                    <div>
+                                                                        <h4 class="mb-1">IJEN WATER</h4>
+                                                                        <h6 class="mb-1">PDAM Bondowoso</h6>
+                                                                    </div>
+                                                                    <!-- <small class="text-muted">Nomor: <?= $row->id_pemesanan; ?></small> -->
+                                                                </div>
+                                                                <hr>
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <p class="mb-2"><strong>Nama Pelanggan:</strong></p>
+                                                                        <p><?= $row->nama_pelanggan; ?></p>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <p class="mb-2"><strong>Tanggal Transaksi:</strong></p>
+                                                                        <p><?= $row->tanggal_pesan; ?></p>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <p class="mb-2"><strong>Nama Produk:</strong></p>
+                                                                        <p><?= $row->nama_produk; ?></p>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <p class="mb-2"><strong>Jumlah Pesanan:</strong></p>
+                                                                        <p><?= $row->jumlah_pesan; ?></p>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <p class="mb-2"><strong>Total Harga:</strong></p>
+                                                                        <p>Rp. <?= number_format($row->total_harga, 0, ',', '.'); ?></p>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <p class="mb-2"><strong>Petugas :</strong></p>
+                                                                        <p><?= $row->input_pesan; ?></p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <span class="btn btn-danger ">LUNAS</span>
+                                                                    </div>
+                                                                </div>
+                                                                <hr>
+                                                                <div class="text-center">
+                                                                    <p class="mb-0">Terima kasih atas pembayaran Anda</p>
+                                                                    <p>Ijen Water <?= date('d-m-Y', strtotime($row->tanggal_pesan)); ?></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <?php elseif ($row->status_nota == 0 && $row->status_bayar == 0) : ?>
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <h5>Belum ada Nota Pembayaran</h5>
+                                                            </div>
+                                                        </div>
+                                                    <?php else : ?>
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <img src="<?= base_url('uploads/pasar/nota/' . $row->nota_beli); ?>" alt="Nota Pembelian" style="width: 100%;">
+                                                            </div>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                    <!-- <img src="<?= base_url('uploads/pasar/nota/' . $row->nota_beli); ?>" alt="" style="width: 100%;"> -->
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </div>
                                     <div class="card">
                                         <div class="card-body">

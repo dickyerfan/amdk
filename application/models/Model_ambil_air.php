@@ -3,13 +3,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class model_ambil_air extends CI_Model
 {
-    public function get_ambil_air($bulan, $tahun)
+    public function get_ambil_air($tanggal_mulai, $tanggal_selesai)
     {
         $this->db->select('*');
         $this->db->from('truk_tangki');
         $this->db->join('karyawan', 'truk_tangki.id_karyawan = karyawan.id_karyawan');
-        $this->db->where('MONTH(truk_tangki.tanggal_ambil_air)', $bulan);
-        $this->db->where('YEAR(truk_tangki.tanggal_ambil_air)', $tahun);
+        $this->db->where('truk_tangki.tanggal_ambil_air >=', $tanggal_mulai);
+        $this->db->where('truk_tangki.tanggal_ambil_air <=', $tanggal_selesai);
         $this->db->order_by('id_truk', 'ASC');
         $query = $this->db->get();
         return $query->result();

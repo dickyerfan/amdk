@@ -50,8 +50,16 @@
                                         <td class="text-center"><?= $row->tarif ?></td>
                                         <td class="text-center"><?= $row->aktif == 1 ? 'Aktif' : 'Non Aktif' ?></td>
                                         <td class="text-center">
-                                            <a href="<?= base_url(); ?>pemasaran/pelanggan/edit/<?= $row->id_pelanggan; ?>"><i class="fas fa-fw fa-edit" style="color: green;"></i></a>
-                                            <a href="<?= base_url(); ?>pemasaran/pelanggan/hapus/<?= $row->id_pelanggan; ?>" class="tombolHapus"><i class=" fas fa-fw fa-trash" style="color:red;"></i></a>
+                                            <?php if ($this->session->userdata('level') == 'Admin') : ?>
+                                                <a href="<?= base_url(); ?>pemasaran/pelanggan/edit/<?= $row->id_pelanggan; ?>"><i class="fas fa-fw fa-edit" style="color: green;"></i></a>
+                                            <?php else : ?>
+                                                <a href="#" class="fas fa-fw fa-edit" style="color: black;"></a>
+                                            <?php endif; ?>
+                                            <?php if ($this->session->userdata('level') == 'Admin') : ?>
+                                                <a href="<?= base_url(); ?>pemasaran/pelanggan/hapus/<?= $row->id_pelanggan; ?>" class="tombolHapus"><i class=" fas fa-fw fa-trash" style="color:red;"></i></a>
+                                            <?php else : ?>
+                                                <a href="#" class="fas fa-fw fa-trash" style="color: black;"></a>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

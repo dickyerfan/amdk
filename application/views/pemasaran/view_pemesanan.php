@@ -10,15 +10,31 @@
                                 <input type="date" id="tanggal" name="tanggal" class="form-control" style="margin-left: 10px;">
                             </div>
                         </form>
-                        <div class="navbar-nav ms-auto">
+                        <!-- <div class="navbar-nav ms-auto">
                             <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
                                 <a href="<?= base_url('pemasaran/pemesanan/upload') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Input Pemesanan</button></a>
                             <?php else : ?>
                                 <?php if ($this->session->userdata('nama_pengguna') == 'administrator') : ?>
-                                    <a href="<?= base_url('pemasaran/pemesanan/upload_admin') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Input Pemesanan</button></a>
+                                    <a href="<?= base_url('pemasaran/pemesanan/upload_admin') ?>"><button class="float-end neumorphic-button"><i class="fas fa-plus"></i> Input Pemesanan1</button></a>
                                 <?php endif; ?>
                             <?php endif; ?>
+                        </div> -->
+                        <div class="navbar-nav ms-auto">
+                            <?php 
+                            $namaLengkap = $this->session->userdata('nama_lengkap');
+                            $upkBagian = $this->session->userdata('upk_bagian');
+                            $namaPengguna = $this->session->userdata('nama_pengguna');
+
+                            // Cek apakah nama_lengkap bukan 'Ardylla Rosza(p)' dan user bukan admin
+                            if ($namaLengkap != 'Ardylla Rosza(p)' && $upkBagian != 'admin') : ?>
+                                <a href="<?= base_url('pemasaran/pemesanan/upload') ?>">
+                                    <button class="float-end neumorphic-button">
+                                        <i class="fas fa-plus"></i> Input Pemesanan
+                                    </button>
+                                </a>
+                            <?php endif; ?>
                         </div>
+
                     </nav>
                 </div>
                 <div class="p-2">

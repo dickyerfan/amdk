@@ -87,7 +87,7 @@
                                         <input type="hidden" name="tanggal_keluar" id="tanggal_keluar" value="<?= $row->tanggal_keluar; ?>">
                                         <div class="form-group">
                                             <label for="bukti_keluar_gd" class="mb-2">Bukti Pemesanan Barang Baku :</label>
-                                            <input type="file" class="form-control" id="bukti_keluar_gd" name="bukti_keluar_gd" value="<?= set_value('bukti_keluar_gd'); ?>">
+                                            <input type="file" accept="image/*" capture="camera" class="form-control" id="bukti_keluar_gd" name="bukti_keluar_gd" value="<?= set_value('bukti_keluar_gd'); ?>">
                                             <small class="form-text text-danger pl-3"><?= form_error('bukti_keluar_gd'); ?></small>
                                         </div>
                                     </div>

@@ -84,6 +84,7 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
+                        <div class="table-responsive">
                             <table class="table table-sm table-bordered" id="example" style="font-size: 0.8rem;">
                                 <thead>
                                     <tr>
@@ -128,18 +129,18 @@
                                                 // Cek apakah sudah lewat jam 14:00 
                                                 $can_click = $current_time < $deadline_time;
                                                 if ($row->status_bayar == 1 && $row->status_nota == 1) {
-                                                    $url = "javascript:Swal.fire('Peringatan', 'Barang sudah lunas.', 'warning');";
+                                                    $onclick = "Swal.fire('Peringatan', 'Barang sudah lunas.', 'warning');";
                                                 } else if ($row->status_nota == 0) {
-                                                    $url = "javascript:Swal.fire('Peringatan', 'Maaf, Bagian pemasaran belum setor uangnya.', 'warning');";
+                                                    $onclick = "Swal.fire('Peringatan', 'Maaf, Bagian pemasaran belum setor uangnya.', 'warning');";
                                                 } else if (!$can_click) {
-                                                    $url = "javascript:Swal.fire('Peringatan', 'Maaf, waktu pelunasan sudah lewat jam 14:00 WIB', 'warning');";
+                                                    $onclick = "Swal.fire('Peringatan', 'Maaf, waktu pelunasan sudah lewat jam 14:00 WIB', 'warning');";
+                                                } else if ($this->session->userdata('nama_user') == 'spi' || $this->session->userdata('nama_user') == 'langgan' || $this->session->userdata('nama_user') == 'admin' || $this->session->userdata('nama_pengguna') == "Manager") {
+                                                    $onclick = "Swal.fire('Peringatan', 'Admin tidak bisa proses.', 'warning');";
                                                 } else {
-                                                    $url = base_url('keuangan/piutang/pilih_lunas/') . $row->id_pemesanan;
+                                                    $onclick = "window.location.href='" . base_url('keuangan/piutang/pilih_lunas/') . $row->id_pemesanan . "';";
                                                 }
                                                 ?>
-                                                <a href="<?= $url; ?>" style="text-decoration: none;">
-                                                    <span class="btn btn-secondary btn-sm" style="font-size: 0.7rem;">Klik Lunas</span>
-                                                </a>
+                                                <button onclick="<?= $onclick; ?>" class="btn btn-secondary btn-sm" style="font-size: 0.7rem;">Klik Lunas</button>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -151,6 +152,7 @@
                                     </tr>
                                 </tfoot>
                             </table>
+                        </div>
                         </div>
                     </div>
                 </div>

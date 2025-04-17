@@ -125,7 +125,7 @@ class Laporan_penerimaan extends CI_Controller
         $tanggal_array = array();
         foreach ($data['lap_terima'] as $row) {
             $id_jenis_barang = $row->id_jenis_barang;
-            $tanggal_lengkap = $row->tanggal_bayar;
+            $tanggal_lengkap = $row->tanggal_setor;
             $tanggal = date("Y-m-d", strtotime($tanggal_lengkap));
             $lap_terima[$id_jenis_barang]['nama_produk'] = $row->nama_produk;
 
@@ -145,7 +145,7 @@ class Laporan_penerimaan extends CI_Controller
         $tanggal_array = array();
         foreach ($data['jml_barang'] as $row) {
             $id_jenis_barang = $row->id_jenis_barang;
-            $tanggal = $row->tanggal_bayar;
+            $tanggal = $row->tanggal_setor;
             $tanggal = date("Y-m-d", strtotime($tanggal));
             $jml_barang[$id_jenis_barang]['nama_produk'] = $row->nama_produk;
             // $jml_barang[$id_jenis_barang]['pemesanan'][$tanggal] = $row->total_barang;
@@ -162,7 +162,7 @@ class Laporan_penerimaan extends CI_Controller
         $data['tanggal_array'] = array_unique($tanggal_array);
 
         // Get the selected month and year, or provide default values
-        $selectedMonth = $this->input->get('tanggal');
+        $selectedMonth = $this->session->userdata('bulan_exportpdf');
         if (empty($selectedMonth)) {
             $selectedMonth = date('Y-m'); // Use the current month as default
         }
@@ -182,15 +182,16 @@ class Laporan_penerimaan extends CI_Controller
         $data['dateRange'] = $dateRange;
 
         $tanggal = $this->session->userdata('bulan_exportpdf');
-        $bulan = substr($tanggal, 5, 2);
-        $tahun = substr($tanggal, 0, 4);
 
         if (empty($tanggal)) {
             $tanggal = date('Y-m-d');
             $bulan = date('m');
             $tahun = date('Y');
         }
+        $bulan = substr($tanggal, 5, 2);
+        $tahun = substr($tanggal, 0, 4);
 
+        $data['tanggal_lap'] = $tanggal;
         $data['bulan_lap'] = $bulan;
         $data['tahun_lap'] = $tahun;
         $data['manager'] = $this->Model_laporan->get_manager();

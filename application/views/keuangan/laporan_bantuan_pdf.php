@@ -43,7 +43,7 @@
         .tableUtama th,
         .tableUtama td {
             border: 1px solid black;
-            font-size: 0.5rem;
+            font-size: 0.6rem;
             padding: 1.5px 3px;
         }
 
@@ -110,7 +110,7 @@
                 <?php foreach ($jenis_produk as $jenis) : ?>
                     <th class="text-center" style="vertical-align: middle;">
                         <?php
-                        switch ($jenis->nama_barang_jadi) {
+                        switch ($jenis->nama_produk) {
                             case 'galon 19l':
                                 echo 'Galon 19l';
                                 break;
@@ -157,7 +157,7 @@
                                 echo '500 Genggong';
                                 break;
                             default:
-                                echo $jenis->nama_barang_jadi;
+                                echo $jenis->nama_produk;
                                 break;
                         }
                         ?>
@@ -178,7 +178,7 @@
                     <td><?= $row->nama_pelanggan; ?></td>
                     <?php foreach ($jenis_produk as $barang) : ?>
                         <?php
-                        $jumlah_barang = isset($row->jumlah[$barang->nama_barang_jadi]) ? $row->jumlah[$barang->nama_barang_jadi] : ' ';
+                        $jumlah_barang = isset($row->jumlah[$barang->nama_produk]) ? $row->jumlah[$barang->nama_produk] : ' ';
                         $total_harga = $row->harga_ban_ops_total;
                         ?>
                         <td class="text-center"><?= $jumlah_barang; ?></td>
@@ -197,7 +197,7 @@
                     $total_semua_harga = 0;
 
                     foreach ($grouped_ban_ops as $row) {
-                        $jumlah_barang = isset($row->jumlah[$barang->nama_barang_jadi]) ? $row->jumlah[$barang->nama_barang_jadi] : 0;
+                        $jumlah_barang = isset($row->jumlah[$barang->nama_produk]) ? $row->jumlah[$barang->nama_produk] : 0;
                         $total_jumlah_barang += $jumlah_barang;
                         $total_semua_harga += $row->harga_ban_ops_total;
                     }
@@ -211,6 +211,12 @@
     </table>
 
     <?php
+    $nik_kabag = $kabag->nik_karyawan;
+    if ($nik_kabag) {
+        $nik_kabag =  sprintf('%03s %02s %03s', substr($nik_kabag, 0, 3), substr($nik_kabag, 3, 2), substr($nik_kabag, 5));
+    } else {
+        $nik_kabag = '';
+    }
     $nik_manager = $manager->nik_karyawan;
     if ($nik_manager) {
         $nik_manager =  sprintf('%03s %02s %03s', substr($nik_manager, 0, 3), substr($nik_manager, 3, 2), substr($nik_manager, 5));
@@ -226,18 +232,26 @@
     }
     ?>
 
-    <div style="font-size: 0.8rem;">
-        <p style="width: 50%; float: left; text-align:center; margin-bottom: 1px;">Mengetahui</p>
+<div style="font-size: 0.8rem;">
+        <p style="width: 50%; float: left; text-align:center; margin-bottom: 1px;">Diperiksa Oleh :</p>
         <p style="width: 50%; float: right;text-align:center; margin-bottom: 1px;">Dibuat Oleh :</p>
         <div style="clear: both;"></div>
-        <p style="width: 50%; float: left; text-align:center;">Manager AMDK</p>
-        <p style="width: 50%; float: right;text-align:center;">Kabag Administrasi & Keuangan</p>
-        <div style="clear: both; margin-bottom:40px;"></div>
-        <u style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"><?= strtoupper($manager->nama_karyawan); ?></u>
-        <u style="width: 50%; float: right;text-align:center; margin-bottom: 1px;"><?= strtoupper($uang->nama_karyawan); ?></u>
+        <p style="width: 50%; float: left; text-align:center;">Kabag Keuangan</p>
+        <p style="width: 50%; float: right;text-align:center;">Manager AMDK</p>
+        <div style="clear: both; margin-bottom:20px;"></div>
+        <u style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"><?= strtoupper($kabag->nama_karyawan); ?></u>
+        <u style="width: 50%; float: right;text-align:center; margin-bottom: 1px;"><?= strtoupper($manager->nama_karyawan); ?></u>
         <div style="clear: both;"></div>
-        <p style="width: 50%; float: left; text-align:center;">NIK. <?= $nik_manager; ?></p>
-        <p style="width: 50%; float: right;text-align:center;">NIK. <?= $nik_uang; ?></p>
+        <p style="width: 50%; float: left; text-align:center;">NIK. <?= $nik_kabag; ?></p>
+        <p style="width: 50%; float: right;text-align:center;">NIK. <?= $nik_manager; ?></p>
+        <div style="clear: both;"></div>
+    </div>
+    <div style="font-size: 0.8rem;">
+        <p style="width: 100%; float: center; text-align:center; margin-bottom: 1px;">Mengetahui/menyetujui :</p>
+        <div style="clear: both;"></div>
+        <p style="width: 100%; float: center; text-align:center;">Direktur PDAM Bondowoso</p>
+        <div style="clear: both; margin-bottom:20px;"></div>
+        <u style="width: 100%; float: center; text-align:center; margin-bottom: 1px;"><?= strtoupper($direktur->nama_karyawan); ?></u>
         <div style="clear: both;"></div>
     </div>
 

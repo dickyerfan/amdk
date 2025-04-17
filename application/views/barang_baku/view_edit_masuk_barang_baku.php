@@ -17,7 +17,7 @@
                                 <input type="hidden" name="id_masuk_baku" id="id_masuk_baku" value="<?= $masuk_baku->id_masuk_baku; ?>">
                                 <div class="form-group mb-2">
                                     <label for="bukti_masuk_gd">Bukti Transaksi Gudang :</label>
-                                    <input type="file" class="form-control" id="bukti_masuk_gd" name="bukti_masuk_gd" value="<?= set_value('bukti_masuk_gd'); ?>">
+                                    <input type="file" accept="image/*" capture="camera" class="form-control" id="bukti_masuk_gd" name="bukti_masuk_gd" value="<?= set_value('bukti_masuk_gd'); ?>">
                                     <small class="form-text text-danger pl-3"><?= form_error('bukti_masuk_gd'); ?></small>
                                     <small class="form-text text-danger pl-3">Bukti Penerimaan Barang dari Gudang</small>
                                 </div>

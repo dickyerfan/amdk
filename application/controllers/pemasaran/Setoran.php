@@ -21,7 +21,7 @@ class Setoran extends CI_Controller
 
         $level_pengguna = $this->session->userdata('level');
         $upk_bagian = $this->session->userdata('upk_bagian');
-        if ($level_pengguna != 'Admin' && $upk_bagian != 'pasar') {
+        if ($level_pengguna != 'Admin' && $upk_bagian != 'pasar' && $upk_bagian != 'uang') {
             $this->session->set_flashdata(
                 'info',
                 '<div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -59,6 +59,12 @@ class Setoran extends CI_Controller
             $this->load->view('templates/sidebar');
             $this->load->view('pemasaran/view_setoran', $data);
             $this->load->view('templates/footer');
+        }elseif($this->session->userdata('upk_bagian') == 'uang') {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_uang');
+            $this->load->view('templates/pengguna/sidebar_uang');
+            $this->load->view('pemasaran/view_setoran', $data);
+            $this->load->view('templates/pengguna/footer');
         } else {
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_pasar');
@@ -101,6 +107,12 @@ class Setoran extends CI_Controller
             $this->load->view('templates/sidebar');
             $this->load->view('pemasaran/view_setoran_driver', $data);
             $this->load->view('templates/footer');
+        }elseif($this->session->userdata('upk_bagian') == 'uang') {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_pasar');
+            $this->load->view('templates/pengguna/sidebar_uang');
+            $this->load->view('pemasaran/view_setoran_driver', $data);
+            $this->load->view('templates/pengguna/footer');
         } else {
             $this->load->view('templates/pengguna/header', $data);
             $this->load->view('templates/pengguna/navbar_pasar');
@@ -108,6 +120,7 @@ class Setoran extends CI_Controller
             $this->load->view('pemasaran/view_setoran_driver', $data);
             $this->load->view('templates/pengguna/footer');
         }
+        
     }
 
     public function exportpdf()

@@ -11,10 +11,10 @@
                             </div>
                         </form>
                         <div class="navbar-nav">
-                            <a href="<?= base_url('keuangan/pengambilan_air/exportpdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
+                            <a href="<?= base_url('keuangan/laporan_pemakaian_air/exportpdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div>
                         <!-- <div class="navbar-nav ms-auto">
-                            <a href="<?= base_url('keuangan/pengambilan_air/tambah'); ?>"><button class=" neumorphic-button float-end"><i class="fas fa-plus"></i> Pengambilan air</button></a>
+                            <a href="<?= base_url('keuangan/laporan_pemakaian_air/tambah'); ?>"><button class=" neumorphic-button float-end"><i class="fas fa-plus"></i> Pengambilan air</button></a>
                         </div> -->
                     </nav>
 
@@ -34,9 +34,9 @@
                             $bulanLap = date('m');
                             $tahunLap = date('Y');
                         } else {
-                            list($tahun, $bulan, $hari) = explode('-', $tanggal);
+                            // list($tahun, $bulan, $hari) = explode('-', $tanggal);
                             list($tahunLap, $bulanLap, $hariLap) = explode('-', $tanggal);
-                            $bulan = str_pad($bulan, 2, '0', STR_PAD_LEFT);
+                            $bulan = str_pad($bulanLap, 2, '0', STR_PAD_LEFT);
                         }
                         $bulanLap = [
                             '01' => 'Januari',
@@ -63,19 +63,19 @@
                                     <th>Satuan</th>
                                     <th>Pembelian Air</th>
                                     <th>Pemakaian Air</th>
-                                    <th>Air Terbuang</th>
+                                    <!-- <th>Air Terbuang</th> -->
                                     <th>Sisa Air</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <!-- <tr>
                                     <td class="fw-bold">Sisa Bulan Lalu</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td class="text-end"><?= number_format(94349, 2, ',', '.') ?></td>
-                                </tr>
+                                </tr> -->
                                 <?php
                                 foreach ($dateRange as $tanggal) : ?>
                                     <tr>
@@ -113,8 +113,7 @@
                                             <!-- Jika tanggal tidak ditemukan, isi kolom pembelian air dengan 0 -->
                                             <td class="text-center">0</td>
                                         <?php endif; ?>
-                                        <td></td>
-                                        <!-- <td class="text-end"><?= $total_pembelian_air; ?></td> -->
+                                        <!-- <td></td> -->
                                         <td class="text-end"></td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -125,6 +124,7 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <!-- <td></td> -->
                                 </tr>
                                 <tr>
                                     <td colspan="2" class="fw-bold">Liter</td>
@@ -167,7 +167,7 @@
 
                                     <td class="text-center"><?= number_format($total_pembelian_bulan_ini, 2, ',', '.'); ?></td>
                                     <td class="text-center"><?= number_format($total_pemakaian_air, 2, ',', '.'); ?></td>
-                                    <td class="text-center"><?= number_format($total_air_terbuang, 2, ',', '.'); ?></td>
+                                    <!-- <td class="text-center"><?= number_format($total_air_terbuang, 2, ',', '.'); ?></td> -->
                                     <td class="text-end"><?= number_format($total_sisa_air_liter, 2, ',', '.'); ?></td>
                                 </tr>
                                 <tr>
@@ -179,15 +179,9 @@
                                     <td colspan="2" class="fw-bold">Meter Kubik</td>
                                     <td class="text-center"><?= number_format($total_pembelian, 2, ',', '.'); ?></td>
                                     <td class="text-center"><?= number_format($total_pemakaian, 2, ',', '.'); ?></td>
-                                    <td class="text-center"><?= number_format($total_air_terbuang, 2, ',', '.'); ?></td>
+                                    <!-- <td class="text-center"><?= number_format($total_air_terbuang, 2, ',', '.'); ?></td> -->
                                     <td class="text-end"><?= number_format($total_sisa_air_kubik, 2, ',', '.'); ?></td>
                                 </tr>
-                                <!-- <tr>
-                                    <td colspan="2" class="fw-bold">Pengiriman Truk Tangki</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr> -->
                             </tfoot>
                         </table>
                     </div>

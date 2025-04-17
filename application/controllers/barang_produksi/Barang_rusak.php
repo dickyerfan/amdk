@@ -96,7 +96,6 @@ class Barang_rusak extends CI_Controller
                 $config['max_size']      = 1000;
                 $config['file_name']     = $file_name;
                 $config['overwrite']     = true; // Mengizinkan penggantian file yang ada dengan nama yang sama
-                $config['encrypt_name']  = false; // Menonaktifkan enkripsi nama file
 
                 $this->load->library('upload', $config);
                 if ($this->upload->do_upload('bukti_rusak_produksi')) {
@@ -106,8 +105,7 @@ class Barang_rusak extends CI_Controller
                     $data['tanggal_rusak_produksi'] = $tanggal_rusak_produksi;
                     $data['jenis_rusak_produksi'] = $this->input->post('jenis_rusak_produksi', true);
                     $data['input_status_rusak_produksi'] = $this->session->userdata('nama_lengkap');
-                    // $data['bukti_rusak_produksi'] = $file_name; // Simpan nama file dalam database
-                    $data['bukti_rusak_produksi'] = str_replace(' ', '_', $file_name); // Ganti spasi dengan underscore
+                    $data['bukti_rusak_produksi'] = $file_name; // Simpan nama file dalam database
                     $data['keterangan'] = $this->input->post('keterangan', true);
                     $data['tgl_input_rusak_produksi'] = date('Y-m-d H:i:s');
 
@@ -149,10 +147,18 @@ class Barang_rusak extends CI_Controller
     {
         $data['detail_barang_rusak'] = $this->Model_barang_produksi->get_detail_barang_rusak($id_rusak_baku);
         $data['title'] = 'Detail Barang Rusak';
-        $this->load->view('templates/pengguna/header', $data);
-        $this->load->view('templates/pengguna/navbar_produksi');
-        $this->load->view('templates/pengguna/sidebar_produksi');
-        $this->load->view('barang_produksi/view_detail_rusak_barang_produksi', $data);
-        $this->load->view('templates/pengguna/footer_produksi');
+        if ($this->session->userdata('level') == 'Admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('barang_produksi/view_detail_rusak_barang_produksi', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_produksi');
+            $this->load->view('templates/pengguna/sidebar_produksi');
+            $this->load->view('barang_produksi/view_detail_rusak_barang_produksi', $data);
+            $this->load->view('templates/pengguna/footer_produksi');
+        }
     }
 }
