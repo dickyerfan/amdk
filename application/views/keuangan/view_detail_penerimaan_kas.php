@@ -52,7 +52,88 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
                             <div class="table-responsive">
-                                <table id="example" class="table table-hover table-striped table-bordered table-sm" width="100%" cellspacing="0" style="font-size: 0.8rem;">
+                                <table class="table table-bordered table-sm" style="font-size: 0.8rem;">
+                                    <thead class="bg-secondary text-white text-center">
+                                        <tr>
+                                            <th rowspan="2" class="align-middle">No</th>
+                                            <th rowspan="2" class="align-middle">Nama</th>
+                                            <th colspan="2">220 ml</th>
+                                            <th colspan="2">330 ml</th>
+                                            <th colspan="2">500 ml</th>
+                                            <th colspan="2">1500 ml</th>
+                                            <th colspan="2">Galon 19</th>
+                                            <th colspan="2">Non Air</th>
+                                            <th rowspan="2" class="align-middle">Jumlah</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Jml</th>
+                                            <th>Rp</th>
+                                            <th>Jml</th>
+                                            <th>Rp</th>
+                                            <th>Jml</th>
+                                            <th>Rp</th>
+                                            <th>Jml</th>
+                                            <th>Rp</th>
+                                            <th>Jml</th>
+                                            <th>Rp</th>
+                                            <th>Jml</th>
+                                            <th>Rp</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        $total_all = 0;
+                                        foreach ($grouped_data as $nama => $produk) :
+                                            $total_all += $produk['total'];
+                                        ?>
+                                            <tr class="text-end">
+                                                <td class="text-center"><?= $no++; ?></td>
+                                                <td class="text-start"><?= $nama; ?></td>
+                                                <td><?= $produk['220ml']['jumlah']; ?></td>
+                                                <td><?= number_format($produk['220ml']['rupiah'], 0, ',', '.'); ?></td>
+                                                <td><?= $produk['330ml']['jumlah']; ?></td>
+                                                <td><?= number_format($produk['330ml']['rupiah'], 0, ',', '.'); ?></td>
+                                                <td><?= $produk['500ml']['jumlah']; ?></td>
+                                                <td><?= number_format($produk['500ml']['rupiah'], 0, ',', '.'); ?></td>
+                                                <td><?= $produk['1500ml']['jumlah']; ?></td>
+                                                <td><?= number_format($produk['1500ml']['rupiah'], 0, ',', '.'); ?></td>
+                                                <td><?= $produk['galon 19']['jumlah']; ?></td>
+                                                <td><?= number_format($produk['galon 19']['rupiah'], 0, ',', '.'); ?></td>
+                                                <td><?= $produk['galon kosong']['jumlah']; ?></td>
+                                                <td><?= number_format($produk['galon kosong']['rupiah'], 0, ',', '.'); ?></td>
+                                                <td><?= number_format($produk['total'], 0, ',', '.'); ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                    <tfoot class="bg-light text-end fw-bold">
+                                        <tr>
+                                            <td colspan="2" class="text-end">Jumlah</td>
+                                            <td><?= $total_produk['220ml']['jumlah']; ?></td>
+                                            <td><?= number_format($total_produk['220ml']['rupiah'], 0, ',', '.'); ?></td>
+                                            <td><?= $total_produk['330ml']['jumlah']; ?></td>
+                                            <td><?= number_format($total_produk['330ml']['rupiah'], 0, ',', '.'); ?></td>
+                                            <td><?= $total_produk['500ml']['jumlah']; ?></td>
+                                            <td><?= number_format($total_produk['500ml']['rupiah'], 0, ',', '.'); ?></td>
+                                            <td><?= $total_produk['1500ml']['jumlah']; ?></td>
+                                            <td><?= number_format($total_produk['1500ml']['rupiah'], 0, ',', '.'); ?></td>
+                                            <td><?= $total_produk['galon 19']['jumlah']; ?></td>
+                                            <td><?= number_format($total_produk['galon 19']['rupiah'], 0, ',', '.'); ?></td>
+                                            <td><?= $total_produk['galon kosong']['jumlah']; ?></td>
+                                            <td><?= number_format($total_produk['galon kosong']['rupiah'], 0, ',', '.'); ?></td>
+                                            <td><?= number_format($total_semua, 0, ',', '.'); ?></td>
+                                        </tr>
+                                    </tfoot>
+
+                                    <!-- <tfoot class="bg-light text-end fw-bold">
+                                        <tr>
+                                            <td colspan="14" class="text-end">Jumlah</td>
+                                            <td><?= number_format($total_all, 0, ',', '.'); ?></td>
+                                        </tr>
+                                    </tfoot> -->
+                                </table>
+
+                                <!-- <table id="example" class="table table-hover table-striped table-bordered table-sm" width="100%" cellspacing="0" style="font-size: 0.8rem;">
                                     <thead>
                                         <tr class="bg-secondary">
                                             <th class="text-center">No</th>
@@ -83,7 +164,7 @@
                                             <th class="text-end"><?= number_format($total_penerimaan, 0, ',', '.'); ?></th>
                                         </tr>
                                     </tfoot>
-                                </table>
+                                </table> -->
                             </div>
                         </div>
                     </div>

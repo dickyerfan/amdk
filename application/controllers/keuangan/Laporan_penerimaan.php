@@ -204,4 +204,115 @@ class Laporan_penerimaan extends CI_Controller
         $this->pdf->filename = "LapPenerimaan-{$bulan}-{$tahun}.pdf";
         $this->pdf->generate('keuangan/laporan_penerimaan_pdf', $data);
     }
+
+    public function rekap_tahunan()
+    {
+        $tahun = $this->input->get('tahun');
+        if (empty($tahun)) {
+            $tahun = date('Y');
+        }
+
+        $data['title'] = "Rekap Tahunan Penerimaan Tahun $tahun";
+        $data['tahun'] = $tahun;
+
+        // Ambil data
+        $harga_data = $this->Model_laporan->get_rekap_penerimaan_tahunan_harga($tahun);
+        $jumlah_data = $this->Model_laporan->get_rekap_penerimaan_tahunan_jumlah($tahun);
+
+        $produk_list = [];
+        $rekap = []; // Format: $rekap[bulan][produk] = ['jumlah' => xx, 'harga' => yy];
+
+        // Data harga
+        foreach ($harga_data as $row) {
+            $bulan = (int)$row->bulan;
+            $produk = $row->jenis_produk;
+            $produk_list[$produk] = true;
+
+            if (!isset($rekap[$bulan][$produk])) {
+                $rekap[$bulan][$produk] = ['jumlah' => 0, 'harga' => 0];
+            }
+            $rekap[$bulan][$produk]['harga'] += $row->total_harga;
+        }
+
+        // Data jumlah
+        foreach ($jumlah_data as $row) {
+            $bulan = (int)$row->bulan;
+            $produk = $row->jenis_produk;
+            $produk_list[$produk] = true;
+
+            if (!isset($rekap[$bulan][$produk])) {
+                $rekap[$bulan][$produk] = ['jumlah' => 0, 'harga' => 0];
+            }
+            $rekap[$bulan][$produk]['jumlah'] += $row->total_barang;
+        }
+
+        // Urutkan produk
+        $data['produk_list'] = array_keys($produk_list);
+        $data['rekap'] = $rekap;
+
+        $this->session->set_userdata('tahun_rekap_penerimaan', $tahun);
+
+        if ($this->session->userdata('level') == 'Admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('keuangan/view_rekap_laporan_penerimaan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_uang');
+            $this->load->view('templates/pengguna/sidebar_uang');
+            $this->load->view('keuangan/view_rekap_laporan_penerimaan', $data);
+            $this->load->view('templates/pengguna/footer_uang');
+        }
+    }
+
+    public function export_rekap_tahunan()
+    {
+        $tahun = $this->session->userdata('tahun_rekap_penerimaan');
+        $data['title'] = "Rekap Tahunan Penerimaan Tahun $tahun";
+        $data['tahun'] = $tahun;
+
+        // Ambil data
+        $harga_data = $this->Model_laporan->get_rekap_penerimaan_tahunan_harga($tahun);
+        $jumlah_data = $this->Model_laporan->get_rekap_penerimaan_tahunan_jumlah($tahun);
+
+        $produk_list = [];
+        $rekap = []; // Format: $rekap[bulan][produk] = ['jumlah' => xx, 'harga' => yy];
+
+        // Data harga
+        foreach ($harga_data as $row) {
+            $bulan = (int)$row->bulan;
+            $produk = $row->jenis_produk;
+            $produk_list[$produk] = true;
+
+            if (!isset($rekap[$bulan][$produk])) {
+                $rekap[$bulan][$produk] = ['jumlah' => 0, 'harga' => 0];
+            }
+            $rekap[$bulan][$produk]['harga'] += $row->total_harga;
+        }
+
+        // Data jumlah
+        foreach ($jumlah_data as $row) {
+            $bulan = (int)$row->bulan;
+            $produk = $row->jenis_produk;
+            $produk_list[$produk] = true;
+
+            if (!isset($rekap[$bulan][$produk])) {
+                $rekap[$bulan][$produk] = ['jumlah' => 0, 'harga' => 0];
+            }
+            $rekap[$bulan][$produk]['jumlah'] += $row->total_barang;
+        }
+
+        // Urutkan produk
+        $data['produk_list'] = array_keys($produk_list);
+        $data['rekap'] = $rekap;
+        $data['manager'] = $this->Model_laporan->get_manager();
+        $data['uang'] = $this->Model_laporan->get_uang();
+
+        $this->pdf->setPaper('folio', 'landscape');
+
+        $this->pdf->filename = "LapRekapPenerimaan-{$tahun}.pdf";
+        $this->pdf->generate('keuangan/laporan_rekap_penerimaan_pdf', $data);
+    }
 }

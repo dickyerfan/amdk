@@ -141,6 +141,49 @@ class Piutang extends CI_Controller
         $this->pdf->generate('keuangan/daftar_piutang_bulan_all_pdf', $data);
     }
 
+    public function rangking_piutang()
+    {
+        $data['title'] = 'Rangking Piutang Pelanggan';
+        $data['rangking'] = $this->Model_piutang->get_rangking_piutang();
+        $data['total_piutang'] = $this->Model_piutang->get_total_piutang();
+
+        $data['detail_piutang'] = [];
+        foreach ($data['rangking'] as $r) {
+            $data['detail_piutang'][$r->id_pelanggan] = $this->Model_piutang->get_detail_piutang_by_pelanggan($r->id_pelanggan);
+        }
+
+        if ($this->session->userdata('level') == 'Admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('keuangan/view_rangking_piutang', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_uang');
+            $this->load->view('templates/pengguna/sidebar_uang');
+            $this->load->view('keuangan/view_rangking_piutang', $data);
+            $this->load->view('templates/pengguna/footer_uang');
+        }
+    }
+
+    public function export_rangking()
+    {
+        $data['title'] = 'Rangking Piutang Pelanggan';
+        $data['rangking'] = $this->Model_piutang->get_rangking_piutang();
+        $data['total_piutang'] = $this->Model_piutang->get_total_piutang();
+
+        $data['detail_piutang'] = [];
+        foreach ($data['rangking'] as $r) {
+            $data['detail_piutang'][$r->id_pelanggan] = $this->Model_piutang->get_detail_piutang_by_pelanggan($r->id_pelanggan);
+        }
+        $data['manager'] = $this->Model_laporan->get_manager();
+        $data['uang'] = $this->Model_laporan->get_uang();
+
+        $this->pdf->setPaper('folio', 'portrait');
+        $this->pdf->filename = "rangking_piutang.pdf";
+        $this->pdf->generate('keuangan/rangking_piutang_pdf', $data);
+    }
 
     public function pertanggal()
     {
@@ -239,7 +282,7 @@ class Piutang extends CI_Controller
         }
     }
 
-    
+
 
     public function nama_pelanggan()
     {
@@ -312,25 +355,25 @@ class Piutang extends CI_Controller
             $data['lunas'] = $this->Model_piutang->get_lunas($id_pemesanan);
             $data['title'] = 'Form Pelunasan';
             if ($this->session->userdata('level') == 'Admin') {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/navbar');
-            $this->load->view('templates/sidebar');
-            $this->load->view('keuangan/view_pilih_lunas_piutang', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $this->load->view('templates/pengguna/header', $data);
-            $this->load->view('templates/pengguna/navbar_uang');
-            $this->load->view('templates/pengguna/sidebar_uang');
-            $this->load->view('keuangan/view_pilih_lunas_piutang', $data);
-            $this->load->view('templates/pengguna/footer_uang');
-        }
+                $this->load->view('templates/header', $data);
+                $this->load->view('templates/navbar');
+                $this->load->view('templates/sidebar');
+                $this->load->view('keuangan/view_pilih_lunas_piutang', $data);
+                $this->load->view('templates/footer');
+            } else {
+                $this->load->view('templates/pengguna/header', $data);
+                $this->load->view('templates/pengguna/navbar_uang');
+                $this->load->view('templates/pengguna/sidebar_uang');
+                $this->load->view('keuangan/view_pilih_lunas_piutang', $data);
+                $this->load->view('templates/pengguna/footer_uang');
+            }
         } else {
 
             $data['status_bayar'] = $this->input->post('status_bayar');
             $data['status_pesan'] = 0;
             $data['input_bayar'] = $this->session->userdata('nama_lengkap');
             // ini untuk production
-            $data['tanggal_bayar'] = date('Y-m-d H:i:s');  
+            $data['tanggal_bayar'] = date('Y-m-d H:i:s');
             // ini hanya untuk input data
             // $data['tanggal_bayar'] = $this->input->post('tanggal_bayar');
 

@@ -174,12 +174,70 @@ class Penerimaan_kas extends CI_Controller
         $data['detail_terima'] = $this->Model_penerimaan->get_terima_kas($tanggal_kas);
         $data['tanggal_hari_ini'] = $tanggal_kas;
 
-        $total_penerimaan = 0;
-        foreach ($data['detail_terima'] as $detail) {
-            $total_penerimaan += $detail->total_harga;
-        }
-        $data['total_penerimaan'] = $total_penerimaan;
+        $grouped_data = [];
+        $total_produk = [
+            '220ml' => ['jumlah' => 0, 'rupiah' => 0],
+            '330ml' => ['jumlah' => 0, 'rupiah' => 0],
+            '500ml' => ['jumlah' => 0, 'rupiah' => 0],
+            '1500ml' => ['jumlah' => 0, 'rupiah' => 0],
+            'galon 19' => ['jumlah' => 0, 'rupiah' => 0],
+            'galon kosong' => ['jumlah' => 0, 'rupiah' => 0],
+        ];
+        $total_semua = 0;
 
+        foreach ($data['detail_terima'] as $item) {
+            $nama = $item->nama_pelanggan;
+            $produk = strtolower($item->nama_produk);
+
+            if (!isset($grouped_data[$nama])) {
+                $grouped_data[$nama] = [
+                    '220ml' => ['jumlah' => 0, 'rupiah' => 0],
+                    '330ml' => ['jumlah' => 0, 'rupiah' => 0],
+                    '500ml' => ['jumlah' => 0, 'rupiah' => 0],
+                    '1500ml' => ['jumlah' => 0, 'rupiah' => 0],
+                    'galon 19' => ['jumlah' => 0, 'rupiah' => 0],
+                    'galon kosong' => ['jumlah' => 0, 'rupiah' => 0],
+                    'total' => 0,
+                ];
+            }
+
+            // Map produk dari nama_produk ke key di array
+            $map_nama = [
+                'gelas 220ml ijen' => '220ml',
+                'gelas 220ml genggong' => '220ml',
+                'gelas 220ml an nujum' => '220ml',
+                'gelas 220ml syubbanq' => '220ml',
+                'gelas 220ml amalis' => '220ml',
+                'gelas 220ml ijen merah' => '220ml',
+                'botol 330ml ijen' => '330ml',
+                'botol 330ml genggong' => '330ml',
+                'botol 500ml ijen' => '500ml',
+                'botol 500ml amalis' => '500ml',
+                'botol 500ml genggong' => '500ml',
+                'botol 1500ml ijen' => '1500ml',
+                'botol 1500ml amalis' => '1500ml',
+                'galon 19l' => 'galon 19',
+                'galon kosong' => 'galon kosong',
+            ];
+
+            if (isset($map_nama[$produk])) {
+                $key = $map_nama[$produk];
+                $grouped_data[$nama][$key]['jumlah'] += $item->jumlah_pesan;
+                $grouped_data[$nama][$key]['rupiah'] += $item->total_harga;
+                $grouped_data[$nama]['total'] += $item->total_harga;
+
+                // Tambahkan juga ke total per produk
+                $total_produk[$key]['jumlah'] += $item->jumlah_pesan;
+                $total_produk[$key]['rupiah'] += $item->total_harga;
+
+                // Total semua
+                $total_semua += $item->total_harga;
+            }
+        }
+
+        $data['total_produk'] = $total_produk;
+        $data['total_semua'] = $total_semua;
+        $data['grouped_data'] = $grouped_data;
         $this->session->set_userdata('export_kas_pdf', $tanggal_kas);
 
         if ($this->session->userdata('level') == 'Admin') {
@@ -199,16 +257,75 @@ class Penerimaan_kas extends CI_Controller
 
     public function export_kas_pdf()
     {
-        $data['title'] = 'Detail Laporan Penerimaan AMDK';
+        $data['title'] = 'Laporan Penerimaan AMDK';
         $tanggal_kas = $this->session->userdata('export_kas_pdf');
         $data['detail_terima'] = $this->Model_penerimaan->get_terima_kas($tanggal_kas);
         $data['tanggal_hari_ini'] = $tanggal_kas;
 
-        $total_penerimaan = 0;
-        foreach ($data['detail_terima'] as $detail) {
-            $total_penerimaan += $detail->total_harga;
+        $grouped_data = [];
+        $total_produk = [
+            '220ml' => ['jumlah' => 0, 'rupiah' => 0],
+            '330ml' => ['jumlah' => 0, 'rupiah' => 0],
+            '500ml' => ['jumlah' => 0, 'rupiah' => 0],
+            '1500ml' => ['jumlah' => 0, 'rupiah' => 0],
+            'galon 19' => ['jumlah' => 0, 'rupiah' => 0],
+            'galon kosong' => ['jumlah' => 0, 'rupiah' => 0],
+        ];
+        $total_semua = 0;
+
+        foreach ($data['detail_terima'] as $item) {
+            $nama = $item->nama_pelanggan;
+            $produk = strtolower($item->nama_produk);
+
+            if (!isset($grouped_data[$nama])) {
+                $grouped_data[$nama] = [
+                    '220ml' => ['jumlah' => 0, 'rupiah' => 0],
+                    '330ml' => ['jumlah' => 0, 'rupiah' => 0],
+                    '500ml' => ['jumlah' => 0, 'rupiah' => 0],
+                    '1500ml' => ['jumlah' => 0, 'rupiah' => 0],
+                    'galon 19' => ['jumlah' => 0, 'rupiah' => 0],
+                    'galon kosong' => ['jumlah' => 0, 'rupiah' => 0],
+                    'total' => 0,
+                ];
+            }
+
+            // Map produk dari nama_produk ke key di array
+            $map_nama = [
+                'gelas 220ml ijen' => '220ml',
+                'gelas 220ml genggong' => '220ml',
+                'gelas 220ml an nujum' => '220ml',
+                'gelas 220ml syubbanq' => '220ml',
+                'gelas 220ml amalis' => '220ml',
+                'gelas 220ml ijen merah' => '220ml',
+                'botol 330ml ijen' => '330ml',
+                'botol 330ml genggong' => '330ml',
+                'botol 500ml ijen' => '500ml',
+                'botol 500ml amalis' => '500ml',
+                'botol 500ml genggong' => '500ml',
+                'botol 1500ml ijen' => '1500ml',
+                'botol 1500ml amalis' => '1500ml',
+                'galon 19l' => 'galon 19',
+                'galon kosong' => 'galon kosong',
+            ];
+
+            if (isset($map_nama[$produk])) {
+                $key = $map_nama[$produk];
+                $grouped_data[$nama][$key]['jumlah'] += $item->jumlah_pesan;
+                $grouped_data[$nama][$key]['rupiah'] += $item->total_harga;
+                $grouped_data[$nama]['total'] += $item->total_harga;
+
+                // Tambahkan juga ke total per produk
+                $total_produk[$key]['jumlah'] += $item->jumlah_pesan;
+                $total_produk[$key]['rupiah'] += $item->total_harga;
+
+                // Total semua
+                $total_semua += $item->total_harga;
+            }
         }
-        $data['total_penerimaan'] = $total_penerimaan;
+
+        $data['total_produk'] = $total_produk;
+        $data['total_semua'] = $total_semua;
+        $data['grouped_data'] = $grouped_data;
 
         $tanggal = $this->session->userdata('bulan_exportpdf');
         $bulan = substr($tanggal, 5, 2);

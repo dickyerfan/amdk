@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMDK | <?= $title; ?></title>
+    <link href="<?= base_url(); ?>assets/datatables/bootstrap5/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        main {
+            font-size: 0.8rem;
+        }
+
+        .header p {
+            margin: 0;
+            font-size: 0.7rem;
+            /* Menghilangkan margin pada teks */
+        }
+
+        .tandaTangan p {
+            font-size: 0.7rem;
+        }
+
+        .header img {
+            margin-right: 10px;
+        }
+
+        hr {
+            height: 1px;
+            background-color: black !important;
+            margin-top: 2px;
+            width: 200px;
+        }
+
+        .tableUtama,
+        .tableUtama thead,
+        .tableUtama tr,
+        .tableUtama th,
+        .tableUtama td {
+            border: 1px solid black;
+            font-size: 0.7rem;
+            padding: 1.5px 3px;
+        }
+
+        .judul p {
+            margin-bottom: 5px;
+            font-size: 0.7rem;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="header">
+        <table>
+            <tbody class="text_center">
+                <tr>
+                    <td width="10%">
+                        <img src="<?= base_url('assets/img/logo_ijen.png'); ?>" alt="Logo" width="30">
+                    </td>
+                    <td>
+                        <p>PDAM Kabupaten Bondowoso</p>
+                        <p>IJEN WATER</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+    </div>
+    <div class="judul">
+        <p class="my-3 text-center fw-bold"><?= strtoupper($title) ?></p>
+        <!-- <?php
+                $tanggal = $tanggal_lap;
+                if (empty($tanggal)) {
+                    $hari = date('d');
+                    $bulan = date('m');
+                    $tahun = date('Y');
+                    $bulanLap = date('m');
+                    $tahunLap = date('Y');
+                } else {
+                    $tanggalParts = explode('-', $tanggal);
+                    $tahun = (count($tanggalParts) > 0) ? $tanggalParts[0] : date('Y');
+                    $bulan = (count($tanggalParts) > 1) ? $tanggalParts[1] : date('m');
+                    $hari = (count($tanggalParts) > 2) ? $tanggalParts[2] : date('d');
+
+                    $hariLap = (count($tanggalParts) > 2) ? $tanggalParts[2] : date('d');
+                    $bulanLap = (count($tanggalParts) > 1) ? $tanggalParts[1] : date('m');
+                    $tahunLap = (count($tanggalParts) > 0) ? $tanggalParts[0] : date('Y');
+                    $bulan = str_pad($bulan, 2, '0', STR_PAD_LEFT);
+                }
+                $bulanLap = [
+                    '01' => 'Januari',
+                    '02' => 'Februari',
+                    '03' => 'Maret',
+                    '04' => 'April',
+                    '05' => 'Mei',
+                    '06' => 'Juni',
+                    '07' => 'Juli',
+                    '08' => 'Agustus',
+                    '09' => 'September',
+                    '10' => 'Oktober',
+                    '11' => 'November',
+                    '12' => 'Desember',
+                ];
+                ?>
+        <p class="mu-0 text-center">Bulan : <?= $bulanLap[$bulan] . ' ' . $tahunLap ?></p> -->
+    </div>
+    <table class="table tableUtama">
+        <thead>
+            <tr class="text-center align-middle">
+                <th>Bulan</th>
+                <?php foreach ($produk_list as $produk) : ?>
+                    <th><?= $produk ?></th>
+                <?php endforeach; ?>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $grand_total_produk = [];
+            for ($bulan = 1; $bulan <= 12; $bulan++) :
+                $bulanNama = DateTime::createFromFormat('!m', $bulan)->format('F');
+                $total_bulan = 0;
+                echo "<tr><td>$bulanNama</td>";
+                foreach ($produk_list as $produk) :
+                    $jumlah = isset($rekap[$bulan][$produk]) ? $rekap[$bulan][$produk] : 0;
+                    echo '<td class="text-end">' . number_format($jumlah, 0, ',', '.') . '</td>';
+                    $total_bulan += $jumlah;
+
+                    if (!isset($grand_total_produk[$produk])) {
+                        $grand_total_produk[$produk] = 0;
+                    }
+                    $grand_total_produk[$produk] += $jumlah;
+                endforeach;
+                echo '<td class="text-end fw-bold">' . number_format($total_bulan, 0, ',', '.') . '</td>';
+                echo '</tr>';
+            endfor;
+            ?>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Total</th>
+                <?php foreach ($produk_list as $produk) : ?>
+                    <th class="text-end"><?= number_format($grand_total_produk[$produk] ?? 0, 0, ',', '.') ?></th>
+                <?php endforeach; ?>
+                <th class="text-end fw-bold"><?= number_format(array_sum($grand_total_produk), 0, ',', '.') ?></th>
+            </tr>
+        </tfoot>
+    </table>
+
+    <?php
+    $nik_manager = $manager->nik_karyawan;
+    if ($nik_manager) {
+        $nik_manager =  sprintf('%03s %02s %03s', substr($nik_manager, 0, 3), substr($nik_manager, 3, 2), substr($nik_manager, 5));
+    } else {
+        $nik_manager = '';
+    }
+
+    $nik_produksi = $produksi->nik_karyawan;
+    if ($nik_produksi) {
+        $nik_produksi = sprintf('%03s %02s %03s', substr($nik_produksi, 0, 3), substr($nik_produksi, 3, 2), substr($nik_produksi, 5));
+    } else {
+        $nik_produksi = '';
+    }
+    ?>
+
+    <div style="font-size: 0.8rem;" class="tandaTangan">
+        <p style="width: 50%; float: left; text-align:center; margin-bottom: 1px;">Mengetahui/Menyetujui</p>
+        <p style="width: 50%; float: right;text-align:center; margin-bottom: 1px;">Dibuat Oleh :</p>
+        <div style="clear: both;"></div>
+        <p style="width: 50%; float: left; text-align:center;">Manager AMDK</p>
+        <p style="width: 50%; float: right;text-align:center;">Bagian Produksi</p>
+        <div style="clear: both; margin-bottom:20px;"></div>
+        <u style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"><?= $manager->nama_karyawan; ?></u>
+        <u style="width: 50%; float: right;text-align:center; margin-bottom: 1px;"><?= $produksi->nama_karyawan; ?></u>
+        <div style="clear: both;"></div>
+        <p style="width: 50%; float: left; text-align:center;">NIK. <?= $nik_manager; ?></p>
+        <p style="width: 50%; float: right;text-align:center;">NIK. <?= $nik_produksi; ?></p>
+        <div style="clear: both;"></div>
+    </div>
+
+    <script src="<?= base_url() ?>assets/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

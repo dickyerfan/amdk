@@ -176,4 +176,178 @@ class Laporan_keuangan extends CI_Controller
         $this->pdf->filename = "LapBulanan-{$bulan}-{$tahun}.pdf";
         $this->pdf->generate('keuangan/laporan_keuangan_pdf', $data);
     }
+
+    public function rekap_tahunan()
+    {
+        $tahun = $this->input->get('tahun');
+        if (empty($tahun)) {
+            $tahun = date('Y');
+        }
+
+        $rekap_data_total = $this->Model_laporan->get_rekap_tahunan_lap_penjualan_total($tahun);
+        $produk_list_total = [];
+        $rekap_total = [];
+
+        foreach ($rekap_data_total as $row) {
+            $bulan_total = (int)$row->bulan;
+            $produk_total = $row->jenis_produk;
+            $jumlah_total = $row->total_harga;
+
+            if (!in_array($produk_total, $produk_list_total)) {
+                $produk_list_total[] = $produk_total;
+            }
+
+            if (!isset($rekap_total[$bulan_total][$produk_total])) {
+                $rekap_total[$bulan_total][$produk_total] = 0;
+            }
+            $rekap_total[$bulan_total][$produk_total] += $jumlah_total;
+        }
+
+        $data['title'] = "Rekap Penjualan Tahun $tahun";
+        $data['produk_list_total'] = $produk_list_total;
+        $data['rekap_total'] = $rekap_total;
+
+        $rekap_data = $this->Model_laporan->get_rekap_tahunan_lap_penjualan($tahun);
+        $produk_list = [];
+        $rekap = [];
+
+        foreach ($rekap_data as $row) {
+            $bulan = (int)$row->bulan;
+            $produk = $row->jenis_produk;
+            $jumlah = $row->total_harga;
+
+            if (!in_array($produk, $produk_list)) {
+                $produk_list[] = $produk;
+            }
+
+            if (!isset($rekap[$bulan][$produk])) {
+                $rekap[$bulan][$produk] = 0;
+            }
+            $rekap[$bulan][$produk] += $jumlah;
+        }
+
+        $data['title_1'] = "Rekap Penjualan Tahun (Status Lunas) $tahun";
+        $data['tahun'] = $tahun;
+        $data['produk_list'] = $produk_list;
+        $data['rekap'] = $rekap;
+
+        $rekap_data_piutang = $this->Model_laporan->get_rekap_tahunan_lap_penjualan_piutang($tahun);
+        $produk_list_piutang = [];
+        $rekap_piutang = [];
+
+        foreach ($rekap_data_piutang as $row) {
+            $bulan_piutang = (int)$row->bulan;
+            $produk_piutang = $row->jenis_produk;
+            $jumlah_piutang = $row->total_harga;
+
+            if (!in_array($produk_piutang, $produk_list_piutang)) {
+                $produk_list_piutang[] = $produk_piutang;
+            }
+
+            if (!isset($rekap_piutang[$bulan_piutang][$produk_piutang])) {
+                $rekap_piutang[$bulan_piutang][$produk_piutang] = 0;
+            }
+            $rekap_piutang[$bulan_piutang][$produk_piutang] += $jumlah_piutang;
+        }
+
+        $data['title_2'] = "Rekap Penjualan Tahun (Status Piutang) $tahun";
+        $data['produk_list_piutang'] = $produk_list_piutang;
+        $data['rekap_piutang'] = $rekap_piutang;
+
+        $this->session->set_userdata('tahun_rekap_penjualan', $tahun);
+
+        if ($this->session->userdata('level') == 'Admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('keuangan/view_rekap_laporan_keuangan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_uang');
+            $this->load->view('templates/pengguna/sidebar_uang');
+            $this->load->view('keuangan/view_rekap_laporan_keuangan', $data);
+            $this->load->view('templates/pengguna/footer_uang');
+        }
+    }
+    public function export_rekap_tahunan()
+    {
+        $tahun = $this->session->userdata('tahun_rekap_penjualan');
+        $rekap_data_total = $this->Model_laporan->get_rekap_tahunan_lap_penjualan_total($tahun);
+        $produk_list_total = [];
+        $rekap_total = [];
+
+        foreach ($rekap_data_total as $row) {
+            $bulan_total = (int)$row->bulan;
+            $produk_total = $row->jenis_produk;
+            $jumlah_total = $row->total_harga;
+
+            if (!in_array($produk_total, $produk_list_total)) {
+                $produk_list_total[] = $produk_total;
+            }
+
+            if (!isset($rekap_total[$bulan_total][$produk_total])) {
+                $rekap_total[$bulan_total][$produk_total] = 0;
+            }
+            $rekap_total[$bulan_total][$produk_total] += $jumlah_total;
+        }
+
+        $data['title'] = "Rekap Penjualan Tahun $tahun";
+        $data['produk_list_total'] = $produk_list_total;
+        $data['rekap_total'] = $rekap_total;
+
+        $rekap_data = $this->Model_laporan->get_rekap_tahunan_lap_penjualan($tahun);
+        $produk_list = [];
+        $rekap = [];
+
+        foreach ($rekap_data as $row) {
+            $bulan = (int)$row->bulan;
+            $produk = $row->jenis_produk;
+            $jumlah = $row->total_harga;
+
+            if (!in_array($produk, $produk_list)) {
+                $produk_list[] = $produk;
+            }
+
+            if (!isset($rekap[$bulan][$produk])) {
+                $rekap[$bulan][$produk] = 0;
+            }
+            $rekap[$bulan][$produk] += $jumlah;
+        }
+
+        $data['title_1'] = "Rekap Penjualan Tahun (Status Lunas) $tahun";
+        $data['tahun'] = $tahun;
+        $data['produk_list'] = $produk_list;
+        $data['rekap'] = $rekap;
+
+        $rekap_data_piutang = $this->Model_laporan->get_rekap_tahunan_lap_penjualan_piutang($tahun);
+        $produk_list_piutang = [];
+        $rekap_piutang = [];
+
+        foreach ($rekap_data_piutang as $row) {
+            $bulan_piutang = (int)$row->bulan;
+            $produk_piutang = $row->jenis_produk;
+            $jumlah_piutang = $row->total_harga;
+
+            if (!in_array($produk_piutang, $produk_list_piutang)) {
+                $produk_list_piutang[] = $produk_piutang;
+            }
+
+            if (!isset($rekap_piutang[$bulan_piutang][$produk_piutang])) {
+                $rekap_piutang[$bulan_piutang][$produk_piutang] = 0;
+            }
+            $rekap_piutang[$bulan_piutang][$produk_piutang] += $jumlah_piutang;
+        }
+
+        $data['title_2'] = "Rekap Penjualan Tahun (Status Piutang) $tahun";
+        $data['produk_list_piutang'] = $produk_list_piutang;
+        $data['rekap_piutang'] = $rekap_piutang;
+        $data['manager'] = $this->Model_laporan->get_manager();
+        $data['uang'] = $this->Model_laporan->get_uang();
+
+        $this->pdf->setPaper('folio', 'portrait');
+
+        $this->pdf->filename = "LapRekapPenjualan-{$tahun}.pdf";
+        $this->pdf->generate('keuangan/laporan_rekap_penjualan_pdf', $data);
+    }
 }

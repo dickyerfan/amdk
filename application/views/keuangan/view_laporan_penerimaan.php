@@ -10,6 +10,9 @@
                                 <input type="date" id="tanggal" name="tanggal" class="form-control" style="margin-left: 10px;">
                             </div>
                         </form>
+                        <div class="navbar-nav ms-2">
+                            <a href="<?= base_url('keuangan/laporan_penerimaan/rekap_tahunan') ?>" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"> Rekap Tahunan</button></a>
+                        </div>
                         <div class="navbar-nav ms-auto">
                             <a href="<?= base_url('keuangan/laporan_penerimaan/exportpdf') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div>

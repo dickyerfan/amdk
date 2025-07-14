@@ -166,4 +166,138 @@ class Laporan_produksi extends CI_Controller
         $this->pdf->filename = "LapProduksi-{$bulan}-{$tahun}.pdf";
         $this->pdf->generate('barang_produksi/laporan_produksi_pdf', $data);
     }
+
+    // public function rekap_tahunan()
+    // {
+    //     $tahun = $this->input->get('tahun');
+    //     if (empty($tahun)) {
+    //         $tahun = date('Y');
+    //     }
+
+    //     $rekap_data = $this->Model_laporan->get_rekap_tahunan_by_jenis_produk($tahun);
+
+    //     $produk_list = [];     // Menyimpan semua produk unik
+    //     $jenis_produk_list = []; // Menyimpan semua jenis produk
+    //     $rekap = [];           // Menyimpan rekap data per bulan
+
+    //     foreach ($rekap_data as $row) {
+    //         $bulan = (int)$row->bulan;
+    //         $produk = $row->nama_produk;
+    //         $jenis = $row->jenis_produk;
+    //         $jumlah = $row->total_satuan;
+
+    //         $produk_list[$jenis][] = $produk;
+    //         $rekap[$bulan][$produk] = $jumlah;
+    //     }
+
+    //     // Hapus duplikat produk dalam tiap jenis
+    //     foreach ($produk_list as $jenis => $produk_arr) {
+    //         $produk_list[$jenis] = array_unique($produk_arr);
+    //     }
+
+    //     $data['title'] = "Rekap Produksi Tahun $tahun";
+    //     $data['tahun'] = $tahun;
+    //     $data['produk_list'] = $produk_list;
+    //     $data['rekap'] = $rekap;
+
+    //     if ($this->session->userdata('level') == 'Admin') {
+    //         $this->load->view('templates/header', $data);
+    //         $this->load->view('templates/navbar');
+    //         $this->load->view('templates/sidebar');
+    //         $this->load->view('barang_produksi/view_rekap_tahunan', $data);
+    //         $this->load->view('templates/footer');
+    //     } else {
+    //         $this->load->view('templates/pengguna/header', $data);
+    //         $this->load->view('templates/pengguna/navbar_produksi');
+    //         $this->load->view('templates/pengguna/sidebar_produksi');
+    //         $this->load->view('barang_produksi/view_rekap_tahunan', $data);
+    //         $this->load->view('templates/pengguna/footer_produksi');
+    //     }
+    // }
+
+    public function rekap_tahunan()
+    {
+        $tahun = $this->input->get('tahun');
+        if (empty($tahun)) {
+            $tahun = date('Y');
+        }
+        $rekap_data = $this->Model_laporan->get_rekap_tahunan_by_jenis_produk($tahun);
+        $produk_list = []; // daftar kolom (jenis_produk)
+        $rekap = [];       // isi data rekap per bulan
+
+        foreach ($rekap_data as $row) {
+            $bulan = (int)$row->bulan;
+            $produk = $row->jenis_produk; // Gunakan jenis_produk sebagai kolom
+            $jumlah = $row->total_satuan;
+
+            if (!in_array($produk, $produk_list)) {
+                $produk_list[] = $produk;
+            }
+
+            if (!isset($rekap[$bulan][$produk])) {
+                $rekap[$bulan][$produk] = 0;
+            }
+            $rekap[$bulan][$produk] += $jumlah;
+        }
+
+        $this->session->set_userdata('tahun_export', $tahun);
+
+        $data['title'] = "Rekap Produksi Tahun $tahun";
+        $data['tahun'] = $tahun;
+        $data['produk_list'] = $produk_list;
+        $data['rekap'] = $rekap;
+
+        if ($this->session->userdata('level') == 'Admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('barang_produksi/view_rekap_tahunan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_produksi');
+            $this->load->view('templates/pengguna/sidebar_produksi');
+            $this->load->view('barang_produksi/view_rekap_tahunan', $data);
+            $this->load->view('templates/pengguna/footer_produksi');
+        }
+    }
+
+    public function export_rekap_tahunan()
+    {
+        $tahun = $this->session->userdata('tahun_export');
+        $rekap_data = $this->Model_laporan->get_rekap_tahunan_by_jenis_produk($tahun);
+        $produk_list = []; // daftar kolom (jenis_produk)
+        $rekap = [];       // isi data rekap per bulan
+
+        foreach ($rekap_data as $row) {
+            $bulan = (int)$row->bulan;
+            $produk = $row->jenis_produk; // Gunakan jenis_produk sebagai kolom
+            $jumlah = $row->total_satuan;
+
+            if (!in_array($produk, $produk_list)) {
+                $produk_list[] = $produk;
+            }
+
+            if (!isset($rekap[$bulan][$produk])) {
+                $rekap[$bulan][$produk] = 0;
+            }
+            $rekap[$bulan][$produk] += $jumlah;
+        }
+
+        $this->session->set_userdata('tahun_export', $tahun);
+
+        $data['title'] = "Rekap Produksi Tahun $tahun";
+        $data['tahun'] = $tahun;
+        $data['produk_list'] = $produk_list;
+        $data['rekap'] = $rekap;
+
+        $data['manager'] = $this->Model_laporan->get_manager();
+        $data['baku'] = $this->Model_laporan->get_baku();
+        $data['produksi'] = $this->Model_laporan->get_produksi();
+
+        $this->pdf->setPaper('folio', 'landscape');
+
+        $this->pdf->filename = "rekap_produksi-{$tahun}.pdf";
+        $this->pdf->generate('barang_produksi/laporan_rekap_produksi_pdf', $data);
+    }
 }

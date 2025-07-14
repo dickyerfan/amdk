@@ -215,4 +215,62 @@ class Model_piutang extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    // public function get_rangking_piutang()
+    // {
+    //     $this->db->select('
+    //     pelanggan.id_pelanggan,
+    //     pelanggan.nama_pelanggan,
+    //     jenis_produk.id_produk,
+    //     jenis_produk.nama_produk,
+    //     SUM(pemesanan.total_harga) AS total_piutang
+    // ');
+    //     $this->db->from('pemesanan');
+    //     $this->db->join('pelanggan', 'pelanggan.id_pelanggan = pemesanan.id_pelanggan');
+    //     $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
+    //     $this->db->where('pemesanan.status_bayar', 0); // hanya yang belum dibayar
+    //     $this->db->where('pemesanan.jenis_pesanan !=', 1); // exclude jenis tertentu jika perlu
+    //     $this->db->group_by(['pemesanan.id_pelanggan', 'pemesanan.id_jenis_barang']);
+    //     $this->db->order_by('total_piutang', 'DESC');
+    //     return $this->db->get()->result();
+    // }
+
+    public function get_rangking_piutang()
+    {
+        $this->db->select('
+        pelanggan.id_pelanggan,
+        pelanggan.nama_pelanggan,
+        pelanggan.alamat_pelanggan,
+        pelanggan.telpon_pelanggan,
+        SUM(pemesanan.total_harga) AS total_piutang
+    ');
+        $this->db->from('pemesanan');
+        $this->db->join('pelanggan', 'pelanggan.id_pelanggan = pemesanan.id_pelanggan');
+        $this->db->where('pemesanan.status_bayar', 0);
+        $this->db->where('pemesanan.jenis_pesanan !=', 1); // jika ingin mengecualikan
+        $this->db->group_by('pemesanan.id_pelanggan');
+        $this->db->order_by('total_piutang', 'DESC');
+        return $this->db->get()->result();
+    }
+
+    public function get_total_piutang()
+    {
+        $this->db->select('SUM(total_harga) AS total');
+        $this->db->from('pemesanan');
+        $this->db->where('status_bayar', 0);
+        $this->db->where('jenis_pesanan !=', 1);
+        $query = $this->db->get()->row();
+        return $query->total;
+    }
+    public function get_detail_piutang_by_pelanggan($id_pelanggan)
+    {
+        $this->db->select('pemesanan.*, jenis_produk.nama_produk');
+        $this->db->from('pemesanan');
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang', 'left');
+        $this->db->where('pemesanan.status_bayar', 0);
+        $this->db->where('pemesanan.jenis_pesanan !=', 1);
+        $this->db->where('pemesanan.id_pelanggan', $id_pelanggan);
+        $this->db->order_by('pemesanan.tanggal_pesan', 'DESC');
+        return $this->db->get()->result();
+    }
 }

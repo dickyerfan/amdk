@@ -43,7 +43,7 @@
         .tableUtama th,
         .tableUtama td {
             border: 1px solid black;
-            font-size: 0.5rem;
+            font-size: 0.7rem;
             padding: 1.5px 3px;
         }
 
@@ -71,11 +71,11 @@
                 </tr>
             </tbody>
         </table>
-        <hr>
+        <hr class="my-1">
     </div>
-    <div class="row justify-content-center mb-2">
+    <div class="row justify-content-center">
         <div class="col-lg-6 text-center">
-            <h5><?= strtoupper($title); ?></h5>
+            <p class="mb-1"><?= strtoupper($title); ?></p>
             <?php if (empty($tanggal_hari_ini)) {
                 // Jika kosong atau null, atur nilainya menjadi tanggal hari ini
                 $tanggal_hari_ini = date("Y-m-d"); // Format tanggal "YYYY-MM-DD"
@@ -98,61 +98,100 @@
                 'November' => 'November',
                 'December' => 'Desember',
             ];
-
             $tanggal_hari_ini = strtr($tanggal_hari_ini, $bulan);
-
             ?>
-            <h5><?= $tanggal_hari_ini; ?></h5>
+            <p class="mb-1"><?= $tanggal_hari_ini; ?></p>
         </div>
     </div>
     <table class="table tableUtama">
-        <thead>
-            <tr class="bg-secondary">
-                <th class="text-center">No</th>
-                <th class="text-center">Nama Pelanggan</th>
-                <th class="text-center">Jenis Barang</th>
-                <th class="text-center">Jumlah</th>
-                <th class="text-center">Harga</th>
-                <th class="text-center">Total</th>
+        <thead class="bg-secondary text-white text-center">
+            <tr>
+                <th rowspan="2" class="align-middle">No</th>
+                <th rowspan="2" class="align-middle">Nama</th>
+                <th colspan="2">220 ml</th>
+                <th colspan="2">330 ml</th>
+                <th colspan="2">500 ml</th>
+                <th colspan="2">1500 ml</th>
+                <th colspan="2">Galon 19</th>
+                <th colspan="2">Non Air</th>
+                <th rowspan="2" class="align-middle">Jumlah</th>
+            </tr>
+            <tr>
+                <th>Jml</th>
+                <th>Rp</th>
+                <th>Jml</th>
+                <th>Rp</th>
+                <th>Jml</th>
+                <th>Rp</th>
+                <th>Jml</th>
+                <th>Rp</th>
+                <th>Jml</th>
+                <th>Rp</th>
+                <th>Jml</th>
+                <th>Rp</th>
             </tr>
         </thead>
         <tbody>
             <?php
             $no = 1;
-            foreach ($detail_terima as $row) : ?>
-                <tr>
+            $total_all = 0;
+            foreach ($grouped_data as $nama => $produk) :
+                $total_all += $produk['total'];
+            ?>
+                <tr class="text-end">
                     <td class="text-center"><?= $no++; ?></td>
-                    <td><?= $row->nama_pelanggan; ?></td>
-                    <td><?= $row->nama_produk; ?></td>
-                    <td class="text-end"><?= number_format($row->jumlah_pesan, 0, ',', '.'); ?></td>
-                    <td class="text-end"><?= number_format($row->harga_barang, 0, ',', '.'); ?></td>
-                    <td class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></td>
+                    <td class="text-start"><?= $nama; ?></td>
+                    <td><?= $produk['220ml']['jumlah']; ?></td>
+                    <td><?= number_format($produk['220ml']['rupiah'], 0, ',', '.'); ?></td>
+                    <td><?= $produk['330ml']['jumlah']; ?></td>
+                    <td><?= number_format($produk['330ml']['rupiah'], 0, ',', '.'); ?></td>
+                    <td><?= $produk['500ml']['jumlah']; ?></td>
+                    <td><?= number_format($produk['500ml']['rupiah'], 0, ',', '.'); ?></td>
+                    <td><?= $produk['1500ml']['jumlah']; ?></td>
+                    <td><?= number_format($produk['1500ml']['rupiah'], 0, ',', '.'); ?></td>
+                    <td><?= $produk['galon 19']['jumlah']; ?></td>
+                    <td><?= number_format($produk['galon 19']['rupiah'], 0, ',', '.'); ?></td>
+                    <td><?= $produk['galon kosong']['jumlah']; ?></td>
+                    <td><?= number_format($produk['galon kosong']['rupiah'], 0, ',', '.'); ?></td>
+                    <td><?= number_format($produk['total'], 0, ',', '.'); ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
-        <tfoot>
+        <tfoot class="bg-light text-end fw-bold">
             <tr>
-                <th colspan="5" class="text-end">Jumlah</th>
-                <th class="text-end"><?= number_format($total_penerimaan, 0, ',', '.'); ?></th>
+                <td colspan="2" class="text-end">Jumlah</td>
+                <td><?= $total_produk['220ml']['jumlah']; ?></td>
+                <td><?= number_format($total_produk['220ml']['rupiah'], 0, ',', '.'); ?></td>
+                <td><?= $total_produk['330ml']['jumlah']; ?></td>
+                <td><?= number_format($total_produk['330ml']['rupiah'], 0, ',', '.'); ?></td>
+                <td><?= $total_produk['500ml']['jumlah']; ?></td>
+                <td><?= number_format($total_produk['500ml']['rupiah'], 0, ',', '.'); ?></td>
+                <td><?= $total_produk['1500ml']['jumlah']; ?></td>
+                <td><?= number_format($total_produk['1500ml']['rupiah'], 0, ',', '.'); ?></td>
+                <td><?= $total_produk['galon 19']['jumlah']; ?></td>
+                <td><?= number_format($total_produk['galon 19']['rupiah'], 0, ',', '.'); ?></td>
+                <td><?= $total_produk['galon kosong']['jumlah']; ?></td>
+                <td><?= number_format($total_produk['galon kosong']['rupiah'], 0, ',', '.'); ?></td>
+                <td><?= number_format($total_semua, 0, ',', '.'); ?></td>
             </tr>
         </tfoot>
     </table>
 
-    <?php
-    $nik_manager = $manager->nik_karyawan;
-    if ($nik_manager) {
-        $nik_manager =  sprintf('%03s %02s %03s', substr($nik_manager, 0, 3), substr($nik_manager, 3, 2), substr($nik_manager, 5));
-    } else {
-        $nik_manager = '';
-    }
+    <!-- <?php
+            $nik_manager = $manager->nik_karyawan;
+            if ($nik_manager) {
+                $nik_manager =  sprintf('%03s %02s %03s', substr($nik_manager, 0, 3), substr($nik_manager, 3, 2), substr($nik_manager, 5));
+            } else {
+                $nik_manager = '';
+            }
 
-    $nik_uang = $uang->nik_karyawan;
-    if ($nik_uang) {
-        $nik_uang = sprintf('%03s %02s %03s', substr($nik_uang, 0, 3), substr($nik_uang, 3, 2), substr($nik_uang, 5));
-    } else {
-        $nik_uang = '';
-    }
-    ?>
+            $nik_uang = $uang->nik_karyawan;
+            if ($nik_uang) {
+                $nik_uang = sprintf('%03s %02s %03s', substr($nik_uang, 0, 3), substr($nik_uang, 3, 2), substr($nik_uang, 5));
+            } else {
+                $nik_uang = '';
+            }
+            ?>
 
     <div style="font-size: 0.8rem;">
         <p style="width: 50%; float: left; text-align:center; margin-bottom: 1px;">Mengetahui</p>
@@ -167,7 +206,7 @@
         <p style="width: 50%; float: left; text-align:center;">NIK. <?= $nik_manager; ?></p>
         <p style="width: 50%; float: right;text-align:center;">NIK. <?= $nik_uang; ?></p>
         <div style="clear: both;"></div>
-    </div>
+    </div> -->
 
     <script src="<?= base_url() ?>assets/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>

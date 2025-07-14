@@ -125,7 +125,7 @@
                                         foreach ($dateRange as $tanggal) : ?>
                                             <tr>
                                                 <td class="text-center"><?= $no++ ?></td>
-                                                <td class="text-center"><?= date('d-m-Y', strtotime($tanggal)) ?></td>
+                                                <td class="text-center"><a href="<?= base_url('keuangan/penerimaan_kas/detail_kas/') . date('Y-m-d', strtotime($tanggal)) ?>" style="text-decoration: none; font-size:0.7rem; color: black; font-weight: bold;"><?= date('d-m-Y', strtotime($tanggal)) ?></a></td>
                                                 <?php
                                                 $total = 0;
                                                 $total_jml_barang = 0;

@@ -158,6 +158,42 @@ class Model_laporan extends CI_Model
         return $nama_barang;
     }
 
+    // public function get_rekap_tahunan_by_jenis_produk($tahun)
+    // {
+    //     $this->db->select('
+    //     jp.jenis_produk,
+    //     jp.nama_produk,
+    //     MONTH(bj.tanggal_barang_jadi) AS bulan,
+    //     SUM(bj.jumlah_barang_jadi) AS total_satuan
+    // ');
+    //     $this->db->from('barang_jadi bj');
+    //     $this->db->join('jenis_produk jp', 'jp.id_produk = bj.id_jenis_barang'); // ← gunakan id_jenis_barang
+    //     $this->db->where('YEAR(bj.tanggal_barang_jadi)', $tahun);
+    //     $this->db->where('bj.status_barang_jadi', 1);
+    //     $this->db->group_by(['jp.jenis_produk', 'jp.nama_produk', 'bulan']);
+    //     $this->db->order_by('bulan ASC, jp.jenis_produk ASC, jp.nama_produk ASC');
+
+    //     return $this->db->get()->result();
+    // }
+
+    public function get_rekap_tahunan_by_jenis_produk($tahun)
+    {
+        $this->db->select('
+        jp.jenis_produk,
+        MONTH(bj.tanggal_barang_jadi) AS bulan,
+        SUM(bj.jumlah_barang_jadi) AS total_satuan
+    ');
+        $this->db->from('barang_jadi bj');
+        $this->db->join('jenis_produk jp', 'jp.id_produk = bj.id_jenis_barang');
+        $this->db->where('YEAR(bj.tanggal_barang_jadi)', $tahun);
+        $this->db->where('bj.status_barang_jadi', 1);
+        $this->db->group_by(['jp.jenis_produk', 'bulan']);
+        $this->db->order_by('bulan ASC, jp.jenis_produk DESC');
+
+        return $this->db->get()->result();
+    }
+
+
     // laporan pemasaran
     public function get_penjualan()
     {
@@ -199,18 +235,33 @@ class Model_laporan extends CI_Model
     }
 
     // Laporan keuangan
+    // public function get_lunas()
+    // {
+    //     $this->db->select('jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, SUM(pemesanan.total_harga) as total_harga');
+    //     $this->db->from('pemesanan');
+    //     $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
+    //     $this->db->where('status_piutang', 0);
+    //     $this->db->where('jenis_pesanan', 2);
+    //     $this->db->or_where('jenis_pesanan', 3);
+    //     // $this->db->or_where('jenis_pesanan', 4);
+    //     $this->db->group_by('jenis_produk.nama_produk, pemesanan.tanggal_pesan'); // Mengelompokkan berdasarkan tanggal dan produk
+    //     return $this->db->get()->result();
+    // }
+
     public function get_lunas()
     {
         $this->db->select('jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, SUM(pemesanan.total_harga) as total_harga');
         $this->db->from('pemesanan');
         $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
         $this->db->where('status_piutang', 0);
-        $this->db->where('jenis_pesanan', 2);
-        $this->db->or_where('jenis_pesanan', 3);
-        // $this->db->or_where('jenis_pesanan', 4);
+        $this->db->group_start();
+        $this->db->where('pemesanan.jenis_pesanan', 2);
+        $this->db->or_where('pemesanan.jenis_pesanan', 3);
+        $this->db->group_end();
         $this->db->group_by('jenis_produk.nama_produk, pemesanan.tanggal_pesan'); // Mengelompokkan berdasarkan tanggal dan produk
         return $this->db->get()->result();
     }
+
     public function get_piutang()
     {
         $this->db->select('jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, SUM(pemesanan.total_harga) as total_harga');
@@ -486,53 +537,53 @@ class Model_laporan extends CI_Model
         // $tanggal_akhir_1_bulan = (clone $tanggal)->modify('last day of this month')->format('Y-m-d');
 
         // Piutang 1 bulan
-        $tanggal_awal_1_bulan = (clone $tanggal)->modify('-0 month')->format('Y-m-01'); 
+        $tanggal_awal_1_bulan = (clone $tanggal)->modify('-0 month')->format('Y-m-01');
         $tanggal_akhir_1_bulan = (clone $tanggal)->modify('-0 months')->modify('last day of this month')->format('Y-m-d');
 
         // Piutang 2 bulan
-        $tanggal_awal_2_bulan = (clone $tanggal)->modify('-1 month')->format('Y-m-01'); 
-        $tanggal_akhir_2_bulan = (clone $tanggal)->modify('-1 months')->modify('last day of this month')->format('Y-m-d'); 
+        $tanggal_awal_2_bulan = (clone $tanggal)->modify('-1 month')->format('Y-m-01');
+        $tanggal_akhir_2_bulan = (clone $tanggal)->modify('-1 months')->modify('last day of this month')->format('Y-m-d');
 
         // Piutang 3 bulan
-        $tanggal_awal_3_bulan = (clone $tanggal)->modify('-2 months')->format('Y-m-01'); 
-        $tanggal_akhir_3_bulan = (clone $tanggal)->modify('-2 months')->modify('last day of this month')->format('Y-m-d'); 
+        $tanggal_awal_3_bulan = (clone $tanggal)->modify('-2 months')->format('Y-m-01');
+        $tanggal_akhir_3_bulan = (clone $tanggal)->modify('-2 months')->modify('last day of this month')->format('Y-m-d');
 
         // Piutang 4 bulan
-        $tanggal_awal_4_bulan = (clone $tanggal)->modify('-3 months')->format('Y-m-01'); 
-        $tanggal_akhir_4_bulan = (clone $tanggal)->modify('-3 months')->modify('last day of this month')->format('Y-m-d'); 
+        $tanggal_awal_4_bulan = (clone $tanggal)->modify('-3 months')->format('Y-m-01');
+        $tanggal_akhir_4_bulan = (clone $tanggal)->modify('-3 months')->modify('last day of this month')->format('Y-m-d');
 
         // Piutang 5 bulan
-        $tanggal_awal_5_bulan = (clone $tanggal)->modify('-4 months')->format('Y-m-01'); 
-        $tanggal_akhir_5_bulan = (clone $tanggal)->modify('-4 months')->modify('last day of this month')->format('Y-m-d'); 
+        $tanggal_awal_5_bulan = (clone $tanggal)->modify('-4 months')->format('Y-m-01');
+        $tanggal_akhir_5_bulan = (clone $tanggal)->modify('-4 months')->modify('last day of this month')->format('Y-m-d');
 
         // Piutang 6 bulan
-        $tanggal_awal_6_bulan = (clone $tanggal)->modify('-5 months')->format('Y-m-01'); 
-        $tanggal_akhir_6_bulan = (clone $tanggal)->modify('-5 months')->modify('last day of this month')->format('Y-m-d'); 
+        $tanggal_awal_6_bulan = (clone $tanggal)->modify('-5 months')->format('Y-m-01');
+        $tanggal_akhir_6_bulan = (clone $tanggal)->modify('-5 months')->modify('last day of this month')->format('Y-m-d');
 
         // Piutang 7 bulan
-        $tanggal_awal_7_bulan = (clone $tanggal)->modify('-6 months')->format('Y-m-01'); 
+        $tanggal_awal_7_bulan = (clone $tanggal)->modify('-6 months')->format('Y-m-01');
         $tanggal_akhir_7_bulan = (clone $tanggal)->modify('-6 months')->modify('last day of this month')->format('Y-m-d');
 
         // Piutang 8 bulan
-        $tanggal_awal_8_bulan = (clone $tanggal)->modify('-7 months')->format('Y-m-01'); 
-        $tanggal_akhir_8_bulan = (clone $tanggal)->modify('-7 months')->modify('last day of this month')->format('Y-m-d'); 
+        $tanggal_awal_8_bulan = (clone $tanggal)->modify('-7 months')->format('Y-m-01');
+        $tanggal_akhir_8_bulan = (clone $tanggal)->modify('-7 months')->modify('last day of this month')->format('Y-m-d');
 
         // Piutang 9 bulan
-        $tanggal_awal_9_bulan = (clone $tanggal)->modify('-8 months')->format('Y-m-01'); 
-        $tanggal_akhir_9_bulan = (clone $tanggal)->modify('-8 months')->modify('last day of this month')->format('Y-m-d'); 
+        $tanggal_awal_9_bulan = (clone $tanggal)->modify('-8 months')->format('Y-m-01');
+        $tanggal_akhir_9_bulan = (clone $tanggal)->modify('-8 months')->modify('last day of this month')->format('Y-m-d');
 
         // Piutang 10 bulan
-        $tanggal_awal_10_bulan = (clone $tanggal)->modify('-9 months')->format('Y-m-01'); 
-        $tanggal_akhir_10_bulan = (clone $tanggal)->modify('-9 months')->modify('last day of this month')->format('Y-m-d'); 
+        $tanggal_awal_10_bulan = (clone $tanggal)->modify('-9 months')->format('Y-m-01');
+        $tanggal_akhir_10_bulan = (clone $tanggal)->modify('-9 months')->modify('last day of this month')->format('Y-m-d');
 
         // Piutang 11 bulan
-        $tanggal_awal_11_bulan = (clone $tanggal)->modify('-10 months')->format('Y-m-01'); 
-        $tanggal_akhir_11_bulan = (clone $tanggal)->modify('-10 months')->modify('last day of this month')->format('Y-m-d'); 
+        $tanggal_awal_11_bulan = (clone $tanggal)->modify('-10 months')->format('Y-m-01');
+        $tanggal_akhir_11_bulan = (clone $tanggal)->modify('-10 months')->modify('last day of this month')->format('Y-m-d');
 
         // Piutang 12 bulan
-        $tanggal_awal_12_bulan = (clone $tanggal)->modify('-11 months')->format('Y-m-01'); 
-        $tanggal_akhir_12_bulan = (clone $tanggal)->modify('-11 months')->modify('last day of this month')->format('Y-m-d'); 
-        
+        $tanggal_awal_12_bulan = (clone $tanggal)->modify('-11 months')->format('Y-m-01');
+        $tanggal_akhir_12_bulan = (clone $tanggal)->modify('-11 months')->modify('last day of this month')->format('Y-m-d');
+
         // Piutang lebih dari 1 tahun
         $tanggal_awal_1_tahun_keatas = (clone $tanggal)->modify('-12 month')->format('Y-m-d'); // Satu tahun lalu
 
@@ -774,11 +825,11 @@ class Model_laporan extends CI_Model
                 AND pemesanan.tanggal_pesan < "' . $tanggal_awal_1_tahun_keatas . '"
             ) as total_barang_1_tahun_keatas'
         );
-        
+
         $this->db->from('pemesanan');
         $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
         $this->db->group_by('jenis_produk.id_produk');
-        
+
         return $this->db->get()->result();
     }
 
@@ -888,6 +939,124 @@ class Model_laporan extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function get_rekap_tahunan_lap_penjualan_total($tahun)
+    {
+        $this->db->select('
+        jp.jenis_produk,
+        MONTH(p.tanggal_pesan) AS bulan,
+        SUM(p.total_harga) AS total_harga
+    ');
+        $this->db->from('pemesanan p');
+        $this->db->join('jenis_produk jp', 'jp.id_produk = p.id_jenis_barang');
+        $this->db->where('YEAR(p.tanggal_pesan)', $tahun);
+        $this->db->group_start();
+        $this->db->where('p.jenis_pesanan', 2);
+        $this->db->or_where('p.jenis_pesanan', 3);
+        $this->db->group_end();
+        $this->db->group_by(['jp.jenis_produk', 'bulan']);
+        $this->db->order_by('bulan ASC, jp.jenis_produk DESC');
+
+        return $this->db->get()->result();
+    }
+
+    public function get_rekap_tahunan_lap_penjualan($tahun)
+    {
+        $this->db->select('
+        jp.jenis_produk,
+        MONTH(p.tanggal_pesan) AS bulan,
+        SUM(p.total_harga) AS total_harga
+    ');
+        $this->db->from('pemesanan p');
+        $this->db->join('jenis_produk jp', 'jp.id_produk = p.id_jenis_barang');
+        $this->db->where('YEAR(p.tanggal_pesan)', $tahun);
+        $this->db->where('p.status_piutang', 0);
+        $this->db->group_start();
+        $this->db->where('p.jenis_pesanan', 2);
+        $this->db->or_where('p.jenis_pesanan', 3);
+        $this->db->group_end();
+        $this->db->group_by(['jp.jenis_produk', 'bulan']);
+        $this->db->order_by('bulan ASC, jp.jenis_produk DESC');
+
+        return $this->db->get()->result();
+    }
+
+    public function get_rekap_tahunan_lap_penjualan_piutang($tahun)
+    {
+        $this->db->select('
+        jp.jenis_produk,
+        MONTH(p.tanggal_pesan) AS bulan,
+        SUM(p.total_harga) AS total_harga
+    ');
+        $this->db->from('pemesanan p');
+        $this->db->join('jenis_produk jp', 'jp.id_produk = p.id_jenis_barang');
+        $this->db->where('YEAR(p.tanggal_pesan)', $tahun);
+        $this->db->where('p.status_piutang', 1);
+        $this->db->group_start();
+        $this->db->where('p.jenis_pesanan', 2);
+        $this->db->or_where('p.jenis_pesanan', 3);
+        $this->db->group_end();
+        $this->db->group_by(['jp.jenis_produk', 'bulan']);
+        $this->db->order_by('bulan ASC, jp.jenis_produk DESC');
+
+        return $this->db->get()->result();
+    }
+
+    // public function get_rekap_tahunan_lap_penerimaan($tahun)
+    // {
+    //     $this->db->select('
+    //     jp.jenis_produk,
+    //     MONTH(p.tanggal_pesan) AS bulan,
+    //     SUM(p.total_harga) AS total_harga
+    //     SUM(p.jumlah_pesan) AS total_pesan
+    // ');
+    //     $this->db->from('pemesanan p');
+    //     $this->db->join('jenis_produk jp', 'jp.id_produk = p.id_jenis_barang');
+    //     $this->db->where('YEAR(p.tanggal_pesan)', $tahun);
+    //     $this->db->where('p.status_setor', 1);
+    //     $this->db->group_by(['jp.jenis_produk', 'bulan']);
+    //     $this->db->order_by('bulan ASC, jp.jenis_produk DESC');
+
+    //     return $this->db->get()->result();
+    // }
+
+    // Rekap total harga per bulan
+    public function get_rekap_penerimaan_tahunan_harga($tahun)
+    {
+        $this->db->select('
+        jenis_produk.nama_produk,
+        jenis_produk.jenis_produk,
+        pemesanan.id_jenis_barang,
+        MONTH(pemesanan.tanggal_setor) as bulan,
+        SUM(pemesanan.total_harga) as total_harga
+    ');
+        $this->db->from('pemesanan');
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
+        $this->db->where('status_setor', 1);
+        $this->db->where('YEAR(pemesanan.tanggal_setor)', $tahun);
+        $this->db->group_by('pemesanan.id_jenis_barang, bulan');
+        $this->db->order_by('bulan ASC, jenis_produk.jenis_produk DESC');
+        return $this->db->get()->result();
+    }
+
+    // Rekap jumlah barang per bulan
+    public function get_rekap_penerimaan_tahunan_jumlah($tahun)
+    {
+        $this->db->select('
+        jenis_produk.nama_produk,
+        jenis_produk.jenis_produk,
+        pemesanan.id_jenis_barang,
+        MONTH(pemesanan.tanggal_setor) as bulan,
+        SUM(pemesanan.jumlah_pesan) as total_barang
+    ');
+        $this->db->from('pemesanan');
+        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
+        $this->db->where('status_setor', 1);
+        $this->db->where('YEAR(pemesanan.tanggal_setor)', $tahun);
+        $this->db->group_by('pemesanan.id_jenis_barang, bulan');
+        $this->db->order_by('bulan ASC, jenis_produk.jenis_produk DESC');
+        return $this->db->get()->result();
+    }
+
 
     // tanda tangan laporan
     public function get_direktur()
@@ -923,7 +1092,7 @@ class Model_laporan extends CI_Model
         $this->db->limit(1);
         return $this->db->get()->row();
     }
-    
+
     public function get_produksi()
     {
         $this->db->select('nama_karyawan, nik_karyawan');

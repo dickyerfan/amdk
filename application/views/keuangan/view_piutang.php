@@ -19,9 +19,12 @@
                             </form>
                         </div>
                         <div class="navbar-nav ms-auto">
+                            <a href="<?= base_url('keuangan/piutang/rangking_piutang') ?>"><button class="float-end neumorphic-button"> Rangking Piutang</button></a>
+                        </div>
+                        <div class="navbar-nav ms-2">
                             <a href="<?= base_url('keuangan/piutang/export_bulan_all') ?>" target="_blank"><button class="float-end neumorphic-button"> Cetak Piutang</button></a>
                         </div>
-                        <div class="navbar-nav ms-auto">
+                        <div class="navbar-nav ms-2">
                             <a href="<?= base_url('keuangan/piutang') ?>"><button class="float-end neumorphic-button"> Semua Piutang</button></a>
                         </div>
                         <div class="navbar-nav ms-2">
