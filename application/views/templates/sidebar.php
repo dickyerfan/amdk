@@ -53,6 +53,7 @@
                                 <a class="nav-link" href="<?= base_url('manager/pegawai_purna') ?>" style="font-size: 0.8rem;">Daftar Pegawai Purna</a>
                                 <a class="nav-link" href="<?= base_url('manager/pekerjaan') ?>" style="font-size: 0.8rem;">Data Pekerjaan</a>
                                 <a class="nav-link" href="<?= base_url('manager/arsip') ?>" style="font-size: 0.8rem;">Data Arsip</a>
+                                <a class="nav-link" href="<?= base_url('manager/kegiatan') ?>" style="font-size: 0.8rem;">Log Kegiatan</a>
                             </nav>
                         </div>
                     <?php endif; ?>
