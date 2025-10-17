@@ -182,6 +182,7 @@ class Penerimaan_kas extends CI_Controller
             '1500ml' => ['jumlah' => 0, 'rupiah' => 0],
             'galon 19' => ['jumlah' => 0, 'rupiah' => 0],
             'galon kosong' => ['jumlah' => 0, 'rupiah' => 0],
+            '250ml' => ['jumlah' => 0, 'rupiah' => 0],
         ];
         $total_semua = 0;
 
@@ -197,6 +198,7 @@ class Penerimaan_kas extends CI_Controller
                     '1500ml' => ['jumlah' => 0, 'rupiah' => 0],
                     'galon 19' => ['jumlah' => 0, 'rupiah' => 0],
                     'galon kosong' => ['jumlah' => 0, 'rupiah' => 0],
+                    '250ml' => ['jumlah' => 0, 'rupiah' => 0],
                     'total' => 0,
                 ];
             }
@@ -218,6 +220,7 @@ class Penerimaan_kas extends CI_Controller
                 'botol 1500ml amalis' => '1500ml',
                 'galon 19l' => 'galon 19',
                 'galon kosong' => 'galon kosong',
+                'botol 250ml ijen' => '250ml',
             ];
 
             if (isset($map_nama[$produk])) {
@@ -270,6 +273,7 @@ class Penerimaan_kas extends CI_Controller
             '1500ml' => ['jumlah' => 0, 'rupiah' => 0],
             'galon 19' => ['jumlah' => 0, 'rupiah' => 0],
             'galon kosong' => ['jumlah' => 0, 'rupiah' => 0],
+            '250ml' => ['jumlah' => 0, 'rupiah' => 0],
         ];
         $total_semua = 0;
 
@@ -285,6 +289,7 @@ class Penerimaan_kas extends CI_Controller
                     '1500ml' => ['jumlah' => 0, 'rupiah' => 0],
                     'galon 19' => ['jumlah' => 0, 'rupiah' => 0],
                     'galon kosong' => ['jumlah' => 0, 'rupiah' => 0],
+                    '250ml' => ['jumlah' => 0, 'rupiah' => 0],
                     'total' => 0,
                 ];
             }
@@ -306,6 +311,7 @@ class Penerimaan_kas extends CI_Controller
                 'botol 1500ml amalis' => '1500ml',
                 'galon 19l' => 'galon 19',
                 'galon kosong' => 'galon kosong',
+                'botol 250ml ijen' => '250ml',
             ];
 
             if (isset($map_nama[$produk])) {
