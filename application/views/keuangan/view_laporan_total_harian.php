@@ -208,29 +208,31 @@
                                         $no = 1;
                                         $jumlah_total_penerimaan = 0;
                                         $jumlah_total_penerimaan_lalu = 0;
-                                        foreach ($data_penerimaan as $terima) :
-                                            $jumlah_total_penerimaan += $terima->total_terima;
-                                            $penerimaan_lalu = 0;
-                                            foreach ($data_penerimaan_lalu as $lalu) {
-                                                if ($lalu->id_produk == $terima->id_jenis_barang) {
-                                                    $penerimaan_lalu += $lalu->total_terima_lalu;
-                                                    $jumlah_total_penerimaan_lalu += $penerimaan_lalu;
-                                                }
-                                            }
+                                        foreach ($data_penerimaan as $row) :
+                                            $jumlah_total_penerimaan += $row->total_bulan_ini;
+                                            $jumlah_total_penerimaan_lalu += $row->total_bulan_lalu;
                                         ?>
                                             <tr>
                                                 <td class="text-center"><?= $no++ ?></td>
-                                                <td><?= $terima->nama_produk; ?></td>
+                                                <td><?= $row->nama_produk ?></td>
                                                 <td class="text-center">Dus</td>
-                                                <td class="text-center"><?= number_format($penerimaan_lalu, 0, ',', '.'); ?></td>
-                                                <td class="text-center"><?= number_format($terima->total_terima, 0, ',', '.'); ?></td>
+                                                <td class="text-center">
+                                                    <?= number_format($row->total_bulan_lalu, 0, ',', '.') ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?= number_format($row->total_bulan_ini, 0, ',', '.') ?>
+                                                </td>
                                                 <td></td>
                                             </tr>
                                         <?php endforeach; ?>
                                         <tr class="fw-bold">
                                             <td colspan="3" class="text-center">Jumlah</td>
-                                            <td class="text-center"><?= number_format($total_penerimaan_lalu, 0, ',', '.');  ?></td>
-                                            <td class="text-center"><?= number_format($jumlah_total_penerimaan, 0, ',', '.');  ?></td>
+                                            <td class="text-center">
+                                                <?= number_format($jumlah_total_penerimaan_lalu, 0, ',', '.') ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?= number_format($jumlah_total_penerimaan, 0, ',', '.') ?>
+                                            </td>
                                             <td></td>
                                         </tr>
                                     </tbody>

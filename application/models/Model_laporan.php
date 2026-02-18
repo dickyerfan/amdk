@@ -438,13 +438,38 @@ class Model_laporan extends CI_Model
         return $this->db->get()->result();
     }
 
+    // public function get_terjual($bulan, $tahun)
+    // {
+    //     $this->db->select('jenis_barang.nama_barang_jadi, jenis_barang.id_jenis_barang, COALESCE(SUM(pemesanan.jumlah_pesan), 0) as total_pesanan');
+    //     $this->db->from('jenis_barang');
+    //     $this->db->join('pemesanan', 'jenis_barang.id_jenis_barang = pemesanan.id_jenis_barang AND MONTH(pemesanan.tanggal_pesan) = "' . $bulan . '" AND YEAR(pemesanan.tanggal_pesan) = "' . $tahun . '" AND pemesanan.id_mobil IS NOT NULL', 'left');
+    //     $this->db->group_by('jenis_barang.nama_barang_jadi');
+    //     $this->db->order_by('jenis_barang.id_jenis_barang');
+    //     return $this->db->get()->result();
+    // }
+
     public function get_terjual($bulan, $tahun)
     {
-        $this->db->select('jenis_barang.nama_barang_jadi, jenis_barang.id_jenis_barang, COALESCE(SUM(pemesanan.jumlah_pesan), 0) as total_pesanan');
-        $this->db->from('jenis_barang');
-        $this->db->join('pemesanan', 'jenis_barang.id_jenis_barang = pemesanan.id_jenis_barang AND MONTH(pemesanan.tanggal_pesan) = "' . $bulan . '" AND YEAR(pemesanan.tanggal_pesan) = "' . $tahun . '" AND pemesanan.id_mobil IS NOT NULL', 'left');
-        $this->db->group_by('jenis_barang.nama_barang_jadi');
-        $this->db->order_by('jenis_barang.id_jenis_barang');
+        $this->db->select('
+        id_jenis_barang,
+        SUM(jumlah_pesan) as total_pesanan
+    ');
+
+        $this->db->from('pemesanan');
+
+        $this->db->where('id_mobil IS NOT NULL');
+
+        $this->db->group_start();
+        $this->db->where('jenis_pesanan', 2);
+        $this->db->or_where('jenis_pesanan', 3);
+        $this->db->or_where('jenis_pesanan', 4);
+        $this->db->group_end();
+
+        $this->db->where('MONTH(tanggal_pesan)', $bulan);
+        $this->db->where('YEAR(tanggal_pesan)', $tahun);
+
+        $this->db->group_by('id_jenis_barang');
+
         return $this->db->get()->result();
     }
 
@@ -455,29 +480,89 @@ class Model_laporan extends CI_Model
         return $this->db->get()->result();
     }
 
+    // public function get_lunas_lap($bulan, $tahun)
+    // {
+    //     $this->db->select(
+    //         'jenis_produk.id_produk,jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, 
+    //     (SELECT SUM(pemesanan.total_harga) from pemesanan where status_bayar = 1 AND pemesanan.jenis_pesanan != 1 AND pemesanan.id_jenis_barang = jenis_produk.id_produk AND MONTH(tanggal_pesan) = "' . $bulan . '" AND YEAR(tanggal_pesan) = "' . $tahun . '" AND (jenis_pesanan = 2 or jenis_pesanan = 3) ) as total_lunas'
+    //     );
+    //     $this->db->from('pemesanan');
+    //     $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
+    //     $this->db->group_by('pemesanan.id_jenis_barang');
+    //     return $this->db->get()->result();
+    // }
+
+    // public function get_piutang_lap($bulan, $tahun)
+    // {
+    //     $this->db->select(
+    //         'jenis_produk.id_produk,jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, 
+    //     (SELECT SUM(pemesanan.total_harga) from pemesanan where status_bayar = 0 AND pemesanan.jenis_pesanan != 1 AND pemesanan.id_jenis_barang = jenis_produk.id_produk AND MONTH(tanggal_pesan) = "' . $bulan . '" AND YEAR(tanggal_pesan) = "' . $tahun . '") as total_piutang'
+    //     );
+    //     $this->db->from('pemesanan');
+    //     $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
+    //     $this->db->group_by('pemesanan.id_jenis_barang');
+    //     return $this->db->get()->result();
+    // }
+
     public function get_lunas_lap($bulan, $tahun)
     {
-        $this->db->select(
-            'jenis_produk.id_produk,jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, 
-        (SELECT SUM(pemesanan.total_harga) from pemesanan where status_bayar = 1 AND pemesanan.jenis_pesanan != 1 AND pemesanan.id_jenis_barang = jenis_produk.id_produk AND MONTH(tanggal_pesan) = "' . $bulan . '" AND YEAR(tanggal_pesan) = "' . $tahun . '" AND (jenis_pesanan = 2 or jenis_pesanan = 3) ) as total_lunas'
-        );
+        $this->db->select('
+        pemesanan.id_jenis_barang,
+        jenis_produk.nama_produk,
+        SUM(pemesanan.total_harga) as total_lunas
+    ');
+
         $this->db->from('pemesanan');
-        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
+        $this->db->join(
+            'jenis_produk',
+            'jenis_produk.id_produk = pemesanan.id_jenis_barang'
+        );
+
+        $this->db->where('pemesanan.status_piutang', 0);
+
+        $this->db->group_start();
+        $this->db->where('pemesanan.jenis_pesanan', 2);
+        $this->db->or_where('pemesanan.jenis_pesanan', 3);
+        $this->db->group_end();
+
+        $this->db->where('MONTH(pemesanan.tanggal_pesan)', $bulan);
+        $this->db->where('YEAR(pemesanan.tanggal_pesan)', $tahun);
+
         $this->db->group_by('pemesanan.id_jenis_barang');
+
         return $this->db->get()->result();
     }
 
     public function get_piutang_lap($bulan, $tahun)
     {
-        $this->db->select(
-            'jenis_produk.id_produk,jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_pesan, 
-        (SELECT SUM(pemesanan.total_harga) from pemesanan where status_bayar = 0 AND pemesanan.jenis_pesanan != 1 AND pemesanan.id_jenis_barang = jenis_produk.id_produk AND MONTH(tanggal_pesan) = "' . $bulan . '" AND YEAR(tanggal_pesan) = "' . $tahun . '") as total_piutang'
-        );
+        $this->db->select('
+        pemesanan.id_jenis_barang,
+        jenis_produk.nama_produk,
+        SUM(pemesanan.total_harga) as total_piutang
+    ');
+
         $this->db->from('pemesanan');
-        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
+        $this->db->join(
+            'jenis_produk',
+            'jenis_produk.id_produk = pemesanan.id_jenis_barang'
+        );
+
+        $this->db->where('pemesanan.status_piutang', 1);
+
+        // $this->db->group_start();
+        // $this->db->where('pemesanan.jenis_pesanan', 2);
+        // $this->db->or_where('pemesanan.jenis_pesanan', 3);
+        // $this->db->group_end();
+
+        $this->db->where('MONTH(pemesanan.tanggal_pesan)', $bulan);
+        $this->db->where('YEAR(pemesanan.tanggal_pesan)', $tahun);
+
         $this->db->group_by('pemesanan.id_jenis_barang');
+
         return $this->db->get()->result();
     }
+
+
 
     public function get_piutang_all()
     {
@@ -833,28 +918,65 @@ class Model_laporan extends CI_Model
         return $this->db->get()->result();
     }
 
+    // public function get_penerimaan_lap($bulan, $tahun)
+    // {
+    //     $this->db->select('jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_setor, SUM(pemesanan.total_harga) as total_terima');
+    //     $this->db->from('pemesanan');
+    //     $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
+    //     $this->db->where('status_setor', 1);
+    //     $this->db->where('MONTH(pemesanan.tanggal_setor)', $bulan);
+    //     $this->db->where('YEAR(pemesanan.tanggal_setor)', $tahun);
+    //     $this->db->group_by('pemesanan.id_jenis_barang');
+    //     return $this->db->get()->result();
+    // }
 
-    public function get_penerimaan_lap($bulan, $tahun)
-    {
-        $this->db->select('jenis_produk.nama_produk,pemesanan.id_jenis_barang, pemesanan.tanggal_setor, SUM(pemesanan.total_harga) as total_terima');
-        $this->db->from('pemesanan');
-        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
-        $this->db->where('status_setor', 1);
-        $this->db->where('MONTH(pemesanan.tanggal_setor)', $bulan);
-        $this->db->where('YEAR(pemesanan.tanggal_setor)', $tahun);
-        $this->db->group_by('pemesanan.id_jenis_barang');
-        return $this->db->get()->result();
-    }
+    // public function get_penerimaan_lap_lalu($bulan_lalu, $tahun_lalu)
+    // {
+    //     $this->db->select('jenis_produk.nama_produk, jenis_produk.id_produk, SUM(pemesanan.total_harga) as total_terima_lalu');
+    //     $this->db->from('pemesanan');
+    //     $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
+    //     $this->db->where('status_setor', 1);
+    //     $this->db->where('MONTH(pemesanan.tanggal_setor)', $bulan_lalu);
+    //     $this->db->where('YEAR(pemesanan.tanggal_setor)', $tahun_lalu);
+    //     $this->db->group_by('pemesanan.id_jenis_barang');
+    //     return $this->db->get()->result();
+    // }
 
-    public function get_penerimaan_lap_lalu($bulan_lalu, $tahun_lalu)
+    public function get_penerimaan_perbandingan($bulan, $tahun, $bulan_lalu, $tahun_lalu)
     {
-        $this->db->select('jenis_produk.nama_produk, jenis_produk.id_produk, SUM(pemesanan.total_harga) as total_terima_lalu');
-        $this->db->from('pemesanan');
-        $this->db->join('jenis_produk', 'jenis_produk.id_produk = pemesanan.id_jenis_barang');
-        $this->db->where('status_setor', 1);
-        $this->db->where('MONTH(pemesanan.tanggal_setor)', $bulan_lalu);
-        $this->db->where('YEAR(pemesanan.tanggal_setor)', $tahun_lalu);
-        $this->db->group_by('pemesanan.id_jenis_barang');
+        $this->db->select("
+        jenis_produk.id_produk,
+        jenis_produk.nama_produk,
+
+        COALESCE(SUM(
+            CASE 
+                WHEN MONTH(p1.tanggal_setor) = $bulan 
+                AND YEAR(p1.tanggal_setor) = $tahun
+                THEN p1.total_harga 
+                ELSE 0 
+            END
+        ),0) as total_bulan_ini,
+
+        COALESCE(SUM(
+            CASE 
+                WHEN MONTH(p1.tanggal_setor) = $bulan_lalu 
+                AND YEAR(p1.tanggal_setor) = $tahun_lalu
+                THEN p1.total_harga 
+                ELSE 0 
+            END
+        ),0) as total_bulan_lalu
+    ");
+
+        $this->db->from('jenis_produk');
+
+        $this->db->join(
+            'pemesanan as p1',
+            'jenis_produk.id_produk = p1.id_jenis_barang 
+         AND p1.status_setor = 1',
+            'left'
+        );
+        $this->db->group_by('jenis_produk.id_produk');
+        $this->db->having('(total_bulan_ini != 0 OR total_bulan_lalu != 0)');
         return $this->db->get()->result();
     }
 

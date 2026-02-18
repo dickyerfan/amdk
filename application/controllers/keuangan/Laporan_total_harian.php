@@ -64,8 +64,15 @@ class Laporan_total_harian extends CI_Controller
         $data['data_terjual'] = $this->Model_laporan->get_terjual($bulan, $tahun);
         $data['data_lunas'] = $this->Model_laporan->get_lunas_lap($bulan, $tahun);
         $data['data_piutang'] = $this->Model_laporan->get_piutang_lap($bulan, $tahun);
-        $data['data_penerimaan'] = $this->Model_laporan->get_penerimaan_lap($bulan, $tahun);
-        $data['data_penerimaan_lalu'] = $this->Model_laporan->get_penerimaan_lap_lalu($bulan_lalu, $tahun_lalu);
+        // $data['data_penerimaan'] = $this->Model_laporan->get_penerimaan_lap($bulan, $tahun);
+        // $data['data_penerimaan_lalu'] = $this->Model_laporan->get_penerimaan_lap_lalu($bulan_lalu, $tahun_lalu);
+        $data['data_penerimaan'] =
+            $this->Model_laporan->get_penerimaan_perbandingan(
+                $bulan,
+                $tahun,
+                $bulan_lalu,
+                $tahun_lalu
+            );
         $data['data_baku_terima'] = $this->Model_laporan->get_baku_terima_lap($bulan, $tahun);
         $data['data_baku_pakai'] = $this->Model_laporan->get_baku_pakai_lap($bulan, $tahun);
         $data['data_air_produksi_lap'] = $this->Model_laporan->get_air_produksi_lap($bulan, $tahun);
@@ -80,11 +87,11 @@ class Laporan_total_harian extends CI_Controller
         // }
         // $data['total_penerimaan'] = $jumlah_total;
 
-        $jumlah_total = 0;
-        foreach ($data['data_penerimaan_lalu'] as $row) {
-            $jumlah_total += $row->total_terima_lalu;
-        }
-        $data['total_penerimaan_lalu'] = $jumlah_total;
+        // $jumlah_total = 0;
+        // foreach ($data['data_penerimaan_lalu'] as $row) {
+        //     $jumlah_total += $row->total_terima_lalu;
+        // }
+        // $data['total_penerimaan_lalu'] = $jumlah_total;
 
         if ($this->session->userdata('level') == 'Admin') {
             $this->load->view('templates/header', $data);
@@ -132,8 +139,15 @@ class Laporan_total_harian extends CI_Controller
         $data['data_terjual'] = $this->Model_laporan->get_terjual($bulan, $tahun);
         $data['data_lunas'] = $this->Model_laporan->get_lunas_lap($bulan, $tahun);
         $data['data_piutang'] = $this->Model_laporan->get_piutang_lap($bulan, $tahun);
-        $data['data_penerimaan'] = $this->Model_laporan->get_penerimaan_lap($bulan, $tahun);
-        $data['data_penerimaan_lalu'] = $this->Model_laporan->get_penerimaan_lap_lalu($bulan_lalu, $tahun_lalu);
+        // $data['data_penerimaan'] = $this->Model_laporan->get_penerimaan_lap($bulan, $tahun);
+        // $data['data_penerimaan_lalu'] = $this->Model_laporan->get_penerimaan_lap_lalu($bulan_lalu, $tahun_lalu);
+        $data['data_penerimaan'] =
+            $this->Model_laporan->get_penerimaan_perbandingan(
+                $bulan,
+                $tahun,
+                $bulan_lalu,
+                $tahun_lalu
+            );
         $data['data_baku_terima'] = $this->Model_laporan->get_baku_terima_lap($bulan, $tahun);
         $data['data_baku_pakai'] = $this->Model_laporan->get_baku_pakai_lap($bulan, $tahun);
         $data['data_air_produksi_lap'] = $this->Model_laporan->get_air_produksi_lap($bulan, $tahun);
@@ -147,11 +161,11 @@ class Laporan_total_harian extends CI_Controller
         $data['manager'] = $this->Model_laporan->get_manager();
         $data['uang'] = $this->Model_laporan->get_uang();
 
-        $jumlah_total = 0;
-        foreach ($data['data_penerimaan_lalu'] as $row) {
-            $jumlah_total += $row->total_terima_lalu;
-        }
-        $data['total_penerimaan_lalu'] = $jumlah_total;
+        // $jumlah_total = 0;
+        // foreach ($data['data_penerimaan_lalu'] as $row) {
+        //     $jumlah_total += $row->total_terima_lalu;
+        // }
+        // $data['total_penerimaan_lalu'] = $jumlah_total;
 
         // Set paper size and orientation
         $this->pdf->setPaper('folio', 'portrait');
