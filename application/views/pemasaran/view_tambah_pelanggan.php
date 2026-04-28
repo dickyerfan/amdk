@@ -65,7 +65,7 @@
                                             <option value="Grosir">Grosir</option>
                                         <?php } else { ?>
                                             <option value="Umum">Umum</option>
-                                            <option value="Retail">Retail</option>
+                                            <!-- <option value="Retail">Retail</option> -->
                                         <?php } ?>
                                     </select>
                                     <small class="form-text text-danger pl-3"><?= form_error('tarif'); ?></small>

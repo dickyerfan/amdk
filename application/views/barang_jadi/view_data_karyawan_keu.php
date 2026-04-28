@@ -70,10 +70,10 @@
                                 <?php
                                 $no = 1;
                                 $total_galon = $total_gelas = $total_btl330 = $total_btl500 = $total_btl1500 = $total_nominal = 0;
-                                $harga_galon = 11000;
-                                $harga_220 = 15000;
-                                $harga_330 = 33000;
-                                $harga_500 = 35000;
+                                $harga_galon = 12000;
+                                $harga_220 = 20000;
+                                $harga_330 = 35000;
+                                $harga_500 = 43000;
                                 $harga_1500 = 38000;
                                 foreach ($rutin as $row) :
                                     $total_galon += $row->galon;

@@ -117,10 +117,10 @@
                             <?php
                             $total_galon = $total_gelas = $total_btl330 = $total_btl500 = $total_btl1500 = $total_nominal = 0;
                             foreach ($rutin as $row) {
-                                $total_galon += $row->galon * 11000; //jika ada perubahan tarif harus di setting manual
-                                $total_gelas += $row->gelas * 15000;
-                                $total_btl330 += $row->btl330 * 33000;
-                                $total_btl500 += $row->btl500 * 35000;
+                                $total_galon += $row->galon * 12000; //jika ada perubahan tarif harus di setting manual
+                                $total_gelas += $row->gelas * 20000;
+                                $total_btl330 += $row->btl330 * 35000;
+                                $total_btl500 += $row->btl500 * 43000;
                                 $total_btl1500 += $row->btl1500 * 38000;
                                 $total_nominal += $row->nominal;
                             }; ?>
