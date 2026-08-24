@@ -134,10 +134,10 @@ class Laporan_rutin_karyawan extends CI_Controller
         $btl1500 = $total_btl1500;
         $nominal = $total_nominal;
 
-        $rupiah_galon = $total_galon * 11000;
-        $rupiah_gelas = $total_gelas * 15000;
-        $rupiah_btl330 = $total_btl330 * 33000;
-        $rupiah_btl500 = $total_btl500 * 35000;
+        $rupiah_galon = $total_galon * 12000;
+        $rupiah_gelas = $total_gelas * 20000;
+        $rupiah_btl330 = $total_btl330 * 35000;
+        $rupiah_btl500 = $total_btl500 * 43000;
         $rupiah_btl1500 = $total_btl1500 * 38000;
 
         $no_per_galon = "88.02.01.01";
