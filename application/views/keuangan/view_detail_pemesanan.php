@@ -60,8 +60,8 @@
                                                             echo 'Pesanan Langsung';
                                                         } elseif ($row->jenis_pesanan == 3) {
                                                             echo 'Karyawan';
-                                                        } else {
-                                                            echo 'Operasional';
+                                                        } elseif ($row->jenis_pesanan == 4) {
+                                                            echo 'Bantuan / Operasional';
                                                         } ?>
                                                     </td>
                                                 </tr>
@@ -143,7 +143,13 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <?php if ($row->status_nota == 0 && $row->status_bayar == 1 && $row->input_bayar == 'Administrator') : ?>
+                                                    <?php if ($row->status_nota == 1 && !empty($row->nota_beli)) : ?>
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <img src="<?= base_url('uploads/uang/nota/' . $row->nota_beli); ?>" alt="Nota Pembelian" style="width: 100%;">
+                                                            </div>
+                                                        </div>
+                                                    <?php elseif ($row->status_nota == 0 && $row->status_bayar == 1 && $row->input_bayar == 'Administrator') : ?>
                                                         <div class="card bg-light shadow text-dark">
                                                             <div class="card-body">
                                                                 <div class="d-flex justify-content-start align-items-center">
@@ -193,16 +199,10 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    <?php elseif ($row->status_nota == 0 && $row->status_bayar == 0) : ?>
-                                                        <div class="card">
-                                                            <div class="card-body">
-                                                                <h5>Belum ada Nota Pembayaran</h5>
-                                                            </div>
-                                                        </div>
                                                     <?php else : ?>
                                                         <div class="card">
                                                             <div class="card-body">
-                                                                <img src="<?= base_url('uploads/pasar/nota/' . $row->nota_beli); ?>" alt="Nota Pembelian" style="width: 100%;">
+                                                                <h5>Belum ada Nota Pembayaran</h5>
                                                             </div>
                                                         </div>
                                                     <?php endif; ?>

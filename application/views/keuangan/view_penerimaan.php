@@ -13,7 +13,7 @@
                         <div class="navbar-nav ms-auto">
                             <a href="<?= base_url('keuangan/penerimaan/ekspor_penerimaan') ?>" target="_blank" style="font-size: 0.8rem; color:black;"><button class="neumorphic-button"><i class="fa-solid fa-file-pdf"></i> Export PDF</button></a>
                         </div>
-                        <div class="navbar-nav ms-auto">
+                        <div class="navbar-nav ms-2">
                             <?php if (!empty($pesan) && isset($pesan[0])) : ?>
                                 <?php if ($this->session->userdata('upk_bagian') == 'uang' or $this->session->userdata('nama_pengguna') == 'Wakil Manager') : ?>
                                     <a href="<?= $pesan[0]->status_setor == 0 ? base_url('keuangan/penerimaan/setor_bank') : "javascript:void(0)"; ?>">
@@ -142,7 +142,7 @@
                                                 <td class="text-end"><?= number_format($row->jumlah_pesan, 0, ',', '.'); ?></td>
                                                 <td class="text-end"><?= number_format($row->harga_barang, 0, ',', '.'); ?></td>
                                                 <td class="text-end"><?= number_format($row->total_harga, 0, ',', '.'); ?></td>
-                                                <td><?= $row->input_setoran_driver;?></td>
+                                                <td><?= $row->input_setoran_driver; ?></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>

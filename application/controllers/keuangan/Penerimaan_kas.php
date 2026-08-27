@@ -183,6 +183,7 @@ class Penerimaan_kas extends CI_Controller
             'galon 19' => ['jumlah' => 0, 'rupiah' => 0],
             'galon kosong' => ['jumlah' => 0, 'rupiah' => 0],
             '250ml' => ['jumlah' => 0, 'rupiah' => 0],
+            'air baku' => ['jumlah' => 0, 'rupiah' => 0],
         ];
         $total_semua = 0;
 
@@ -199,6 +200,7 @@ class Penerimaan_kas extends CI_Controller
                     'galon 19' => ['jumlah' => 0, 'rupiah' => 0],
                     'galon kosong' => ['jumlah' => 0, 'rupiah' => 0],
                     '250ml' => ['jumlah' => 0, 'rupiah' => 0],
+                    'air baku' => ['jumlah' => 0, 'rupiah' => 0],
                     'total' => 0,
                 ];
             }
@@ -221,6 +223,7 @@ class Penerimaan_kas extends CI_Controller
                 'galon 19l' => 'galon 19',
                 'galon kosong' => 'galon kosong',
                 'botol 250ml ijen' => '250ml',
+                'air baku' => 'air baku',
             ];
 
             if (isset($map_nama[$produk])) {
@@ -274,6 +277,7 @@ class Penerimaan_kas extends CI_Controller
             'galon 19' => ['jumlah' => 0, 'rupiah' => 0],
             'galon kosong' => ['jumlah' => 0, 'rupiah' => 0],
             '250ml' => ['jumlah' => 0, 'rupiah' => 0],
+            'air baku' => ['jumlah' => 0, 'rupiah' => 0],
         ];
         $total_semua = 0;
 
@@ -290,6 +294,7 @@ class Penerimaan_kas extends CI_Controller
                     'galon 19' => ['jumlah' => 0, 'rupiah' => 0],
                     'galon kosong' => ['jumlah' => 0, 'rupiah' => 0],
                     '250ml' => ['jumlah' => 0, 'rupiah' => 0],
+                    'air baku' => ['jumlah' => 0, 'rupiah' => 0],
                     'total' => 0,
                 ];
             }
@@ -312,6 +317,7 @@ class Penerimaan_kas extends CI_Controller
                 'galon 19l' => 'galon 19',
                 'galon kosong' => 'galon kosong',
                 'botol 250ml ijen' => '250ml',
+                'air baku' => 'air baku',
             ];
 
             if (isset($map_nama[$produk])) {
@@ -349,7 +355,7 @@ class Penerimaan_kas extends CI_Controller
         $data['uang'] = $this->Model_laporan->get_uang();
 
         // Set paper size and orientation
-        $this->pdf->setPaper('folio', 'portrait');
+        $this->pdf->setPaper('folio', 'landscape');
 
         // $this->pdf->filename = "Potensi Sr.pdf";
         $this->pdf->filename = "Lap_detail_penerimaan_kas_amdk-{$tanggal}.pdf";

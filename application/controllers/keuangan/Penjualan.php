@@ -9,6 +9,7 @@ class Penjualan extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('Model_penjualan');
         $this->load->model('Model_pemesanan');
+        $this->load->model('Model_penerimaan');
         $this->load->model('Model_setting');
         if (!$this->session->userdata('nama_pengguna')) {
             $this->session->set_flashdata(
@@ -195,4 +196,125 @@ class Penjualan extends CI_Controller
     //     $this->db->update('pemesanan', $data);
     //     redirect('keuangan/penjualan');
     // }
+
+    public function tambah_penerimaan_lainnya()
+    {
+        $data['title'] = 'Form Tambah Penerimaan Lainnya';
+        $data['produk_lainnya'] = $this->Model_penerimaan->get_produk_lainnya();
+        $data['pelanggan'] = $this->db->get_where('pelanggan', ['aktif' => 1])->result();
+
+        if ($this->session->userdata('level') == 'Admin') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('templates/sidebar');
+            $this->load->view('keuangan/view_tambah_penerimaan_lainnya_penjualan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/pengguna/header', $data);
+            $this->load->view('templates/pengguna/navbar_uang');
+            $this->load->view('templates/pengguna/sidebar_uang');
+            $this->load->view('keuangan/view_tambah_penerimaan_lainnya_penjualan', $data);
+            $this->load->view('templates/pengguna/footer_uang');
+        }
+    }
+
+    public function simpan_penerimaan_lainnya()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+
+        $this->form_validation->set_rules('id_produk', 'Jenis Penerimaan', 'required|trim');
+        $this->form_validation->set_rules('id_pelanggan', 'Nama Pembeli', 'required|trim');
+        $this->form_validation->set_rules('total', 'Total', 'required|trim|numeric');
+        $this->form_validation->set_message('required', '%s harus diisi');
+        $this->form_validation->set_message('numeric', '%s harus berupa angka');
+
+        if ($this->form_validation->run() == false) {
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Gagal,</strong> Silakan isi form dengan benar.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>'
+            );
+            redirect('keuangan/penjualan/tambah_penerimaan_lainnya');
+        } else {
+            $tanggal = date('Y-m-d');
+
+            $id_produk = $this->input->post('id_produk');
+            $id_pelanggan = $this->input->post('id_pelanggan');
+            $total = $this->input->post('total');
+
+            $nota_beli = '';
+            $status_nota = 0;
+
+            if (!empty($_FILES['nota_beli']['name'])) {
+                $config['upload_path']   = './uploads/uang/nota/';
+                $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+                $config['max_size']      = 2048;
+                $config['overwrite']     = true;
+
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('nota_beli')) {
+                    $data_upload = $this->upload->data();
+                    $nota_beli = $data_upload['file_name'];
+                    $status_nota = 1;
+                } else {
+                    $this->session->set_flashdata(
+                        'info',
+                        '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Gagal,</strong> Upload Kwitansi/Nota gagal. ' . $this->upload->display_errors() . '
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>'
+                    );
+                    redirect('keuangan/penjualan/tambah_penerimaan_lainnya');
+                    return;
+                }
+            }
+
+            $data = [
+                'id_jenis_barang'        => $id_produk,
+                'id_pelanggan'           => $id_pelanggan,
+                'id_mobil'               => NULL,
+                'jam_mobil'              => 0,
+                'no_perkiraan'           => '88.02.08',
+                'cabang'                 => 13,
+                'tanggal_pesan'          => $tanggal,
+                'jenis_pesanan'          => 5,
+                'jumlah_pesan'           => 1,
+                'status_kembali'         => 0,
+                'harga_barang'           => $total,
+                'total_harga'            => $total,
+                'input_pesan'            => $this->session->userdata('nama_lengkap'),
+                'tanggal_input'          => date('Y-m-d H:i:s'),
+                'nota_beli'              => $nota_beli,
+                'status_nota'            => $status_nota,
+                'input_bayar'            => '',
+                'status_bayar'           => 0,
+                'tanggal_bayar'          => '',
+                'input_update'           => '',
+                'tanggal_update'         => date('Y-m-d H:i:s'),
+                'status_pesan'           => 0,
+                'status_piutang'         => 0,
+                'nota_setor'             => '',
+                'status_setor'           => 0,
+                'tanggal_setor'          => date('Y-m-d H:i:s'),
+                'input_setor'            => '',
+                'status_setoran_driver'  => 0,
+                'tgl_setoran_driver'     => $tanggal,
+                'input_setoran_driver'   => $this->session->userdata('nama_lengkap'),
+            ];
+
+            $this->Model_penerimaan->insert_penerimaan_lainnya($data);
+
+            $this->session->set_flashdata(
+                'info',
+                '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    <strong>Sukses,</strong> Penerimaan lainnya berhasil ditambahkan. Silakan pilih lunas untuk memproses pembayaran.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>'
+            );
+            redirect('keuangan/penjualan');
+        }
+    }
 }

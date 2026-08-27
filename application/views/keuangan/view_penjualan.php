@@ -10,6 +10,11 @@
                                 <input type="date" id="tanggal" name="tanggal" class="form-control" style="margin-left: 5px;">
                             </div>
                         </form>
+                        <div class="navbar-nav ms-2">
+                            <a href="<?= base_url('keuangan/penjualan/tambah_penerimaan_lainnya') ?>" style="font-size: 0.8rem; color:black;">
+                                <button class="neumorphic-button"><i class="fas fa-plus"></i> Tambah Penerimaan Lainnya</button>
+                            </a>
+                        </div>
                         <!-- <div class="navbar-nav ms-auto">
                             <?php if ($this->session->userdata('upk_bagian') != 'admin') : ?>
                                 <a href="<?= base_url('keuangan/pelanggan') ?>"><button class="float-end neumorphic-button"><i class="fas fa-users"></i> Daftar Pelanggan</button></a>
@@ -131,12 +136,20 @@
                                                         echo 'Pesanan Langsung';
                                                     } elseif ($row->jenis_pesanan == 3) {
                                                         echo 'Karyawan';
-                                                    } else {
+                                                    } elseif ($row->jenis_pesanan == 4) {
                                                         echo 'Bantuan / Operasional';
                                                     } ?>
                                                 </td>
                                                 <td><?= $row->nama_mobil; ?></td>
-                                                <td><?= $row->status_nota == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Ada</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?></td>
+                                                <td>
+                                                    <?php if ($row->jenis_pesanan == 5 && $row->status_nota == 1 && !empty($row->nota_beli)) : ?>
+                                                        <a href="<?= base_url('uploads/uang/nota/' . $row->nota_beli); ?>" target="_blank" title="Lihat Nota" style="text-decoration: none;">
+                                                            <span class="btn btn-primary btn-sm" style="font-size: 0.7rem;"><i class="fa-solid fa-file-image"></i> Nota</span>
+                                                        </a>
+                                                    <?php else : ?>
+                                                        <?= $row->status_nota == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Ada</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Belum</span>'; ?>
+                                                    <?php endif; ?>
+                                                </td>
                                                 <td><?= $row->status_bayar == 1 ? '<span class="btn btn-primary btn-sm" style="font-size: 0.7rem;">Lunas</span>' : '<span class="btn btn-danger btn-sm" style="font-size: 0.7rem;">Piutang</span>'; ?></td>
                                                 <td>
                                                     <!-- <?php

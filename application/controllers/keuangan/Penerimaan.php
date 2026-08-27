@@ -180,7 +180,7 @@ class Penerimaan extends CI_Controller
                     </button>
                 </div>'
             );
-            redirect('keuangan/penerimaan');
+                redirect('keuangan/penerimaan');
         }
     }
 }

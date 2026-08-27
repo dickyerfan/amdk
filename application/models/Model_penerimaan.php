@@ -45,4 +45,30 @@ class Model_penerimaan extends CI_Model
         $this->db->order_by('pemesanan.id_pemesanan', 'DESC');
         return $this->db->get()->result();
     }
+
+    public function get_produk_lainnya()
+    {
+        $this->db->select('id_produk, nama_produk');
+        $this->db->from('jenis_produk');
+        $this->db->where('jenis_produk', 'Lainnya');
+        $this->db->where('status_laporan', 1);
+        $this->db->where('id_produk !=', 21);
+        return $this->db->get()->result();
+    }
+
+    public function insert_penerimaan_lainnya($data)
+    {
+        $this->db->insert('pemesanan', $data);
+        return $this->db->insert_id();
+    }
+
+    public function cek_setor_hari_ini($tanggal)
+    {
+        $this->db->select('COUNT(*) as jumlah');
+        $this->db->from('pemesanan');
+        $this->db->where('DATE(tanggal_setor)', $tanggal);
+        $this->db->where('status_setor', 1);
+        $result = $this->db->get()->row();
+        return $result->jumlah > 0;
+    }
 }

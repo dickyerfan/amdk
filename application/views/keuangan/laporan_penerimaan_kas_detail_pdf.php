@@ -114,7 +114,8 @@
                 <th colspan="2">1500 ml</th>
                 <th colspan="2">Galon 19</th>
                 <th colspan="2">250 ml</th>
-                <th colspan="2">Non Air</th>
+                 <th colspan="2">Non Air</th>
+                <th colspan="2">Air Baku</th>
                 <th rowspan="2" class="align-middle">Jumlah</th>
             </tr>
             <tr>
@@ -129,6 +130,8 @@
                 <th>Jml</th>
                 <th>Rp</th>
                 <th>Jml</th>
+                <th>Rp</th>
+                 <th>Jml</th>
                 <th>Rp</th>
                 <th>Jml</th>
                 <th>Rp</th>
@@ -158,6 +161,8 @@
                     <td><?= number_format($produk['250ml']['rupiah'], 0, ',', '.'); ?></td>
                     <td><?= $produk['galon kosong']['jumlah']; ?></td>
                     <td><?= number_format($produk['galon kosong']['rupiah'], 0, ',', '.'); ?></td>
+                    <td><?= $produk['air baku']['jumlah']; ?></td>
+                    <td><?= number_format($produk['air baku']['rupiah'], 0, ',', '.'); ?></td>
                     <td><?= number_format($produk['total'], 0, ',', '.'); ?></td>
                 </tr>
             <?php endforeach; ?>
@@ -177,9 +182,11 @@
                 <td><?= number_format($total_produk['galon 19']['rupiah'], 0, ',', '.'); ?></td>
                 <td><?= $total_produk['250ml']['jumlah']; ?></td>
                 <td><?= number_format($total_produk['250ml']['rupiah'], 0, ',', '.'); ?></td>
-                <td><?= $total_produk['galon kosong']['jumlah']; ?></td>
-                <td><?= number_format($total_produk['galon kosong']['rupiah'], 0, ',', '.'); ?></td>
-                <td><?= number_format($total_semua, 0, ',', '.'); ?></td>
+                 <td><?= $total_produk['galon kosong']['jumlah']; ?></td>
+                    <td><?= number_format($total_produk['galon kosong']['rupiah'], 0, ',', '.'); ?></td>
+                    <td><?= $total_produk['air baku']['jumlah']; ?></td>
+                    <td><?= number_format($total_produk['air baku']['rupiah'], 0, ',', '.'); ?></td>
+                    <td><?= number_format($total_semua, 0, ',', '.'); ?></td>
             </tr>
         </tfoot>
     </table>
