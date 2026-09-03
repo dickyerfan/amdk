@@ -45,6 +45,7 @@ class Model_setoran extends CI_Model
         $this->db->select('id, nama_pengguna, nama_lengkap');
         $this->db->from('user');
         $this->db->where('nama_pengguna', 'Pemasaran');
+        $this->db->where('status', 1);
         return $this->db->get()->result();
     }
 }
