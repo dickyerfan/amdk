@@ -4,7 +4,9 @@
             <div class="card">
                 <div class="card-header shadow">
                     <a class="fw-bold text-dark" style="text-decoration:none ;"><?= strtoupper($title) ?></a>
-                    <a href="<?= base_url('pemasaran/pelanggan/tambah'); ?>"><button class=" neumorphic-button float-end"><i class="fas fa-plus"></i> Tambah Pelanggan</button></a>
+                    <?php if ($this->session->userdata('level') == 'Admin') { ?>
+                        <a href="<?= base_url('pemasaran/pelanggan/tambah'); ?>"><button class=" neumorphic-button float-end"><i class="fas fa-plus"></i> Tambah Pelanggan</button></a>
+                    <?php } ?>
                 </div>
                 <div class="p-2">
                     <?= $this->session->flashdata('info'); ?>

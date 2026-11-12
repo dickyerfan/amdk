@@ -236,7 +236,7 @@
         <p style="width: 50%; float: left; text-align:center; margin-bottom: 1px;">Diperiksa Oleh :</p>
         <p style="width: 50%; float: right;text-align:center; margin-bottom: 1px;">Dibuat Oleh :</p>
         <div style="clear: both;"></div>
-        <p style="width: 50%; float: left; text-align:center;">Kabag Keuangan</p>
+        <p style="width: 50%; float: left; text-align:center;">Kadiv Keuangan</p>
         <p style="width: 50%; float: right;text-align:center;">Manager AMDK</p>
         <div style="clear: both; margin-bottom:20px;"></div>
         <u style="width: 50%; float: left; text-align:center; margin-bottom: 1px;"><?= strtoupper($kabag->nama_karyawan); ?></u>
@@ -249,7 +249,7 @@
     <div style="font-size: 0.8rem;">
         <p style="width: 100%; float: center; text-align:center; margin-bottom: 1px;">Mengetahui/menyetujui :</p>
         <div style="clear: both;"></div>
-        <p style="width: 100%; float: center; text-align:center;">Direktur PDAM Bondowoso</p>
+        <p style="width: 100%; float: center; text-align:center;">Plt. Direktur Perumdam Ijen Tirta</p>
         <div style="clear: both; margin-bottom:20px;"></div>
         <u style="width: 100%; float: center; text-align:center; margin-bottom: 1px;"><?= strtoupper($direktur->nama_karyawan); ?></u>
         <div style="clear: both;"></div>
@@ -259,5 +259,3 @@
 </body>
 
 </html>
-
-

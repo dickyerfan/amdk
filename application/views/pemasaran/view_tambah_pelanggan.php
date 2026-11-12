@@ -58,7 +58,7 @@
                                 <div class="form-group">
                                     <select name="tarif" id="tarif" class="form-control select2">
                                         <option value="">Pilih Tarif</option>
-                                        <?php if ($this->session->userdata('level') == 'admin') { ?>
+                                        <?php if ($this->session->userdata('level') == 'Admin') { ?>
                                             <option value="Umum">Umum</option>
                                             <option value="Retail">Retail</option>
                                             <option value="SemiGrosir">SemiGrosir</option>
