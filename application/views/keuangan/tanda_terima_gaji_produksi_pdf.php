@@ -276,7 +276,7 @@
         <p style="width: 100%; float: left; text-align:center; margin-bottom: 2px;">Menyetujui</p>
         <div style="clear: both;"></div>
         <p style="width: 50%; float: left; text-align:center; margin-bottom: 1px;">Plt. Direktur</p>
-        <p style="width: 50%; float: right;text-align:center; margin-bottom: 1px;">Kabag Keuangan</p>
+        <p style="width: 50%; float: right;text-align:center; margin-bottom: 1px;">Kadiv Keuangan</p>
         <div style="clear: both;"></div>
         <p style="width: 50%; float: left; text-align:center; margin-bottom: 1px;">Perumdam Ijen Tirta Bondowoso</p>
         <div style="clear: both; margin-bottom:50px;"></div>
